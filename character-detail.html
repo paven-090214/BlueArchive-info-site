@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>캐릭터 상세 | BlueArchive Info Site</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="logo" href="./index.html" aria-label="메인 페이지로 이동">
+        <span class="logo-mark">BA</span>
+        <span class="logo-text">BlueArchive Info Site</span>
+      </a>
+
+      <div class="student-search" role="search">
+        <label class="search-label" for="student-search-input">학생 검색</label>
+        <input
+          id="student-search-input"
+          class="student-search-input"
+          type="search"
+          placeholder="학생 이름 검색"
+          autocomplete="off"
+          aria-controls="student-suggestions"
+          aria-expanded="false"
+        />
+        <div id="student-suggestions" class="student-suggestions" hidden></div>
+      </div>
+    </header>
+
+    <main class="page-shell character-detail-shell">
+      <section class="character-detail-grid" aria-label="캐릭터 상세 정보">
+        <article class="panel character-profile-panel">
+          <div class="character-large-placeholder" aria-hidden="true">
+            <span>아루</span>
+          </div>
+          <div class="character-profile-copy">
+            <p class="eyebrow">PROFILE</p>
+            <h1>리쿠하치마 아루</h1>
+            <p>
+              게헨나 학원 소속 흥신소 68의 사장입니다. 겉으로는 냉철하고 카리스마 있는
+              리더처럼 보이려 하지만, 실제로는 허술한 면도 많은 학생입니다. 현재는 실제 DB
+              연동 없이 임시 소개글과 placeholder만 표시합니다.
+            </p>
+          </div>
+        </article>
+
+        <article class="panel character-info-panel">
+          <div class="panel-heading">
+            <p class="eyebrow">STUDENT</p>
+            <h2>학생 기본 정보</h2>
+          </div>
+
+          <dl class="character-info-list">
+            <div>
+              <dt>이름</dt>
+              <dd>리쿠하치마 아루</dd>
+            </div>
+            <div>
+              <dt>생일</dt>
+              <dd>3월 12일</dd>
+            </div>
+            <div>
+              <dt>소속 학원</dt>
+              <dd>게헨나 학원</dd>
+            </div>
+            <div>
+              <dt>공격 타입</dt>
+              <dd>폭발</dd>
+            </div>
+            <div>
+              <dt>방어 타입</dt>
+              <dd>경장갑</dd>
+            </div>
+            <div>
+              <dt>역할</dt>
+              <dd>딜러</dd>
+            </div>
+            <div>
+              <dt>나이</dt>
+              <dd>16세</dd>
+            </div>
+            <div>
+              <dt>취미</dt>
+              <dd>경영 공부</dd>
+            </div>
+            <div>
+              <dt>디자이너</dt>
+              <dd>임시 데이터</dd>
+            </div>
+            <div>
+              <dt>일러스트레이터</dt>
+              <dd>임시 데이터</dd>
+            </div>
+            <div>
+              <dt>성우</dt>
+              <dd>임시 데이터</dd>
+            </div>
+            <div>
+              <dt>출시일</dt>
+              <dd>임시 표시</dd>
+            </div>
+          </dl>
+        </article>
+      </section>
+
+      <section class="character-detail-stack" aria-label="캐릭터 추가 상세 정보">
+        <article class="panel character-skill-panel">
+          <div class="panel-heading">
+            <p class="eyebrow">SKILL</p>
+            <h2>스킬</h2>
+          </div>
+
+          <div class="skill-list">
+            <article class="skill-card">
+              <div class="skill-card-body">
+                <div class="skill-icon-placeholder" aria-hidden="true">EX</div>
+                <div class="skill-content">
+                  <div class="skill-title-row">
+                    <h3>EX 스킬</h3>
+                    <select class="skill-level-select" aria-label="EX 스킬 레벨">
+                      <option value="1">Lv. 1</option>
+                      <option value="2">Lv. 2</option>
+                      <option value="3">Lv. 3</option>
+                      <option value="4">Lv. 4</option>
+                      <option value="5">Lv. 5</option>
+                    </select>
+                  </div>
+                  <p>적 1인에게 공격력 N% 대미지를 주는 임시 스킬 설명입니다.</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="skill-card">
+              <div class="skill-card-body">
+                <div class="skill-icon-placeholder" aria-hidden="true">1</div>
+                <div class="skill-content">
+                  <div class="skill-title-row">
+                    <h3>1스킬</h3>
+                    <select class="skill-level-select" aria-label="1스킬 레벨">
+                      <option value="1">Lv. 1</option>
+                      <option value="2">Lv. 2</option>
+                      <option value="3">Lv. 3</option>
+                      <option value="4">Lv. 4</option>
+                      <option value="5">Lv. 5</option>
+                      <option value="6">Lv. 6</option>
+                      <option value="7">Lv. 7</option>
+                      <option value="8">Lv. 8</option>
+                      <option value="9">Lv. 9</option>
+                      <option value="10">Lv. 10</option>
+                    </select>
+                  </div>
+                  <p>일정 시간마다 적에게 공격력 N% 대미지를 줍니다.</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="skill-card">
+              <div class="skill-card-body">
+                <div class="skill-icon-placeholder" aria-hidden="true">2</div>
+                <div class="skill-content">
+                  <div class="skill-title-row">
+                    <h3>2스킬</h3>
+                    <select class="skill-level-select" aria-label="2스킬 레벨">
+                      <option value="1">Lv. 1</option>
+                      <option value="2">Lv. 2</option>
+                      <option value="3">Lv. 3</option>
+                      <option value="4">Lv. 4</option>
+                      <option value="5">Lv. 5</option>
+                      <option value="6">Lv. 6</option>
+                      <option value="7">Lv. 7</option>
+                      <option value="8">Lv. 8</option>
+                      <option value="9">Lv. 9</option>
+                      <option value="10">Lv. 10</option>
+                    </select>
+                  </div>
+                  <p>공격력이 N 증가합니다.</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="skill-card">
+              <div class="skill-card-body">
+                <div class="skill-icon-placeholder" aria-hidden="true">3</div>
+                <div class="skill-content">
+                  <div class="skill-title-row">
+                    <h3>3스킬</h3>
+                    <select class="skill-level-select" aria-label="3스킬 레벨">
+                      <option value="1">Lv. 1</option>
+                      <option value="2">Lv. 2</option>
+                      <option value="3">Lv. 3</option>
+                      <option value="4">Lv. 4</option>
+                      <option value="5">Lv. 5</option>
+                      <option value="6">Lv. 6</option>
+                      <option value="7">Lv. 7</option>
+                      <option value="8">Lv. 8</option>
+                      <option value="9">Lv. 9</option>
+                      <option value="10">Lv. 10</option>
+                    </select>
+                  </div>
+                  <p>전투 중 아군 또는 자신에게 N 효과를 부여하는 임시 스킬 설명입니다.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </article>
+
+        <article class="panel student-level-panel">
+          <div class="student-level-control">
+            <span>학생 레벨:</span>
+            <input id="student-level-input" type="number" min="1" max="90" value="1" aria-label="학생 레벨 직접 입력" />
+            <div class="student-level-range-wrap">
+              <span>Lv. 1</span>
+              <input
+                id="student-level-range"
+                type="range"
+                min="1"
+                max="90"
+                value="1"
+                aria-label="학생 레벨 슬라이드바"
+              />
+              <span>Lv. 90</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel character-stat-panel">
+          <div class="panel-heading">
+            <p class="eyebrow">STAT</p>
+            <h2>스탯</h2>
+          </div>
+
+          <dl class="stat-grid">
+            <div>
+              <dt>HP</dt>
+              <dd>N</dd>
+            </div>
+            <div>
+              <dt>공격력</dt>
+              <dd>N</dd>
+            </div>
+            <div>
+              <dt>방어력</dt>
+              <dd>N</dd>
+            </div>
+            <div>
+              <dt>치유력</dt>
+              <dd>N</dd>
+            </div>
+            <div>
+              <dt>명중</dt>
+              <dd>N</dd>
+            </div>
+            <div>
+              <dt>회피</dt>
+              <dd>N</dd>
+            </div>
+          </dl>
+        </article>
+
+        <article class="panel required-material-panel">
+          <div class="panel-heading">
+            <p class="eyebrow">MATERIAL</p>
+            <h2>필요한 재화</h2>
+          </div>
+
+          <div class="material-list">
+            <article class="material-card">
+              <div class="material-image-placeholder" aria-hidden="true">M</div>
+              <div>
+                <h3>임시 재화</h3>
+                <p>필요 수량 <strong>N</strong></p>
+              </div>
+            </article>
+            <article class="material-card">
+              <div class="material-image-placeholder" aria-hidden="true">C</div>
+              <div>
+                <h3>크레딧</h3>
+                <p>필요 수량 <strong>N</strong></p>
+              </div>
+            </article>
+          </div>
+        </article>
+
+        <article class="panel exclusive-weapon-panel">
+          <div class="exclusive-weapon-layout">
+            <div class="weapon-image-placeholder" aria-hidden="true">W</div>
+            <div>
+              <p class="eyebrow">WEAPON</p>
+              <h2>전용무기 이름</h2>
+              <p>전용무기 효과 설명 placeholder입니다. 실제 효과와 수치는 추후 데이터로 연결합니다.</p>
+              <dl class="weapon-effect-list">
+                <div>
+                  <dt>레벨 1</dt>
+                  <dd>효과 수치 N</dd>
+                </div>
+                <div>
+                  <dt>레벨 2</dt>
+                  <dd>효과 수치 N</dd>
+                </div>
+                <div>
+                  <dt>레벨 3</dt>
+                  <dd>효과 수치 N</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script>
+      const searchInput = document.querySelector("#student-search-input");
+      const suggestionPanel = document.querySelector("#student-suggestions");
+      const studentLevelInput = document.querySelector("#student-level-input");
+      const studentLevelRange = document.querySelector("#student-level-range");
+
+      const temporaryStudents = [
+        { id: 1, name: "노아" },
+        { id: 2, name: "노아(파자마)" },
+        { id: 3, name: "아루" },
+        { id: 4, name: "히후미" },
+        { id: 5, name: "유우카" },
+        { id: 6, name: "시로코" },
+      ];
+
+      function createSuggestionItem(student) {
+        const link = document.createElement("a");
+        link.className = "student-suggestion-item";
+        link.href = `character-detail.html?id=${student.id}`;
+
+        const image = document.createElement("span");
+        image.className = "student-image-placeholder";
+        image.setAttribute("aria-hidden", "true");
+        image.textContent = student.name.slice(0, 1);
+
+        const name = document.createElement("span");
+        name.textContent = student.name;
+
+        link.append(image, name);
+        return link;
+      }
+
+      searchInput.addEventListener("input", () => {
+        const keyword = searchInput.value.trim();
+        suggestionPanel.replaceChildren();
+
+        if (!keyword) {
+          suggestionPanel.hidden = true;
+          searchInput.setAttribute("aria-expanded", "false");
+          return;
+        }
+
+        const matches = temporaryStudents.filter((student) => student.name.includes(keyword));
+
+        if (matches.length === 0) {
+          const emptyMessage = document.createElement("p");
+          emptyMessage.className = "search-empty";
+          emptyMessage.textContent = "검색 결과가 없습니다.";
+          suggestionPanel.append(emptyMessage);
+        } else {
+          suggestionPanel.append(...matches.map(createSuggestionItem));
+        }
+
+        suggestionPanel.hidden = false;
+        searchInput.setAttribute("aria-expanded", "true");
+      });
+
+      function syncStudentLevel(value) {
+        const normalizedLevel = Math.min(90, Math.max(1, Number(value) || 1));
+        studentLevelInput.value = String(normalizedLevel);
+        studentLevelRange.value = String(normalizedLevel);
+      }
+
+      studentLevelInput.addEventListener("input", () => {
+        syncStudentLevel(studentLevelInput.value);
+      });
+
+      studentLevelRange.addEventListener("input", () => {
+        syncStudentLevel(studentLevelRange.value);
+      });
+
+      syncStudentLevel(1);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlueArchive Info Site</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="logo" href="./index.html" aria-label="메인 페이지로 이동">
+        <span class="logo-mark">BA</span>
+        <span class="logo-text">BlueArchive Info Site</span>
+      </a>
+
+      <div class="student-search" role="search">
+        <label class="search-label" for="student-search-input">학생 검색</label>
+        <input
+          id="student-search-input"
+          class="student-search-input"
+          type="search"
+          placeholder="학생 이름 검색"
+          autocomplete="off"
+          aria-controls="student-suggestions"
+          aria-expanded="false"
+        />
+        <div id="student-suggestions" class="student-suggestions" hidden></div>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <nav class="academy-menu" aria-label="학원 메뉴">
+        <button
+          class="academy-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="academy-panel"
+        >
+          학원
+        </button>
+        <div id="academy-panel" class="academy-panel" hidden>
+          <a href="academy-detail.html?academy=gehenna" class="academy-card">
+            <span class="academy-logo-placeholder gehenna-mark" aria-hidden="true">G</span>
+            <span>게헨나</span>
+          </a>
+          <a href="academy-detail.html?academy=trinity" class="academy-card">
+            <span class="academy-logo-placeholder trinity-mark" aria-hidden="true">T</span>
+            <span>트리니티</span>
+          </a>
+          <a href="academy-detail.html?academy=millennium" class="academy-card">
+            <span class="academy-logo-placeholder millennium-mark" aria-hidden="true">M</span>
+            <span>밀레니엄</span>
+          </a>
+          <a href="academy-detail.html?academy=abydos" class="academy-card">
+            <span class="academy-logo-placeholder abydos-mark" aria-hidden="true">A</span>
+            <span>아비도스</span>
+          </a>
+          <a href="academy-detail.html?academy=hyakkiyako" class="academy-card">
+            <span class="academy-logo-placeholder hyakkiyako-mark" aria-hidden="true">H</span>
+            <span>백귀야행</span>
+          </a>
+          <a href="academy-detail.html?academy=shanhaijing" class="academy-card">
+            <span class="academy-logo-placeholder shanhaijing-mark" aria-hidden="true">S</span>
+            <span>산해경</span>
+          </a>
+          <a href="academy-detail.html?academy=redwinter" class="academy-card">
+            <span class="academy-logo-placeholder redwinter-mark" aria-hidden="true">R</span>
+            <span>붉은겨울</span>
+          </a>
+          <a href="academy-detail.html?academy=valkyrie" class="academy-card">
+            <span class="academy-logo-placeholder valkyrie-mark" aria-hidden="true">V</span>
+            <span>발키리</span>
+          </a>
+          <a href="academy-detail.html?academy=srt" class="academy-card">
+            <span class="academy-logo-placeholder srt-mark" aria-hidden="true">S</span>
+            <span>SRT</span>
+          </a>
+          <a href="academy-detail.html?academy=arius" class="academy-card">
+            <span class="academy-logo-placeholder arius-mark" aria-hidden="true">A</span>
+            <span>아리우스</span>
+          </a>
+          <a href="academy-detail.html?academy=highlander" class="academy-card">
+            <span class="academy-logo-placeholder highlander-mark" aria-hidden="true">H</span>
+            <span>하이랜더</span>
+          </a>
+          <a href="academy-detail.html?academy=wildhunt" class="academy-card">
+            <span class="academy-logo-placeholder wildhunt-mark" aria-hidden="true">W</span>
+            <span>와일드헌트</span>
+          </a>
+          <a href="academy-detail.html?academy=etc" class="academy-card">
+            <span class="academy-logo-placeholder etc-mark" aria-hidden="true">E</span>
+            <span>기타</span>
+          </a>
+        </div>
+      </nav>
+
+      <section class="main-grid" aria-label="메인 정보">
+        <article class="panel pickup-panel">
+          <div class="panel-heading">
+            <p class="eyebrow">PICKUP</p>
+            <h2>진행 중인 픽업 캐릭터</h2>
+          </div>
+
+          <div class="character-list">
+            <article class="character-card">
+              <div class="character-portrait aru">아루</div>
+              <div>
+                <h3>아루</h3>
+                <p>게헨나 학원 · 흥신소 68</p>
+                <span class="tag">딜러</span>
+              </div>
+            </article>
+
+            <article class="character-card">
+              <div class="character-portrait hifumi">히후미</div>
+              <div>
+                <h3>히후미</h3>
+                <p>트리니티 종합학원 · 보충수업부</p>
+                <span class="tag">서포터</span>
+              </div>
+            </article>
+          </div>
+        </article>
+
+        <article class="panel event-panel">
+          <div class="panel-heading">
+            <p class="eyebrow">EVENT</p>
+            <h2>현재 진행 중인 이벤트</h2>
+          </div>
+
+          <div class="event-visual">
+            <span>현재 이벤트</span>
+          </div>
+          <h3>샬레 업무 지원 캠페인</h3>
+          <p>
+            임시 이벤트 데이터입니다. 실제 이벤트 정보와 기간 표시는 추후 DB 연동 단계에서
+            구현합니다.
+          </p>
+          <dl class="event-meta">
+            <div>
+              <dt>기간</dt>
+              <dd>임시 표시</dd>
+            </div>
+            <div>
+              <dt>서버</dt>
+              <dd>공통</dd>
+            </div>
+          </dl>
+        </article>
+
+        <article class="panel bond-panel">
+          <div class="panel-heading">
+            <p class="eyebrow">BOND</p>
+            <h2>인연랭크 계산기</h2>
+          </div>
+
+          <div class="bond-visual">
+            <span>인연랭크 계산기</span>
+          </div>
+
+          <h3>인연랭크 계산</h3>
+          <p>
+            현재 랭크와 목표 랭크를 입력해 필요한 선물 수를 계산하는 영역입니다.
+            실제 계산 기능은 이후 단계에서 구현합니다.
+          </p>
+
+          <a href="#" class="bond-enter-button">계산기 준비 중</a>
+        </article>
+      </section>
+
+      <section class="history-link" aria-label="과거 픽업 기록">
+        <div>
+          <p class="eyebrow">ARCHIVE</p>
+          <h2>과거 픽업 기록</h2>
+          <p>지난 픽업 배너와 캐릭터 기록을 확인하는 영역입니다.</p>
+        </div>
+        <a href="#" class="history-button">기록 보기</a>
+      </section>
+    </main>
+
+    <script>
+      const academyToggle = document.querySelector(".academy-toggle");
+      const academyPanel = document.querySelector("#academy-panel");
+      const searchInput = document.querySelector("#student-search-input");
+      const suggestionPanel = document.querySelector("#student-suggestions");
+
+      const temporaryStudents = [
+        { id: 1, name: "노아" },
+        { id: 2, name: "노아(파자마)" },
+        { id: 3, name: "아루" },
+        { id: 4, name: "히후미" },
+        { id: 5, name: "유우카" },
+        { id: 6, name: "시로코" },
+      ];
+
+      academyToggle.addEventListener("click", () => {
+        const isOpen = academyToggle.getAttribute("aria-expanded") === "true";
+        academyToggle.setAttribute("aria-expanded", String(!isOpen));
+        academyPanel.hidden = isOpen;
+      });
+
+      function createSuggestionItem(student) {
+        const link = document.createElement("a");
+        link.className = "student-suggestion-item";
+        link.href = `character-detail.html?id=${student.id}`;
+
+        const image = document.createElement("span");
+        image.className = "student-image-placeholder";
+        image.setAttribute("aria-hidden", "true");
+        image.textContent = student.name.slice(0, 1);
+
+        const name = document.createElement("span");
+        name.textContent = student.name;
+
+        link.append(image, name);
+        return link;
+      }
+
+      searchInput.addEventListener("input", () => {
+        const keyword = searchInput.value.trim();
+        suggestionPanel.replaceChildren();
+
+        if (!keyword) {
+          suggestionPanel.hidden = true;
+          searchInput.setAttribute("aria-expanded", "false");
+          return;
+        }
+
+        const matches = temporaryStudents.filter((student) => student.name.includes(keyword));
+
+        if (matches.length === 0) {
+          const emptyMessage = document.createElement("p");
+          emptyMessage.className = "search-empty";
+          emptyMessage.textContent = "검색 결과가 없습니다.";
+          suggestionPanel.append(emptyMessage);
+        } else {
+          suggestionPanel.append(...matches.map(createSuggestionItem));
+        }
+
+        suggestionPanel.hidden = false;
+        searchInput.setAttribute("aria-expanded", "true");
+      });
+    </script>
+  </body>
+</html>
