@@ -114,10 +114,11 @@
       }
 
       function getPageFromUrl(maxPage) {
-        const page = Number(new URLSearchParams(window.location.search).get("page"));
+        const pageParam = new URLSearchParams(window.location.search).get("page");
+        const page = Number(pageParam);
 
-        if (!Number.isInteger(page)) {
-          return 1;
+        if (!pageParam || !Number.isInteger(page)) {
+          return maxPage;
         }
 
         return Math.min(Math.max(page, 1), maxPage);
@@ -150,13 +151,12 @@
         return button;
       }
 
-      function createPaginationControl(label, action, isDisabled, ariaLabel) {
+      function createPaginationControl(label, action, ariaLabel) {
         const button = document.createElement("button");
         button.className = "pickup-history-page-button pickup-history-control-button";
         button.type = "button";
         button.textContent = label;
         button.dataset.action = action;
-        button.disabled = isDisabled;
         button.setAttribute("aria-label", ariaLabel);
         return button;
       }
@@ -175,14 +175,28 @@
         const isLastGroup = visibleRanges.at(-1)?.page === ranges.length;
 
         pickupHistoryPaginations.forEach((pagination) => {
-          pagination.hidden = ranges.length <= 1;
-          pagination.replaceChildren(
-            createPaginationControl("<<", "prev-group", isFirstGroup, "이전 주차 범위 묶음"),
-            createPaginationControl("<", "prev-page", isFirstPage, "이전 주차 범위"),
+          const paginationItems = [
             ...visibleRanges.map((range) => createRangeButton(range, range.page === activePage)),
-            createPaginationControl(">", "next-page", isLastPage, "다음 주차 범위"),
-            createPaginationControl(">>", "next-group", isLastGroup, "다음 주차 범위 묶음"),
-          );
+          ];
+
+          if (!isFirstPage) {
+            paginationItems.unshift(createPaginationControl("<", "prev-page", "이전 주차 범위"));
+          }
+
+          if (!isFirstGroup) {
+            paginationItems.unshift(createPaginationControl("<<", "prev-group", "이전 주차 범위 묶음"));
+          }
+
+          if (!isLastPage) {
+            paginationItems.push(createPaginationControl(">", "next-page", "다음 주차 범위"));
+          }
+
+          if (!isLastGroup) {
+            paginationItems.push(createPaginationControl(">>", "next-group", "다음 주차 범위 묶음"));
+          }
+
+          pagination.hidden = ranges.length <= 1;
+          pagination.replaceChildren(...paginationItems);
         });
       }
 
@@ -338,7 +352,7 @@
             pagination.addEventListener("click", (event) => {
               const button = event.target.closest(".pickup-history-page-button");
 
-              if (!button || button.disabled) {
+              if (!button) {
                 return;
               }
 

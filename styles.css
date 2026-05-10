@@ -439,6 +439,7 @@ p {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  justify-content: center;
   margin: 0 0 16px;
 }
 
@@ -465,19 +466,6 @@ p {
 .pickup-history-page-button:focus {
   border-color: var(--blue);
   color: var(--blue-dark);
-}
-
-.pickup-history-page-button:disabled {
-  border-color: #d7e0e8;
-  background: #f4f7fa;
-  color: #9aa8b6;
-  cursor: not-allowed;
-}
-
-.pickup-history-page-button:disabled:hover,
-.pickup-history-page-button:disabled:focus {
-  border-color: #d7e0e8;
-  color: #9aa8b6;
 }
 
 .pickup-history-page-button.is-active {
