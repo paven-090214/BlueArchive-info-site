@@ -147,16 +147,36 @@
         link.href = `academy-detail.html?academy=${academy.slug}`;
         link.className = "academy-card";
 
-        const mark = document.createElement("span");
-        mark.className = `academy-logo-placeholder ${academy.logoClass}`;
-        mark.setAttribute("aria-hidden", "true");
-        mark.textContent = academy.mark;
+        const mark = createAcademyLogo(academy);
 
         const name = document.createElement("span");
         name.textContent = academy.shortName;
 
         link.append(mark, name);
         return link;
+      }
+
+      function createAcademyLogo(academy) {
+        if (academy.logoImageUrl) {
+          const logoSlot = document.createElement("span");
+          logoSlot.className = "academy-logo-slot";
+          logoSlot.setAttribute("aria-hidden", "true");
+
+          const image = document.createElement("img");
+          image.className = "academy-logo-image";
+          image.src = academy.logoImageUrl;
+          image.alt = "";
+          image.loading = "lazy";
+
+          logoSlot.append(image);
+          return logoSlot;
+        }
+
+        const mark = document.createElement("span");
+        mark.className = `academy-logo-placeholder ${academy.logoClass}`;
+        mark.setAttribute("aria-hidden", "true");
+        mark.textContent = academy.mark;
+        return mark;
       }
 
       academyPanel.append(...academies.map(createAcademyCard));

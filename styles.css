@@ -255,15 +255,33 @@ a {
   outline: none;
 }
 
-.academy-logo-placeholder {
+.academy-logo-placeholder,
+.academy-logo-slot {
   display: grid;
   place-items: center;
   width: 54px;
   height: 54px;
   border-radius: 8px;
+}
+
+.academy-logo-placeholder {
   color: #ffffff;
   font-size: 18px;
   font-weight: 900;
+}
+
+.academy-logo-slot {
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.academy-logo-image {
+  display: block;
+  width: 48px;
+  height: 48px;
+  max-width: 48px;
+  max-height: 48px;
+  object-fit: contain;
 }
 
 .gehenna-mark {
@@ -980,6 +998,25 @@ select {
   box-shadow: 0 12px 26px rgba(29, 65, 99, 0.14);
 }
 
+.academy-hero-logo {
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 12px 26px rgba(29, 65, 99, 0.14);
+}
+
+.academy-hero-logo-image {
+  display: block;
+  width: 96px;
+  height: 96px;
+  max-width: calc(100% - 16px);
+  max-height: calc(100% - 16px);
+  object-fit: contain;
+}
+
 .club-panel,
 .map-panel,
 .schedule-panel {
@@ -1056,13 +1093,35 @@ select {
   font-weight: 800;
 }
 
+.academy-map-frame {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  min-height: 300px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  background: #eef3f7;
+}
+
+.academy-map-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  object-fit: cover;
+}
+
+.academy-map-marker-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
 .academy-map-placeholder {
   display: flex;
   align-items: end;
   min-height: 300px;
-  margin-bottom: 16px;
   padding: 20px;
-  border-radius: 8px;
   background:
     linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
     linear-gradient(0deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
@@ -1638,21 +1697,37 @@ select {
     font-size: 14px;
   }
 
-  .academy-logo-placeholder {
+  .academy-logo-placeholder,
+  .academy-logo-slot {
     width: 44px;
     height: 44px;
+  }
+
+  .academy-logo-image {
+    width: 40px;
+    height: 40px;
+    max-width: 40px;
+    max-height: 40px;
   }
 
   .academy-intro-panel {
     grid-template-columns: 1fr;
   }
 
-  .academy-hero-placeholder {
+  .academy-hero-placeholder,
+  .academy-hero-logo {
     width: 96px;
     height: 96px;
     font-size: 32px;
   }
 
+  .academy-hero-logo-image {
+    width: 80px;
+    height: 80px;
+  }
+
+  .academy-map-frame,
+  .academy-map-image,
   .academy-map-placeholder {
     min-height: 220px;
   }

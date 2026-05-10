@@ -5,6 +5,8 @@ export const academies = [
     shortName: "게헨나",
     mark: "G",
     logoClass: "gehenna-mark",
+    logoImageUrl: "./images/academies/gehenna-logo.webp",
+    mapImageUrl: "./images/maps/gehenna-map.webp",
     description:
       "자유로운 분위기와 강한 개성을 가진 학생들이 모인 학원입니다. 실제 학원 소개 데이터는 추후 academies 테이블과 연결합니다.",
   },
@@ -14,6 +16,8 @@ export const academies = [
     shortName: "트리니티",
     mark: "T",
     logoClass: "trinity-mark",
+    logoImageUrl: "./images/academies/trinity-logo.webp",
+    mapImageUrl: "./images/maps/trinity-map.webp",
     description:
       "전통과 규율을 중시하는 대형 학원입니다. 현재는 임시 소개 문구와 placeholder만 표시합니다.",
   },
@@ -23,6 +27,8 @@ export const academies = [
     shortName: "밀레니엄",
     mark: "M",
     logoClass: "millennium-mark",
+    logoImageUrl: "./images/academies/millennium-logo.webp",
+    mapImageUrl: "./images/maps/millennium-map.webp",
     description:
       "기술과 연구 중심의 학생들이 활동하는 학원입니다. 실제 로고와 설명은 DB 연동 단계에서 교체합니다.",
   },
@@ -32,6 +38,8 @@ export const academies = [
     shortName: "아비도스",
     mark: "A",
     logoClass: "abydos-mark",
+    logoImageUrl: "./images/academies/abydos-logo.webp",
+    mapImageUrl: "./images/maps/abydos-map.webp",
     description:
       "사막 지역에 위치한 소규모 학원입니다. 현재는 학원 상세 UI 확인을 위한 임시 데이터입니다.",
   },
@@ -41,6 +49,8 @@ export const academies = [
     shortName: "백귀야행",
     mark: "H",
     logoClass: "hyakkiyako-mark",
+    logoImageUrl: "./images/academies/hyakkiyako-logo.webp",
+    mapImageUrl: "./images/maps/hyakkiyako-map.webp",
     description:
       "전통과 축제 분위기를 가진 학원입니다. 실제 소개 문구와 로고는 academies 테이블에서 가져올 예정입니다.",
   },
@@ -50,6 +60,8 @@ export const academies = [
     shortName: "산해경",
     mark: "S",
     logoClass: "shanhaijing-mark",
+    logoImageUrl: "./images/academies/shanhaijing-logo.webp",
+    mapImageUrl: "./images/maps/shanhaijing-map.webp",
     description:
       "독자적인 문화와 학생 조직을 가진 학원입니다. 현재는 placeholder 기반 임시 소개를 표시합니다.",
   },
@@ -59,6 +71,8 @@ export const academies = [
     shortName: "붉은겨울",
     mark: "R",
     logoClass: "redwinter-mark",
+    logoImageUrl: "./images/academies/red-winter-logo.webp",
+    mapImageUrl: "./images/maps/red-winter-map.webp",
     description:
       "혹한 지역을 배경으로 한 학원입니다. 실제 학원 설명은 추후 DB 연동 단계에서 교체합니다.",
   },
@@ -68,6 +82,8 @@ export const academies = [
     shortName: "발키리",
     mark: "V",
     logoClass: "valkyrie-mark",
+    logoImageUrl: "./images/academies/valkyrie-logo.webp",
+    mapImageUrl: "./images/maps/valkyrie-map.webp",
     description:
       "치안과 수사를 담당하는 학생들이 소속된 학원입니다. 현재는 임시 데이터만 사용합니다.",
   },
@@ -77,6 +93,8 @@ export const academies = [
     shortName: "SRT",
     mark: "S",
     logoClass: "srt-mark",
+    logoImageUrl: "./images/academies/srt-logo.webp",
+    mapImageUrl: "./images/maps/srt-map.webp",
     description:
       "특수 임무 수행을 위한 학생들이 모인 학원입니다. 로고와 설명은 아직 placeholder입니다.",
   },
@@ -86,6 +104,8 @@ export const academies = [
     shortName: "아리우스",
     mark: "A",
     logoClass: "arius-mark",
+    logoImageUrl: "./images/academies/arius-logo.webp",
+    mapImageUrl: "./images/maps/arius-map.webp",
     description:
       "별도 배경을 가진 분교입니다. 현재 상세 페이지 레이아웃 확인용 임시 설명을 표시합니다.",
   },
@@ -95,6 +115,8 @@ export const academies = [
     shortName: "하이랜더",
     mark: "H",
     logoClass: "highlander-mark",
+    logoImageUrl: "./images/academies/highlander-logo.webp",
+    mapImageUrl: "./images/maps/highlander-map.webp",
     description: "철도와 관련된 임시 학원 소개 영역입니다. 추후 academies 테이블 값으로 대체합니다.",
   },
   {
@@ -103,6 +125,8 @@ export const academies = [
     shortName: "와일드헌트",
     mark: "W",
     logoClass: "wildhunt-mark",
+    logoImageUrl: "./images/academies/wild-hunt-logo.webp",
+    mapImageUrl: "./images/maps/wild-hunt-map.webp",
     description: "예술 활동을 중심으로 한 학원입니다. 현재는 UI 구현을 위한 임시 데이터입니다.",
   },
   {
@@ -111,8 +135,9 @@ export const academies = [
     shortName: "기타",
     mark: "E",
     logoClass: "etc-mark",
+    logoImageUrl: "./images/academies/etc-logo.webp",
+    mapImageUrl: "./images/maps/etc-map.webp",
     description:
       "아직 별도 학원으로 분류하지 않은 데이터를 위한 임시 항목입니다. 실제 데이터 구조는 추후 연결합니다.",
   },
 ];
-
