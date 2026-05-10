@@ -1,0 +1,3518 @@
+[
+  {
+    "weekLabel": "1주차",
+    "startDate": "2021-11-09",
+    "endDate": "2021-11-16",
+    "title": "시로코, 호시노 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "시로코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "기존"
+      },
+      {
+        "name": "호시노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "기존"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "2~3주차",
+    "startDate": "2021-11-16",
+    "endDate": "2021-11-29",
+    "title": "마시로 & 아루 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "마시로",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "아루",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "기존"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "4~5주차",
+    "startDate": "2021-11-29",
+    "endDate": "2021-12-14",
+    "title": "이즈나, 시즈코 & 하루나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "이즈나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "시즈코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "하루나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "기존"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "6~7주차",
+    "startDate": "2021-12-14",
+    "endDate": "2021-12-28",
+    "title": "미도리, 모모이 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "미도리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "모모이",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "8~9주차",
+    "startDate": "2021-12-28",
+    "endDate": "2022-01-11",
+    "title": "아리스, 유즈 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "아리스",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "유즈",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "10~11주차",
+    "startDate": "2022-01-11",
+    "endDate": "2022-01-25",
+    "title": "체리노 & 카린 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "체리노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "카린",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "기존"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "노도카",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "12~13주차",
+    "startDate": "2022-01-25",
+    "endDate": "2022-02-08",
+    "title": "아즈사, 하나코 & 히비키 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "아즈사",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "하나코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "히비키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "기존"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "14~15주차",
+    "startDate": "2022-02-08",
+    "endDate": "2022-02-22",
+    "title": "코하루 & 히후미 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "코하루",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "히후미",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "기존"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "16~17주차",
+    "startDate": "2022-02-22",
+    "endDate": "2022-03-08",
+    "title": "수즈사, 수시로 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수즈사",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      },
+      {
+        "name": "수시로",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수루기",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "18~19주차",
+    "startDate": "2022-03-08",
+    "endDate": "2022-03-22",
+    "title": "수후미 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수후미",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "20~21주차",
+    "startDate": "2022-03-22",
+    "endDate": "2022-04-05",
+    "title": "수히나, 수오리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수히나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규/한정"
+      },
+      {
+        "name": "수오리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규/한정"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수즈미",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "22~23주차",
+    "startDate": "2022-04-05",
+    "endDate": "2022-04-19",
+    "title": "라로코 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "라로코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "24~25주차",
+    "startDate": "2022-04-19",
+    "endDate": "2022-05-03",
+    "title": "슈에린, 사사야, 키리노 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "슈에린",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "사사야",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "키리노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "26~27주차",
+    "startDate": "2022-05-03",
+    "endDate": "2022-05-17",
+    "title": "바카린, 바네루 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "바카린",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      },
+      {
+        "name": "바네루",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "28~29주차",
+    "startDate": "2022-05-17",
+    "endDate": "2022-05-31",
+    "title": "바스나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "바스나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "30~31주차",
+    "startDate": "2022-05-31",
+    "endDate": "2022-06-14",
+    "title": "나츠, 마리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "나츠",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "마리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "32~33주차",
+    "startDate": "2022-06-14",
+    "endDate": "2022-06-28",
+    "title": "하츠네 미쿠 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "하츠네 미쿠",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "34~35주차",
+    "startDate": "2022-06-28",
+    "endDate": "2022-07-12",
+    "title": "아코 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "아코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "36~37주차",
+    "startDate": "2022-07-12",
+    "endDate": "2022-07-26",
+    "title": "온리노, 온나츠 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "온리노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "온나츠",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "토모에",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "38~39주차",
+    "startDate": "2022-07-26",
+    "endDate": "2022-08-09",
+    "title": "온도카 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "온도카",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "40~41주차",
+    "startDate": "2022-08-09",
+    "endDate": "2022-08-23",
+    "title": "뉴아루, 뉴츠키 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "뉴아루",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      },
+      {
+        "name": "뉴츠키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "42~43주차",
+    "startDate": "2022-08-23",
+    "endDate": "2022-09-06",
+    "title": "뉴리카 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "뉴리카",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "44주차",
+    "startDate": "2022-09-06",
+    "endDate": "2022-09-10",
+    "title": "와카모 가챠 페스 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "와카모 가챠 페스",
+        "characterId": null,
+        "imageUrl": null,
+        "type": null
+      }
+    ],
+    "distributions": [
+      {
+        "name": "후부키",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": true
+  },
+  {
+    "weekLabel": "44~45주차",
+    "startDate": "2022-09-10",
+    "endDate": "2022-09-20",
+    "title": "세나, 치히로 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "세나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "치히로",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "46주차",
+    "startDate": "2022-09-20",
+    "endDate": "2022-09-27",
+    "title": "미모리 & 이즈나, 시즈코 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "미모리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "이즈나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "시즈코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "47주차",
+    "startDate": "2022-09-27",
+    "endDate": "2022-10-04",
+    "title": "코하루, 하루나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "코하루",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "하루나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "48~49주차",
+    "startDate": "2022-10-04",
+    "endDate": "2022-10-18",
+    "title": "우이, 히나타 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "우이",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "히나타",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "50주차",
+    "startDate": "2022-10-18",
+    "endDate": "2022-10-25",
+    "title": "마리나 & 체리노 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "마리나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "체리노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "노도카",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "51주차",
+    "startDate": "2022-10-25",
+    "endDate": "2022-11-01",
+    "title": "이오리 & 미도리, 모모이 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "이오리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "기존"
+      },
+      {
+        "name": "미도리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "모모이",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "53~54주차",
+    "startDate": "2022-11-08",
+    "endDate": "2022-11-22",
+    "title": "미야코, 사키, 미유 & 츠루기 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "미야코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "사키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "미유",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "츠루기",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "기존"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "55주차",
+    "startDate": "2022-11-22",
+    "endDate": "2022-11-29",
+    "title": "수즈사, 수시로 & 수후미 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수즈사",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "수시로",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "수후미",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수루기",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "56~57주차",
+    "startDate": "2022-11-29",
+    "endDate": "2022-12-13",
+    "title": "이로하, 카에데 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "이로하",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "카에데",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "미치루",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "58주차",
+    "startDate": "2022-12-13",
+    "endDate": "2022-12-20",
+    "title": "츠쿠요 & 유즈 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "츠쿠요",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "유즈",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "59~60주차",
+    "startDate": "2022-12-20",
+    "endDate": "2023-01-03",
+    "title": "미사키, 히요리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "미사키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "히요리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "61~62주차",
+    "startDate": "2023-01-03",
+    "endDate": "2023-01-17",
+    "title": "아츠코 & 아즈사, 하나코, 호시노 & 히나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "아츠코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "아즈사",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "하나코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "호시노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "히나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "기존"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "63~64주차",
+    "startDate": "2023-01-17",
+    "endDate": "2023-01-31",
+    "title": "수노미, 수카모 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수노미",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "수카모",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수야네",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "65주차",
+    "startDate": "2023-01-31",
+    "endDate": "2023-02-05",
+    "title": "수시노 가챠 페스 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수시노 가챠 페스",
+        "characterId": null,
+        "imageUrl": null,
+        "type": null
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수즈코",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": true
+  },
+  {
+    "weekLabel": "65~66주차",
+    "startDate": "2023-02-05",
+    "endDate": "2023-02-14",
+    "title": "수즈나, 수치세 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수즈나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      },
+      {
+        "name": "수치세",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "67~68주차",
+    "startDate": "2023-02-14",
+    "endDate": "2023-02-28",
+    "title": "아리스, 라로코, 아루 & 사오리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "아리스",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "라로코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "아루",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "사오리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "69~70주차",
+    "startDate": "2023-02-28",
+    "endDate": "2023-03-14",
+    "title": "카즈사, 모에 & 나츠, 마리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "카즈사",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "모에",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "나츠",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "마리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "71주차",
+    "startDate": "2023-03-14",
+    "endDate": "2023-03-21",
+    "title": "수히나, 수오리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수히나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": null
+      },
+      {
+        "name": "수오리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": null
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수즈미",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": true
+  },
+  {
+    "weekLabel": "72주차",
+    "startDate": "2023-03-21",
+    "endDate": "2023-03-28",
+    "title": "코코나 & 슌 & 슈에린, 사사야, 키리노 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "코코나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "슌",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "기존"
+      },
+      {
+        "name": "슈에린",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "사사야",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "키리노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "73~74주차",
+    "startDate": "2023-03-28",
+    "endDate": "2023-04-11",
+    "title": "노아, 응타하 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "노아",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "응타하",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "치비키",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "75주차",
+    "startDate": "2023-04-11",
+    "endDate": "2023-04-18",
+    "title": "바카네 & 바스나 & 바카린, 바네루 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "바카네",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "바스나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "바카린",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "바네루",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "76주차",
+    "startDate": "2023-04-18",
+    "endDate": "2023-04-25",
+    "title": "히비키, 아코 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "히비키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "아코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "77~78주차",
+    "startDate": "2023-04-25",
+    "endDate": "2023-05-09",
+    "title": "운유카, 운마리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "운유카",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      },
+      {
+        "name": "운마리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "운스미",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "79주차",
+    "startDate": "2023-05-09",
+    "endDate": "2023-05-16",
+    "title": "마키 & 코하루 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "마키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "기존"
+      },
+      {
+        "name": "코하루",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "80~81주차",
+    "startDate": "2023-05-16",
+    "endDate": "2023-05-30",
+    "title": "히마리 & 에이미 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "히마리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "에이미",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "기존"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "82주차",
+    "startDate": "2023-05-30",
+    "endDate": "2023-06-06",
+    "title": "시구레 & 온리노, 온나츠, 온도카 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "시구레",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "온리노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "온나츠",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "온도카",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "토모에",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "83주차",
+    "startDate": "2023-06-06",
+    "endDate": "2023-06-13",
+    "title": "아리스, 유즈, 미도리, 모모이 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "아리스",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "유즈",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "미도리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "모모이",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "84~85주차",
+    "startDate": "2023-06-13",
+    "endDate": "2023-06-27",
+    "title": "클리나, 클나에 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "클리나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "클나에",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "86~87주차",
+    "startDate": "2023-06-27",
+    "endDate": "2023-07-11",
+    "title": "뉴후카, 뉴루나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "뉴후카",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      },
+      {
+        "name": "뉴루나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "뉴준코",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "88~89주차",
+    "startDate": "2023-07-11",
+    "endDate": "2023-07-25",
+    "title": "미네 & 치히로, 세나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "미네",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "치히로",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "세나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "후부키",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "91~92주차",
+    "startDate": "2023-08-01",
+    "endDate": "2023-08-11",
+    "title": "메구, 칸나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "메구",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "칸나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "92~93주차",
+    "startDate": "2023-08-11",
+    "endDate": "2023-08-22",
+    "title": "사쿠라코 & 우이, 히나타 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "사쿠라코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "우이",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "히나타",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "94~95주차",
+    "startDate": "2023-08-22",
+    "endDate": "2023-09-05",
+    "title": "나기사, 토키 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "나기사",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      },
+      {
+        "name": "토키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "96~97주차",
+    "startDate": "2023-09-05",
+    "endDate": "2023-09-19",
+    "title": "코유키 & 시로코 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "코유키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "시로코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "98주차",
+    "startDate": "2023-09-19",
+    "endDate": "2023-09-26",
+    "title": "라로코, 아즈사, 하나코 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "라로코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "아즈사",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "하나코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "99~100주차",
+    "startDate": "2023-09-26",
+    "endDate": "2023-10-10",
+    "title": "뉴요코, 뉴루카 & 뉴아루, 뉴츠키 & 뉴리카 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "뉴요코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "뉴루카",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "뉴아루",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "뉴츠키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "뉴리카",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "101주차",
+    "startDate": "2023-10-10",
+    "endDate": "2023-10-17",
+    "title": "미모리, 이즈나, 시즈코 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "미모리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "이즈나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "시즈코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "102주차",
+    "startDate": "2023-10-17",
+    "endDate": "2023-10-24",
+    "title": "체리노, 마리나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "체리노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "마리나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "노도카",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "103주차",
+    "startDate": "2023-10-24",
+    "endDate": "2023-10-31",
+    "title": "카호 & 이로하, 카에데, 츠쿠요 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "카호",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "이로하",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "카에데",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "츠쿠요",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "미치루",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "104~105주차",
+    "startDate": "2023-10-31",
+    "endDate": "2023-11-14",
+    "title": "메리스, 바토키 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "메리스",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "바토키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "메유즈",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "106주차",
+    "startDate": "2023-11-14",
+    "endDate": "2023-11-21",
+    "title": "레이사 & 카즈사, 나츠, 마리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "레이사",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "카즈사",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "나츠",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "마리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "107주차",
+    "startDate": "2023-11-21",
+    "endDate": "2023-11-28",
+    "title": "수즈사, 수시로 & 수후미 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수즈사",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "수시로",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "수후미",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수루기",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "108~109주차",
+    "startDate": "2023-11-28",
+    "endDate": "2023-12-12",
+    "title": "루미, 미나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "루미",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "미나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "110주차",
+    "startDate": "2023-12-12",
+    "endDate": "2023-12-19",
+    "title": "미노리 & 미야코, 사키 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "미노리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "미야코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "사키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "111주차",
+    "startDate": "2023-12-19",
+    "endDate": "2023-12-26",
+    "title": "미유, 모에 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "미유",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "모에",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-1-111.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "112~113주차",
+    "startDate": "2023-12-26",
+    "endDate": "2024-01-09",
+    "title": "수야코, 수사키 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수야코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "수사키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수미유",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "114주차",
+    "startDate": "2024-01-09",
+    "endDate": "2024-01-16",
+    "title": "수히나, 수오리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수히나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": null
+      },
+      {
+        "name": "수오리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": null
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수즈미",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": true
+  },
+  {
+    "weekLabel": "115주차",
+    "startDate": "2024-01-16",
+    "endDate": "2024-01-23",
+    "title": "슈에린, 사사야, 코코나, 키리노 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "슈에린",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "사사야",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "코코나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "키리노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "116주차",
+    "startDate": "2024-01-23",
+    "endDate": "2024-01-30",
+    "title": "수로코 & 수노미, 수카모 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수로코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "수노미",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "수카모",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수야네",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "117~118주차",
+    "startDate": "2024-01-30",
+    "endDate": "2024-02-08",
+    "title": "수우이, 수나타 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수우이",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      },
+      {
+        "name": "수나타",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수하루",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "118~119주차",
+    "startDate": "2024-02-08",
+    "endDate": "2024-02-15",
+    "title": "수나코 가챠 페스 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수나코 가챠 페스",
+        "characterId": null,
+        "imageUrl": null,
+        "type": null
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": true
+  },
+  {
+    "weekLabel": "119주차",
+    "startDate": "2024-02-15",
+    "endDate": "2024-02-20",
+    "title": "스미레 & 에이미 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "스미레",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "기존"
+      },
+      {
+        "name": "에이미",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "120주차",
+    "startDate": "2024-02-20",
+    "endDate": "2024-02-27",
+    "title": "수즈나, 수치세 & 수모리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수즈나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "수치세",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "수모리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수즈코",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "121~122주차",
+    "startDate": "2024-02-27",
+    "endDate": "2024-03-12",
+    "title": "메루, 모미지 & 체리노, 마리나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "메루",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "모미지",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "체리노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "마리나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "123~124주차",
+    "startDate": "2024-03-12",
+    "endDate": "2024-03-21",
+    "title": "치토리 & 노아, 응타하 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "치토리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "노아",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "응타하",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "치비키",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "124~125주차",
+    "startDate": "2024-03-21",
+    "endDate": "2024-04-02",
+    "title": "운루나 & 운유카, 운마리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "운루나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "운유카",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "운마리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "운스미",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "126~127주차",
+    "startDate": "2024-04-02",
+    "endDate": "2024-04-16",
+    "title": "이치카, 카스미 & 아코, 이오리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "이치카",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "카스미",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "아코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "이오리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "128주차",
+    "startDate": "2024-04-16",
+    "endDate": "2024-04-23",
+    "title": "온구레 & 온리노, 온나츠, 온도카 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "온구레",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "온리노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "온나츠",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "온도카",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "토모에",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "129주차",
+    "startDate": "2024-04-23",
+    "endDate": "2024-04-30",
+    "title": "시구레, 메구, 우이, 히나타 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "시구레",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "메구",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "우이",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "히나타",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "130~131주차",
+    "startDate": "2024-04-30",
+    "endDate": "2024-05-14",
+    "title": "미사카 미코토, 쇼쿠호 미사키 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "미사카 미코토",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      },
+      {
+        "name": "쇼쿠호 미사키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "사텐 루이코가",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "132주차",
+    "startDate": "2024-05-14",
+    "endDate": "2024-05-21",
+    "title": "유카리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "유카리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "133주차",
+    "startDate": "2024-05-21",
+    "endDate": "2024-05-28",
+    "title": "사오리, 히요리, 슌, 코코나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "사오리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "히요리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "슌",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "코코나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "134~135주차",
+    "startDate": "2024-05-28",
+    "endDate": "2024-06-11",
+    "title": "렌게, 키쿄 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "렌게",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "키쿄",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "136주차",
+    "startDate": "2024-06-11",
+    "endDate": "2024-06-18",
+    "title": "수이미 & 히마리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수이미",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "히마리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "137주차",
+    "startDate": "2024-06-18",
+    "endDate": "2024-06-25",
+    "title": "바카린, 바네루 & 바스나, 바카네 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "바카린",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각/한정"
+      },
+      {
+        "name": "바네루",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각/한정"
+      },
+      {
+        "name": "바스나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "바카네",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "138~139주차",
+    "startDate": "2024-06-25",
+    "endDate": "2024-07-09",
+    "title": "캠하레, 캠타마 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "캠하레",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "캠타마",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "140주차",
+    "startDate": "2024-07-09",
+    "endDate": "2024-07-16",
+    "title": "뉴아루, 뉴츠키 & 뉴리카, 뉴요코, 뉴루카 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "뉴아루",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "뉴츠키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "뉴리카",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "뉴요코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "뉴루카",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "141주차",
+    "startDate": "2024-07-16",
+    "endDate": "2024-07-23",
+    "title": "미사키, 아츠코 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "미사키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "아츠코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "142주차",
+    "startDate": "2024-07-23",
+    "endDate": "2024-07-30",
+    "title": "드아코, 마코토 & 이로하 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "드아코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/신규"
+      },
+      {
+        "name": "마코토",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/신규"
+      },
+      {
+        "name": "이로하",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "이부키",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "143주차",
+    "startDate": "2024-07-30",
+    "endDate": "2024-08-06",
+    "title": "드히나 가챠 페스 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "드히나 가챠 페스",
+        "characterId": null,
+        "imageUrl": null,
+        "type": null
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": true
+  },
+  {
+    "weekLabel": "144주차",
+    "startDate": "2024-08-06",
+    "endDate": "2024-08-13",
+    "title": "클리나, 클나에 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "클리나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "클나에",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "145주차",
+    "startDate": "2024-08-13",
+    "endDate": "2024-08-20",
+    "title": "미네, 치히로, 세나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "미네",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "치히로",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "세나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "후부키",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "146~147주차",
+    "startDate": "2024-08-20",
+    "endDate": "2024-09-03",
+    "title": "드아루, 드요코 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "드아루",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "드요코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "148~149주차",
+    "startDate": "2024-09-03",
+    "endDate": "2024-09-17",
+    "title": "뉴카리 & 뉴후카, 뉴루나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "뉴카리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "뉴후카",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "뉴루나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "뉴준코",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "150주차",
+    "startDate": "2024-09-17",
+    "endDate": "2024-09-24",
+    "title": "우이, 히나타, 사쿠라코 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "우이",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "히나타",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "사쿠라코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "151~152주차",
+    "startDate": "2024-09-24",
+    "endDate": "2024-10-08",
+    "title": "가바키, 우미카 & 이즈나, 시즈코, 미모리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "가바키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "우미카",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "이즈나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "시즈코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "미모리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "153주차",
+    "startDate": "2024-10-08",
+    "endDate": "2024-10-15",
+    "title": "카즈사, 레이사, 나츠, 마리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "카즈사",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "레이사",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "나츠",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "마리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "154주차",
+    "startDate": "2024-10-15",
+    "endDate": "2024-10-22",
+    "title": "나기사, 토키 & 코유키 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "나기사",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "토키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "코유키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "155~156주차",
+    "startDate": "2024-10-22",
+    "endDate": "2024-11-05",
+    "title": "밴즈사, 밴시미 & 아코 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "밴즈사",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      },
+      {
+        "name": "밴시미",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      },
+      {
+        "name": "아코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "밴이리",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "157주차",
+    "startDate": "2024-11-05",
+    "endDate": "2024-11-12",
+    "title": "키라라 & 카에데, 츠쿠요, 카호 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "키라라",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "카에데",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "츠쿠요",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "카호",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "미치루",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "158주차",
+    "startDate": "2024-11-12",
+    "endDate": "2024-11-19",
+    "title": "루미, 미나, 슌, 코코나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "루미",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "미나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "슌",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "코코나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "159~160주차",
+    "startDate": "2024-11-19",
+    "endDate": "2024-12-03",
+    "title": "메모이, 메도리 & 메리스, 바토키 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "메모이",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "메도리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "메리스",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "바토키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "메유즈",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "161~162주차",
+    "startDate": "2024-12-03",
+    "endDate": "2024-12-14",
+    "title": "수리카 & 수노미, 수카모, 수로코 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수리카",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "수노미",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "수카모",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "수로코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수야네",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "162~163주차",
+    "startDate": "2024-12-14",
+    "endDate": "2024-12-24",
+    "title": "수즈나, 수치세 & 수모리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수즈나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "수치세",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "수모리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수즈코",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "164~165주차",
+    "startDate": "2024-12-24",
+    "endDate": "2025-01-07",
+    "title": "수칸나, 수부키 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수칸나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "수부키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "166~167주차",
+    "startDate": "2025-01-07",
+    "endDate": "2025-01-16",
+    "title": "수모에 & 수야코, 수사키 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수모에",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "수야코",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "수사키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수미유",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "167~168주차",
+    "startDate": "2025-01-16",
+    "endDate": "2025-01-23",
+    "title": "호시노, 히나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "호시노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "히나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "168~169주차",
+    "startDate": "2025-01-23",
+    "endDate": "2025-01-30",
+    "title": "임시노&쿠로코 가챠 페스 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "임시노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": null
+      },
+      {
+        "name": "쿠로코 가챠 페스",
+        "characterId": null,
+        "imageUrl": null,
+        "type": null
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수리우스 이벤트로 수츠코",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": true
+  },
+  {
+    "weekLabel": "169~170주차",
+    "startDate": "2025-01-30",
+    "endDate": "2025-02-08",
+    "title": "싸오리, 수요리 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "싸오리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      },
+      {
+        "name": "수요리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "170~171주차",
+    "startDate": "2025-02-08",
+    "endDate": "2025-02-18",
+    "title": "메루, 모미지, 체리노, 마리나, 미노리, 온구레 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "메루",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "모미지",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "체리노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "마리나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "미노리",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "온구레",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "172~173주차",
+    "startDate": "2025-02-18",
+    "endDate": "2025-03-04",
+    "title": "치모에, 치리나 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "치모에",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "치리나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "174주차",
+    "startDate": "2025-03-04",
+    "endDate": "2025-03-11",
+    "title": "수우이, 수나타 & 이로하, 미유 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "수우이",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "수나타",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "이로하",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "미유",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [
+      {
+        "name": "수하루",
+        "characterId": null,
+        "type": "배포"
+      }
+    ],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "175주차",
+    "startDate": "2025-03-11",
+    "endDate": "2025-03-18",
+    "title": "바네루, 바카린 & 바스나, 바카네 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "바네루",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "바카린",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "한정/복각"
+      },
+      {
+        "name": "바스나",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "바카네",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "176~177주차",
+    "startDate": "2025-03-18",
+    "endDate": "2025-04-01",
+    "title": "키사키, 레이죠 & 슈에린, 사사야, 키리노 픽업",
+    "bannerImageUrl": null,
+    "characters": [
+      {
+        "name": "키사키",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "레이죠",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "신규"
+      },
+      {
+        "name": "슈에린",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "사사야",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      },
+      {
+        "name": "키리노",
+        "characterId": null,
+        "imageUrl": null,
+        "type": "복각"
+      }
+    ],
+    "distributions": [],
+    "source": "arca-pickup-112-177.html",
+    "needsReview": false
+  }
+]

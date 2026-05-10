@@ -42,6 +42,11 @@
           aria-label="픽업 기록 주차 범위"
         ></nav>
         <div id="pickup-history-list" class="pickup-history-list"></div>
+        <nav
+          id="pickup-history-pagination-bottom"
+          class="pickup-history-pagination pickup-history-pagination-bottom"
+          aria-label="픽업 기록 주차 범위"
+        ></nav>
       </section>
     </main>
 
@@ -49,13 +54,14 @@
       import { students } from "./data/index.js";
 
       const pickupHistoryList = document.querySelector("#pickup-history-list");
-      const pickupHistoryPagination = document.querySelector("#pickup-history-pagination");
+      const pickupHistoryPaginations = document.querySelectorAll(".pickup-history-pagination");
       const searchInput = document.querySelector("#student-search-input");
       const suggestionPanel = document.querySelector("#student-suggestions");
       const weeksPerPage = 20;
+      const visiblePageButtonCount = 5;
 
       async function getPickupCandidates() {
-        const response = await fetch("./data/pickup-candidates.json");
+        const response = await fetch("./data/pickups.json");
 
         if (!response.ok) {
           throw new Error("픽업 기록 데이터를 불러오지 못했습니다.");
@@ -144,11 +150,62 @@
         return button;
       }
 
+      function createPaginationControl(label, action, isDisabled, ariaLabel) {
+        const button = document.createElement("button");
+        button.className = "pickup-history-page-button pickup-history-control-button";
+        button.type = "button";
+        button.textContent = label;
+        button.dataset.action = action;
+        button.disabled = isDisabled;
+        button.setAttribute("aria-label", ariaLabel);
+        return button;
+      }
+
+      function getVisibleRanges(ranges, activePage) {
+        const groupIndex = Math.floor((activePage - 1) / visiblePageButtonCount);
+        const startIndex = groupIndex * visiblePageButtonCount;
+        return ranges.slice(startIndex, startIndex + visiblePageButtonCount);
+      }
+
       function renderPagination(ranges, activePage) {
-        pickupHistoryPagination.hidden = ranges.length <= 1;
-        pickupHistoryPagination.replaceChildren(
-          ...ranges.map((range) => createRangeButton(range, range.page === activePage)),
-        );
+        const visibleRanges = getVisibleRanges(ranges, activePage);
+        const isFirstPage = activePage <= 1;
+        const isLastPage = activePage >= ranges.length;
+        const isFirstGroup = visibleRanges[0]?.page === 1;
+        const isLastGroup = visibleRanges.at(-1)?.page === ranges.length;
+
+        pickupHistoryPaginations.forEach((pagination) => {
+          pagination.hidden = ranges.length <= 1;
+          pagination.replaceChildren(
+            createPaginationControl("<<", "prev-group", isFirstGroup, "이전 주차 범위 묶음"),
+            createPaginationControl("<", "prev-page", isFirstPage, "이전 주차 범위"),
+            ...visibleRanges.map((range) => createRangeButton(range, range.page === activePage)),
+            createPaginationControl(">", "next-page", isLastPage, "다음 주차 범위"),
+            createPaginationControl(">>", "next-group", isLastGroup, "다음 주차 범위 묶음"),
+          );
+        });
+      }
+
+      function getPaginationActionPage(action, activePage, totalPages) {
+        const currentGroupIndex = Math.floor((activePage - 1) / visiblePageButtonCount);
+
+        if (action === "prev-page") {
+          return Math.max(activePage - 1, 1);
+        }
+
+        if (action === "next-page") {
+          return Math.min(activePage + 1, totalPages);
+        }
+
+        if (action === "prev-group") {
+          return Math.max((currentGroupIndex - 1) * visiblePageButtonCount + 1, 1);
+        }
+
+        if (action === "next-group") {
+          return Math.min((currentGroupIndex + 1) * visiblePageButtonCount + 1, totalPages);
+        }
+
+        return activePage;
       }
 
       function renderPickupPage(cards, ranges, page, shouldReplaceUrl = false) {
@@ -165,6 +222,7 @@
 
         renderPagination(ranges, page);
         updatePageUrl(page, shouldReplaceUrl);
+        pickupHistoryList.dataset.activePage = String(page);
 
         if (pageCards.length === 0) {
           showEmptyMessage("해당 주차 범위에 표시할 픽업 기록이 없습니다.");
@@ -276,14 +334,21 @@
           const currentPage = getPageFromUrl(weekRanges.length);
           renderPickupPage(pickupCards, weekRanges, currentPage, true);
 
-          pickupHistoryPagination.addEventListener("click", (event) => {
-            const button = event.target.closest(".pickup-history-page-button");
+          pickupHistoryPaginations.forEach((pagination) => {
+            pagination.addEventListener("click", (event) => {
+              const button = event.target.closest(".pickup-history-page-button");
 
-            if (!button) {
-              return;
-            }
+              if (!button || button.disabled) {
+                return;
+              }
 
-            renderPickupPage(pickupCards, weekRanges, Number(button.dataset.page));
+              const currentPage = Number(pickupHistoryList.dataset.activePage || 1);
+              const nextPage = button.dataset.page
+                ? Number(button.dataset.page)
+                : getPaginationActionPage(button.dataset.action, currentPage, weekRanges.length);
+
+              renderPickupPage(pickupCards, weekRanges, nextPage);
+            });
           });
 
           window.addEventListener("popstate", () => {

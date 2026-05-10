@@ -1,9 +1,11 @@
 const fs = require("fs");
 const path = require("path");
 
-const sourceFile = path.join(__dirname, "..", "sources", "arca-pickup-1-111.html");
-const outputFile = path.join(__dirname, "..", "data", "pickup-candidates.json");
-const sourceName = "arca-pickup-1-111.html";
+const [sourceArg = "sources/arca-pickup-1-111.html", outputArg = "data/pickup-candidates.json"] =
+  process.argv.slice(2);
+const sourceFile = path.resolve(__dirname, "..", sourceArg);
+const outputFile = path.resolve(__dirname, "..", outputArg);
+const sourceName = path.basename(sourceFile);
 
 const html = fs.readFileSync(sourceFile, "utf8").replace(/\r?\n/g, " ");
 
