@@ -13,34 +13,34 @@
         <span class="logo-text">BlueArchive Info Site</span>
       </a>
 
-      <div class="student-search" role="search" aria-label="통합검색">
+      <form class="site-search" id="site-search-form" role="search" aria-label="통합검색">
         <label class="search-label" for="site-search-input">통합검색</label>
         <input
           id="site-search-input"
-          class="student-search-input"
+          class="site-search-input"
           type="search"
           placeholder="통합검색"
           autocomplete="off"
-          aria-expanded="false"
         />
-      </div>
+        <button class="site-search-button" type="submit" aria-label="검색 실행">🔍</button>
+      </form>
+
+      <nav class="header-auth" aria-label="계정 메뉴">
+        <a href="#" class="header-auth-link">로그인</a>
+        <span aria-hidden="true">|</span>
+        <a href="#" class="header-auth-link">회원가입</a>
+      </nav>
     </header>
 
     <main class="page-shell">
-      <nav class="academy-menu" aria-label="학원 메뉴">
-        <div class="academy-menu-actions">
-          <button
-            class="academy-toggle"
-            type="button"
-            aria-expanded="false"
-            aria-controls="academy-panel"
-          >
-            학원
-          </button>
-          <a class="academy-nav-link" href="./characters.html">학생 목록</a>
+      <section class="academy-section" aria-label="학원 목록">
+        <div class="panel-heading">
+          <p class="eyebrow">ACADEMY</p>
+          <h1>학원 목록</h1>
         </div>
-        <div id="academy-panel" class="academy-panel" hidden></div>
-      </nav>
+
+        <div id="academy-panel" class="academy-panel academy-panel-static"></div>
+      </section>
 
       <section class="main-grid" aria-label="메인 정보">
         <article class="panel pickup-panel">
@@ -94,30 +94,48 @@
             실제 계산 기능은 이후 단계에서 구현합니다.
           </p>
 
-          <a href="#" class="bond-enter-button">계산기 준비 중</a>
+          <a href="./bond-calculator.html" class="bond-enter-button">계산기 열기</a>
         </article>
       </section>
 
-      <section class="history-link" aria-label="과거 픽업 기록">
-        <div>
-          <p class="eyebrow">ARCHIVE</p>
-          <h2>과거 픽업 기록</h2>
-          <p>지난 픽업 배너와 캐릭터 기록을 확인하는 영역입니다.</p>
-        </div>
-        <a href="./pickup-history.html" class="history-button">기록 보기</a>
+      <section class="archive-grid" aria-label="보조 이동 영역">
+        <article class="panel archive-card">
+          <div>
+            <p class="eyebrow">ARCHIVE</p>
+            <h2>과거 픽업 기록</h2>
+            <p>지난 픽업 배너와 캐릭터 기록을 확인하는 영역입니다.</p>
+          </div>
+          <a href="./pickup-history.html" class="history-button">기록 보기</a>
+        </article>
+
+        <article class="panel archive-card">
+          <div>
+            <p class="eyebrow">STUDENT</p>
+            <h2>학생 목록</h2>
+            <p>전체 학생 카드와 필터, 이름 검색을 확인하는 영역입니다.</p>
+          </div>
+          <a href="./characters.html" class="history-button">학생 목록 보기</a>
+        </article>
       </section>
     </main>
 
     <script type="module">
-      import { academies, students } from "./data/index.js";
+      import { academies } from "./data/index.js";
 
-      const academyToggle = document.querySelector(".academy-toggle");
       const academyPanel = document.querySelector("#academy-panel");
       const currentPickupList = document.querySelector("#current-pickup-list");
-      academyToggle.addEventListener("click", () => {
-        const isOpen = academyToggle.getAttribute("aria-expanded") === "true";
-        academyToggle.setAttribute("aria-expanded", String(!isOpen));
-        academyPanel.hidden = isOpen;
+
+      const siteSearchForm = document.querySelector("#site-search-form");
+      const siteSearchInput = document.querySelector("#site-search-input");
+      siteSearchForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const query = siteSearchInput.value.trim();
+        if (!query) {
+          return;
+        }
+
+        console.log("통합검색:", query);
+        window.alert(`통합검색은 준비 중입니다.\n검색어: ${query}`);
       });
 
       function parseDate(value) {

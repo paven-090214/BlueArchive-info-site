@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>인연랭크 계산기 | BlueArchive Info Site</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="logo" href="./index.html" aria-label="메인 페이지로 이동">
+        <span class="logo-mark">BA</span>
+        <span class="logo-text">BlueArchive Info Site</span>
+      </a>
+
+      <form class="site-search" id="site-search-form" role="search" aria-label="통합검색">
+        <label class="search-label" for="site-search-input">통합검색</label>
+        <input
+          id="site-search-input"
+          class="site-search-input"
+          type="search"
+          placeholder="통합검색"
+          autocomplete="off"
+        />
+        <button class="site-search-button" type="submit" aria-label="검색 실행">🔍</button>
+      </form>
+
+      <nav class="header-auth" aria-label="계정 메뉴">
+        <a href="#" class="header-auth-link">로그인</a>
+        <span aria-hidden="true">|</span>
+        <a href="#" class="header-auth-link">회원가입</a>
+      </nav>
+    </header>
+
+    <main class="page-shell bond-calculator-shell">
+      <section class="panel bond-calculator-panel" aria-label="인연랭크 계산기">
+        <div class="panel-heading">
+          <p class="eyebrow">BOND</p>
+          <h1>인연랭크 계산기</h1>
+          <p>
+            임시 데이터를 기반으로 인연랭크 목표값과 선물, 카페 상호작용, 스케줄 필요 수량을
+            계산합니다. 실제 게임 데이터와 학생별 선호도는 아직 연결하지 않았습니다.
+          </p>
+        </div>
+
+        <div class="bond-calculator-layout">
+          <div class="bond-top-layout">
+            <section class="bond-input-panel" aria-label="입력 영역">
+              <div class="bond-student-search">
+                <label class="bond-field-label" for="bond-student-search-input">학생 이름 검색</label>
+                <input
+                  id="bond-student-search-input"
+                  class="bond-student-search-input"
+                  type="search"
+                  placeholder="학생 이름 검색"
+                  autocomplete="off"
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                />
+                <div
+                  id="bond-student-suggestions"
+                  class="bond-student-suggestions"
+                  role="listbox"
+                  hidden
+                ></div>
+              </div>
+
+              <div class="bond-selected-student-card">
+                <div id="bond-selected-student-visual" class="bond-selected-student-visual" aria-hidden="true"></div>
+                <div class="bond-selected-student-copy">
+                  <p class="bond-result-label">선택한 학생</p>
+                  <strong id="bond-selected-student" class="bond-selected-student-value">학생 미선택</strong>
+                  <p id="bond-selected-student-note" class="bond-selected-student-note">
+                    학생을 검색해 추천 목록에서 선택하세요.
+                  </p>
+                </div>
+              </div>
+
+              <div class="bond-rank-grid">
+                <label class="bond-field" for="bond-current-rank">
+                  현재 인연랭크
+                  <input id="bond-current-rank" name="currentRank" type="number" min="1" max="100" step="1" value="1" />
+                </label>
+
+                <label class="bond-field" for="bond-target-rank">
+                  목표 인연랭크
+                  <input id="bond-target-rank" name="targetRank" type="number" min="1" max="100" step="1" value="5" />
+                </label>
+
+                <label class="bond-field bond-field-wide" for="bond-current-points">
+                  현재 랭크 내 누적 인연 포인트
+                  <input id="bond-current-points" name="currentPoints" type="number" min="0" step="1" value="0" />
+                </label>
+              </div>
+
+              <div class="bond-source-summary" aria-label="포인트 획득 기준">
+                <div class="bond-source-card">
+                  <span>카페 상호작용</span>
+                  <strong><span id="bond-cafe-points">10</span> P / 1회</strong>
+                </div>
+                <div class="bond-source-card">
+                  <span>스케줄</span>
+                  <strong><span id="bond-schedule-points">15</span> P / 1회</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="bond-result-panel bond-result-panel-top" aria-label="계산 결과">
+              <div class="bond-panel-header">
+                <div>
+                  <p class="bond-section-eyebrow">RESULT</p>
+                  <h2>계산 결과</h2>
+                </div>
+              </div>
+
+              <div class="bond-result-grid">
+                <article class="bond-result-card">
+                  <p class="bond-result-label">다음 인연랭크까지 필요한 인연 포인트</p>
+                  <strong id="bond-next-rank-points" class="bond-result-value">0 P</strong>
+                </article>
+
+                <article class="bond-result-card">
+                  <p class="bond-result-label">목표 인연랭크까지 필요한 총 인연 포인트</p>
+                  <strong id="bond-target-total-points" class="bond-result-value">0 P</strong>
+                </article>
+
+                <article class="bond-result-card">
+                  <p class="bond-result-label">선물로 획득한 총 인연 포인트</p>
+                  <strong id="bond-gift-total-points" class="bond-result-value">0 P</strong>
+                </article>
+
+                <article class="bond-result-card">
+                  <p class="bond-result-label">남은 필요 인연 포인트</p>
+                  <strong id="bond-remaining-points" class="bond-result-value">0 P</strong>
+                </article>
+
+                <article class="bond-result-card">
+                  <p class="bond-result-label">카페 상호작용 필요 횟수</p>
+                  <strong id="bond-cafe-count" class="bond-result-value">0회</strong>
+                </article>
+
+                <article class="bond-result-card">
+                  <p class="bond-result-label">스케줄 필요 횟수</p>
+                  <strong id="bond-schedule-count" class="bond-result-value">0회</strong>
+                </article>
+
+                <article class="bond-result-card bond-result-card-full">
+                  <p class="bond-result-label">초과 포인트</p>
+                  <strong id="bond-excess-points" class="bond-result-value">0 P</strong>
+                </article>
+              </div>
+
+              <dl class="bond-result-summary">
+                <div>
+                  <dt>계산 상태</dt>
+                  <dd id="bond-result-note">목표 랭크를 입력하면 계산됩니다.</dd>
+                </div>
+                <div>
+                  <dt>현재 랭크</dt>
+                  <dd id="bond-current-rank-summary">1랭크</dd>
+                </div>
+                <div>
+                  <dt>목표 랭크</dt>
+                  <dd id="bond-target-rank-summary">5랭크</dd>
+                </div>
+              </dl>
+            </section>
+          </div>
+
+          <section class="bond-gift-panel" aria-label="선물 목록">
+            <div class="bond-panel-header">
+              <div>
+                <p class="bond-section-eyebrow">GIFTS</p>
+                <h2>선물 목록</h2>
+              </div>
+              <button id="bond-gift-toggle" class="bond-toggle-button" type="button">
+                모든 선물 보기
+              </button>
+            </div>
+
+            <div id="bond-gift-list" class="bond-gift-list"></div>
+            <p class="bond-hint">
+              선물은 해당 학생에게 주는 인연 포인트가 높은 순서로 정렬합니다. 학생을 선택하면 선호 선물만 우선 표시합니다.
+            </p>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./bond-calculator.js"></script>
+  </body>
+</html>
