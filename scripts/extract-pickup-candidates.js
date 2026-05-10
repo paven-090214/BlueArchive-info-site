@@ -57,24 +57,54 @@ function parseDateLabel(dateLabel) {
   };
 }
 
-function getPickupType(rawTitle) {
-  const labels = [...rawTitle.matchAll(/\(([^)]*)\)/g)]
-    .flatMap((match) => match[1].split(/[,/]/))
+function getTypeLabels(value) {
+  const labels = value
+    .split(/[,/\s]+/)
     .map((label) => label.trim())
+    .flatMap((label) => {
+      if (label === "콜라보 한정") {
+        return ["한정"];
+      }
+
+      return [label];
+    })
     .filter((label) => ["신규", "기존", "한정", "복각"].includes(label));
   const uniqueLabels = [...new Set(labels)];
 
-  return uniqueLabels.length > 0 ? uniqueLabels.join("/") : null;
+  return uniqueLabels.length > 0 ? uniqueLabels : [];
 }
 
-function getPickupCharacters(rawTitle) {
-  const beforePickup = rawTitle.split("픽업")[0] || "";
-  const withoutTypeLabels = beforePickup.replace(/\([^)]*\)/g, "");
+function getTypeFromLabels(labels) {
+  return labels.length > 0 ? labels.join("/") : null;
+}
 
-  return withoutTypeLabels
-    .split(/\s*&\s*|,\s*/)
-    .map((name) => name.trim())
+function getPickupSegments(rawTitle) {
+  const beforePickup = rawTitle.split("픽업")[0] || "";
+
+  return beforePickup
+    .split(/\s*&\s*/)
+    .map((segment) => segment.trim())
     .filter(Boolean);
+}
+
+function getCharacters(rawTitle) {
+  return getPickupSegments(rawTitle).flatMap((segment) => {
+    const typeMatches = [...segment.matchAll(/\(([^)]*)\)/g)];
+    const typeLabels = typeMatches.flatMap((match) => getTypeLabels(match[1]));
+    const type = getTypeFromLabels(typeLabels);
+    const names = segment
+      .replace(/\([^)]*\)/g, "")
+      .split(/,\s*/)
+      .map((name) => name.trim())
+      .filter(Boolean);
+
+    return names.map((name) => ({
+      name,
+      characterId: null,
+      imageUrl: null,
+      type,
+    }));
+  });
 }
 
 function getTitle(rawTitle) {
@@ -84,8 +114,8 @@ function getTitle(rawTitle) {
   return withoutTypeLabels ? `${withoutTypeLabels} 픽업` : rawTitle;
 }
 
-function getDistributionCharacters(blockHtml) {
-  const names = [];
+function getDistributions(blockHtml) {
+  const distributions = [];
   const distributionPattern = /<strong>([^<]*배포[^<]*)<\/strong>/g;
   let match;
 
@@ -96,21 +126,22 @@ function getDistributionCharacters(blockHtml) {
       .trim();
 
     if (candidate) {
-      names.push(candidate);
+      distributions.push({
+        name: candidate,
+        characterId: null,
+        type: "배포",
+      });
     }
   }
 
-  return [...new Set(names)];
+  return [...new Map(distributions.map((distribution) => [distribution.name, distribution])).values()];
 }
 
-function getNeedsReview({ dateInfo, pickupType, rawTitle, distributionCharacters }) {
-  const hasMixedType = pickupType?.includes("/") ?? false;
-  const hasDistribution = distributionCharacters.length > 0;
-  const hasNoType = pickupType === null;
+function getNeedsReview({ dateInfo, characters }) {
+  const hasMissingCharacterType = characters.some((character) => character.type === null);
   const hasDateIssue = dateInfo.needsReview;
-  const hasMultipleGroups = rawTitle.includes("&");
 
-  return hasDateIssue || hasMixedType || hasDistribution || hasNoType || hasMultipleGroups;
+  return hasDateIssue || hasMissingCharacterType;
 }
 
 const entryPattern =
@@ -126,24 +157,21 @@ const candidates = matches.map((match, index) => {
   const blockEnd = nextMatch?.index ?? html.length;
   const blockHtml = html.slice(blockStart, blockEnd);
   const dateInfo = parseDateLabel(dateLabel);
-  const pickupCharacters = getPickupCharacters(rawTitle);
-  const distributionCharacters = getDistributionCharacters(blockHtml);
-  const pickupType = getPickupType(rawTitle);
+  const characters = getCharacters(rawTitle);
+  const distributions = getDistributions(blockHtml);
 
   return {
     weekLabel: dateInfo.weekLabel,
     startDate: dateInfo.startDate,
     endDate: dateInfo.endDate,
     title: getTitle(rawTitle),
-    pickupCharacters,
-    distributionCharacters,
-    pickupType,
+    bannerImageUrl: null,
+    characters,
+    distributions,
     source: sourceName,
     needsReview: getNeedsReview({
       dateInfo,
-      pickupType,
-      rawTitle,
-      distributionCharacters,
+      characters,
     }),
   };
 });
