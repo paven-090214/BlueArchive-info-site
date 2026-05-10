@@ -795,6 +795,72 @@ select {
   color: #27435d;
 }
 
+.terrain-aptitude-section {
+  margin-top: 18px;
+}
+
+.terrain-aptitude-section h3 {
+  margin-bottom: 10px;
+  font-size: 17px;
+}
+
+.terrain-aptitude-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.terrain-aptitude-card {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.terrain-image-placeholder {
+  display: grid;
+  place-items: end center;
+  min-height: 74px;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.terrain-image-placeholder.city {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.28) 1px, transparent 1px),
+    linear-gradient(145deg, #2d8fe3 0%, #657386 100%);
+  background-size: 16px 16px, auto;
+}
+
+.terrain-image-placeholder.outdoor {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.28) 0 28%, transparent 29%),
+    linear-gradient(150deg, #34a875 0%, #f4b84b 100%);
+}
+
+.terrain-image-placeholder.indoor {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.28) 1px, transparent 1px),
+    linear-gradient(150deg, #26344f 0%, #76aee8 100%);
+  background-size: 20px 20px, auto;
+}
+
+.terrain-aptitude-card strong,
+.terrain-aptitude-card span {
+  display: block;
+}
+
+.terrain-aptitude-card span {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
 .character-detail-stack {
   display: grid;
   gap: 18px;
@@ -805,7 +871,10 @@ select {
 .student-level-panel,
 .character-stat-panel,
 .required-material-panel,
-.exclusive-weapon-panel {
+.exclusive-weapon-panel,
+.equipment-panel,
+.favorite-item-panel,
+.memorial-panel {
   min-height: auto;
 }
 
@@ -824,21 +893,24 @@ select {
 }
 
 .skill-card-body,
-.material-card {
+.material-card,
+.equipment-card {
   display: grid;
   grid-template-columns: 58px minmax(0, 1fr);
   gap: 12px;
   align-items: center;
 }
 
-.material-card {
+.material-card,
+.equipment-card {
   padding: 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface-soft);
 }
 
-.skill-title-row {
+.skill-title-row,
+.equipment-title-row {
   display: flex;
   align-items: start;
   justify-content: space-between;
@@ -846,18 +918,21 @@ select {
 }
 
 .skill-card h3,
-.material-card h3 {
+.material-card h3,
+.equipment-card h3 {
   margin-bottom: 5px;
   font-size: 16px;
 }
 
 .skill-card p,
-.material-card p {
+.material-card p,
+.equipment-card p {
   margin-bottom: 0;
   font-size: 14px;
 }
 
-.skill-level-select {
+.skill-level-select,
+.equipment-tier-select {
   flex: 0 0 auto;
   min-height: 36px;
   padding-block: 6px;
@@ -867,14 +942,17 @@ select {
 }
 
 .skill-level-select:focus,
-.student-level-control input:focus {
+.equipment-tier-select:focus,
+.student-level-control input:focus,
+.star-button:focus {
   border-color: var(--blue);
   outline: 3px solid rgba(45, 143, 227, 0.16);
 }
 
 .skill-icon-placeholder,
 .material-image-placeholder,
-.weapon-image-placeholder {
+.weapon-image-placeholder,
+.equipment-icon-placeholder {
   display: grid;
   place-items: center;
   border-radius: 8px;
@@ -886,9 +964,28 @@ select {
 }
 
 .skill-icon-placeholder,
-.material-image-placeholder {
+.material-image-placeholder,
+.equipment-icon-placeholder {
   width: 58px;
   height: 58px;
+}
+
+.blueprint-placeholder {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.34) 0 38%, transparent 39%),
+    linear-gradient(150deg, #76aee8 0%, #2d8fe3 100%);
+}
+
+.gift-placeholder,
+.favorite-icon-placeholder {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.34) 0 38%, transparent 39%),
+    linear-gradient(150deg, #f37ca5 0%, #f4b84b 100%);
+}
+
+.growth-setting-grid {
+  display: grid;
+  gap: 16px;
 }
 
 .student-level-control {
@@ -924,8 +1021,54 @@ select {
   padding: 0;
 }
 
-.stat-grid,
-.weapon-effect-list {
+.star-setting-group {
+  display: block;
+}
+
+.star-button-row,
+.weapon-star-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  align-items: center;
+}
+
+.star-button {
+  display: grid;
+  place-items: center;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #b5c0cc;
+  font: inherit;
+  font-size: 21px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.student-star.is-active {
+  border-color: #efaa2f;
+  background: #fff6dd;
+  color: var(--yellow);
+}
+
+.weapon-star.is-active,
+.weapon-rank-star.is-active {
+  border-color: #66a4df;
+  background: #edf6ff;
+  color: #2d8fe3;
+}
+
+.equipment-list,
+.weapon-effect-card-list {
+  display: grid;
+  gap: 12px;
+}
+
+.stat-grid {
   display: grid;
   gap: 10px;
   margin: 0;
@@ -935,16 +1078,37 @@ select {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.stat-grid div,
-.weapon-effect-list div {
+.stat-grid div {
   padding: 13px 14px;
   border-radius: 8px;
   background: var(--surface-soft);
 }
 
-.stat-grid dd,
-.weapon-effect-list dd {
+.stat-grid dd {
   color: #27435d;
+}
+
+.memorial-placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 280px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.42) 0 24%, transparent 25%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.25) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.25) 1px, transparent 1px),
+    linear-gradient(145deg, #26344f 0%, #2d8fe3 52%, #f37ca5 100%);
+  background-size:
+    auto,
+    36px 36px,
+    36px 36px,
+    auto;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 900;
+  text-shadow: 0 3px 14px rgba(0, 0, 0, 0.26);
 }
 
 .material-list {
@@ -970,6 +1134,27 @@ select {
   font-size: 34px;
 }
 
+.weapon-star-row {
+  margin: 8px 0 12px;
+}
+
+.weapon-rank-star {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #b5c0cc;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.weapon-effect-card {
+  background: #ffffff;
+}
+
 @media (max-width: 900px) {
   .main-grid {
     grid-template-columns: 1fr;
@@ -989,6 +1174,11 @@ select {
 
   .stat-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .terrain-aptitude-list {
+    grid-template-columns: repeat(3, minmax(110px, 1fr));
+    overflow-x: auto;
   }
 
   .panel {
@@ -1093,13 +1283,25 @@ select {
     grid-template-columns: 1fr;
   }
 
-  .skill-card-body {
+  .terrain-aptitude-list,
+  .star-setting-group {
+    grid-template-columns: 1fr;
+  }
+
+  .skill-card-body,
+  .equipment-card {
     grid-template-columns: 48px minmax(0, 1fr);
   }
 
-  .skill-icon-placeholder {
+  .skill-icon-placeholder,
+  .equipment-icon-placeholder {
     width: 48px;
     height: 48px;
+  }
+
+  .equipment-title-row {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .student-level-control {
