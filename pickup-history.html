@@ -13,18 +13,16 @@
         <span class="logo-text">BlueArchive Info Site</span>
       </a>
 
-      <div class="student-search" role="search">
-        <label class="search-label" for="student-search-input">학생 검색</label>
+      <div class="student-search" role="search" aria-label="통합검색">
+        <label class="search-label" for="site-search-input">통합검색</label>
         <input
-          id="student-search-input"
+          id="site-search-input"
           class="student-search-input"
           type="search"
-          placeholder="학생 이름 검색"
+          placeholder="통합검색"
           autocomplete="off"
-          aria-controls="student-suggestions"
           aria-expanded="false"
         />
-        <div id="student-suggestions" class="student-suggestions" hidden></div>
       </div>
     </header>
 
@@ -55,8 +53,6 @@
 
       const pickupHistoryList = document.querySelector("#pickup-history-list");
       const pickupHistoryPaginations = document.querySelectorAll(".pickup-history-pagination");
-      const searchInput = document.querySelector("#student-search-input");
-      const suggestionPanel = document.querySelector("#student-suggestions");
       const weeksPerPage = 20;
       const visiblePageButtonCount = 5;
 
@@ -79,6 +75,7 @@
             endDate: schedule.endDate,
             title: schedule.title,
             bannerImageUrl: schedule.bannerImageUrl ?? null,
+            status: schedule.status ?? null,
             needsReview: schedule.needsReview,
             character,
           })),
@@ -88,6 +85,37 @@
       function getWeekNumber(weekLabel) {
         const match = String(weekLabel || "").match(/\d+/);
         return match ? Number(match[0]) : null;
+      }
+
+      function parseDate(value) {
+        const date = new Date(`${value}T00:00:00`);
+        return Number.isNaN(date.getTime()) ? null : date;
+      }
+
+      function getPickupStatus(pickup) {
+        if (pickup.status) {
+          return pickup.status;
+        }
+
+        const startDate = parseDate(pickup.startDate);
+        const endDate = parseDate(pickup.endDate);
+
+        if (!startDate || !endDate) {
+          return null;
+        }
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (today >= startDate && today <= endDate) {
+          return "진행중";
+        }
+
+        if (today < startDate) {
+          return "예정";
+        }
+
+        return "종료";
       }
 
       function createWeekRanges(cards) {
@@ -175,26 +203,23 @@
         const isLastGroup = visibleRanges.at(-1)?.page === ranges.length;
 
         pickupHistoryPaginations.forEach((pagination) => {
-          const paginationItems = [
-            ...visibleRanges.map((range) => createRangeButton(range, range.page === activePage)),
-          ];
+          const prevGroupButton = createPaginationControl("<<", "prev-group", "이전 주차 범위 묶음");
+          prevGroupButton.disabled = isFirstGroup;
 
-          if (!isFirstPage) {
-            paginationItems.unshift(createPaginationControl("<", "prev-page", "이전 주차 범위"));
-          }
+          const prevPageButton = createPaginationControl("<", "prev-page", "이전 주차 범위");
+          prevPageButton.disabled = isFirstPage;
 
-          if (!isFirstGroup) {
-            paginationItems.unshift(createPaginationControl("<<", "prev-group", "이전 주차 범위 묶음"));
-          }
+          const nextPageButton = createPaginationControl(">", "next-page", "다음 주차 범위");
+          nextPageButton.disabled = isLastPage;
 
-          if (!isLastPage) {
-            paginationItems.push(createPaginationControl(">", "next-page", "다음 주차 범위"));
-          }
+          const nextGroupButton = createPaginationControl(">>", "next-group", "다음 주차 범위 묶음");
+          nextGroupButton.disabled = isLastGroup;
 
-          if (!isLastGroup) {
-            paginationItems.push(createPaginationControl(">>", "next-group", "다음 주차 범위 묶음"));
-          }
+          const rangeGroup = document.createElement("div");
+          rangeGroup.className = "pickup-history-range-group";
+          rangeGroup.append(...visibleRanges.map((range) => createRangeButton(range, range.page === activePage)));
 
+          const paginationItems = [prevGroupButton, prevPageButton, rangeGroup, nextPageButton, nextGroupButton];
           pagination.hidden = ranges.length <= 1;
           pagination.replaceChildren(...paginationItems);
         });
@@ -202,6 +227,7 @@
 
       function getPaginationActionPage(action, activePage, totalPages) {
         const currentGroupIndex = Math.floor((activePage - 1) / visiblePageButtonCount);
+        const currentGroupStart = currentGroupIndex * visiblePageButtonCount + 1;
 
         if (action === "prev-page") {
           return Math.max(activePage - 1, 1);
@@ -212,11 +238,11 @@
         }
 
         if (action === "prev-group") {
-          return Math.max((currentGroupIndex - 1) * visiblePageButtonCount + 1, 1);
+          return Math.max(currentGroupStart - visiblePageButtonCount, 1);
         }
 
         if (action === "next-group") {
-          return Math.min((currentGroupIndex + 1) * visiblePageButtonCount + 1, totalPages);
+          return Math.min(currentGroupStart + visiblePageButtonCount, totalPages);
         }
 
         return activePage;
@@ -256,6 +282,20 @@
         title.textContent = pickup.weekLabel || "주차 미정";
 
         header.append(title);
+
+        const status = getPickupStatus(pickup);
+        if (status) {
+          const statusBadge = document.createElement("span");
+          statusBadge.className = `pickup-status ${
+            status === "진행중"
+              ? "is-current"
+              : status === "종료"
+                ? "is-ended"
+                : "is-upcoming"
+          }`;
+          statusBadge.textContent = status;
+          header.append(statusBadge);
+        }
 
         if (pickup.needsReview) {
           const reviewBadge = document.createElement("span");
@@ -313,23 +353,6 @@
         return item;
       }
 
-      function createSuggestionItem(student) {
-        const link = document.createElement("a");
-        link.className = "student-suggestion-item";
-        link.href = `character-detail.html?id=${student.id}`;
-
-        const image = document.createElement("span");
-        image.className = "student-image-placeholder";
-        image.setAttribute("aria-hidden", "true");
-        image.textContent = student.name.slice(0, 1);
-
-        const name = document.createElement("span");
-        name.textContent = student.name;
-
-        link.append(image, name);
-        return link;
-      }
-
       function showEmptyMessage(message) {
         const emptyMessage = document.createElement("p");
         emptyMessage.className = "pickup-history-empty";
@@ -356,6 +379,10 @@
                 return;
               }
 
+              if (button.disabled) {
+                return;
+              }
+
               const currentPage = Number(pickupHistoryList.dataset.activePage || 1);
               const nextPage = button.dataset.page
                 ? Number(button.dataset.page)
@@ -373,30 +400,6 @@
         showEmptyMessage(error.message);
       }
 
-      searchInput.addEventListener("input", () => {
-        const keyword = searchInput.value.trim();
-        suggestionPanel.replaceChildren();
-
-        if (!keyword) {
-          suggestionPanel.hidden = true;
-          searchInput.setAttribute("aria-expanded", "false");
-          return;
-        }
-
-        const matches = students.filter((student) => student.name.includes(keyword));
-
-        if (matches.length === 0) {
-          const emptyMessage = document.createElement("p");
-          emptyMessage.className = "search-empty";
-          emptyMessage.textContent = "검색 결과가 없습니다.";
-          suggestionPanel.append(emptyMessage);
-        } else {
-          suggestionPanel.append(...matches.map(createSuggestionItem));
-        }
-
-        suggestionPanel.hidden = false;
-        searchInput.setAttribute("aria-expanded", "true");
-      });
     </script>
   </body>
 </html>

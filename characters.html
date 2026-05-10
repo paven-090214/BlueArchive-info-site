@@ -13,18 +13,16 @@
         <span class="logo-text">BlueArchive Info Site</span>
       </a>
 
-      <div class="student-search" role="search">
-        <label class="search-label" for="student-search-input">학생 검색</label>
+      <div class="student-search" role="search" aria-label="통합검색">
+        <label class="search-label" for="site-search-input">통합검색</label>
         <input
-          id="student-search-input"
+          id="site-search-input"
           class="student-search-input"
           type="search"
-          placeholder="학생 이름 검색"
+          placeholder="통합검색"
           autocomplete="off"
-          aria-controls="student-suggestions"
           aria-expanded="false"
         />
-        <div id="student-suggestions" class="student-suggestions" hidden></div>
       </div>
     </header>
 
@@ -34,6 +32,17 @@
           <div class="panel-heading">
             <p class="eyebrow">FILTER</p>
             <h2>필터</h2>
+          </div>
+
+          <div class="character-search">
+            <label class="character-search-label" for="character-name-search">학생 이름 검색</label>
+            <input
+              id="character-name-search"
+              class="character-search-input"
+              type="search"
+              placeholder="학생 이름 검색"
+              autocomplete="off"
+            />
           </div>
 
           <form class="character-filter-form" id="character-filter-form">
@@ -107,8 +116,7 @@
       const attackFilter = document.querySelector("#attack-filter");
       const defenseFilter = document.querySelector("#defense-filter");
       const roleFilter = document.querySelector("#role-filter");
-      const searchInput = document.querySelector("#student-search-input");
-      const suggestionPanel = document.querySelector("#student-suggestions");
+      const nameSearchInput = document.querySelector("#character-name-search");
 
       function getAcademyName(slug) {
         return academies.find((academy) => academy.slug === slug)?.shortName || "임시 학원";
@@ -237,6 +245,7 @@
 
       function renderCharacters() {
         const filterValues = {
+          nameKeyword: nameSearchInput.value.trim(),
           academySlug: academyFilter.value,
           clubId: clubFilter.value,
           rarity: rarityFilter.value,
@@ -247,6 +256,7 @@
 
         const filteredStudents = students.filter((student) => {
           return (
+            (!filterValues.nameKeyword || student.name.includes(filterValues.nameKeyword)) &&
             (!filterValues.academySlug || student.academySlug === filterValues.academySlug) &&
             (!filterValues.clubId || student.clubId === filterValues.clubId) &&
             (!filterValues.rarity || String(student.rarity) === filterValues.rarity) &&
@@ -267,23 +277,6 @@
         charactersList.replaceChildren(...filteredStudents.map(createCharacterCard));
       }
 
-      function createSuggestionItem(student) {
-        const link = document.createElement("a");
-        link.className = "student-suggestion-item";
-        link.href = `character-detail.html?id=${student.id}`;
-
-        const image = document.createElement("span");
-        image.className = "student-image-placeholder";
-        image.setAttribute("aria-hidden", "true");
-        image.textContent = student.name.slice(0, 1);
-
-        const name = document.createElement("span");
-        name.textContent = student.name;
-
-        link.append(image, name);
-        return link;
-      }
-
       addAcademyOptions();
       addClubOptions();
       addOptions(attackFilter, [...new Set(students.map((student) => student.attackType))]);
@@ -295,34 +288,10 @@
         renderCharacters();
       });
 
+      nameSearchInput.addEventListener("input", renderCharacters);
       filterForm.addEventListener("change", renderCharacters);
 
       renderCharacters();
-
-      searchInput.addEventListener("input", () => {
-        const keyword = searchInput.value.trim();
-        suggestionPanel.replaceChildren();
-
-        if (!keyword) {
-          suggestionPanel.hidden = true;
-          searchInput.setAttribute("aria-expanded", "false");
-          return;
-        }
-
-        const matches = students.filter((student) => student.name.includes(keyword));
-
-        if (matches.length === 0) {
-          const emptyMessage = document.createElement("p");
-          emptyMessage.className = "search-empty";
-          emptyMessage.textContent = "검색 결과가 없습니다.";
-          suggestionPanel.append(emptyMessage);
-        } else {
-          suggestionPanel.append(...matches.map(createSuggestionItem));
-        }
-
-        suggestionPanel.hidden = false;
-        searchInput.setAttribute("aria-expanded", "true");
-      });
     </script>
   </body>
 </html>

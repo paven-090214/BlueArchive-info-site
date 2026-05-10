@@ -13,18 +13,16 @@
         <span class="logo-text">BlueArchive Info Site</span>
       </a>
 
-      <div class="student-search" role="search">
-        <label class="search-label" for="student-search-input">학생 검색</label>
+      <div class="student-search" role="search" aria-label="통합검색">
+        <label class="search-label" for="site-search-input">통합검색</label>
         <input
-          id="student-search-input"
+          id="site-search-input"
           class="student-search-input"
           type="search"
-          placeholder="학생 이름 검색"
+          placeholder="통합검색"
           autocomplete="off"
-          aria-controls="student-suggestions"
           aria-expanded="false"
         />
-        <div id="student-suggestions" class="student-suggestions" hidden></div>
       </div>
     </header>
 
@@ -51,25 +49,7 @@
             <h2>진행 중인 픽업 캐릭터</h2>
           </div>
 
-          <div class="character-list">
-            <article class="character-card">
-              <div class="character-portrait aru">아루</div>
-              <div>
-                <h3>아루</h3>
-                <p>게헨나 학원 · 흥신소 68</p>
-                <span class="tag">딜러</span>
-              </div>
-            </article>
-
-            <article class="character-card">
-              <div class="character-portrait hifumi">히후미</div>
-              <div>
-                <h3>히후미</h3>
-                <p>트리니티 종합학원 · 보충수업부</p>
-                <span class="tag">서포터</span>
-              </div>
-            </article>
-          </div>
+          <div id="current-pickup-list" class="character-list" aria-live="polite"></div>
         </article>
 
         <article class="panel event-panel">
@@ -133,14 +113,125 @@
 
       const academyToggle = document.querySelector(".academy-toggle");
       const academyPanel = document.querySelector("#academy-panel");
-      const searchInput = document.querySelector("#student-search-input");
-      const suggestionPanel = document.querySelector("#student-suggestions");
-
+      const currentPickupList = document.querySelector("#current-pickup-list");
       academyToggle.addEventListener("click", () => {
         const isOpen = academyToggle.getAttribute("aria-expanded") === "true";
         academyToggle.setAttribute("aria-expanded", String(!isOpen));
         academyPanel.hidden = isOpen;
       });
+
+      function parseDate(value) {
+        const date = new Date(`${value}T00:00:00`);
+        return Number.isNaN(date.getTime()) ? null : date;
+      }
+
+      function getToday() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return today;
+      }
+
+      function getPickupStatus(pickup) {
+        if (pickup.status) {
+          return pickup.status;
+        }
+
+        const startDate = parseDate(pickup.startDate);
+        const endDate = parseDate(pickup.endDate);
+
+        if (!startDate || !endDate) {
+          return null;
+        }
+
+        const today = getToday();
+
+        if (today >= startDate && today <= endDate) {
+          return "진행중";
+        }
+
+        if (today < startDate) {
+          return "예정";
+        }
+
+        return "종료";
+      }
+
+      function isCurrentPickup(pickup) {
+        const status = getPickupStatus(pickup);
+        return status === "진행중";
+      }
+
+      function createPickupCharacterCard(pickup, character) {
+        const card = document.createElement("article");
+        card.className = "character-card";
+
+        const portrait = document.createElement("div");
+        portrait.className = "character-portrait pickup-current-portrait";
+        const imageUrl = character.imageUrl || pickup.bannerImageUrl;
+
+        if (imageUrl) {
+          const image = document.createElement("img");
+          image.src = imageUrl;
+          image.alt = `${character.name} 픽업 이미지`;
+          image.loading = "lazy";
+          portrait.append(image);
+        } else {
+          portrait.textContent = character.name;
+        }
+
+        const body = document.createElement("div");
+        const name = document.createElement("h3");
+        name.textContent = character.name;
+
+        const title = document.createElement("p");
+        title.textContent = pickup.title;
+
+        const period = document.createElement("p");
+        period.textContent = `${pickup.startDate} ~ ${pickup.endDate}`;
+
+        const status = document.createElement("span");
+        status.className = "tag";
+        status.textContent = getPickupStatus(pickup) || "상태 미정";
+
+        body.append(name, title, period, status);
+        card.append(portrait, body);
+        return card;
+      }
+
+      async function renderCurrentPickups() {
+        if (!currentPickupList) {
+          return;
+        }
+
+        try {
+          const response = await fetch("./data/pickups.json");
+          if (!response.ok) {
+            throw new Error("진행 중인 픽업 데이터를 불러오지 못했습니다.");
+          }
+
+          const schedules = await response.json();
+          const currentSchedules = schedules.filter(isCurrentPickup);
+
+          if (currentSchedules.length === 0) {
+            const empty = document.createElement("p");
+            empty.className = "pickup-history-empty";
+            empty.textContent = "현재 진행 중인 픽업 정보가 없습니다.";
+            currentPickupList.replaceChildren(empty);
+            return;
+          }
+
+          const cards = currentSchedules.flatMap((schedule) =>
+            schedule.characters.map((character) => createPickupCharacterCard(schedule, character)),
+          );
+
+          currentPickupList.replaceChildren(...cards);
+        } catch (error) {
+          const empty = document.createElement("p");
+          empty.className = "pickup-history-empty";
+          empty.textContent = error.message;
+          currentPickupList.replaceChildren(empty);
+        }
+      }
 
       function createAcademyCard(academy) {
         const link = document.createElement("a");
@@ -180,48 +271,8 @@
       }
 
       academyPanel.append(...academies.map(createAcademyCard));
+      renderCurrentPickups();
 
-      function createSuggestionItem(student) {
-        const link = document.createElement("a");
-        link.className = "student-suggestion-item";
-        link.href = `character-detail.html?id=${student.id}`;
-
-        const image = document.createElement("span");
-        image.className = "student-image-placeholder";
-        image.setAttribute("aria-hidden", "true");
-        image.textContent = student.name.slice(0, 1);
-
-        const name = document.createElement("span");
-        name.textContent = student.name;
-
-        link.append(image, name);
-        return link;
-      }
-
-      searchInput.addEventListener("input", () => {
-        const keyword = searchInput.value.trim();
-        suggestionPanel.replaceChildren();
-
-        if (!keyword) {
-          suggestionPanel.hidden = true;
-          searchInput.setAttribute("aria-expanded", "false");
-          return;
-        }
-
-        const matches = students.filter((student) => student.name.includes(keyword));
-
-        if (matches.length === 0) {
-          const emptyMessage = document.createElement("p");
-          emptyMessage.className = "search-empty";
-          emptyMessage.textContent = "검색 결과가 없습니다.";
-          suggestionPanel.append(emptyMessage);
-        } else {
-          suggestionPanel.append(...matches.map(createSuggestionItem));
-        }
-
-        suggestionPanel.hidden = false;
-        searchInput.setAttribute("aria-expanded", "true");
-      });
     </script>
   </body>
 </html>

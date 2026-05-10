@@ -413,6 +413,35 @@ p {
   min-height: auto;
 }
 
+.character-search {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.character-search-label {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.character-search-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--text);
+  font: inherit;
+  box-shadow: 0 8px 20px rgba(29, 65, 99, 0.07);
+}
+
+.character-search-input:focus {
+  border-color: var(--blue);
+  outline: 3px solid rgba(45, 143, 227, 0.16);
+}
+
 .character-filter-form {
   display: grid;
   gap: 14px;
@@ -454,15 +483,24 @@ p {
 }
 
 .pickup-history-pagination {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto auto;
   gap: 8px;
   justify-content: center;
+  align-items: center;
   margin: 0 0 16px;
 }
 
 .pickup-history-pagination-bottom {
   margin: 16px 0 0;
+}
+
+.pickup-history-range-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
 }
 
 .pickup-history-page-button {
@@ -480,10 +518,21 @@ p {
   min-width: 42px;
 }
 
+.pickup-history-control-button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
 .pickup-history-page-button:hover,
 .pickup-history-page-button:focus {
   border-color: var(--blue);
   color: var(--blue-dark);
+}
+
+.pickup-history-control-button:disabled:hover,
+.pickup-history-control-button:disabled:focus {
+  border-color: var(--line);
+  color: #27435d;
 }
 
 .pickup-history-page-button.is-active {
@@ -793,6 +842,18 @@ p {
   background:
     linear-gradient(145deg, transparent 0 48%, rgba(255, 255, 255, 0.35) 49% 55%, transparent 56%),
     linear-gradient(160deg, #76aee8 0%, #f0a9bf 56%, #ffffff 100%);
+}
+
+.pickup-current-portrait {
+  background:
+    linear-gradient(145deg, transparent 0 48%, rgba(255, 255, 255, 0.3) 49% 55%, transparent 56%),
+    linear-gradient(160deg, #2d8fe3 0%, #34a875 56%, #f4b84b 100%);
+}
+
+.pickup-current-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .tag {
@@ -1680,6 +1741,10 @@ select {
   .student-suggestions {
     left: 0;
     right: auto;
+  }
+
+  .pickup-history-pagination {
+    grid-template-columns: auto auto minmax(0, 1fr) auto auto;
   }
 
   .page-shell {

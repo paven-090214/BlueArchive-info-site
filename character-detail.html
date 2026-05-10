@@ -13,18 +13,16 @@
         <span class="logo-text">BlueArchive Info Site</span>
       </a>
 
-      <div class="student-search" role="search">
-        <label class="search-label" for="student-search-input">학생 검색</label>
+      <div class="student-search" role="search" aria-label="통합검색">
+        <label class="search-label" for="site-search-input">통합검색</label>
         <input
-          id="student-search-input"
+          id="site-search-input"
           class="student-search-input"
           type="search"
-          placeholder="학생 이름 검색"
+          placeholder="통합검색"
           autocomplete="off"
-          aria-controls="student-suggestions"
           aria-expanded="false"
         />
-        <div id="student-suggestions" class="student-suggestions" hidden></div>
       </div>
     </header>
 
@@ -532,8 +530,6 @@
     <script type="module">
       import { academies, students } from "./data/index.js";
 
-      const searchInput = document.querySelector("#student-search-input");
-      const suggestionPanel = document.querySelector("#student-suggestions");
       const characterProfileMark = document.querySelector("#character-profile-mark");
       const characterProfileName = document.querySelector("#character-profile-name");
       const characterProfileDescription = document.querySelector("#character-profile-description");
@@ -586,48 +582,6 @@
       }
 
       renderStudentDetail(selectedStudent);
-
-      function createSuggestionItem(student) {
-        const link = document.createElement("a");
-        link.className = "student-suggestion-item";
-        link.href = `character-detail.html?id=${student.id}`;
-
-        const image = document.createElement("span");
-        image.className = "student-image-placeholder";
-        image.setAttribute("aria-hidden", "true");
-        image.textContent = student.name.slice(0, 1);
-
-        const name = document.createElement("span");
-        name.textContent = student.name;
-
-        link.append(image, name);
-        return link;
-      }
-
-      searchInput.addEventListener("input", () => {
-        const keyword = searchInput.value.trim();
-        suggestionPanel.replaceChildren();
-
-        if (!keyword) {
-          suggestionPanel.hidden = true;
-          searchInput.setAttribute("aria-expanded", "false");
-          return;
-        }
-
-        const matches = students.filter((student) => student.name.includes(keyword));
-
-        if (matches.length === 0) {
-          const emptyMessage = document.createElement("p");
-          emptyMessage.className = "search-empty";
-          emptyMessage.textContent = "검색 결과가 없습니다.";
-          suggestionPanel.append(emptyMessage);
-        } else {
-          suggestionPanel.append(...matches.map(createSuggestionItem));
-        }
-
-        suggestionPanel.hidden = false;
-        searchInput.setAttribute("aria-expanded", "true");
-      });
 
       function syncStudentLevel(value) {
         const normalizedLevel = Math.min(90, Math.max(1, Number(value) || 1));
