@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>학생 목록 | BlueArchive Info Site</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="logo" href="./index.html" aria-label="메인 페이지로 이동">
+        <span class="logo-mark">BA</span>
+        <span class="logo-text">BlueArchive Info Site</span>
+      </a>
+
+      <div class="student-search" role="search">
+        <label class="search-label" for="student-search-input">학생 검색</label>
+        <input
+          id="student-search-input"
+          class="student-search-input"
+          type="search"
+          placeholder="학생 이름 검색"
+          autocomplete="off"
+          aria-controls="student-suggestions"
+          aria-expanded="false"
+        />
+        <div id="student-suggestions" class="student-suggestions" hidden></div>
+      </div>
+    </header>
+
+    <main class="page-shell characters-shell">
+      <div class="characters-layout">
+        <aside class="panel character-filter-panel" aria-label="학생 목록 필터">
+          <div class="panel-heading">
+            <p class="eyebrow">FILTER</p>
+            <h2>필터</h2>
+          </div>
+
+          <form class="character-filter-form" id="character-filter-form">
+            <label>
+              학원
+              <select id="academy-filter" name="academy">
+                <option value="">전체</option>
+              </select>
+            </label>
+
+            <label>
+              동아리
+              <select id="club-filter" name="club">
+                <option value="">전체</option>
+              </select>
+            </label>
+
+            <label>
+              <span class="filter-star-label" aria-label="성급">★</span>
+              <select id="rarity-filter" name="rarity">
+                <option value="">전체</option>
+                <option value="1">1성</option>
+                <option value="2">2성</option>
+                <option value="3">3성</option>
+              </select>
+            </label>
+
+            <label>
+              공격 타입
+              <select id="attack-filter" name="attackType">
+                <option value="">전체</option>
+              </select>
+            </label>
+
+            <label>
+              방어 타입
+              <select id="defense-filter" name="defenseType">
+                <option value="">전체</option>
+              </select>
+            </label>
+
+            <label>
+              역할
+              <select id="role-filter" name="role">
+                <option value="">전체</option>
+              </select>
+            </label>
+          </form>
+        </aside>
+
+        <section class="panel characters-panel" aria-label="전체 학생 목록">
+          <div class="panel-heading">
+            <p class="eyebrow">STUDENTS</p>
+            <h1>학생 목록</h1>
+            <p>현재는 임시 학생 데이터로 카드와 필터만 표시합니다. 실제 DB 연동은 이후 단계에서 진행합니다.</p>
+          </div>
+
+          <div id="characters-list" class="characters-list"></div>
+        </section>
+      </div>
+    </main>
+
+    <script type="module">
+      import { academies, clubs, students } from "./data/index.js";
+
+      const charactersList = document.querySelector("#characters-list");
+      const filterForm = document.querySelector("#character-filter-form");
+      const academyFilter = document.querySelector("#academy-filter");
+      const clubFilter = document.querySelector("#club-filter");
+      const rarityFilter = document.querySelector("#rarity-filter");
+      const attackFilter = document.querySelector("#attack-filter");
+      const defenseFilter = document.querySelector("#defense-filter");
+      const roleFilter = document.querySelector("#role-filter");
+      const searchInput = document.querySelector("#student-search-input");
+      const suggestionPanel = document.querySelector("#student-suggestions");
+
+      function getAcademyName(slug) {
+        return academies.find((academy) => academy.slug === slug)?.shortName || "임시 학원";
+      }
+
+      function getClubName(clubId) {
+        return clubs.find((club) => club.id === clubId)?.name || "임시 동아리";
+      }
+
+      function createCharacterCard(student) {
+        const link = document.createElement("a");
+        link.className = "student-list-card";
+        link.href = `character-detail.html?id=${student.id}`;
+
+        const portrait = document.createElement("div");
+        portrait.className = `student-list-portrait ${student.portraitClass || "aru"}`;
+        portrait.textContent = student.name;
+
+        const content = document.createElement("div");
+        content.className = "student-list-card-content";
+
+        const titleRow = document.createElement("div");
+        titleRow.className = "student-list-title-row";
+        const name = document.createElement("h3");
+        const rarity = document.createElement("span");
+        rarity.className = "student-rarity";
+        rarity.setAttribute("aria-label", `${student.rarity}성`);
+        rarity.textContent = "★".repeat(student.rarity);
+
+        const club = document.createElement("p");
+        club.className = "student-list-club";
+        club.textContent = `${getAcademyName(student.academySlug)} · ${getClubName(student.clubId)}`;
+
+        const detailList = document.createElement("dl");
+        detailList.className = "student-id-detail-list";
+
+        const roleItem = createTextDetail("역할", student.role);
+        const attackItem = createBadgeDetail("공격 타입", student.attackType, "attack");
+        const defenseItem = createBadgeDetail("방어 타입", student.defenseType, "defense");
+
+        name.textContent = student.name;
+        titleRow.append(name, rarity);
+
+        detailList.append(roleItem, attackItem, defenseItem);
+
+        content.append(titleRow, club, detailList);
+        link.append(portrait, content);
+        return link;
+      }
+
+      function createTextDetail(label, value) {
+        const item = document.createElement("div");
+        const term = document.createElement("dt");
+        const description = document.createElement("dd");
+        term.textContent = label;
+        description.textContent = value;
+        item.append(term, description);
+        return item;
+      }
+
+      function createBadgeDetail(label, value, type) {
+        const item = document.createElement("div");
+        const term = document.createElement("dt");
+        const description = document.createElement("dd");
+        const badge = document.createElement("span");
+        term.textContent = label;
+        badge.className = `type-badge ${type}-${getTypeClass(value)}`;
+        badge.textContent = value;
+        description.append(badge);
+        item.append(term, description);
+        return item;
+      }
+
+      function getTypeClass(value) {
+        const typeMap = {
+          폭발: "red",
+          경장갑: "red",
+          관통: "yellow",
+          중장갑: "yellow",
+          신비: "blue",
+          특수장갑: "blue",
+          진동: "purple",
+          탄력장갑: "purple",
+        };
+
+        return typeMap[value] || "neutral";
+      }
+
+      function addOptions(select, values) {
+        values.forEach((value) => {
+          const option = document.createElement("option");
+          option.value = value;
+          option.textContent = value;
+          select.append(option);
+        });
+      }
+
+      function addAcademyOptions() {
+        academies.forEach((academy) => {
+          const option = document.createElement("option");
+          option.value = academy.slug;
+          option.textContent = academy.shortName;
+          academyFilter.append(option);
+        });
+      }
+
+      function addClubOptions(academySlug = "") {
+        const selectedClubValue = clubFilter.value;
+        const filteredClubs = academySlug
+          ? clubs.filter((club) => club.academySlug === academySlug)
+          : clubs;
+
+        clubFilter.replaceChildren(new Option("전체", ""));
+
+        filteredClubs.forEach((club) => {
+          const option = document.createElement("option");
+          option.value = club.id;
+          option.textContent = club.name;
+          clubFilter.append(option);
+        });
+
+        if ([...clubFilter.options].some((option) => option.value === selectedClubValue)) {
+          clubFilter.value = selectedClubValue;
+        }
+      }
+
+      function renderCharacters() {
+        const filterValues = {
+          academySlug: academyFilter.value,
+          clubId: clubFilter.value,
+          rarity: rarityFilter.value,
+          attackType: attackFilter.value,
+          defenseType: defenseFilter.value,
+          role: roleFilter.value,
+        };
+
+        const filteredStudents = students.filter((student) => {
+          return (
+            (!filterValues.academySlug || student.academySlug === filterValues.academySlug) &&
+            (!filterValues.clubId || student.clubId === filterValues.clubId) &&
+            (!filterValues.rarity || String(student.rarity) === filterValues.rarity) &&
+            (!filterValues.attackType || student.attackType === filterValues.attackType) &&
+            (!filterValues.defenseType || student.defenseType === filterValues.defenseType) &&
+            (!filterValues.role || student.role === filterValues.role)
+          );
+        });
+
+        if (filteredStudents.length === 0) {
+          const emptyMessage = document.createElement("p");
+          emptyMessage.className = "search-empty";
+          emptyMessage.textContent = "조건에 맞는 학생이 없습니다.";
+          charactersList.replaceChildren(emptyMessage);
+          return;
+        }
+
+        charactersList.replaceChildren(...filteredStudents.map(createCharacterCard));
+      }
+
+      function createSuggestionItem(student) {
+        const link = document.createElement("a");
+        link.className = "student-suggestion-item";
+        link.href = `character-detail.html?id=${student.id}`;
+
+        const image = document.createElement("span");
+        image.className = "student-image-placeholder";
+        image.setAttribute("aria-hidden", "true");
+        image.textContent = student.name.slice(0, 1);
+
+        const name = document.createElement("span");
+        name.textContent = student.name;
+
+        link.append(image, name);
+        return link;
+      }
+
+      addAcademyOptions();
+      addClubOptions();
+      addOptions(attackFilter, [...new Set(students.map((student) => student.attackType))]);
+      addOptions(defenseFilter, [...new Set(students.map((student) => student.defenseType))]);
+      addOptions(roleFilter, [...new Set(students.map((student) => student.role))]);
+
+      academyFilter.addEventListener("change", () => {
+        addClubOptions(academyFilter.value);
+        renderCharacters();
+      });
+
+      filterForm.addEventListener("change", renderCharacters);
+
+      renderCharacters();
+
+      searchInput.addEventListener("input", () => {
+        const keyword = searchInput.value.trim();
+        suggestionPanel.replaceChildren();
+
+        if (!keyword) {
+          suggestionPanel.hidden = true;
+          searchInput.setAttribute("aria-expanded", "false");
+          return;
+        }
+
+        const matches = students.filter((student) => student.name.includes(keyword));
+
+        if (matches.length === 0) {
+          const emptyMessage = document.createElement("p");
+          emptyMessage.className = "search-empty";
+          emptyMessage.textContent = "검색 결과가 없습니다.";
+          suggestionPanel.append(emptyMessage);
+        } else {
+          suggestionPanel.append(...matches.map(createSuggestionItem));
+        }
+
+        suggestionPanel.hidden = false;
+        searchInput.setAttribute("aria-expanded", "true");
+      });
+    </script>
+  </body>
+</html>

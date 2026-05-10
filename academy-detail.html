@@ -51,45 +51,7 @@
               <h2>동아리 목록</h2>
             </div>
 
-            <div class="club-list">
-              <details class="club-card" open>
-                <summary>
-                  <span>
-                    <strong>흥신소 68</strong>
-                    <small>의뢰를 받아 여러 일을 처리하는 문제 해결 동아리입니다.</small>
-                  </span>
-                </summary>
-                <div class="club-character-list">
-                  <a href="character-detail.html?id=3" class="club-character-item">
-                    <span class="student-image-placeholder" aria-hidden="true">아</span>
-                    <span>아루</span>
-                  </a>
-                  <a href="character-detail.html?id=7" class="club-character-item">
-                    <span class="student-image-placeholder" aria-hidden="true">무</span>
-                    <span>무츠키</span>
-                  </a>
-                </div>
-              </details>
-
-              <details class="club-card">
-                <summary>
-                  <span>
-                    <strong>선도부</strong>
-                    <small>학원 내 질서 유지와 사건 대응을 담당하는 동아리입니다.</small>
-                  </span>
-                </summary>
-                <div class="club-character-list">
-                  <a href="character-detail.html?id=8" class="club-character-item">
-                    <span class="student-image-placeholder" aria-hidden="true">히</span>
-                    <span>히나</span>
-                  </a>
-                  <a href="character-detail.html?id=9" class="club-character-item">
-                    <span class="student-image-placeholder" aria-hidden="true">이</span>
-                    <span>이오리</span>
-                  </a>
-                </div>
-              </details>
-            </div>
+            <div class="club-list" id="club-list"></div>
           </section>
         </div>
 
@@ -125,123 +87,85 @@
       </section>
     </main>
 
-    <script>
+    <script type="module">
+      import { academies, clubs, students } from "./data/index.js";
+
       const searchInput = document.querySelector("#student-search-input");
       const suggestionPanel = document.querySelector("#student-suggestions");
       const academyName = document.querySelector("#academy-name");
       const academyDescription = document.querySelector("#academy-description");
       const academyHeroMark = document.querySelector("#academy-hero-mark");
-
-      const temporaryStudents = [
-        { id: 1, name: "노아" },
-        { id: 2, name: "노아(파자마)" },
-        { id: 3, name: "아루" },
-        { id: 4, name: "히후미" },
-        { id: 5, name: "유우카" },
-        { id: 6, name: "시로코" },
-      ];
-
-      const temporaryAcademies = {
-        gehenna: {
-          name: "게헨나 학원",
-          mark: "G",
-          className: "gehenna-mark",
-          description:
-            "자유로운 분위기와 강한 개성을 가진 학생들이 모인 학원입니다. 실제 학원 소개 데이터는 추후 academies 테이블과 연결합니다.",
-        },
-        trinity: {
-          name: "트리니티 종합학원",
-          mark: "T",
-          className: "trinity-mark",
-          description:
-            "전통과 규율을 중시하는 대형 학원입니다. 현재는 임시 소개 문구와 placeholder만 표시합니다.",
-        },
-        millennium: {
-          name: "밀레니엄 사이언스 스쿨",
-          mark: "M",
-          className: "millennium-mark",
-          description:
-            "기술과 연구 중심의 학생들이 활동하는 학원입니다. 실제 로고와 설명은 DB 연동 단계에서 교체합니다.",
-        },
-        abydos: {
-          name: "아비도스 고등학교",
-          mark: "A",
-          className: "abydos-mark",
-          description:
-            "사막 지역에 위치한 소규모 학원입니다. 현재는 학원 상세 UI 확인을 위한 임시 데이터입니다.",
-        },
-        hyakkiyako: {
-          name: "백귀야행 연합학원",
-          mark: "H",
-          className: "hyakkiyako-mark",
-          description:
-            "전통과 축제 분위기를 가진 학원입니다. 실제 소개 문구와 로고는 academies 테이블에서 가져올 예정입니다.",
-        },
-        shanhaijing: {
-          name: "산해경 고급중학교",
-          mark: "S",
-          className: "shanhaijing-mark",
-          description:
-            "독자적인 문화와 학생 조직을 가진 학원입니다. 현재는 placeholder 기반 임시 소개를 표시합니다.",
-        },
-        redwinter: {
-          name: "붉은겨울 연방학원",
-          mark: "R",
-          className: "redwinter-mark",
-          description:
-            "혹한 지역을 배경으로 한 학원입니다. 실제 학원 설명은 추후 DB 연동 단계에서 교체합니다.",
-        },
-        valkyrie: {
-          name: "발키리 경찰학교",
-          mark: "V",
-          className: "valkyrie-mark",
-          description:
-            "치안과 수사를 담당하는 학생들이 소속된 학원입니다. 현재는 임시 데이터만 사용합니다.",
-        },
-        srt: {
-          name: "SRT 특수학원",
-          mark: "S",
-          className: "srt-mark",
-          description:
-            "특수 임무 수행을 위한 학생들이 모인 학원입니다. 로고와 설명은 아직 placeholder입니다.",
-        },
-        arius: {
-          name: "아리우스 분교",
-          mark: "A",
-          className: "arius-mark",
-          description:
-            "별도 배경을 가진 분교입니다. 현재 상세 페이지 레이아웃 확인용 임시 설명을 표시합니다.",
-        },
-        highlander: {
-          name: "하이랜더 철도학원",
-          mark: "H",
-          className: "highlander-mark",
-          description:
-            "철도와 관련된 임시 학원 소개 영역입니다. 추후 academies 테이블 값으로 대체합니다.",
-        },
-        wildhunt: {
-          name: "와일드헌트 예술학원",
-          mark: "W",
-          className: "wildhunt-mark",
-          description:
-            "예술 활동을 중심으로 한 학원입니다. 현재는 UI 구현을 위한 임시 데이터입니다.",
-        },
-        etc: {
-          name: "기타",
-          mark: "E",
-          className: "etc-mark",
-          description:
-            "아직 별도 학원으로 분류하지 않은 데이터를 위한 임시 항목입니다. 실제 데이터 구조는 추후 연결합니다.",
-        },
-      };
+      const clubList = document.querySelector("#club-list");
 
       const academyKey = new URLSearchParams(window.location.search).get("academy") || "gehenna";
-      const selectedAcademy = temporaryAcademies[academyKey] || temporaryAcademies.gehenna;
+      const selectedAcademy =
+        academies.find((academy) => academy.slug === academyKey) ||
+        academies.find((academy) => academy.slug === "gehenna");
 
       academyName.textContent = selectedAcademy.name;
       academyDescription.textContent = selectedAcademy.description;
       academyHeroMark.textContent = selectedAcademy.mark;
-      academyHeroMark.className = `academy-hero-placeholder ${selectedAcademy.className}`;
+      academyHeroMark.className = `academy-hero-placeholder ${selectedAcademy.logoClass}`;
+
+      function createClubCard(club, index) {
+        const details = document.createElement("details");
+        details.className = "club-card";
+        details.open = index === 0;
+
+        const summary = document.createElement("summary");
+        const summaryText = document.createElement("span");
+        const name = document.createElement("strong");
+        const description = document.createElement("small");
+        name.textContent = club.name;
+        description.textContent = club.description;
+        summaryText.append(name, description);
+        summary.append(summaryText);
+
+        const characterList = document.createElement("div");
+        characterList.className = "club-character-list";
+
+        const clubStudents = students.filter((student) => student.clubId === club.id);
+
+        if (clubStudents.length === 0) {
+          const emptyMessage = document.createElement("p");
+          emptyMessage.className = "search-empty";
+          emptyMessage.textContent = "표시할 학생 임시 데이터가 없습니다.";
+          characterList.append(emptyMessage);
+        } else {
+          characterList.append(...clubStudents.map(createClubStudentLink));
+        }
+
+        details.append(summary, characterList);
+        return details;
+      }
+
+      function createClubStudentLink(student) {
+        const link = document.createElement("a");
+        link.href = `character-detail.html?id=${student.id}`;
+        link.className = "club-character-item";
+
+        const image = document.createElement("span");
+        image.className = "student-image-placeholder";
+        image.setAttribute("aria-hidden", "true");
+        image.textContent = student.name.slice(0, 1);
+
+        const name = document.createElement("span");
+        name.textContent = student.name;
+
+        link.append(image, name);
+        return link;
+      }
+
+      const academyClubs = clubs.filter((club) => club.academySlug === selectedAcademy.slug);
+
+      if (academyClubs.length === 0) {
+        const emptyMessage = document.createElement("p");
+        emptyMessage.className = "search-empty";
+        emptyMessage.textContent = "표시할 동아리 임시 데이터가 없습니다.";
+        clubList.replaceChildren(emptyMessage);
+      } else {
+        clubList.replaceChildren(...academyClubs.map(createClubCard));
+      }
 
       function createSuggestionItem(student) {
         const link = document.createElement("a");
@@ -270,7 +194,7 @@
           return;
         }
 
-        const matches = temporaryStudents.filter((student) => student.name.includes(keyword));
+        const matches = students.filter((student) => student.name.includes(keyword));
 
         if (matches.length === 0) {
           const emptyMessage = document.createElement("p");

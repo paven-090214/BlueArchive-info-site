@@ -30,68 +30,18 @@
 
     <main class="page-shell">
       <nav class="academy-menu" aria-label="학원 메뉴">
-        <button
-          class="academy-toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="academy-panel"
-        >
-          학원
-        </button>
-        <div id="academy-panel" class="academy-panel" hidden>
-          <a href="academy-detail.html?academy=gehenna" class="academy-card">
-            <span class="academy-logo-placeholder gehenna-mark" aria-hidden="true">G</span>
-            <span>게헨나</span>
-          </a>
-          <a href="academy-detail.html?academy=trinity" class="academy-card">
-            <span class="academy-logo-placeholder trinity-mark" aria-hidden="true">T</span>
-            <span>트리니티</span>
-          </a>
-          <a href="academy-detail.html?academy=millennium" class="academy-card">
-            <span class="academy-logo-placeholder millennium-mark" aria-hidden="true">M</span>
-            <span>밀레니엄</span>
-          </a>
-          <a href="academy-detail.html?academy=abydos" class="academy-card">
-            <span class="academy-logo-placeholder abydos-mark" aria-hidden="true">A</span>
-            <span>아비도스</span>
-          </a>
-          <a href="academy-detail.html?academy=hyakkiyako" class="academy-card">
-            <span class="academy-logo-placeholder hyakkiyako-mark" aria-hidden="true">H</span>
-            <span>백귀야행</span>
-          </a>
-          <a href="academy-detail.html?academy=shanhaijing" class="academy-card">
-            <span class="academy-logo-placeholder shanhaijing-mark" aria-hidden="true">S</span>
-            <span>산해경</span>
-          </a>
-          <a href="academy-detail.html?academy=redwinter" class="academy-card">
-            <span class="academy-logo-placeholder redwinter-mark" aria-hidden="true">R</span>
-            <span>붉은겨울</span>
-          </a>
-          <a href="academy-detail.html?academy=valkyrie" class="academy-card">
-            <span class="academy-logo-placeholder valkyrie-mark" aria-hidden="true">V</span>
-            <span>발키리</span>
-          </a>
-          <a href="academy-detail.html?academy=srt" class="academy-card">
-            <span class="academy-logo-placeholder srt-mark" aria-hidden="true">S</span>
-            <span>SRT</span>
-          </a>
-          <a href="academy-detail.html?academy=arius" class="academy-card">
-            <span class="academy-logo-placeholder arius-mark" aria-hidden="true">A</span>
-            <span>아리우스</span>
-          </a>
-          <a href="academy-detail.html?academy=highlander" class="academy-card">
-            <span class="academy-logo-placeholder highlander-mark" aria-hidden="true">H</span>
-            <span>하이랜더</span>
-          </a>
-          <a href="academy-detail.html?academy=wildhunt" class="academy-card">
-            <span class="academy-logo-placeholder wildhunt-mark" aria-hidden="true">W</span>
-            <span>와일드헌트</span>
-          </a>
-          <a href="academy-detail.html?academy=etc" class="academy-card">
-            <span class="academy-logo-placeholder etc-mark" aria-hidden="true">E</span>
-            <span>기타</span>
-          </a>
+        <div class="academy-menu-actions">
+          <button
+            class="academy-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="academy-panel"
+          >
+            학원
+          </button>
+          <a class="academy-nav-link" href="./characters.html">학생 목록</a>
         </div>
+        <div id="academy-panel" class="academy-panel" hidden></div>
       </nav>
 
       <section class="main-grid" aria-label="메인 정보">
@@ -178,26 +128,38 @@
       </section>
     </main>
 
-    <script>
+    <script type="module">
+      import { academies, students } from "./data/index.js";
+
       const academyToggle = document.querySelector(".academy-toggle");
       const academyPanel = document.querySelector("#academy-panel");
       const searchInput = document.querySelector("#student-search-input");
       const suggestionPanel = document.querySelector("#student-suggestions");
-
-      const temporaryStudents = [
-        { id: 1, name: "노아" },
-        { id: 2, name: "노아(파자마)" },
-        { id: 3, name: "아루" },
-        { id: 4, name: "히후미" },
-        { id: 5, name: "유우카" },
-        { id: 6, name: "시로코" },
-      ];
 
       academyToggle.addEventListener("click", () => {
         const isOpen = academyToggle.getAttribute("aria-expanded") === "true";
         academyToggle.setAttribute("aria-expanded", String(!isOpen));
         academyPanel.hidden = isOpen;
       });
+
+      function createAcademyCard(academy) {
+        const link = document.createElement("a");
+        link.href = `academy-detail.html?academy=${academy.slug}`;
+        link.className = "academy-card";
+
+        const mark = document.createElement("span");
+        mark.className = `academy-logo-placeholder ${academy.logoClass}`;
+        mark.setAttribute("aria-hidden", "true");
+        mark.textContent = academy.mark;
+
+        const name = document.createElement("span");
+        name.textContent = academy.shortName;
+
+        link.append(mark, name);
+        return link;
+      }
+
+      academyPanel.append(...academies.map(createAcademyCard));
 
       function createSuggestionItem(student) {
         const link = document.createElement("a");
@@ -226,7 +188,7 @@
           return;
         }
 
-        const matches = temporaryStudents.filter((student) => student.name.includes(keyword));
+        const matches = students.filter((student) => student.name.includes(keyword));
 
         if (matches.length === 0) {
           const emptyMessage = document.createElement("p");

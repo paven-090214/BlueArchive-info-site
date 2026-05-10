@@ -32,12 +32,12 @@
       <section class="character-detail-grid" aria-label="캐릭터 상세 정보">
         <article class="panel character-profile-panel">
           <div class="character-large-placeholder" aria-hidden="true">
-            <span>아루</span>
+            <span id="character-profile-mark">아루</span>
           </div>
           <div class="character-profile-copy">
             <p class="eyebrow">PROFILE</p>
-            <h1>리쿠하치마 아루</h1>
-            <p>
+            <h1 id="character-profile-name">리쿠하치마 아루</h1>
+            <p id="character-profile-description">
               게헨나 학원 소속 흥신소 68의 사장입니다. 겉으로는 냉철하고 카리스마 있는
               리더처럼 보이려 하지만, 실제로는 허술한 면도 많은 학생입니다. 현재는 실제 DB
               연동 없이 임시 소개글과 placeholder만 표시합니다.
@@ -54,51 +54,51 @@
           <dl class="character-info-list">
             <div>
               <dt>이름</dt>
-              <dd>리쿠하치마 아루</dd>
+              <dd data-student-field="fullName">리쿠하치마 아루</dd>
             </div>
             <div>
               <dt>생일</dt>
-              <dd>3월 12일</dd>
+              <dd data-student-field="birthday">3월 12일</dd>
             </div>
             <div>
               <dt>소속 학원</dt>
-              <dd>게헨나 학원</dd>
+              <dd data-student-field="academyName">게헨나 학원</dd>
             </div>
             <div>
               <dt>공격 타입</dt>
-              <dd>폭발</dd>
+              <dd data-student-field="attackType">폭발</dd>
             </div>
             <div>
               <dt>방어 타입</dt>
-              <dd>경장갑</dd>
+              <dd data-student-field="defenseType">경장갑</dd>
             </div>
             <div>
               <dt>역할</dt>
-              <dd>딜러</dd>
+              <dd data-student-field="role">딜러</dd>
             </div>
             <div>
               <dt>나이</dt>
-              <dd>16세</dd>
+              <dd data-student-field="age">16세</dd>
             </div>
             <div>
               <dt>취미</dt>
-              <dd>경영 공부</dd>
+              <dd data-student-field="hobby">경영 공부</dd>
             </div>
             <div>
               <dt>디자이너</dt>
-              <dd>임시 데이터</dd>
+              <dd data-student-field="designer">임시 데이터</dd>
             </div>
             <div>
               <dt>일러스트레이터</dt>
-              <dd>임시 데이터</dd>
+              <dd data-student-field="illustrator">임시 데이터</dd>
             </div>
             <div>
               <dt>성우</dt>
-              <dd>임시 데이터</dd>
+              <dd data-student-field="voiceActor">임시 데이터</dd>
             </div>
             <div>
               <dt>출시일</dt>
-              <dd>임시 표시</dd>
+              <dd data-student-field="releaseDate">임시 표시</dd>
             </div>
           </dl>
 
@@ -529,9 +529,14 @@
       </section>
     </main>
 
-    <script>
+    <script type="module">
+      import { academies, students } from "./data/index.js";
+
       const searchInput = document.querySelector("#student-search-input");
       const suggestionPanel = document.querySelector("#student-suggestions");
+      const characterProfileMark = document.querySelector("#character-profile-mark");
+      const characterProfileName = document.querySelector("#character-profile-name");
+      const characterProfileDescription = document.querySelector("#character-profile-description");
       const studentLevelInput = document.querySelector("#student-level-input");
       const studentLevelRange = document.querySelector("#student-level-range");
       const starRows = document.querySelectorAll(".star-button-row");
@@ -539,14 +544,48 @@
       const weaponStarButtons = document.querySelectorAll('[data-star-group="weapon"] .star-button');
       const weaponStarDisplay = document.querySelector("[data-weapon-star-display]");
 
-      const temporaryStudents = [
-        { id: 1, name: "노아" },
-        { id: 2, name: "노아(파자마)" },
-        { id: 3, name: "아루" },
-        { id: 4, name: "히후미" },
-        { id: 5, name: "유우카" },
-        { id: 6, name: "시로코" },
-      ];
+      const characterId = Number(new URLSearchParams(window.location.search).get("id")) || 3;
+      const selectedStudent =
+        students.find((student) => student.id === characterId) ||
+        students.find((student) => student.id === 3) ||
+        students[0];
+      const selectedAcademy = academies.find(
+        (academy) => academy.slug === selectedStudent.academySlug,
+      );
+
+      function renderStudentDetail(student) {
+        const academyName = selectedAcademy?.name || "임시 학원";
+
+        document.title = `${student.name} | BlueArchive Info Site`;
+        characterProfileMark.textContent = student.name;
+        characterProfileName.textContent = student.fullName;
+        characterProfileDescription.textContent = student.profile;
+
+        const fieldValues = {
+          fullName: student.fullName,
+          birthday: student.birthday,
+          academyName,
+          attackType: student.attackType,
+          defenseType: student.defenseType,
+          role: student.role,
+          age: student.age,
+          hobby: student.hobby,
+          designer: student.designer,
+          illustrator: student.illustrator,
+          voiceActor: student.voiceActor,
+          releaseDate: student.releaseDate,
+        };
+
+        Object.entries(fieldValues).forEach(([field, value]) => {
+          const target = document.querySelector(`[data-student-field="${field}"]`);
+
+          if (target) {
+            target.textContent = value;
+          }
+        });
+      }
+
+      renderStudentDetail(selectedStudent);
 
       function createSuggestionItem(student) {
         const link = document.createElement("a");
@@ -575,7 +614,7 @@
           return;
         }
 
-        const matches = temporaryStudents.filter((student) => student.name.includes(keyword));
+        const matches = students.filter((student) => student.name.includes(keyword));
 
         if (matches.length === 0) {
           const emptyMessage = document.createElement("p");
