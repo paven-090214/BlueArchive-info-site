@@ -486,9 +486,17 @@ p {
 }
 
 .filter-star-label {
-  color: var(--yellow);
-  font-size: 18px;
-  font-weight: 900;
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+}
+
+.filter-star-label img {
+  display: block;
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 }
 
 .characters-panel h1 {
@@ -752,13 +760,28 @@ p {
   margin-bottom: 0;
 }
 
-.student-rarity {
+.student-rarity,
+.star-icon-list {
   flex: 0 0 auto;
-  color: var(--yellow);
-  font-size: 14px;
-  font-weight: 900;
-  letter-spacing: 0;
+}
+
+.star-icon-list {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
   white-space: nowrap;
+}
+
+.student-list-weapon-stars {
+  justify-self: start;
+}
+
+.star-icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 }
 
 .student-list-club {
@@ -1668,6 +1691,7 @@ select {
   display: block;
 }
 
+.growth-star-row,
 .star-button-row,
 .weapon-star-row {
   display: flex;
@@ -1676,15 +1700,22 @@ select {
   align-items: center;
 }
 
+.growth-star-row {
+  flex-wrap: nowrap;
+  gap: 4px;
+  max-width: none;
+}
+
 .star-button {
   display: grid;
   place-items: center;
-  min-width: 38px;
-  height: 38px;
-  padding: 0 10px;
-  border: 1px solid var(--line);
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
   border-radius: 8px;
-  background: #ffffff;
+  background: transparent;
   color: #b5c0cc;
   font: inherit;
   font-size: 21px;
@@ -1692,17 +1723,37 @@ select {
   cursor: pointer;
 }
 
+.star-button .star-icon {
+  width: 20px;
+  height: 20px;
+}
+
 .student-star.is-active {
-  border-color: #efaa2f;
-  background: #fff6dd;
-  color: var(--yellow);
+  background: transparent;
+}
+
+.student-star {
+  background: transparent;
+}
+
+.blank-star {
+  background: transparent;
+}
+
+.weapon-star {
+  background: transparent;
 }
 
 .weapon-star.is-active,
 .weapon-rank-star.is-active {
-  border-color: #66a4df;
-  background: #edf6ff;
-  color: #2d8fe3;
+  background: transparent;
+}
+
+.weapon-locked-message {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .equipment-list,

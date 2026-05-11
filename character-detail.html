@@ -254,23 +254,8 @@
               </div>
             </div>
 
-            <div class="star-setting-group" aria-label="학생 성급 선택">
-              <div class="star-button-row" data-star-group="student">
-                <button class="star-button student-star is-active" type="button" aria-label="학생 1성 선택" aria-pressed="true">★</button>
-                <button class="star-button student-star is-active" type="button" aria-label="학생 2성 선택" aria-pressed="true">★</button>
-                <button class="star-button student-star is-active" type="button" aria-label="학생 3성 선택" aria-pressed="true">★</button>
-                <button class="star-button student-star is-active" type="button" aria-label="학생 4성 선택" aria-pressed="true">★</button>
-                <button class="star-button student-star is-active" type="button" aria-label="학생 5성 선택" aria-pressed="true">★</button>
-              </div>
-            </div>
-
-            <div class="star-setting-group" aria-label="전용무기 성급 선택">
-              <div class="star-button-row" data-star-group="weapon" aria-label="전용무기 성급">
-                <button class="star-button weapon-star is-active" type="button" data-weapon-rank="1" aria-label="전용무기 1성 선택" aria-pressed="true">✦</button>
-                <button class="star-button weapon-star" type="button" data-weapon-rank="2" aria-label="전용무기 2성 선택" aria-pressed="false">✦</button>
-                <button class="star-button weapon-star" type="button" data-weapon-rank="3" aria-label="전용무기 3성 선택" aria-pressed="false">✦</button>
-                <button class="star-button weapon-star" type="button" data-weapon-rank="4" aria-label="전용무기 4성 선택" aria-pressed="false">✦</button>
-              </div>
+            <div class="star-setting-group" aria-label="학생 성급 및 전용무기 성급">
+              <div class="growth-star-row" data-growth-star-row></div>
             </div>
           </div>
         </article>
@@ -483,12 +468,8 @@
             <div>
               <p class="eyebrow">WEAPON</p>
               <h2>전용무기 이름</h2>
-              <div class="weapon-star-row" aria-label="전용무기 성급 표시" data-weapon-star-display>
-                <span class="weapon-rank-star is-active">✦</span>
-                <span class="weapon-rank-star">✦</span>
-                <span class="weapon-rank-star">✦</span>
-                <span class="weapon-rank-star">✦</span>
-              </div>
+              <div class="weapon-star-row" aria-label="전용무기 성급 표시" data-weapon-star-display></div>
+              <p class="weapon-locked-message" data-weapon-display-locked-message hidden>미개방</p>
               <p>전용무기 효과 설명 placeholder입니다. 실제 효과와 수치는 추후 데이터로 연결합니다.</p>
               <div class="weapon-effect-card-list">
                 <article class="skill-card weapon-effect-card">
@@ -535,10 +516,12 @@
       const characterProfileDescription = document.querySelector("#character-profile-description");
       const studentLevelInput = document.querySelector("#student-level-input");
       const studentLevelRange = document.querySelector("#student-level-range");
-      const starRows = document.querySelectorAll(".star-button-row");
-      const studentStarButtons = document.querySelectorAll('[data-star-group="student"] .star-button');
-      const weaponStarButtons = document.querySelectorAll('[data-star-group="weapon"] .star-button');
+      const growthStarRow = document.querySelector("[data-growth-star-row]");
       const weaponStarDisplay = document.querySelector("[data-weapon-star-display]");
+      const weaponDisplayLockedMessage = document.querySelector("[data-weapon-display-locked-message]");
+      const STAR_ICON_URL = "./images/icon/Icon_star.webp";
+      const BLUE_STAR_ICON_URL = "./images/icon/Icon_blue_star.webp";
+      const BLANK_STAR_ICON_URL = "./images/icon/Icon_blank_star.webp";
 
       const characterId = Number(new URLSearchParams(window.location.search).get("id")) || 3;
       const selectedStudent =
@@ -583,6 +566,9 @@
 
       renderStudentDetail(selectedStudent);
 
+      let selectedBaseStar = getBaseStar(selectedStudent);
+      let selectedWeaponStar = getWeaponStar(selectedStudent);
+
       function syncStudentLevel(value) {
         const normalizedLevel = Math.min(90, Math.max(1, Number(value) || 1));
         studentLevelInput.value = String(normalizedLevel);
@@ -597,63 +583,119 @@
         syncStudentLevel(studentLevelRange.value);
       });
 
-      function setStarButtons(buttons, activeCount) {
-        buttons.forEach((button, index) => {
-          const isActive = index < activeCount;
-          button.classList.toggle("is-active", isActive);
-          button.setAttribute("aria-pressed", String(isActive));
-        });
+      function clampNumber(value, min, max) {
+        return Math.min(max, Math.max(min, Number(value) || 0));
       }
 
-      function setWeaponRank(rank) {
-        weaponStarButtons.forEach((button) => {
-          const buttonRank = Number(button.dataset.weaponRank);
-          const isActive = rank === 0 ? buttonRank === 0 : buttonRank > 0 && buttonRank <= rank;
-          button.classList.toggle("is-active", isActive);
-          button.setAttribute("aria-pressed", String(isActive));
-        });
-
-        setWeaponStarDisplay(rank);
+      function getBaseStar(student) {
+        return clampNumber(student.baseStar ?? student.rarity ?? 1, 1, 5);
       }
 
-      function setWeaponStarDisplay(activeCount) {
-        if (!weaponStarDisplay) {
+      function getWeaponStar(student) {
+        return clampNumber(student.weaponStar ?? 0, 0, 4);
+      }
+
+      function getGrowthStarKind(slotNumber, baseStar, weaponStar) {
+        if (slotNumber <= 5) {
+          return slotNumber <= baseStar ? "student" : "blank";
+        }
+
+        return slotNumber - 5 <= weaponStar ? "weapon" : "blank";
+      }
+
+      function getStarIconUrl(kind) {
+        if (kind === "student") {
+          return STAR_ICON_URL;
+        }
+
+        if (kind === "weapon") {
+          return BLUE_STAR_ICON_URL;
+        }
+
+        return BLANK_STAR_ICON_URL;
+      }
+
+      function createStarIcon(kind, index) {
+        const image = document.createElement("img");
+        image.className = `star-icon ${kind}-star-icon`;
+        image.src = getStarIconUrl(kind);
+        image.alt = "";
+        image.setAttribute("aria-hidden", "true");
+        image.dataset.starIndex = String(index + 1);
+        return image;
+      }
+
+      function renderStarIcons(count, kind, ariaLabel) {
+        const list = document.createElement("span");
+        list.className = `star-icon-list ${kind}-star-icon-list`;
+        list.setAttribute("aria-label", ariaLabel);
+
+        for (let index = 0; index < count; index += 1) {
+          list.append(createStarIcon(kind, index));
+        }
+
+        return list;
+      }
+
+      function createGrowthStarButton(slotNumber) {
+        const kind = getGrowthStarKind(slotNumber, selectedBaseStar, selectedWeaponStar);
+        const button = document.createElement("button");
+        button.className = `star-button growth-star-slot ${kind}-star`;
+        button.type = "button";
+        button.dataset.starSlot = String(slotNumber);
+        button.setAttribute("aria-pressed", String(kind !== "blank"));
+
+        if (slotNumber <= 5) {
+          button.setAttribute("aria-label", `기본 성급 ${slotNumber}성 선택`);
+          button.addEventListener("click", () => {
+            selectedBaseStar = slotNumber;
+            selectedWeaponStar = 0;
+            renderGrowthStars();
+            renderWeaponStarDisplay();
+          });
+        } else {
+          const weaponRank = slotNumber - 5;
+          button.setAttribute("aria-label", `전용무기 ${weaponRank}성 선택`);
+          button.addEventListener("click", () => {
+            selectedBaseStar = 5;
+            selectedWeaponStar = weaponRank;
+            renderGrowthStars();
+            renderWeaponStarDisplay();
+          });
+        }
+
+        button.append(createStarIcon(kind, slotNumber - 1));
+        return button;
+      }
+
+      function renderGrowthStars() {
+        const buttons = [];
+
+        for (let slotNumber = 1; slotNumber <= 9; slotNumber += 1) {
+          buttons.push(createGrowthStarButton(slotNumber));
+        }
+
+        growthStarRow.replaceChildren(...buttons);
+      }
+
+      function renderWeaponStarDisplay() {
+        const hasWeaponRank = selectedWeaponStar > 0;
+        weaponStarDisplay.hidden = !hasWeaponRank;
+        weaponDisplayLockedMessage.hidden = hasWeaponRank;
+
+        if (!hasWeaponRank) {
+          weaponStarDisplay.replaceChildren();
           return;
         }
 
-        const stars = weaponStarDisplay.querySelectorAll(".weapon-rank-star");
-        stars.forEach((star, index) => {
-          star.classList.toggle("is-active", index < activeCount);
-        });
+        weaponStarDisplay.replaceChildren(
+          renderStarIcons(selectedWeaponStar, "weapon", `전용무기 성급 ${selectedWeaponStar}성`),
+        );
       }
 
-      starRows.forEach((row) => {
-        const buttons = [...row.querySelectorAll(".star-button")];
-        const starGroup = row.dataset.starGroup;
-
-        buttons.forEach((button, index) => {
-          button.addEventListener("click", () => {
-            if (starGroup === "student") {
-              const activeCount = index + 1;
-              setStarButtons(buttons, activeCount);
-              setWeaponRank(0);
-            }
-
-            if (starGroup === "weapon") {
-              const weaponRank = Number(button.dataset.weaponRank);
-
-              if (weaponRank > 0) {
-                setStarButtons(studentStarButtons, 5);
-              }
-
-              setWeaponRank(weaponRank);
-            }
-          });
-        });
-      });
-
       syncStudentLevel(1);
-      setWeaponRank(1);
+      renderGrowthStars();
+      renderWeaponStarDisplay();
     </script>
   </body>
 </html>
