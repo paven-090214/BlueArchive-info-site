@@ -1,229 +1,115 @@
 ﻿studentId,studentName,skillType,fromLevel,toLevel,itemId,itemName,tier,quantity,sourceUrl,needsReview
-kurumi,Kurumi,ex,1,2,beginner_tactical_training_blu_ray_valkyrie,Beginner Tactical Training Blu-ray (Valkyrie),0,12,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,1,2,rohonc_codex_page,Rohonc Codex Page,0,14,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,1,2,credit,Credits,,80000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,2,3,normal_tactical_training_blu_ray_valkyrie,Normal Tactical Training Blu-ray (Valkyrie),1,12,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,2,3,beginner_tactical_training_blu_ray_valkyrie,Beginner Tactical Training Blu-ray (Valkyrie),0,18,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,2,3,damaged_rohonc_codex,Damaged Rohonc Codex,1,14,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,2,3,golden_thread,Golden Thread,,27,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,2,3,credit,Credits,,500000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,3,4,advanced_tactical_training_blu_ray_valkyrie,Advanced Tactical Training Blu-ray (Valkyrie),2,12,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,3,4,normal_tactical_training_blu_ray_valkyrie,Normal Tactical Training Blu-ray (Valkyrie),1,18,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,3,4,annotated_rohonc_codex,Annotated Rohonc Codex,2,9,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,3,4,golden_thread_spool,Golden Thread Spool,,27,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,3,4,credit,Credits,,3000000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,4,5,superior_tactical_training_blu_ray_valkyrie,Superior Tactical Training Blu-ray (Valkyrie),3,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,4,5,advanced_tactical_training_blu_ray_valkyrie,Advanced Tactical Training Blu-ray (Valkyrie),2,18,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,4,5,intact_rohonc_codex,Intact Rohonc Codex,3,9,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,4,5,golden_thread_yarn,Golden Thread Yarn,,19,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,ex,4,5,credit,Credits,,10000000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,1,2,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,5,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,1,2,credit,Credits,,5000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,2,3,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,2,3,credit,Credits,,7500,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,3,4,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,5,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,3,4,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,12,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,3,4,rohonc_codex_page,Rohonc Codex Page,0,5,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,3,4,credit,Credits,,60000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,4,5,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,4,5,damaged_rohonc_codex,Damaged Rohonc Codex,1,3,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,4,5,golden_thread,Golden Thread,,11,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,4,5,credit,Credits,,90000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,5,6,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,5,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,5,6,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,12,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,5,6,damaged_rohonc_codex,Damaged Rohonc Codex,1,10,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,5,6,golden_thread,Golden Thread,,19,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,5,6,credit,Credits,,300000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,6,7,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,6,7,annotated_rohonc_codex,Annotated Rohonc Codex,2,3,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,6,7,golden_thread_spool,Golden Thread Spool,,16,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,6,7,credit,Credits,,450000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,7,8,superior_tech_notes_valkyrie,Superior Tech Notes (Valkyrie),3,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,7,8,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,12,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,7,8,intact_rohonc_codex,Intact Rohonc Codex,3,4,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,7,8,golden_thread_yarn,Golden Thread Yarn,,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,7,8,credit,Credits,,1500000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,8,9,superior_tech_notes_valkyrie,Superior Tech Notes (Valkyrie),3,12,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,8,9,intact_rohonc_codex,Intact Rohonc Codex,3,9,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,8,9,golden_thread_yarn,Golden Thread Yarn,,15,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,8,9,credit,Credits,,2400000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,9,10,secret_tech_notes,Secret Tech Notes,,1,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,normal,9,10,credit,Credits,,4000000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,1,2,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,5,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,1,2,credit,Credits,,5000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,2,3,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,2,3,credit,Credits,,7500,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,3,4,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,5,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,3,4,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,12,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,3,4,rohonc_codex_page,Rohonc Codex Page,0,5,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,3,4,credit,Credits,,60000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,4,5,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,4,5,damaged_rohonc_codex,Damaged Rohonc Codex,1,3,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,4,5,golden_thread,Golden Thread,,11,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,4,5,credit,Credits,,90000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,5,6,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,5,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,5,6,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,12,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,5,6,damaged_rohonc_codex,Damaged Rohonc Codex,1,10,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,5,6,golden_thread,Golden Thread,,19,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,5,6,credit,Credits,,300000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,6,7,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,6,7,annotated_rohonc_codex,Annotated Rohonc Codex,2,3,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,6,7,golden_thread_spool,Golden Thread Spool,,16,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,6,7,credit,Credits,,450000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,7,8,superior_tech_notes_valkyrie,Superior Tech Notes (Valkyrie),3,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,7,8,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,12,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,7,8,intact_rohonc_codex,Intact Rohonc Codex,3,4,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,7,8,golden_thread_yarn,Golden Thread Yarn,,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,7,8,credit,Credits,,1500000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,8,9,superior_tech_notes_valkyrie,Superior Tech Notes (Valkyrie),3,12,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,8,9,intact_rohonc_codex,Intact Rohonc Codex,3,9,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,8,9,golden_thread_yarn,Golden Thread Yarn,,15,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,8,9,credit,Credits,,2400000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,9,10,secret_tech_notes,Secret Tech Notes,,1,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,passive,9,10,credit,Credits,,4000000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,1,2,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,5,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,1,2,credit,Credits,,5000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,2,3,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,2,3,credit,Credits,,7500,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,3,4,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,5,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,3,4,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,12,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,3,4,rohonc_codex_page,Rohonc Codex Page,0,5,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,3,4,credit,Credits,,60000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,4,5,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,4,5,damaged_rohonc_codex,Damaged Rohonc Codex,1,3,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,4,5,golden_thread,Golden Thread,,11,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,4,5,credit,Credits,,90000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,5,6,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,5,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,5,6,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,12,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,5,6,damaged_rohonc_codex,Damaged Rohonc Codex,1,10,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,5,6,golden_thread,Golden Thread,,19,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,5,6,credit,Credits,,300000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,6,7,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,6,7,annotated_rohonc_codex,Annotated Rohonc Codex,2,3,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,6,7,golden_thread_spool,Golden Thread Spool,,16,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,6,7,credit,Credits,,450000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,7,8,superior_tech_notes_valkyrie,Superior Tech Notes (Valkyrie),3,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,7,8,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,12,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,7,8,intact_rohonc_codex,Intact Rohonc Codex,3,4,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,7,8,golden_thread_yarn,Golden Thread Yarn,,8,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,7,8,credit,Credits,,1500000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,8,9,superior_tech_notes_valkyrie,Superior Tech Notes (Valkyrie),3,12,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,8,9,intact_rohonc_codex,Intact Rohonc Codex,3,9,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,8,9,golden_thread_yarn,Golden Thread Yarn,,15,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,8,9,credit,Credits,,2400000,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,9,10,secret_tech_notes,Secret Tech Notes,,1,https://bluearchive.wiki/wiki/Kurumi,false
-kurumi,Kurumi,sub,9,10,credit,Credits,,4000000,https://bluearchive.wiki/wiki/Kurumi,false
-niko,Niko,ex,1,2,beginner_tactical_training_blu_ray_valkyrie,Beginner Tactical Training Blu-ray (Valkyrie),0,12,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,1,2,nimrud_lens_piece,Nimrud Lens Piece,,16,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,1,2,credit,Credits,,80000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,2,3,normal_tactical_training_blu_ray_valkyrie,Normal Tactical Training Blu-ray (Valkyrie),1,12,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,2,3,beginner_tactical_training_blu_ray_valkyrie,Beginner Tactical Training Blu-ray (Valkyrie),0,18,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,2,3,broken_nimrud_lens,Broken Nimrud Lens,,15,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,2,3,quimbaya_relic_piece,Quimbaya Relic Piece,,34,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,2,3,credit,Credits,,500000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,3,4,advanced_tactical_training_blu_ray_valkyrie,Advanced Tactical Training Blu-ray (Valkyrie),2,12,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,3,4,normal_tactical_training_blu_ray_valkyrie,Normal Tactical Training Blu-ray (Valkyrie),1,18,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,3,4,damaged_nimrud_lens,Damaged Nimrud Lens,1,11,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,3,4,broken_quimbaya_relic,Broken Quimbaya Relic,,25,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,3,4,credit,Credits,,3000000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,4,5,superior_tactical_training_blu_ray_valkyrie,Superior Tactical Training Blu-ray (Valkyrie),3,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,4,5,advanced_tactical_training_blu_ray_valkyrie,Advanced Tactical Training Blu-ray (Valkyrie),2,18,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,4,5,intact_nimrud_lens,Intact Nimrud Lens,3,7,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,4,5,repaired_quimbaya_relic,Repaired Quimbaya Relic,,19,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,ex,4,5,credit,Credits,,10000000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,1,2,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,5,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,1,2,credit,Credits,,5000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,2,3,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,2,3,credit,Credits,,7500,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,3,4,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,5,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,3,4,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,12,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,3,4,nimrud_lens_piece,Nimrud Lens Piece,,4,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,3,4,credit,Credits,,60000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,4,5,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,4,5,broken_nimrud_lens,Broken Nimrud Lens,,5,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,4,5,quimbaya_relic_piece,Quimbaya Relic Piece,,14,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,4,5,credit,Credits,,90000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,5,6,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,5,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,5,6,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,12,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,5,6,broken_nimrud_lens,Broken Nimrud Lens,,10,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,5,6,quimbaya_relic_piece,Quimbaya Relic Piece,,18,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,5,6,credit,Credits,,300000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,6,7,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,6,7,damaged_nimrud_lens,Damaged Nimrud Lens,1,3,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,6,7,broken_quimbaya_relic,Broken Quimbaya Relic,,17,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,6,7,credit,Credits,,450000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,7,8,superior_tech_notes_valkyrie,Superior Tech Notes (Valkyrie),3,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,7,8,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,12,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,7,8,intact_nimrud_lens,Intact Nimrud Lens,3,5,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,7,8,repaired_quimbaya_relic,Repaired Quimbaya Relic,,9,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,7,8,credit,Credits,,1500000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,8,9,superior_tech_notes_valkyrie,Superior Tech Notes (Valkyrie),3,12,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,8,9,intact_nimrud_lens,Intact Nimrud Lens,3,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,8,9,repaired_quimbaya_relic,Repaired Quimbaya Relic,,15,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,8,9,credit,Credits,,2400000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,9,10,secret_tech_notes,Secret Tech Notes,,1,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,normal,9,10,credit,Credits,,4000000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,1,2,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,5,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,1,2,credit,Credits,,5000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,2,3,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,2,3,credit,Credits,,7500,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,3,4,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,5,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,3,4,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,12,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,3,4,nimrud_lens_piece,Nimrud Lens Piece,,4,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,3,4,credit,Credits,,60000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,4,5,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,4,5,broken_nimrud_lens,Broken Nimrud Lens,,5,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,4,5,quimbaya_relic_piece,Quimbaya Relic Piece,,14,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,4,5,credit,Credits,,90000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,5,6,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,5,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,5,6,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,12,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,5,6,broken_nimrud_lens,Broken Nimrud Lens,,10,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,5,6,quimbaya_relic_piece,Quimbaya Relic Piece,,18,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,5,6,credit,Credits,,300000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,6,7,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,6,7,damaged_nimrud_lens,Damaged Nimrud Lens,1,3,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,6,7,broken_quimbaya_relic,Broken Quimbaya Relic,,17,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,6,7,credit,Credits,,450000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,7,8,superior_tech_notes_valkyrie,Superior Tech Notes (Valkyrie),3,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,7,8,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,12,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,7,8,intact_nimrud_lens,Intact Nimrud Lens,3,5,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,7,8,repaired_quimbaya_relic,Repaired Quimbaya Relic,,9,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,7,8,credit,Credits,,1500000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,8,9,superior_tech_notes_valkyrie,Superior Tech Notes (Valkyrie),3,12,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,8,9,intact_nimrud_lens,Intact Nimrud Lens,3,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,8,9,repaired_quimbaya_relic,Repaired Quimbaya Relic,,15,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,8,9,credit,Credits,,2400000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,9,10,secret_tech_notes,Secret Tech Notes,,1,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,passive,9,10,credit,Credits,,4000000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,1,2,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,5,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,1,2,credit,Credits,,5000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,2,3,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,2,3,credit,Credits,,7500,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,3,4,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,5,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,3,4,beginner_tech_notes_valkyrie,Beginner Tech Notes (Valkyrie),0,12,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,3,4,nimrud_lens_piece,Nimrud Lens Piece,,4,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,3,4,credit,Credits,,60000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,4,5,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,4,5,broken_nimrud_lens,Broken Nimrud Lens,,5,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,4,5,quimbaya_relic_piece,Quimbaya Relic Piece,,14,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,4,5,credit,Credits,,90000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,5,6,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,5,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,5,6,normal_tech_notes_valkyrie,Normal Tech Notes (Valkyrie),1,12,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,5,6,broken_nimrud_lens,Broken Nimrud Lens,,10,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,5,6,quimbaya_relic_piece,Quimbaya Relic Piece,,18,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,5,6,credit,Credits,,300000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,6,7,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,6,7,damaged_nimrud_lens,Damaged Nimrud Lens,1,3,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,6,7,broken_quimbaya_relic,Broken Quimbaya Relic,,17,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,6,7,credit,Credits,,450000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,7,8,superior_tech_notes_valkyrie,Superior Tech Notes (Valkyrie),3,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,7,8,advanced_tech_notes_valkyrie,Advanced Tech Notes (Valkyrie),2,12,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,7,8,intact_nimrud_lens,Intact Nimrud Lens,3,5,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,7,8,repaired_quimbaya_relic,Repaired Quimbaya Relic,,9,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,7,8,credit,Credits,,1500000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,8,9,superior_tech_notes_valkyrie,Superior Tech Notes (Valkyrie),3,12,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,8,9,intact_nimrud_lens,Intact Nimrud Lens,3,8,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,8,9,repaired_quimbaya_relic,Repaired Quimbaya Relic,,15,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,8,9,credit,Credits,,2400000,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,9,10,secret_tech_notes,Secret Tech Notes,,1,https://bluearchive.wiki/wiki/Niko,false
-niko,Niko,sub,9,10,credit,Credits,,4000000,https://bluearchive.wiki/wiki/Niko,false
+kei,Kei,ex,1,2,beginner_tactical_training_blu_ray_millennium,Beginner Tactical Training Blu-ray (Millennium),0,12,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,1,2,phaistos_disc_piece,Phaistos Disc Piece,,18,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,1,2,credit,Credits,,80000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,2,3,normal_tactical_training_blu_ray_millennium,Normal Tactical Training Blu-ray (Millennium),1,12,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,2,3,beginner_tactical_training_blu_ray_millennium,Beginner Tactical Training Blu-ray (Millennium),0,18,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,2,3,broken_phaistos_disc,Broken Phaistos Disc,,15,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,2,3,istanbul_rocket_piece,Istanbul Rocket Piece,,32,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,2,3,credit,Credits,,500000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,3,4,advanced_tactical_training_blu_ray_millennium,Advanced Tactical Training Blu-ray (Millennium),2,12,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,3,4,normal_tactical_training_blu_ray_millennium,Normal Tactical Training Blu-ray (Millennium),1,18,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,3,4,damaged_phaistos_disc,Damaged Phaistos Disc,1,11,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,3,4,broken_istanbul_rocket,Broken Istanbul Rocket,,26,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,3,4,credit,Credits,,3000000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,4,5,superior_tactical_training_blu_ray_millennium,Superior Tactical Training Blu-ray (Millennium),3,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,4,5,advanced_tactical_training_blu_ray_millennium,Advanced Tactical Training Blu-ray (Millennium),2,18,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,4,5,intact_phaistos_disc,Intact Phaistos Disc,3,7,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,4,5,repaired_istanbul_rocket,Repaired Istanbul Rocket,,23,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,ex,4,5,credit,Credits,,10000000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,1,2,beginner_tech_notes_millennium,Beginner Tech Notes (Millennium),0,5,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,1,2,credit,Credits,,5000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,2,3,beginner_tech_notes_millennium,Beginner Tech Notes (Millennium),0,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,2,3,credit,Credits,,7500,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,3,4,normal_tech_notes_millennium,Normal Tech Notes (Millennium),1,5,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,3,4,beginner_tech_notes_millennium,Beginner Tech Notes (Millennium),0,12,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,3,4,phaistos_disc_piece,Phaistos Disc Piece,,5,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,3,4,credit,Credits,,60000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,4,5,normal_tech_notes_millennium,Normal Tech Notes (Millennium),1,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,4,5,broken_phaistos_disc,Broken Phaistos Disc,,4,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,4,5,istanbul_rocket_piece,Istanbul Rocket Piece,,14,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,4,5,credit,Credits,,90000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,5,6,advanced_tech_notes_millennium,Advanced Tech Notes (Millennium),2,5,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,5,6,normal_tech_notes_millennium,Normal Tech Notes (Millennium),1,12,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,5,6,broken_phaistos_disc,Broken Phaistos Disc,,10,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,5,6,istanbul_rocket_piece,Istanbul Rocket Piece,,19,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,5,6,credit,Credits,,300000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,6,7,advanced_tech_notes_millennium,Advanced Tech Notes (Millennium),2,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,6,7,damaged_phaistos_disc,Damaged Phaistos Disc,1,3,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,6,7,broken_istanbul_rocket,Broken Istanbul Rocket,,16,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,6,7,credit,Credits,,450000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,7,8,superior_tech_notes_millennium,Superior Tech Notes (Millennium),3,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,7,8,advanced_tech_notes_millennium,Advanced Tech Notes (Millennium),2,12,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,7,8,intact_phaistos_disc,Intact Phaistos Disc,3,4,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,7,8,repaired_istanbul_rocket,Repaired Istanbul Rocket,,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,7,8,credit,Credits,,1500000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,8,9,superior_tech_notes_millennium,Superior Tech Notes (Millennium),3,12,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,8,9,intact_phaistos_disc,Intact Phaistos Disc,3,9,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,8,9,repaired_istanbul_rocket,Repaired Istanbul Rocket,,15,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,8,9,credit,Credits,,2400000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,9,10,secret_tech_notes,Secret Tech Notes,,1,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,normal,9,10,credit,Credits,,4000000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,1,2,beginner_tech_notes_millennium,Beginner Tech Notes (Millennium),0,5,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,1,2,credit,Credits,,5000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,2,3,beginner_tech_notes_millennium,Beginner Tech Notes (Millennium),0,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,2,3,credit,Credits,,7500,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,3,4,normal_tech_notes_millennium,Normal Tech Notes (Millennium),1,5,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,3,4,beginner_tech_notes_millennium,Beginner Tech Notes (Millennium),0,12,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,3,4,phaistos_disc_piece,Phaistos Disc Piece,,5,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,3,4,credit,Credits,,60000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,4,5,normal_tech_notes_millennium,Normal Tech Notes (Millennium),1,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,4,5,broken_phaistos_disc,Broken Phaistos Disc,,4,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,4,5,istanbul_rocket_piece,Istanbul Rocket Piece,,14,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,4,5,credit,Credits,,90000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,5,6,advanced_tech_notes_millennium,Advanced Tech Notes (Millennium),2,5,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,5,6,normal_tech_notes_millennium,Normal Tech Notes (Millennium),1,12,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,5,6,broken_phaistos_disc,Broken Phaistos Disc,,10,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,5,6,istanbul_rocket_piece,Istanbul Rocket Piece,,19,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,5,6,credit,Credits,,300000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,6,7,advanced_tech_notes_millennium,Advanced Tech Notes (Millennium),2,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,6,7,damaged_phaistos_disc,Damaged Phaistos Disc,1,3,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,6,7,broken_istanbul_rocket,Broken Istanbul Rocket,,16,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,6,7,credit,Credits,,450000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,7,8,superior_tech_notes_millennium,Superior Tech Notes (Millennium),3,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,7,8,advanced_tech_notes_millennium,Advanced Tech Notes (Millennium),2,12,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,7,8,intact_phaistos_disc,Intact Phaistos Disc,3,4,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,7,8,repaired_istanbul_rocket,Repaired Istanbul Rocket,,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,7,8,credit,Credits,,1500000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,8,9,superior_tech_notes_millennium,Superior Tech Notes (Millennium),3,12,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,8,9,intact_phaistos_disc,Intact Phaistos Disc,3,9,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,8,9,repaired_istanbul_rocket,Repaired Istanbul Rocket,,15,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,8,9,credit,Credits,,2400000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,9,10,secret_tech_notes,Secret Tech Notes,,1,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,passive,9,10,credit,Credits,,4000000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,1,2,beginner_tech_notes_millennium,Beginner Tech Notes (Millennium),0,5,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,1,2,credit,Credits,,5000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,2,3,beginner_tech_notes_millennium,Beginner Tech Notes (Millennium),0,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,2,3,credit,Credits,,7500,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,3,4,normal_tech_notes_millennium,Normal Tech Notes (Millennium),1,5,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,3,4,beginner_tech_notes_millennium,Beginner Tech Notes (Millennium),0,12,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,3,4,phaistos_disc_piece,Phaistos Disc Piece,,5,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,3,4,credit,Credits,,60000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,4,5,normal_tech_notes_millennium,Normal Tech Notes (Millennium),1,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,4,5,broken_phaistos_disc,Broken Phaistos Disc,,4,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,4,5,istanbul_rocket_piece,Istanbul Rocket Piece,,14,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,4,5,credit,Credits,,90000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,5,6,advanced_tech_notes_millennium,Advanced Tech Notes (Millennium),2,5,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,5,6,normal_tech_notes_millennium,Normal Tech Notes (Millennium),1,12,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,5,6,broken_phaistos_disc,Broken Phaistos Disc,,10,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,5,6,istanbul_rocket_piece,Istanbul Rocket Piece,,19,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,5,6,credit,Credits,,300000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,6,7,advanced_tech_notes_millennium,Advanced Tech Notes (Millennium),2,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,6,7,damaged_phaistos_disc,Damaged Phaistos Disc,1,3,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,6,7,broken_istanbul_rocket,Broken Istanbul Rocket,,16,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,6,7,credit,Credits,,450000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,7,8,superior_tech_notes_millennium,Superior Tech Notes (Millennium),3,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,7,8,advanced_tech_notes_millennium,Advanced Tech Notes (Millennium),2,12,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,7,8,intact_phaistos_disc,Intact Phaistos Disc,3,4,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,7,8,repaired_istanbul_rocket,Repaired Istanbul Rocket,,8,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,7,8,credit,Credits,,1500000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,8,9,superior_tech_notes_millennium,Superior Tech Notes (Millennium),3,12,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,8,9,intact_phaistos_disc,Intact Phaistos Disc,3,9,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,8,9,repaired_istanbul_rocket,Repaired Istanbul Rocket,,15,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,8,9,credit,Credits,,2400000,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,9,10,secret_tech_notes,Secret Tech Notes,,1,https://bluearchive.wiki/wiki/Kei,false
+kei,Kei,sub,9,10,credit,Credits,,4000000,https://bluearchive.wiki/wiki/Kei,false

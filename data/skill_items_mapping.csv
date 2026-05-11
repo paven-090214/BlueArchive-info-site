@@ -1,25 +1,18 @@
 ﻿itemName,currentItemId,finalItemId,koreanName,category,tier,appearCount,totalQuantity,sampleStudentId,sampleSkillType,needsReview
-Advanced Tactical Training Blu-ray (Valkyrie),advanced_tactical_training_blu_ray_valkyrie,valkyrie_bd_t2,발키리 상급 전술교육 BD,bd,2,4,60,kurumi,ex,false
-Advanced Tech Notes (Valkyrie),advanced_tech_notes_valkyrie,valkyrie_note_t2,발키리 상급 기술 노트,note,2,18,150,kurumi,normal,false
-Annotated Rohonc Codex,annotated_rohonc_codex,annotated_rohonc_codex,Annotated Rohonc Codex,oopart,2,4,18,kurumi,ex,true
-Beginner Tactical Training Blu-ray (Valkyrie),beginner_tactical_training_blu_ray_valkyrie,valkyrie_bd_t0,발키리 초급 전술교육 BD,bd,0,4,60,kurumi,ex,false
-Beginner Tech Notes (Valkyrie),beginner_tech_notes_valkyrie,valkyrie_note_t0,발키리 초급 기술 노트,note,0,18,150,kurumi,normal,false
-Broken Nimrud Lens,broken_nimrud_lens,broken_nimrud_lens,Broken Nimrud Lens,oopart,0,7,60,niko,ex,true
-Broken Quimbaya Relic,broken_quimbaya_relic,broken_quimbaya_relic,Broken Quimbaya Relic,oopart,0,4,76,niko,ex,true
-Credits,credit,credit,크레딧,currency,,62,80035000,kurumi,ex,false
-Damaged Nimrud Lens,damaged_nimrud_lens,damaged_nimrud_lens,Damaged Nimrud Lens,oopart,1,4,20,niko,ex,true
-Damaged Rohonc Codex,damaged_rohonc_codex,damaged_rohonc_codex,Damaged Rohonc Codex,oopart,1,7,53,kurumi,ex,true
-Golden Thread,golden_thread,golden_thread,Golden Thread,oopart,,7,117,kurumi,ex,true
-Golden Thread Spool,golden_thread_spool,golden_thread_spool,Golden Thread Spool,oopart,,4,75,kurumi,ex,true
-Golden Thread Yarn,golden_thread_yarn,golden_thread_yarn,Golden Thread Yarn,oopart,,7,88,kurumi,ex,true
-Intact Nimrud Lens,intact_nimrud_lens,intact_nimrud_lens,Intact Nimrud Lens,oopart,3,7,46,niko,ex,true
-Intact Rohonc Codex,intact_rohonc_codex,intact_rohonc_codex,Intact Rohonc Codex,oopart,3,7,48,kurumi,ex,true
-Nimrud Lens Piece,nimrud_lens_piece,nimrud_lens_piece,Nimrud Lens Piece,oopart,,4,28,niko,ex,true
-Normal Tactical Training Blu-ray (Valkyrie),normal_tactical_training_blu_ray_valkyrie,valkyrie_bd_t1,발키리 일반 전술교육 BD,bd,1,4,60,kurumi,ex,false
-Normal Tech Notes (Valkyrie),normal_tech_notes_valkyrie,valkyrie_note_t1,발키리 일반 기술 노트,note,1,18,150,kurumi,normal,false
-Quimbaya Relic Piece,quimbaya_relic_piece,quimbaya_relic_piece,Quimbaya Relic Piece,oopart,,7,130,niko,ex,true
-Repaired Quimbaya Relic,repaired_quimbaya_relic,repaired_quimbaya_relic,Repaired Quimbaya Relic,oopart,,7,91,niko,ex,true
-Rohonc Codex Page,rohonc_codex_page,rohonc_codex_page,Rohonc Codex Page,oopart,,4,29,kurumi,ex,true
-Secret Tech Notes,secret_tech_notes,secret_tech_sheet,비의서,skill_book,,6,6,kurumi,normal,false
-Superior Tactical Training Blu-ray (Valkyrie),superior_tactical_training_blu_ray_valkyrie,valkyrie_bd_t3,발키리 최상급 전술교육 BD,bd,3,2,16,kurumi,ex,false
-Superior Tech Notes (Valkyrie),superior_tech_notes_valkyrie,valkyrie_note_t3,발키리 최상급 기술 노트,note,3,12,120,kurumi,normal,false
+Advanced Tactical Training Blu-ray (Millennium),advanced_tactical_training_blu_ray_millennium,millennium_bd_t2,밀레니엄 상급 전술교육 BD,bd,2,2,30,kei,ex,false
+Advanced Tech Notes (Millennium),advanced_tech_notes_millennium,millennium_note_t2,밀레니엄 상급 기술 노트,note,2,9,75,kei,normal,false
+Beginner Tactical Training Blu-ray (Millennium),beginner_tactical_training_blu_ray_millennium,millennium_bd_t0,밀레니엄 초급 전술교육 BD,bd,0,2,30,kei,ex,false
+Beginner Tech Notes (Millennium),beginner_tech_notes_millennium,millennium_note_t0,밀레니엄 초급 기술 노트,note,0,9,75,kei,normal,false
+Broken Istanbul Rocket,broken_istanbul_rocket,broken_istanbul_rocket,Broken Istanbul Rocket,oopart,0,4,74,kei,ex,true
+Broken Phaistos Disc,broken_phaistos_disc,broken_phaistos_disc,Broken Phaistos Disc,oopart,0,7,57,kei,ex,true
+Credits,credit,credit,크레딧,currency,,31,40017500,kei,ex,false
+Damaged Phaistos Disc,damaged_phaistos_disc,damaged_phaistos_disc,Damaged Phaistos Disc,oopart,1,4,20,kei,ex,true
+Intact Phaistos Disc,intact_phaistos_disc,intact_phaistos_disc,Intact Phaistos Disc,oopart,3,7,46,kei,ex,true
+Istanbul Rocket Piece,istanbul_rocket_piece,istanbul_rocket_piece,Istanbul Rocket Piece,oopart,,7,131,kei,ex,true
+Normal Tactical Training Blu-ray (Millennium),normal_tactical_training_blu_ray_millennium,millennium_bd_t1,밀레니엄 일반 전술교육 BD,bd,1,2,30,kei,ex,false
+Normal Tech Notes (Millennium),normal_tech_notes_millennium,millennium_note_t1,밀레니엄 일반 기술 노트,note,1,9,75,kei,normal,false
+Phaistos Disc Piece,phaistos_disc_piece,phaistos_disc_piece,Phaistos Disc Piece,oopart,,4,33,kei,ex,true
+Repaired Istanbul Rocket,repaired_istanbul_rocket,repaired_istanbul_rocket,Repaired Istanbul Rocket,oopart,,7,92,kei,ex,true
+Secret Tech Notes,secret_tech_notes,secret_tech_sheet,비의서,skill_book,,3,3,kei,normal,false
+Superior Tactical Training Blu-ray (Millennium),superior_tactical_training_blu_ray_millennium,millennium_bd_t3,밀레니엄 최상급 전술교육 BD,bd,3,1,8,kei,ex,false
+Superior Tech Notes (Millennium),superior_tech_notes_millennium,millennium_note_t3,밀레니엄 최상급 기술 노트,note,3,6,60,kei,normal,false

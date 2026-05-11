@@ -238,7 +238,7 @@
 
           <div class="growth-setting-grid">
             <div class="student-level-control">
-              <span>학생 레벨:</span>
+              <span>목표 학생 레벨:</span>
               <input id="student-level-input" type="number" min="1" max="90" value="1" aria-label="학생 레벨 직접 입력" />
               <div class="student-level-range-wrap">
                 <span>Lv. 1</span>
@@ -255,6 +255,7 @@
             </div>
 
             <div class="star-setting-group" aria-label="학생 성급 및 전용무기 성급">
+              <p class="star-setting-label">목표 성급 / 전용무기 성급</p>
               <div class="growth-star-row" data-growth-star-row></div>
             </div>
           </div>
@@ -341,8 +342,9 @@
               <div class="equipment-title-row">
                 <h3>애장품 이름</h3>
                 <select class="equipment-tier-select" aria-label="애장품 티어">
-                  <option>1티어</option>
-                  <option>2티어</option>
+                  <option value="none">미선택</option>
+                  <option value="tier1">1티어</option>
+                  <option value="tier2">2티어</option>
                 </select>
               </div>
               <p>애장품 설명 placeholder입니다. 실제 보유 여부와 효과 계산은 추후 데이터로 연결합니다.</p>
@@ -510,12 +512,16 @@
 
     <script type="module">
       import { academies, students } from "./data/index.js";
+      import { calculateCharacterLevelMaterials } from "./utils/characterLevelCalculator.js";
+      import { calculateSkillMaterials, SKILL_LEVEL_RANGES } from "./utils/skillMaterialCalculator.js";
+      import { calculateStarRankEleph } from "./utils/starRankCalculator.js";
 
       const characterProfileMark = document.querySelector("#character-profile-mark");
       const characterProfileName = document.querySelector("#character-profile-name");
       const characterProfileDescription = document.querySelector("#character-profile-description");
       const studentLevelInput = document.querySelector("#student-level-input");
       const studentLevelRange = document.querySelector("#student-level-range");
+      const materialList = document.querySelector(".material-list");
       const growthStarRow = document.querySelector("[data-growth-star-row]");
       const weaponStarDisplay = document.querySelector("[data-weapon-star-display]");
       const weaponDisplayLockedMessage = document.querySelector("[data-weapon-display-locked-message]");
@@ -523,7 +529,10 @@
       const BLUE_STAR_ICON_URL = "./images/icon/Icon_blue_star.webp";
       const BLANK_STAR_ICON_URL = "./images/icon/Icon_blank_star.webp";
 
-      const characterId = Number(new URLSearchParams(window.location.search).get("id")) || 3;
+      const characterIdParam = new URLSearchParams(window.location.search).get("id");
+      const characterId = Number.isNaN(Number(characterIdParam))
+        ? characterIdParam
+        : Number(characterIdParam);
       const selectedStudent =
         students.find((student) => student.id === characterId) ||
         students.find((student) => student.id === 3) ||
@@ -568,11 +577,19 @@
 
       let selectedBaseStar = getBaseStar(selectedStudent);
       let selectedWeaponStar = getWeaponStar(selectedStudent);
+      let targetStudentLevel = Number(studentLevelInput.value) || 1;
+      let targetBaseStar = selectedBaseStar;
+      let targetWeaponStar = selectedWeaponStar;
+      const initialStudentLevel = 1;
+      const initialBaseStar = getBaseStar(selectedStudent);
+      const initialWeaponStar = getWeaponStar(selectedStudent);
 
       function syncStudentLevel(value) {
         const normalizedLevel = Math.min(90, Math.max(1, Number(value) || 1));
         studentLevelInput.value = String(normalizedLevel);
         studentLevelRange.value = String(normalizedLevel);
+        targetStudentLevel = normalizedLevel;
+        renderRequiredMaterials();
       }
 
       studentLevelInput.addEventListener("input", () => {
@@ -648,19 +665,25 @@
         if (slotNumber <= 5) {
           button.setAttribute("aria-label", `기본 성급 ${slotNumber}성 선택`);
           button.addEventListener("click", () => {
-            selectedBaseStar = slotNumber;
-            selectedWeaponStar = 0;
+            targetBaseStar = slotNumber;
+            targetWeaponStar = 0;
+            selectedBaseStar = targetBaseStar;
+            selectedWeaponStar = targetWeaponStar;
             renderGrowthStars();
             renderWeaponStarDisplay();
+            renderRequiredMaterials();
           });
         } else {
           const weaponRank = slotNumber - 5;
           button.setAttribute("aria-label", `전용무기 ${weaponRank}성 선택`);
           button.addEventListener("click", () => {
-            selectedBaseStar = 5;
-            selectedWeaponStar = weaponRank;
+            targetBaseStar = 5;
+            targetWeaponStar = weaponRank;
+            selectedBaseStar = targetBaseStar;
+            selectedWeaponStar = targetWeaponStar;
             renderGrowthStars();
             renderWeaponStarDisplay();
+            renderRequiredMaterials();
           });
         }
 
@@ -693,9 +716,244 @@
         );
       }
 
+      function setupSkillMaterialControls() {
+        const skillCards = document.querySelectorAll(".character-skill-panel .skill-card");
+        const skillTypes = ["ex", "normal", "passive", "sub"];
+
+        skillCards.forEach((card, index) => {
+          const skillType = skillTypes[index];
+          const currentSelect = card.querySelector(".skill-level-select");
+          const titleRow = card.querySelector(".skill-title-row");
+          const range = SKILL_LEVEL_RANGES[skillType];
+
+          if (!skillType || !currentSelect || !titleRow || !range) {
+            return;
+          }
+
+          currentSelect.dataset.skillType = skillType;
+          currentSelect.dataset.levelKind = "current";
+          currentSelect.setAttribute("aria-label", `${currentSelect.getAttribute("aria-label")} 현재 레벨`);
+
+          const targetSelect = createLevelSelect({
+            skillType,
+            levelKind: "target",
+            min: range.min,
+            max: range.max,
+            value: range.max,
+            ariaLabel: `${getSkillLabel(skillType)} 목표 레벨`,
+          });
+          targetSelect.classList.add("skill-target-level-select");
+
+          const controlGroup = document.createElement("div");
+          controlGroup.className = "skill-level-control-group";
+
+          const currentWrap = wrapSelect("현재", currentSelect);
+          const targetWrap = wrapSelect("목표", targetSelect);
+
+          titleRow.append(controlGroup);
+          controlGroup.append(currentWrap, targetWrap);
+
+          currentSelect.addEventListener("change", renderRequiredMaterials);
+          targetSelect.addEventListener("change", renderRequiredMaterials);
+        });
+      }
+
+      function createLevelSelect({ skillType, levelKind, min, max, value, ariaLabel }) {
+        const select = document.createElement("select");
+        select.className = "skill-level-select";
+        select.dataset.skillType = skillType;
+        select.dataset.levelKind = levelKind;
+        select.setAttribute("aria-label", ariaLabel);
+
+        for (let level = min; level <= max; level += 1) {
+          const option = document.createElement("option");
+          option.value = String(level);
+          option.textContent = `Lv. ${level}`;
+          select.append(option);
+        }
+
+        select.value = String(value);
+        return select;
+      }
+
+      function wrapSelect(labelText, select) {
+        const label = document.createElement("label");
+        label.className = "compact-field";
+        label.append(document.createTextNode(labelText), select);
+        return label;
+      }
+
+      function getSkillLabel(skillType) {
+        const labels = {
+          ex: "EX 스킬",
+          normal: "1스킬",
+          passive: "2스킬",
+          sub: "3스킬",
+        };
+
+        return labels[skillType] || "스킬";
+      }
+
+      function renderRequiredMaterials() {
+        const levelResult = calculateCharacterLevelMaterials({
+          currentLevel: initialStudentLevel,
+          targetLevel: targetStudentLevel,
+        });
+        const starResult = calculateStarRankEleph({
+          currentBaseStar: initialBaseStar,
+          currentWeaponStar: initialWeaponStar,
+          targetBaseStar,
+          targetWeaponStar,
+        });
+        const skillResults = getSkillMaterialResults();
+        const materialMap = new Map();
+
+        mergeMaterials(materialMap, levelResult.materials);
+        skillResults.forEach((result) => mergeMaterials(materialMap, result.materials));
+
+        if (starResult.elephQuantity > 0) {
+          mergeMaterials(materialMap, [
+            {
+              itemId: `${selectedStudent.id}-eleph`,
+              itemName: `${selectedStudent.name}의 엘레프`,
+              tier: null,
+              quantity: starResult.elephQuantity,
+              needsReview: true,
+            },
+          ]);
+        }
+
+        const materials = sortMaterials([...materialMap.values()]);
+        const skillHasData = skillResults.some((result) => result.hasData);
+        const cards = materials.map(createMaterialCard);
+
+        if (!skillHasData) {
+          cards.push(createMaterialNotice("스킬 재화 데이터가 아직 없습니다."));
+        }
+
+        if (materials.length === 0 && skillHasData) {
+          cards.push(createMaterialNotice("선택한 성장 구간에 필요한 재화가 없습니다."));
+        }
+
+        materialList.replaceChildren(...cards);
+      }
+
+      function getSkillMaterialResults() {
+        return [...document.querySelectorAll(".skill-level-select[data-level-kind='current']")].map((currentSelect) => {
+          const skillType = currentSelect.dataset.skillType;
+          const targetSelect = document.querySelector(
+            `.skill-level-select[data-skill-type="${skillType}"][data-level-kind="target"]`,
+          );
+
+          return calculateSkillMaterials({
+            studentId: selectedStudent.id,
+            skillType,
+            currentLevel: currentSelect.value,
+            targetLevel: targetSelect?.value ?? currentSelect.value,
+          });
+        });
+      }
+
+      function mergeMaterials(materialMap, materials) {
+        materials.forEach((material) => {
+          const existing = materialMap.get(material.itemId);
+
+          if (existing) {
+            existing.quantity += material.quantity;
+            existing.needsReview = existing.needsReview || Boolean(material.needsReview);
+            return;
+          }
+
+          materialMap.set(material.itemId, { ...material, needsReview: Boolean(material.needsReview) });
+        });
+      }
+
+      function sortMaterials(materials) {
+        return materials.sort((left, right) => {
+          if (left.itemId === "credit") {
+            return 1;
+          }
+
+          if (right.itemId === "credit") {
+            return -1;
+          }
+
+          return left.itemName.localeCompare(right.itemName, "ko");
+        });
+      }
+
+      function createMaterialCard(material) {
+        const card = document.createElement("article");
+        card.className = "material-card";
+
+        const icon = document.createElement("div");
+        icon.className = "material-image-placeholder";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = getMaterialInitial(material.itemName);
+
+        const body = document.createElement("div");
+        const titleRow = document.createElement("div");
+        titleRow.className = "material-title-row";
+
+        const title = document.createElement("h3");
+        title.textContent = material.itemName;
+        titleRow.append(title);
+
+        if (material.needsReview) {
+          const badge = document.createElement("span");
+          badge.className = "material-review-badge";
+          badge.textContent = "검수 필요";
+          titleRow.append(badge);
+        }
+
+        const quantity = document.createElement("p");
+        quantity.innerHTML = `필요 수량 <strong>${formatNumber(material.quantity)}</strong>`;
+
+        body.append(titleRow, quantity);
+        card.append(icon, body);
+        return card;
+      }
+
+      function createMaterialNotice(message) {
+        const notice = document.createElement("p");
+        notice.className = "material-empty-message";
+        notice.textContent = message;
+        return notice;
+      }
+
+      function getMaterialInitial(name) {
+        if (name.includes("크레딧")) {
+          return "C";
+        }
+
+        if (name.includes("BD")) {
+          return "BD";
+        }
+
+        if (name.includes("보고서")) {
+          return "EXP";
+        }
+
+        if (name.includes("노트")) {
+          return "노";
+        }
+
+        if (name.includes("엘레프")) {
+          return "엘";
+        }
+
+        return name.slice(0, 1);
+      }
+
+      function formatNumber(value) {
+        return new Intl.NumberFormat("ko-KR").format(value);
+      }
+
+      setupSkillMaterialControls();
       syncStudentLevel(1);
       renderGrowthStars();
       renderWeaponStarDisplay();
+      renderRequiredMaterials();
     </script>
   </body>
 </html>

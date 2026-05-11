@@ -18,3 +18,14 @@
 - 현재 학생 데이터는 기존 `rarity`를 유지하되, 화면 표시는 `starRank`를 우선 사용한다.
 - 학생 카드를 클릭하면 `character-detail.html?id=...`로 이동한다.
 
+## 학생 상세 화면 스킬 재화 계산
+
+- 성장 재화 계산 UI는 학생 상세 화면의 `필요한 재화` 영역에 둔다.
+- 메인 화면에는 스킬 재화 계산기 이동 UI를 만들지 않는다.
+- 선택된 학생의 `id`를 `studentId`로 사용한다.
+- Kei처럼 문자열 ID를 가진 학생도 `character-detail.html?id=kei`로 열 수 있어야 한다.
+- 목표 학생 레벨, 목표 성급, 목표 전용무기 성급, 스킬별 현재/목표 레벨을 계산 입력으로 사용한다.
+- 레벨업 재화, 스킬 강화 재화, 성급 및 전용무기 성급 엘레프를 같은 결과 영역에 합산 표시한다.
+- 계산 로직과 데이터 규칙은 `docs/data-skill-material-calculator.md`를 기준으로 한다.
+- 상세 UI 규칙은 `docs/ui-skill-material-calculator.md`를 기준으로 한다.
+

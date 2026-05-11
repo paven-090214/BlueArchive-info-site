@@ -25,8 +25,7 @@ HEADERS = {
 
 # 처음에는 테스트용으로 2명만 사용
 CHARACTER_TITLES = [
-    "Kurumi",
-    "Niko",
+    "Kei",
 ]
 
 

@@ -218,14 +218,49 @@ data/student-growth-profiles.js
 학생별 연결은 이름이 아니라 `studentId`를 사용한다.  
 지금 단계에서 학생 ID를 slug 문자열로 전체 변경하지 않는다.
 
-## 아직 만들지 않는 데이터
+## 요구량 데이터 분리
 
-다음 요구량 테이블은 다음 단계에서 만든다.
+요구량 데이터는 성장 재화 연결 데이터와 분리한다.
 
-- 레벨업 요구량
-- 스킬업 요구량
+스킬 강화 요구량:
+
+```text
+data/skillMaterialRequirements.js
+```
+
+스킬 강화 재화 계산 규칙:
+
+```text
+docs/data-skill-material-calculator.md
+```
+
+스킬 강화 재화 계산 UI:
+
+```text
+docs/ui-skill-material-calculator.md
+```
+
+성급 및 전용무기 성급 요구량:
+
+```text
+data/starRankRequirements.js
+```
+
+성급 및 전용무기 성급 재화 계산 규칙:
+
+```text
+docs/data-star-rank-calculator.md
+```
+
+학생 레벨업 EXP 및 크레딧 계산 규칙:
+
+```text
+docs/data-character-level-calculator.md
+```
+
+## 아직 만들지 않는 요구량 데이터
+
+다음 요구량 테이블은 아직 만들지 않는다.
+
 - 장비 티어업 요구량
-- 성급 요구량
-- 전용무기 요구량
-
-이번 단계에서는 재화 계산기 UI와 계산 로직도 만들지 않는다.
+- 전용무기 레벨 요구량
