@@ -149,10 +149,9 @@
         academyMap.replaceChildren(image, markerLayer);
       }
 
-      function createClubCard(club, index) {
+      function createClubCard(club) {
         const details = document.createElement("details");
         details.className = "club-card";
-        details.open = index === 0;
 
         const summary = document.createElement("summary");
         const summaryText = document.createElement("span");
