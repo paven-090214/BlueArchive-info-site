@@ -64,7 +64,7 @@
               <span class="filter-star-label" aria-label="성급">
                 <img src="./images/icon/Icon_star.webp" alt="" aria-hidden="true" />
               </span>
-              <select id="rarity-filter" name="rarity">
+              <select id="base-star-filter" name="baseStar">
                 <option value="">전체</option>
                 <option value="1">1성</option>
                 <option value="2">2성</option>
@@ -114,13 +114,12 @@
       const filterForm = document.querySelector("#character-filter-form");
       const academyFilter = document.querySelector("#academy-filter");
       const clubFilter = document.querySelector("#club-filter");
-      const rarityFilter = document.querySelector("#rarity-filter");
+      const baseStarFilter = document.querySelector("#base-star-filter");
       const attackFilter = document.querySelector("#attack-filter");
       const defenseFilter = document.querySelector("#defense-filter");
       const roleFilter = document.querySelector("#role-filter");
       const nameSearchInput = document.querySelector("#character-name-search");
       const STAR_ICON_URL = "./images/icon/Icon_star.webp";
-      const BLUE_STAR_ICON_URL = "./images/icon/Icon_blue_star.webp";
 
       function getAcademyName(slug) {
         return academies.find((academy) => academy.slug === slug)?.shortName || "임시 학원";
@@ -145,8 +144,8 @@
         const titleRow = document.createElement("div");
         titleRow.className = "student-list-title-row";
         const name = document.createElement("h3");
-        const starRank = getStudentStarRank(student);
-        const rarity = renderStarIcons(starRank, "student", `기본 성급 ${starRank}성`);
+        const baseStar = getStudentBaseStar(student);
+        const baseStarIcons = renderStarIcons(baseStar, "student", `기본 성급 ${baseStar}성`);
 
         const club = document.createElement("p");
         club.className = "student-list-club";
@@ -160,49 +159,36 @@
         const defenseItem = createBadgeDetail("방어 타입", student.defenseType, "defense");
 
         name.textContent = student.name;
-        titleRow.append(name, rarity);
+        titleRow.append(name, baseStarIcons);
 
         detailList.append(roleItem, attackItem, defenseItem);
 
-        content.append(titleRow, club);
+        content.append(titleRow, club, detailList);
 
-        const weaponStarRank = getWeaponStarRank(student);
-        if (weaponStarRank != null) {
-          const weaponStars = renderStarIcons(weaponStarRank, "weapon", `전용무기 성급 ${weaponStarRank}성`);
-          weaponStars.classList.add("student-list-weapon-stars");
-          content.append(weaponStars);
-        }
-
-        content.append(detailList);
         link.append(portrait, content);
         return link;
       }
 
-      function getStudentStarRank(student) {
-        return Number(student.starRank ?? student.rarity ?? 0);
+      function getStudentBaseStar(student) {
+        return Number(student.baseStar ?? 0);
       }
 
-      function getWeaponStarRank(student) {
-        return student.weaponStarRank == null ? null : Number(student.weaponStarRank);
-      }
-
-      function createStarIcon(kind, index) {
+      function createStarIcon() {
         const image = document.createElement("img");
-        image.className = `star-icon ${kind}-star-icon`;
-        image.src = kind === "weapon" ? BLUE_STAR_ICON_URL : STAR_ICON_URL;
+        image.className = `star-icon student-star-icon`;
+        image.src = STAR_ICON_URL;
         image.alt = "";
         image.setAttribute("aria-hidden", "true");
-        image.dataset.starIndex = String(index + 1);
         return image;
       }
 
-      function renderStarIcons(count, kind, ariaLabel) {
+      function renderStarIcons(count, ariaLabel) {
         const list = document.createElement("span");
-        list.className = `star-icon-list ${kind}-star-icon-list`;
+        list.className = `star-icon-list student-star-icon-list`;
         list.setAttribute("aria-label", ariaLabel);
 
         for (let index = 0; index < count; index += 1) {
-          list.append(createStarIcon(kind, index));
+          list.append(createStarIcon());
         }
 
         return list;
@@ -233,14 +219,14 @@
 
       function getTypeClass(value) {
         const typeMap = {
-          폭발: "red",
-          경장갑: "red",
-          관통: "yellow",
-          중장갑: "yellow",
-          신비: "blue",
-          특수장갑: "blue",
-          진동: "purple",
-          탄력장갑: "purple",
+          "폭발": "red",
+          "경장갑": "red",
+          "관통": "yellow",
+          "중장갑": "yellow",
+          "신비": "blue",
+          "특수장갑": "blue",
+          "진동": "purple",
+          "탄력장갑": "purple",
         };
 
         return typeMap[value] || "neutral";
@@ -278,10 +264,6 @@
           option.textContent = club.name;
           clubFilter.append(option);
         });
-
-        if ([...clubFilter.options].some((option) => option.value === selectedClubValue)) {
-          clubFilter.value = selectedClubValue;
-        }
       }
 
       function renderCharacters() {
@@ -289,7 +271,7 @@
           nameKeyword: nameSearchInput.value.trim(),
           academySlug: academyFilter.value,
           clubId: clubFilter.value,
-          rarity: rarityFilter.value,
+          baseStar: baseStarFilter.value,
           attackType: attackFilter.value,
           defenseType: defenseFilter.value,
           role: roleFilter.value,
@@ -300,7 +282,7 @@
             (!filterValues.nameKeyword || student.name.includes(filterValues.nameKeyword)) &&
             (!filterValues.academySlug || student.academySlug === filterValues.academySlug) &&
             (!filterValues.clubId || student.clubId === filterValues.clubId) &&
-            (!filterValues.rarity || String(getStudentStarRank(student)) === filterValues.rarity) &&
+            (!filterValues.baseStar || String(getStudentBaseStar(student)) === filterValues.baseStar) &&
             (!filterValues.attackType || student.attackType === filterValues.attackType) &&
             (!filterValues.defenseType || student.defenseType === filterValues.defenseType) &&
             (!filterValues.role || student.role === filterValues.role)
@@ -326,7 +308,7 @@
 
       academyFilter.addEventListener("change", () => {
         addClubOptions(academyFilter.value);
-        renderCharacters();
+        // renderCharacters();
       });
 
       nameSearchInput.addEventListener("input", renderCharacters);

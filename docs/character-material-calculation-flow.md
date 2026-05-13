@@ -91,8 +91,8 @@ const selectedStudent =
 | 항목 | 현재값 | 목표값 |
 | --- | --- | --- |
 | 학생 레벨 | 임시로 1 | 화면의 목표 학생 레벨 입력 |
-| 기본 성급 | `students.js`의 `baseStar` 또는 `rarity` | 별 UI에서 선택한 기본 성급 |
-| 전용무기 성급 | `students.js`의 `weaponStar` | 별 UI에서 선택한 전용무기 성급 |
+| 기본 성급 | `students.js`의 `baseStar` | 별 UI에서 선택한 기본 성급 |
+| 전용무기 성급 | 임시로 0 | 별 UI에서 선택한 전용무기 성급 |
 | 스킬 레벨 | 스킬 카드의 현재 레벨 select | 스킬 카드의 목표 레벨 select |
 
 나중에 유저 저장 기능이 생기면 현재값은 저장된 유저 상태에서 가져와야 한다.

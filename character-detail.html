@@ -576,13 +576,13 @@
       renderStudentDetail(selectedStudent);
 
       let selectedBaseStar = getBaseStar(selectedStudent);
-      let selectedWeaponStar = getWeaponStar(selectedStudent);
+      let selectedWeaponStar = getWeaponStar();
       let targetStudentLevel = Number(studentLevelInput.value) || 1;
       let targetBaseStar = selectedBaseStar;
       let targetWeaponStar = selectedWeaponStar;
       const initialStudentLevel = 1;
       const initialBaseStar = getBaseStar(selectedStudent);
-      const initialWeaponStar = getWeaponStar(selectedStudent);
+      const initialWeaponStar = getWeaponStar();
 
       function syncStudentLevel(value) {
         const normalizedLevel = Math.min(90, Math.max(1, Number(value) || 1));
@@ -605,11 +605,11 @@
       }
 
       function getBaseStar(student) {
-        return clampNumber(student.baseStar ?? student.rarity ?? 1, 1, 5);
+        return clampNumber(student.baseStar ?? 1, 1, 5);
       }
 
-      function getWeaponStar(student) {
-        return clampNumber(student.weaponStar ?? 0, 0, 4);
+      function getWeaponStar() {
+        return 0;
       }
 
       function getGrowthStarKind(slotNumber, baseStar, weaponStar) {
@@ -632,13 +632,12 @@
         return BLANK_STAR_ICON_URL;
       }
 
-      function createStarIcon(kind, index) {
+      function createStarIcon(kind) {
         const image = document.createElement("img");
         image.className = `star-icon ${kind}-star-icon`;
         image.src = getStarIconUrl(kind);
         image.alt = "";
         image.setAttribute("aria-hidden", "true");
-        image.dataset.starIndex = String(index + 1);
         return image;
       }
 
@@ -648,7 +647,7 @@
         list.setAttribute("aria-label", ariaLabel);
 
         for (let index = 0; index < count; index += 1) {
-          list.append(createStarIcon(kind, index));
+          list.append(createStarIcon(kind));
         }
 
         return list;
@@ -687,7 +686,7 @@
           });
         }
 
-        button.append(createStarIcon(kind, slotNumber - 1));
+        button.append(createStarIcon(kind));
         return button;
       }
 

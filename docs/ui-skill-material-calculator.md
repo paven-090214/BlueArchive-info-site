@@ -56,8 +56,8 @@ character-detail.html?id=kei
 학생의 현재 기준값:
 
 - 현재 학생 레벨은 임시로 1레벨을 사용한다.
-- 현재 기본 성급은 `data/students.js`의 `baseStar` 또는 `rarity`를 사용한다.
-- 현재 전용무기 성급은 `data/students.js`의 `weaponStar`를 사용한다.
+- 현재 기본 성급은 `data/students.js`의 `baseStar`를 사용한다.
+- 현재 전용무기 성급은 학생 마스터 데이터에 저장하지 않고, 상세 화면 성장 UI의 임시 선택값은 0부터 시작한다.
 
 각 스킬은 현재 레벨과 목표 레벨을 가진다.
 

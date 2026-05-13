@@ -119,11 +119,20 @@ body
 ```text
 #academy-filter
 #club-filter
-#rarity-filter
+#base-star-filter
 #attack-filter
 #defense-filter
 #role-filter
 ```
+
+변경 메모:
+
+```text
+지워진 부분: #rarity-filter
+생긴 부분: #base-star-filter
+```
+
+이전에는 성급 필터 이름이 `rarity` 기준이었지만, 현재는 학생 기본 성급을 `baseStar`로 통일했기 때문에 id도 `base-star-filter`로 바뀌었습니다.
 
 초기 HTML에는 대부분 `전체` option만 있습니다.
 
@@ -233,15 +242,27 @@ seminar
 supplementary-lessons
 ```
 
-### rarityFilter
+### baseStarFilter
 
 ```js
-const rarityFilter = document.querySelector("#rarity-filter");
+const baseStarFilter = document.querySelector("#base-star-filter");
 ```
 
 기본 성급 필터입니다.
 
 HTML에 1성, 2성, 3성 option이 직접 들어 있습니다.
+
+변경 메모:
+
+```js
+// 지워진 부분
+const rarityFilter = document.querySelector("#rarity-filter");
+
+// 생긴 부분
+const baseStarFilter = document.querySelector("#base-star-filter");
+```
+
+`rarity`라는 이름은 데이터 구조에서 제거했고, 기본 성급은 `baseStar`라는 이름으로 맞췄습니다.
 
 ### attackFilter, defenseFilter, roleFilter
 
@@ -335,12 +356,25 @@ function createCharacterCard(student) {
   name: "노아",
   academySlug: "millennium",
   clubId: "seminar",
-  rarity: 3,
+  baseStar: 3,
   role: "서포터",
   attackType: "신비",
   defenseType: "특수장갑",
 }
 ```
+
+변경 메모:
+
+```js
+// 지워진 부분
+rarity: 3,
+weaponStar: 0,
+
+// 유지/기준 필드
+baseStar: 3,
+```
+
+`rarity`는 `baseStar`와 같은 의미로 중복되어 제거했습니다. `weaponStar: 0`은 유저별 성장 상태에 가까운 값이라 학생 마스터 데이터에서는 제거했습니다.
 
 이 함수는 학생 하나를 클릭 가능한 카드 DOM으로 만듭니다.
 
@@ -389,9 +423,23 @@ portraitClass가 있으면 사용하고,
 
 ```js
 const name = document.createElement("h3");
+const baseStar = getStudentBaseStar(student);
+const baseStarIcons = renderStarIcons(baseStar, "student", `기본 성급 ${baseStar}성`);
+```
+
+변경 메모:
+
+```js
+// 지워진 부분
 const starRank = getStudentStarRank(student);
 const rarity = renderStarIcons(starRank, "student", `기본 성급 ${starRank}성`);
+
+// 생긴 부분
+const baseStar = getStudentBaseStar(student);
+const baseStarIcons = renderStarIcons(baseStar, "student", `기본 성급 ${baseStar}성`);
 ```
+
+이전 코드는 `starRank`, `rarity` 이름이 섞여 있어 헷갈릴 수 있었습니다. 현재는 값도 변수명도 `baseStar` 기준으로 맞췄습니다.
 
 학생 이름은 `h3`에 들어갑니다.
 
@@ -448,22 +496,37 @@ dd: 항목 값
 
 ## 성급 관련 함수
 
-### getStudentStarRank(student)
+### getStudentBaseStar(student)
 
 ```js
-function getStudentStarRank(student) {
-  return Number(student.starRank ?? student.rarity ?? 0);
+function getStudentBaseStar(student) {
+  return Number(student.baseStar ?? 0);
 }
 ```
 
+변경 메모:
+
+```js
+// 지워진 부분
+function getStudentStarRank(student) {
+  return Number(student.starRank ?? student.rarity ?? 0);
+}
+
+// 생긴 부분
+function getStudentBaseStar(student) {
+  return Number(student.baseStar ?? 0);
+}
+```
+
+기존 함수는 `starRank`, `rarity`를 순서대로 확인했습니다. 현재 데이터에서는 기본 성급을 `baseStar` 하나로 관리하므로 `baseStar`만 확인합니다.
+
 학생 기본 성급 숫자를 반환합니다.
 
-우선순위:
+기준:
 
 ```text
-student.starRank
-→ student.rarity
-→ 0
+student.baseStar
+→ 없으면 0
 ```
 
 `??`는 nullish coalescing 연산자입니다.
@@ -473,29 +536,37 @@ student.starRank
 예:
 
 ```js
-student.starRank ?? student.rarity
+student.baseStar ?? 0
 ```
 
 뜻:
 
 ```text
-student.starRank가 null/undefined가 아니면 그것을 사용
-없으면 student.rarity 사용
+student.baseStar가 null/undefined가 아니면 그것을 사용
+없으면 0 사용
 ```
 
-### getWeaponStarRank(student)
+학생 목록 카드에는 전용무기 성급을 표시하지 않습니다.
+
+전용무기 성급은 학생의 출시 기본 정보라기보다 유저별 성장 상태에 가까우므로, 학생 목록의 마스터 데이터 표시에서는 제외합니다.
+
+변경 메모:
 
 ```js
+// 지워진 부분
 function getWeaponStarRank(student) {
   return student.weaponStarRank == null ? null : Number(student.weaponStarRank);
 }
+
+const weaponStarRank = getWeaponStarRank(student);
+if (weaponStarRank != null) {
+  const weaponStars = renderStarIcons(weaponStarRank, "weapon", `전용무기 성급 ${weaponStarRank}성`);
+  weaponStars.classList.add("student-list-weapon-stars");
+  content.append(weaponStars);
+}
 ```
 
-전용무기 성급 값을 반환합니다.
-
-현재 `data/students.js`에는 `weaponStar`가 들어 있는 데이터도 있지만, 이 함수는 `weaponStarRank`를 봅니다.
-
-따라서 `weaponStarRank`가 없는 학생은 `null`로 처리되어 목록 카드에 전용무기 별이 표시되지 않습니다.
+학생 목록 페이지에서는 전용무기 별을 표시하지 않으므로 위 로직을 제거했습니다. 전용무기 선택 UI는 학생 상세 성장 영역에서 별도로 다룹니다.
 
 ### renderStarIcons(count, kind, ariaLabel)
 
@@ -506,7 +577,7 @@ function renderStarIcons(count, kind, ariaLabel) {
   list.setAttribute("aria-label", ariaLabel);
 
   for (let index = 0; index < count; index += 1) {
-    list.append(createStarIcon(kind, index));
+    list.append(createStarIcon(kind));
   }
 
   return list;
@@ -521,40 +592,46 @@ function renderStarIcons(count, kind, ariaLabel) {
 
 ```text
 student: 기본 성급 별
-weapon: 전용무기 성급 별
+현재 학생 목록에서는 `student` 기본 성급 별만 사용합니다.
 ```
 
-### createStarIcon(kind, index)
+### createStarIcon(kind)
 
 ```js
-function createStarIcon(kind, index) {
+function createStarIcon(kind) {
   const image = document.createElement("img");
   image.className = `star-icon ${kind}-star-icon`;
-  image.src = kind === "weapon" ? BLUE_STAR_ICON_URL : STAR_ICON_URL;
+  image.src = STAR_ICON_URL;
   image.alt = "";
   image.setAttribute("aria-hidden", "true");
-  image.dataset.starIndex = String(index + 1);
   return image;
 }
 ```
 
 별 이미지 하나를 만듭니다.
 
-`kind`가 `"weapon"`이면 파란 별 이미지를 쓰고, 아니면 일반 별 이미지를 씁니다.
+학생 목록에서는 기본 성급만 표시하므로 일반 별 이미지를 사용합니다.
+
+별의 순서는 별도 `data-*` 속성으로 저장하지 않습니다. 화면에는 별 개수와 부모 `aria-label`만으로 기본 성급을 전달합니다.
+
+변경 메모:
 
 ```js
-image.dataset.starIndex = String(index + 1);
+// 지워진 부분
+function createStarIcon(kind, index) {
+  ...
+  image.src = kind === "weapon" ? BLUE_STAR_ICON_URL : STAR_ICON_URL;
+  image.dataset.starIndex = String(index + 1);
+}
+
+// 생긴 부분
+function createStarIcon(kind) {
+  ...
+  image.src = STAR_ICON_URL;
+}
 ```
 
-`data-star-index` 속성을 추가합니다.
-
-예:
-
-```html
-<img data-star-index="1" />
-```
-
-현재 화면 기능보다는 스타일링이나 디버깅에 활용할 수 있는 정보입니다.
+`BLUE_STAR_ICON_URL`은 학생 목록에서 전용무기 별을 표시하지 않게 되어 제거했습니다. `data-star-index`도 현재 기능에 필요하지 않아 제거했습니다.
 
 ## 상세 정보 생성 함수
 
@@ -739,14 +816,6 @@ filteredClubs.forEach((club) => {
 });
 ```
 
-마지막으로 이전에 선택한 동아리가 새 option 목록에도 있으면 유지합니다.
-
-```js
-if ([...clubFilter.options].some((option) => option.value === selectedClubValue)) {
-  clubFilter.value = selectedClubValue;
-}
-```
-
 ## 학생 목록 렌더링
 
 ### renderCharacters()
@@ -764,7 +833,7 @@ const filterValues = {
   nameKeyword: nameSearchInput.value.trim(),
   academySlug: academyFilter.value,
   clubId: clubFilter.value,
-  rarity: rarityFilter.value,
+  baseStar: baseStarFilter.value,
   attackType: attackFilter.value,
   defenseType: defenseFilter.value,
   role: roleFilter.value,
@@ -779,7 +848,7 @@ const filteredStudents = students.filter((student) => {
     (!filterValues.nameKeyword || student.name.includes(filterValues.nameKeyword)) &&
     (!filterValues.academySlug || student.academySlug === filterValues.academySlug) &&
     (!filterValues.clubId || student.clubId === filterValues.clubId) &&
-    (!filterValues.rarity || String(getStudentStarRank(student)) === filterValues.rarity) &&
+    (!filterValues.baseStar || String(getStudentBaseStar(student)) === filterValues.baseStar) &&
     (!filterValues.attackType || student.attackType === filterValues.attackType) &&
     (!filterValues.defenseType || student.defenseType === filterValues.defenseType) &&
     (!filterValues.role || student.role === filterValues.role)
@@ -1002,7 +1071,7 @@ student.name.includes(filterValues.nameKeyword)
 ### nullish coalescing
 
 ```js
-student.starRank ?? student.rarity ?? 0
+student.baseStar ?? 0
 ```
 
 왼쪽 값이 `null` 또는 `undefined`일 때만 오른쪽 값을 사용합니다.
@@ -1014,20 +1083,6 @@ charactersList.replaceChildren(...cards);
 ```
 
 배열 안의 요소들을 하나씩 펼쳐서 전달합니다.
-
-### dataset
-
-```js
-image.dataset.starIndex = String(index + 1);
-```
-
-HTML의 `data-*` 속성을 설정합니다.
-
-결과:
-
-```html
-<img data-star-index="1" />
-```
 
 ## 이 코드가 존재하는 이유
 
@@ -1047,7 +1102,7 @@ HTML의 `data-*` 속성을 설정합니다.
 - 동아리 연결은 `student.clubId`와 `club.id` 기준입니다.
 - 학생 이름 검색은 현재 `student.name`만 대상으로 합니다.
 - `students.js`의 `attackType`, `defenseType`, `role` 값이 바뀌면 필터 option도 자동으로 바뀝니다.
-- `rarity` 필터는 `getStudentStarRank(student)` 결과와 비교합니다.
+- 성급 필터는 `getStudentBaseStar(student)` 결과와 비교합니다.
 - `charactersList`가 없으면 현재 코드에는 방어 처리가 없으므로 HTML id를 바꾸면 오류가 날 수 있습니다.
 
 ## 현재 임시 처리
@@ -1055,4 +1110,4 @@ HTML의 `data-*` 속성을 설정합니다.
 - 학생 이미지는 실제 `<img>`가 아니라 `portraitClass` 기반 placeholder입니다.
 - 학생 데이터 일부는 `임시 데이터`, `임시 표시` 값을 사용합니다.
 - 상단 통합검색 input은 현재 이 페이지의 필터 로직과 연결되어 있지 않습니다.
-- 전용무기 별은 `weaponStarRank`가 있을 때만 표시됩니다. 현재 `students.js`의 `weaponStar`와 이름이 다르므로 대부분 표시되지 않을 수 있습니다.
+- 학생 목록 카드에는 전용무기 별을 표시하지 않습니다.
