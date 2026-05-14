@@ -398,6 +398,24 @@ a {
   margin-bottom: 18px;
 }
 
+.pickup-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pickup-carousel-controls {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+.pickup-carousel-controls[hidden] {
+  display: none;
+}
+
 .eyebrow {
   margin: 0 0 6px;
   color: var(--blue-dark);
@@ -432,6 +450,46 @@ p {
 .character-list {
   display: grid;
   gap: 14px;
+}
+
+.pickup-carousel-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.pickup-carousel-list .character-card {
+  grid-template-columns: 96px minmax(0, 1fr);
+  justify-items: stretch;
+  min-height: 128px;
+  text-align: left;
+}
+
+.pickup-carousel-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--blue-dark);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1;
+  box-shadow: 0 8px 18px rgba(29, 65, 99, 0.12);
+  cursor: pointer;
+}
+
+.pickup-carousel-button:hover,
+.pickup-carousel-button:focus {
+  border-color: var(--blue);
+  outline: none;
 }
 
 .characters-panel {

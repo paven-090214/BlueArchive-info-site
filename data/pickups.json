@@ -4957,7 +4957,56 @@
     ],
     "distributions": [],
     "source": "공식 공지",
-    "needsReview": false,
-    "status": "진행중"
+    "needsReview": false
+  },
+    {
+    "weekLabel": "235주차",
+    "startDate": "2026-05-05",
+    "endDate": "2026-05-11",
+    "title": "와카모, 미카, 호시노(수영복) 리콜렉트 모집",
+    "characters": [
+      {
+        "name": "와카모",
+        "type": "리콜렉트 모집"
+      },
+      {
+        "name": "미카",
+        "type": "리콜렉트 모집"
+      },
+      {
+        "name": "호시노(수영복)",
+        "type": "리콜렉트 모집"
+      }
+    ],
+    "distributions": [],
+    "source": "공식 공지",
+    "needsReview": false
+  },
+  {
+    "weekLabel": "236주차",
+    "startDate": "2026-05-12",
+    "endDate": "2026-05-18",
+    "title": "키사키, 레이죠, 유우카(체육복), 마리(체육복) 픽업",
+    "characters": [
+      {
+        "name": "키사키",
+        "type": "통상 복각"
+      },
+      {
+        "name": "레이죠",
+        "type": "통상 복각"
+      },
+      {
+        "name": "유우카(체육복)",
+        "type": "한정 복각"
+      },
+      {
+        "name": "마리(체육복)",
+        "type": "한정 복각"
+      }
+    ],
+    "distributions": [],
+    "source": "공식 공지",
+    "needsReview": false
   }
 ]

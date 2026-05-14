@@ -44,9 +44,29 @@
 
       <section class="main-grid" aria-label="메인 정보">
         <article class="panel pickup-panel">
-          <div class="panel-heading">
-            <p class="eyebrow">PICKUP</p>
-            <h2>진행 중인 픽업 캐릭터</h2>
+          <div class="panel-heading pickup-panel-heading">
+            <div>
+              <p class="eyebrow">PICKUP</p>
+              <h2>진행 중인 픽업 캐릭터</h2>
+            </div>
+            <div id="pickup-carousel-controls" class="pickup-carousel-controls" hidden>
+              <button
+                id="pickup-carousel-prev"
+                class="pickup-carousel-button"
+                type="button"
+                aria-label="이전 픽업 캐릭터 보기"
+              >
+                &lt;
+              </button>
+              <button
+                id="pickup-carousel-next"
+                class="pickup-carousel-button"
+                type="button"
+                aria-label="다음 픽업 캐릭터 보기"
+              >
+                &gt;
+              </button>
+            </div>
           </div>
 
           <div id="current-pickup-list" class="character-list" aria-live="polite"></div>
@@ -98,7 +118,7 @@
         </article>
       </section>
 
-      <section class="archive-grid" aria-label="보조 이동 영역">
+      <section class="archive-grid" aria-label="하단부 이동 영역">
         <article class="panel archive-card">
           <div>
             <p class="eyebrow">ARCHIVE</p>
@@ -124,6 +144,12 @@
 
       const academyPanel = document.querySelector("#academy-panel");
       const currentPickupList = document.querySelector("#current-pickup-list");
+      const pickupCarouselControls = document.querySelector("#pickup-carousel-controls");
+      const pickupCarouselPrev = document.querySelector("#pickup-carousel-prev");
+      const pickupCarouselNext = document.querySelector("#pickup-carousel-next");
+      const PICKUP_CAROUSEL_PAGE_SIZE = 2;
+      const PICKUP_CAROUSEL_INTERVAL = 5000;
+      let pickupCarouselTimer = null;
 
       const siteSearchForm = document.querySelector("#site-search-form");
       const siteSearchInput = document.querySelector("#site-search-input");
@@ -150,9 +176,6 @@
       }
 
       function getPickupStatus(pickup) {
-        if (pickup.status) {
-          return pickup.status;
-        }
 
         const startDate = parseDate(pickup.startDate);
         const endDate = parseDate(pickup.endDate);
@@ -167,11 +190,10 @@
           return "진행중";
         }
 
-        if (today < startDate) {
-          return "예정";
+        else {
+          return "종료";
         }
 
-        return "종료";
       }
 
       function isCurrentPickup(pickup) {
@@ -202,24 +224,84 @@
         name.textContent = character.name;
 
         const title = document.createElement("p");
-        title.textContent = pickup.title;
+        title.textContent = character.type;
 
         const period = document.createElement("p");
         period.textContent = `${pickup.startDate} ~ ${pickup.endDate}`;
 
         const status = document.createElement("span");
         status.className = "tag";
-        status.textContent = getPickupStatus(pickup) || "상태 미정";
+        status.textContent = getPickupStatus(pickup);
 
         body.append(name, title, period, status);
         card.append(portrait, body);
         return card;
       }
 
+      function stopPickupCarouselTimer() {
+        window.clearInterval(pickupCarouselTimer);
+        pickupCarouselTimer = null;
+      }
+
+      function setPickupCarouselControlsVisible(isVisible) {
+        if (!pickupCarouselControls) {
+          return;
+        }
+
+        pickupCarouselControls.hidden = !isVisible;
+      }
+
+      function renderPickupCarouselPage(entries, pageIndex) {
+        const startIndex = pageIndex * PICKUP_CAROUSEL_PAGE_SIZE;
+        const pageEntries = entries.slice(startIndex, startIndex + PICKUP_CAROUSEL_PAGE_SIZE);
+        const cards = pageEntries.map(({ schedule, character }) =>
+          createPickupCharacterCard(schedule, character),
+        );
+
+        currentPickupList.replaceChildren(...cards);
+      }
+
+      function renderPickupCarousel(entries) {
+        const pageCount = Math.ceil(entries.length / PICKUP_CAROUSEL_PAGE_SIZE);
+        let currentPage = 0;
+
+        setPickupCarouselControlsVisible(true);
+        currentPickupList.classList.add("pickup-carousel-list");
+
+        function moveToPage(pageIndex) {
+          currentPage = (pageIndex + pageCount) % pageCount;
+          renderPickupCarouselPage(entries, currentPage);
+        }
+
+        function restartAutoSlide() {
+          stopPickupCarouselTimer();
+          pickupCarouselTimer = window.setInterval(() => {
+            moveToPage(currentPage + 1);
+          }, PICKUP_CAROUSEL_INTERVAL);
+        }
+
+        pickupCarouselPrev.onclick = () => {
+          moveToPage(currentPage - 1);
+          restartAutoSlide();
+        };
+
+        pickupCarouselNext.onclick = () => {
+          moveToPage(currentPage + 1);
+          restartAutoSlide();
+        };
+
+        moveToPage(0);
+        restartAutoSlide();
+      }
+
       async function renderCurrentPickups() {
         if (!currentPickupList) {
           return;
         }
+
+        stopPickupCarouselTimer();
+        setPickupCarouselControlsVisible(false);
+        currentPickupList.classList.remove("pickup-carousel-list");
 
         try {
           const response = await fetch("./data/pickups.json");
@@ -238,10 +320,18 @@
             return;
           }
 
-          const cards = currentSchedules.flatMap((schedule) =>
-            schedule.characters.map((character) => createPickupCharacterCard(schedule, character)),
+          const entries = currentSchedules.flatMap((schedule) =>
+            schedule.characters.map((character) => ({ schedule, character })),
           );
 
+          if (entries.length >= 3) {
+            renderPickupCarousel(entries);
+            return;
+          }
+
+          const cards = entries.map(({ schedule, character }) =>
+            createPickupCharacterCard(schedule, character),
+          );
           currentPickupList.replaceChildren(...cards);
         } catch (error) {
           const empty = document.createElement("p");
