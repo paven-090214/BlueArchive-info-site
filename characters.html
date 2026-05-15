@@ -132,7 +132,7 @@
       function createCharacterCard(student) {
         const link = document.createElement("a");
         link.className = "student-list-card";
-        link.href = `character-detail.html?id=${student.id}`;
+        link.href = `character-detail.html?id=${student.slug}`;
 
         const portrait = document.createElement("div");
         portrait.className = `student-list-portrait ${student.portraitClass || "aru"}`;

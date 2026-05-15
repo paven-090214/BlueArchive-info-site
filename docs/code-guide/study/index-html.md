@@ -164,19 +164,98 @@ const cards = currentSchedules.flatMap((schedule) =>
 currentPickupList.replaceChildren(...cards);
 ```
 
-정리:
+### 사용 변수
+
+#### entries
+
+```js
+const entries = currentSchedules.flatMap((schedule) =>
+  schedule.characters.map((character) => ({ schedule, character })),
+);
+```
+
+1. 현재 픽업중인 주차 1객체를 0 번째 인덱스에 담은 배열을 flatMap을 사용한다.
+2. 그 객체 안에서 캐릭터객체(name, type)를 캐릭터 매개변수에 담는다.
+3. entries에는 N주차, 캐릭터객체가 담긴 배열이 들어있게된다.
+
+### 사용 함수
+
+#### renderPickupCarouselPage(entries, pageIndex)
+
+```js
+function renderPickupCarouselPage(entries, pageIndex) {
+  const startIndex = pageIndex * PICKUP_CAROUSEL_PAGE_SIZE;
+  const pageEntries = entries.slice(startIndex, startIndex + PICKUP_CAROUSEL_PAGE_SIZE);
+  const cards = pageEntries.map(({ schedule, character }) =>
+    createPickupCharacterCard(schedule, character),
+  );
+
+  currentPickupList.replaceChildren(...cards);
+}
+```
 
 ```text
-학원 목록:
-academies 배열
-→ createAcademyCard
-→ a 태그 카드
-→ academyPanel에 추가
+ 매개변수 : entries배열과 다음페이지의 값이 전달
+startIndex에 다음 페이지에서 처음으로 표시할 픽업 캐릭터의 인덱스 값을 가져옴
+이제 2개씩 출력할 예정이니까 배열을 [0,1], [2,3], [4,5] 처럼 자르고 현재 필요한 번째의 배열을 가져옴
+createPickupCharacterCard() 함수로 카드(html태그)를 생성함
+전의 픽업 카드가 들어있는 div태그에 기존 자식 요소를 전부 지우고 cards를 붙여넣음
+```
 
-픽업 캐릭터:
-pickups.json
-→ 현재 진행 중인 픽업 filter
-→ 각 픽업의 characters 배열 map
-→ article 태그 카드
-→ currentPickupList에 교체 표시
+#### renderPickupCarousel(entries)
+
+```js
+const pageCount = Math.ceil(entries.length / PICKUP_CAROUSEL_PAGE_SIZE);
+let currentPage = 0; // 현재 페이지 값
+```
+
+총 N개의 페이지를 만들어야 해야한다. 픽업중인 캐릭터의 수를 2로 나누고 올림으로 처리하여 총 페이지 계산한다.
+
+```js
+setPickupCarouselControlsVisible(true);// 3명 이상일 경우 실행한 함수이기에 true값을 전달함
+```
+
+```js
+function moveToPage(pageIndex) {
+  currentPage = (pageIndex + pageCount) % pageCount; // 이동할 페이지의 값을 저장함
+  renderPickupCarouselPage(entries, currentPage); // 기본 요소를 지우고 다음페이지에 출력할 학생 2명의 정보를 붙여넣음
+}
+```
+
+```js
+function restartAutoSlide() {
+    stopPickupCarouselTimer(); // 타이머를 초기화 시킴
+    pickupCarouselTimer = window.setInterval(() => { // 5초 이후 moveToPage함수 실행
+      moveToPage(currentPage + 1);
+    }, PICKUP_CAROUSEL_INTERVAL);
+}
+```
+
+```js
+pickupCarouselPrev.onclick = () => {
+    moveToPage(currentPage - n);
+    restartAutoSlide();
+};
+```
+
+현재 페이지에서 n 번 으로 이동할 페이지 값으로 moveToPage함수 실행후 타이머함수 초기화
+
+#### async function renderCurrentPickups()
+
+전체 흐름
+```text
+1. 타이머 id를 초기화한다.
+2. 아직 픽업 배열의 크기를 판단하기 전엔 버튼을 숨긴다.
+3. 이후 성공적으로 로드했을 경우 try문 사용
+4. 비동기처리로 ./data/pickups.json을 가져옴
+  - 실패했을 경우 별도의 문구 표시
+5. const schedules = await response.json();를 사용하여 javascript를 사용할 수 있도록 만들어줌
+6. currentSchedules 변수에 현재 픽업중인 N 주차 객체가 담긴 배열을 담음
+  - 만약 배열의 크기가 0이라면 별도의 문구를 표시함
+7. 변수 entries 생성(N주차 객체, 학생(이름, 타입)객체)
+8. 픽업중인 학생이 3명 이상한지 판단후 버튼영역 표시, 비표시 판단
+9. createPickupCharacterCard 함수로 현재 픽업화면에 표시할 학생의 픽업 정보가 담긴 article 태그의 박스들이 담긴 배열을 card 변수에 담는다.
+10. 현재의 학생 픽업 article이 담긴 div 요소에 기존 자식 요소를 삭제 후 9번의 card를 붙여넣는다.
+11. catch
+  - 별도의 문구 표시
 ```

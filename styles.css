@@ -1477,9 +1477,10 @@ select {
 .character-large-placeholder {
   display: flex;
   align-items: end;
+  justify-content: center;
   min-height: 460px;
   overflow: hidden;
-  padding: 24px;
+  padding: 0;
   border-radius: 8px;
   background:
     linear-gradient(145deg, transparent 0 44%, rgba(255, 255, 255, 0.32) 45% 53%, transparent 54%),
@@ -1489,6 +1490,14 @@ select {
   font-size: 42px;
   font-weight: 900;
   text-shadow: 0 3px 14px rgba(0, 0, 0, 0.28);
+}
+
+.character-profile-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 460px;
+  object-fit: contain;
 }
 
 .character-profile-copy h1 {
@@ -2754,6 +2763,13 @@ select {
   .character-large-placeholder {
     min-height: 320px;
     font-size: 34px;
+  }
+
+  .character-profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
   }
 
   .character-info-list {

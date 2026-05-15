@@ -2,9 +2,9 @@
 
 ## 스크린 리더
 스크린 리더 : 화면을 눈으로 보기 어려운 사용자가 웹페이지를 이용할 수 있게, 화면 내용을 음성이나 점자로 읽어주는 보조 기술
-    - Windows: NVDA, JAWS
-    - macOS/iPhone: VoiceOver
-    - Android: TalkBack
+- Windows: NVDA, JAWS
+- macOS/iPhone: VoiceOver
+- Android: TalkBack
 
 ## TODO 확인할 함수
 

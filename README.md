@@ -2,9 +2,11 @@
 
 ## 프로젝트 소개
 
-블루 아카이브의 캐릭터, 학원, 동아리, 이벤트, 픽업 정보를 확인하고,
-육성까지 필요한 재화를 확인할 수 있습니다.
-로그인한 유저가 재화 상태를 관리할 수 있는 웹사이트입니다.
+블루 아카이브의 캐릭터, 학원, 동아리, 이벤트, 픽업 정보를 확인할 수 있습니다.
+학생의 성장에 따른 스탯을 확인할 수 있습니다.
+로그인한 유저는 재화 상태를 관리할 수 있습니다.
+현재 본인의 재화 상태에서 육성까지 필요한 재화를 계산할 수 있습니다.
+현재의 인연랭크에서 목표 랭크까지 EXP가 모자란 양을 계산하고 목표를 설계할 수 있는 사이트입니다.
 
 ## 주요 기능
 
@@ -12,11 +14,54 @@
 - 유저별 재화 상태 저장
 - 캐릭터 목록 및 상세 정보 조회
 - 학생 육성 재화 계산
+- 학생의 육성에 따른 스탯 계산
 - 학생 인연랭크 계산
 - 학원 및 동아리 정보 조회
-- 픽업 일정 확인
+- 과거 픽업 일정 확인
 - 현재 이벤트 정보 조회
 -  캐릭터 검색
+
+## 구조
+
+```text
+ docs/
+  ├─ overview/
+  │  ├─ project-overview.md
+  │  ├─ file-map.md
+  │  └─ roadmap.md
+  │
+  ├─ specs/
+  │  ├─ requirements.md
+  │  ├─ database-design.md
+  │  └─ todo.md
+  │
+  ├─ ui/
+  │  ├─ common.md
+  │  ├─ main.md
+  │  ├─ characters.md
+  │  ├─ character-detail.md
+  │  ├─ academy-detail.md
+  │  ├─ pickup-history.md
+  │  └─ bond-calculator.md
+  │
+  ├─ data/
+  │  ├─ resource-calculator.md
+  │  ├─ character-level-calculator.md
+  │  ├─ skill-material-calculator.md
+  │  └─ star-rank-calculator.md
+  │
+  └─ code-guide/
+     ├─ README.md
+     ├─ index-html.md
+     ├─ characters-html.md
+     ├─ character-detail-html.md
+     ├─ academies-data.md
+     └─ study/
+        ├─ index-html-study.md
+        ├─ characters-html-study.md
+        ├─ character-detail-html-study.md
+        └─ academy-study.md
+```
 
 ## 실행 방법
 ``` bash

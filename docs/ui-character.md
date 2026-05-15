@@ -15,16 +15,24 @@
 - 기본 성급은 `baseStar` 값을 사용하고 노란 별 아이콘으로 표시한다.
 - 학생 목록 카드에는 전용무기 성급을 표시하지 않는다.
 - 현재 학생 데이터는 `rarity` 대신 `baseStar`를 기본 성급 기준으로 사용한다.
-- 학생 카드를 클릭하면 `character-detail.html?id=...`로 이동한다.
+- 학생 카드를 클릭하면 `character-detail.html?id=학생-slug`로 이동한다.
+- 학생 데이터의 숫자 `id`는 계산과 내부 연결에 사용하고, `slug`는 URL 이동에 사용한다.
 
 ## 학생 상세 화면 스킬 재화 계산
 
 - 성장 재화 계산 UI는 학생 상세 화면의 `필요한 재화` 영역에 둔다.
 - 메인 화면에는 스킬 재화 계산기 이동 UI를 만들지 않는다.
-- 선택된 학생의 `id`를 `studentId`로 사용한다.
-- Kei처럼 문자열 ID를 가진 학생도 `character-detail.html?id=kei`로 열 수 있어야 한다.
+- 선택된 학생의 숫자 `id`를 계산용 `studentId`로 사용한다.
+- `character-detail.html?id=kei`처럼 URL에는 학생 `slug`를 사용할 수 있어야 한다.
 - 목표 학생 레벨, 목표 성급, 목표 전용무기 성급, 스킬별 현재/목표 레벨을 계산 입력으로 사용한다.
 - 레벨업 재화, 스킬 강화 재화, 성급 및 전용무기 성급 엘레프를 같은 결과 영역에 합산 표시한다.
 - 계산 로직과 데이터 규칙은 `docs/data-skill-material-calculator.md`를 기준으로 한다.
 - 상세 UI 규칙은 `docs/ui-skill-material-calculator.md`를 기준으로 한다.
+
+## 학생 상세 화면 지형 적성
+
+- 학생 상세 화면의 `지역 적성` 영역은 `data/student-terrain-adaptations.js` 데이터를 사용한다.
+- `data/index.js`에서 `studentTerrainAdaptations`를 export하고, 상세 화면에서는 `selectedStudent.id`를 기준으로 연결한다.
+- 임시 데이터 호환을 위해 slug 조회를 보조로 사용할 수 있지만, 최종 연결 기준은 숫자 `studentId`다.
+- 등록되지 않은 지형 적성은 `데이터 없음`으로 표시한다.
 

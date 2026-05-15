@@ -65,24 +65,8 @@ character-detail.html?id=kei 접속
 예:
 
 ```text
-character-detail.html?id=kei
+character-detail.html?id=1
 ```
-
-코드 흐름:
-
-```js
-const characterIdParam = new URLSearchParams(window.location.search).get("id");
-const characterId = Number.isNaN(Number(characterIdParam))
-  ? characterIdParam
-  : Number(characterIdParam);
-
-const selectedStudent =
-  students.find((student) => student.id === characterId) ||
-  students.find((student) => student.id === 3) ||
-  students[0];
-```
-
-숫자 ID 학생도 찾고, `"kei"` 같은 문자열 ID 학생도 찾기 위한 구조다.
 
 ## 현재값과 목표값
 
@@ -92,10 +76,7 @@ const selectedStudent =
 | --- | --- | --- |
 | 학생 레벨 | 임시로 1 | 화면의 목표 학생 레벨 입력 |
 | 기본 성급 | `students.js`의 `baseStar` | 별 UI에서 선택한 기본 성급 |
-| 전용무기 성급 | 임시로 0 | 별 UI에서 선택한 전용무기 성급 |
 | 스킬 레벨 | 스킬 카드의 현재 레벨 select | 스킬 카드의 목표 레벨 select |
-
-나중에 유저 저장 기능이 생기면 현재값은 저장된 유저 상태에서 가져와야 한다.
 
 ## 레벨업 계산
 
@@ -163,12 +144,12 @@ row.toLevel <= targetLevel
 
 스킬 타입:
 
-| 화면 | skillType | 레벨 범위 |
-| --- | --- | --- |
-| EX 스킬 | `ex` | 1~5 |
-| 1스킬 | `normal` | 1~10 |
-| 2스킬 | `passive` | 1~10 |
-| 3스킬 | `sub` | 1~10 |
+| 화면 | skillType | 현재 레벨 | 목표 범위 |
+| --- | --- | --- |------------|-------|
+| EX 스킬 | `ex` |     1~5     | 1~5 |
+| 1스킬 | `normal` |    1~10    | 1~10 |
+| 2스킬 | `passive` |    1~10    | 1~10 |
+| 3스킬 | `sub`     |     1~10    | 1~10 |
 
 Kei 외 학생처럼 스킬 데이터가 없으면 스킬 재화는 표시하지 않고 안내 문구를 표시한다.
 
