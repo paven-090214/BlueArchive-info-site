@@ -215,9 +215,6 @@ data/student-growth-profiles.js
 - `equipmentSlotIds`: 학생 장비 슬롯 ID 목록
 - `needsReview`: 검수 필요 여부
 
-학생별 연결은 이름이 아니라 `studentId`를 사용한다.  
-지금 단계에서 학생 ID를 slug 문자열로 전체 변경하지 않는다.
-
 ## 요구량 데이터 분리
 
 요구량 데이터는 성장 재화 연결 데이터와 분리한다.

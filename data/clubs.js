@@ -30,6 +30,12 @@ export const clubs = [
     description: "아비도스의 문제를 해결하기 위해 활동하는 학생 조직입니다.",
   },
   {
+    id: "super-phenomenon-task-force",
+    academySlug: "millennium",
+    name: "초현상특무부",
+    description: "밀레니엄 소속 초현상특무부입니다. 상세 설명은 추후 검수합니다.",
+  },
+  {
     id: "etc-club",
     academySlug: "etc",
     name: "임시 동아리",

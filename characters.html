@@ -92,6 +92,20 @@
                 <option value="">전체</option>
               </select>
             </label>
+
+            <label>
+              포지션
+              <select id="position-filter" name="position">
+                <option value="">전체</option>
+              </select>
+            </label>
+
+            <label>
+              전투 구분
+              <select id="combat-class-filter" name="combatClass">
+                <option value="">전체</option>
+              </select>
+            </label>
           </form>
         </aside>
 
@@ -118,6 +132,8 @@
       const attackFilter = document.querySelector("#attack-filter");
       const defenseFilter = document.querySelector("#defense-filter");
       const roleFilter = document.querySelector("#role-filter");
+      const positionFilter = document.querySelector("#position-filter");
+      const combatClassFilter = document.querySelector("#combat-class-filter");
       const nameSearchInput = document.querySelector("#character-name-search");
       const STAR_ICON_URL = "./images/icon/Icon_star.webp";
 
@@ -275,6 +291,8 @@
           attackType: attackFilter.value,
           defenseType: defenseFilter.value,
           role: roleFilter.value,
+          position : positionFilter.value,
+          combatClass : combatClassFilter.value
         };
 
         const filteredStudents = students.filter((student) => {
@@ -285,7 +303,9 @@
             (!filterValues.baseStar || String(getStudentBaseStar(student)) === filterValues.baseStar) &&
             (!filterValues.attackType || student.attackType === filterValues.attackType) &&
             (!filterValues.defenseType || student.defenseType === filterValues.defenseType) &&
-            (!filterValues.role || student.role === filterValues.role)
+            (!filterValues.role || student.role === filterValues.role) &&
+            (!filterValues.position || student.position === filterValues.position) &&
+            (!filterValues.combatClass || student.combatClass === filterValues.combatClass)
           );
         });
 
@@ -305,6 +325,8 @@
       addOptions(attackFilter, [...new Set(students.map((student) => student.attackType))]);
       addOptions(defenseFilter, [...new Set(students.map((student) => student.defenseType))]);
       addOptions(roleFilter, [...new Set(students.map((student) => student.role))]);
+      addOptions(positionFilter, [...new Set(students.map((student) => student.position))]);
+      addOptions(combatClassFilter, [...new Set(students.map((student) => student.combatClass))]);
 
       academyFilter.addEventListener("change", () => {
         addClubOptions(academyFilter.value);

@@ -1469,6 +1469,33 @@ select {
   min-height: auto;
 }
 
+.character-info-heading {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.character-info-heading h2 {
+  margin-bottom: 0;
+}
+
+.combat-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  margin-left: 200px;
+  min-height: 34px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: #ffe8e8;
+  color: #b4232f;
+  font-size: 20px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
 .character-profile-panel {
   display: grid;
   gap: 18px;
@@ -1500,10 +1527,54 @@ select {
   object-fit: contain;
 }
 
-.character-profile-copy h1 {
-  margin: 0 0 12px;
+.character-profile-title-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.character-profile-title-row h1 {
+  margin: 0;
   font-size: 30px;
   line-height: 1.25;
+}
+
+.character-profile-tags {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 10px;
+  justify-content: end;
+  align-items: center;
+  transform: translateX(-18px);
+}
+
+.character-profile-tags .type-badge,
+.profile-role-badge,
+.position-badge {
+  min-height: 32px;
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.profile-role-badge,
+.position-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 999px;
+  background: #eef3f7;
+  color: #3e5368;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.profile-role-badge img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .character-profile-copy p:last-child {
@@ -1545,12 +1616,33 @@ select {
 
 .terrain-aptitude-card {
   display: grid;
+  justify-items: center;
+  text-align: center;
   gap: 8px;
   min-width: 0;
   padding: 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface-soft);
+}
+
+.terrain-aptitude-card > div {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.terrain-place-image {
+  width: 100%;
+  max-width: 112px;
+  height: 74px;
+  object-fit: contain;
+}
+
+.terrain-rank-image {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
 
 .terrain-image-placeholder {

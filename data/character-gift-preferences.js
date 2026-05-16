@@ -9,8 +9,8 @@ export const characterGiftPreferences = [
   { characterId: 2, giftId: "gift-28", preference: "liked" },
   { characterId: 2, giftId: "gift-33", preference: "liked" },
 
-  { characterId: 3, giftId: "gift-05", preference: "favorite" },
-  { characterId: 3, giftId: "gift-16", preference: "liked" },
-  { characterId: 3, giftId: "gift-24", preference: "liked" },
-  { characterId: 3, giftId: "gift-46", preference: "liked" },
+  { characterId: 10, giftId: "gift-05", preference: "favorite" },
+  { characterId: 10, giftId: "gift-16", preference: "liked" },
+  { characterId: 10, giftId: "gift-24", preference: "liked" },
+  { characterId: 10, giftId: "gift-46", preference: "liked" },
 ];

@@ -33,7 +33,18 @@
           </div>
           <div class="character-profile-copy">
             <p class="eyebrow">PROFILE</p>
-            <h1 id="character-profile-name">리쿠하치마 아루</h1>
+            <div class="character-profile-title-row">
+              <h1 id="character-profile-name">리쿠하치마 아루</h1>
+              <div class="character-profile-tags" aria-label="학생 전투 정보">
+                <span class="type-badge attack-blue" data-student-field="attackType">폭발</span>
+                <span class="profile-role-badge">
+                  <img data-role-image alt="" aria-hidden="true" />
+                  <span data-student-field="role">딜러</span>
+                </span>
+                <span class="type-badge defense-purple" data-student-field="defenseType">경장갑</span>
+                <span class="type-badge position-badge" data-student-field="position">back</span>
+              </div>
+            </div>
             <p id="character-profile-description">
               게헨나 학원 소속 흥신소 68의 사장입니다. 겉으로는 냉철하고 카리스마 있는
               리더처럼 보이려 하지만, 실제로는 허술한 면도 많은 학생입니다. 현재는 실제 DB
@@ -43,11 +54,13 @@
         </article>
 
         <article class="panel character-info-panel">
-          <div class="panel-heading">
-            <p class="eyebrow">STUDENT</p>
-            <h2>학생 기본 정보</h2>
+          <div class="panel-heading character-info-heading">
+            <div>
+              <p class="eyebrow">STUDENT</p>
+              <h2>학생 기본 정보</h2>
+            </div>
+            <span class="combat-badge" data-student-field="combatClass">Striker</span>
           </div>
-
           <dl class="character-info-list">
             <div>
               <dt>이름</dt>
@@ -62,40 +75,32 @@
               <dd data-student-field="academyName">게헨나 학원</dd>
             </div>
             <div>
-              <dt>공격 타입</dt>
-              <dd data-student-field="attackType">폭발</dd>
-            </div>
-            <div>
-              <dt>방어 타입</dt>
-              <dd data-student-field="defenseType">경장갑</dd>
-            </div>
-            <div>
-              <dt>역할</dt>
-              <dd data-student-field="role">딜러</dd>
-            </div>
-            <div>
               <dt>나이</dt>
               <dd data-student-field="age">16세</dd>
             </div>
             <div>
-              <dt>취미</dt>
-              <dd data-student-field="hobby">경영 공부</dd>
+              <dt>총기 종류</dt>
+              <dd data-student-field="weaponType">SR</dd>
             </div>
             <div>
               <dt>디자이너</dt>
-              <dd data-student-field="designer">임시 데이터</dd>
+              <dd data-student-field="designer">DoReMi</dd>
             </div>
             <div>
               <dt>일러스트레이터</dt>
-              <dd data-student-field="illustrator">임시 데이터</dd>
+              <dd data-student-field="illustrator">DoReMi</dd>
             </div>
             <div>
               <dt>성우</dt>
-              <dd data-student-field="voiceActor">임시 데이터</dd>
+              <dd data-student-field="voiceActor">콘도 레이나</dd>
             </div>
             <div>
               <dt>출시일</dt>
-              <dd data-student-field="releaseDate">임시 표시</dd>
+              <dd data-student-field="releaseDate">2021/09/11</dd>
+            </div>
+            <div>
+              <dt>취미</dt>
+              <dd data-student-field="hobby">경영 공부</dd>
             </div>
           </dl>
 
@@ -476,8 +481,8 @@
                   <div class="skill-card-body">
                     <div class="skill-icon-placeholder weapon-effect-icon" aria-hidden="true">효</div>
                     <div class="skill-content">
-                      <h3>전용무기 효과</h3>
-                      <p>공격력 N 증가, 체력 N 증가 placeholder입니다.</p>
+                      <h3>전용무기 2성</h3>
+                      <p>강화 스킬 +로 강화</p>
                     </div>
                   </div>
                 </article>
@@ -485,8 +490,8 @@
                   <div class="skill-card-body">
                     <div class="skill-icon-placeholder weapon-effect-icon" aria-hidden="true">강</div>
                     <div class="skill-content">
-                      <h3>강화 효과</h3>
-                      <p>기존 스킬에 N 효과를 추가하는 placeholder입니다.</p>
+                      <h3>전용무기 3성</h3>
+                      <p>지역 적성 전투력을 SS로 강화</p>
                     </div>
                   </div>
                 </article>
@@ -495,7 +500,7 @@
                     <div class="skill-icon-placeholder weapon-effect-icon" aria-hidden="true">강</div>
                     <div class="skill-content">
                       <h3>전용무기 4성</h3>
-                      <p>스트라이커와 스페셜에 따라 각각의 효과 부여</p>
+                      <p>특효 가산 +10% / 코스트 상한 +0.5</p>
                     </div>
                   </div>
                 </article>
@@ -531,6 +536,7 @@
       const materialList = document.querySelector(".material-list");
       const growthStarRow = document.querySelector("[data-growth-star-row]");
       const terrainAptitudeList = document.querySelector(".terrain-aptitude-list");
+      const roleImage = document.querySelector("[data-role-image]");
       const STAR_ICON_URL = "./images/icon/Icon_star.webp";
       const BLUE_STAR_ICON_URL = "./images/icon/Icon_blue_star.webp";
       const BLANK_STAR_ICON_URL = "./images/icon/Icon_blank_star.webp";
@@ -563,6 +569,14 @@
         D: "./images/terrain-ranks/rank-d.webp",
       };
 
+      const ROLE_IMAGE_URLS = {
+        "딜러": "./images/role/attacker.webp",
+        "탱커": "./images/role/tank.webp",
+        "힐러": "./images/role/healer.webp",
+        "서포터": "./images/role/support.webp",
+        "택티컬 서포트": "./images/role/tactical-support.webp",
+      };
+
       const selectedStudent =
         students.find((student) => student.slug === characterSlugParam) ||
         students.find((student) => student.slug === "kei") ||
@@ -593,6 +607,10 @@
         characterProfileName.textContent = student.fullName;
         characterProfileDescription.textContent = student.profile;
 
+        if (roleImage) {
+          roleImage.src = ROLE_IMAGE_URLS[student.role] || "./images/role/support.webp";
+        }
+
         const fieldValues = {
           fullName: student.fullName,
           birthday: student.birthday,
@@ -600,7 +618,10 @@
           attackType: student.attackType,
           defenseType: student.defenseType,
           role: student.role,
+          position: student.position ?? "임시 표시",
+          combatClass: student.combatClass ?? "임시 표시",
           age: student.age,
+          weaponType: student.weaponType ?? "임시 표시",
           hobby: student.hobby,
           designer: student.designer,
           illustrator: student.illustrator,

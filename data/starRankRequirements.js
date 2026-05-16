@@ -34,17 +34,20 @@ export const starRankRequirements = [
     toRank: "weapon-2",
     label: "전용무기 1성 -> 전용무기 2성",
     elephQuantity: 120,
+    credit : 1000000,
   },
   {
     fromRank: "weapon-2",
     toRank: "weapon-3",
     label: "전용무기 2성 -> 전용무기 3성",
     elephQuantity: 180,
+    credit : 1500000,
   },
   {
     fromRank: "weapon-3",
     toRank: "weapon-4",
     label: "전용무기 3성 -> 전용무기 4성",
     elephQuantity: 200,
+    credit : 2000000,
   },
 ];

@@ -206,7 +206,7 @@ export const items = [
   },
   {
     id: "student-eleph-1",
-    name: "노아의 엘레프",
+    name: "샘플 엘레프",
     type: "eleph",
     grade: null,
     school: null,
