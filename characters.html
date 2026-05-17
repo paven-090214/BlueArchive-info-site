@@ -158,7 +158,17 @@
 
         const portrait = document.createElement("div");
         portrait.className = `student-list-portrait ${student.portraitClass || "aru"}`;
-        portrait.textContent = student.name;
+        const portraitImageUrl = student.portraitImageUrl || student.profileImageUrl;
+
+        if (portraitImageUrl) {
+          const image = document.createElement("img");
+          image.src = portraitImageUrl;
+          image.alt = `${student.name} 대표 이미지`;
+          image.loading = "lazy";
+          portrait.append(image);
+        } else {
+          portrait.textContent = student.name;
+        }
 
         const content = document.createElement("div");
         content.className = "student-list-card-content";

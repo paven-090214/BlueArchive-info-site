@@ -475,7 +475,7 @@ export const skillMaterialRequirements = [
     "toLevel": 10,
     "materials": [
       {
-        "itemId": "secret_tech_sheet",
+        "itemId": "secret-tech-note",
         "itemName": "비의서",
         "tier": null,
         "quantity": 1,
@@ -798,7 +798,7 @@ export const skillMaterialRequirements = [
     "toLevel": 10,
     "materials": [
       {
-        "itemId": "secret_tech_sheet",
+        "itemId": "secret-tech-note",
         "itemName": "비의서",
         "tier": null,
         "quantity": 1,
@@ -1121,7 +1121,7 @@ export const skillMaterialRequirements = [
     "toLevel": 10,
     "materials": [
       {
-        "itemId": "secret_tech_sheet",
+        "itemId": "secret-tech-note",
         "itemName": "비의서",
         "tier": null,
         "quantity": 1,

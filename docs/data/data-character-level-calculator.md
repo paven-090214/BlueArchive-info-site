@@ -3,7 +3,7 @@
 ## 현재 상태
 
 학생 레벨업 EXP 데이터는 `data/characterExpTable.js`를 사용한다.  
-활동 보고서 데이터는 `data/activityReports.js`를 사용한다.
+활동 보고서 데이터는 `data/growth/activityReports.js`를 사용한다.
 
 계산 함수:
 
@@ -65,6 +65,29 @@ target.totalExp - current.totalExp
 상급 활동 보고서: 2,000 EXP
 최상급 활동 보고서: 10,000 EXP
 ```
+
+활동 보고서 데이터는 이미지 경로를 `imageUrl`로 가지고 있지만, 학생 상세 화면은 최종 표시 정보는 `data/items.js`를 우선 조회한다.
+
+```text
+초급 활동 보고서: ./images/reports/activity-report-basic.webp
+일반 활동 보고서: ./images/reports/activity-report-normal.webp
+상급 활동 보고서: ./images/reports/activity-report-advanced.webp
+최상급 활동 보고서: ./images/reports/activity-report-superior.webp
+```
+
+활동 보고서 itemId는 계산 결과, `data/items.js`, 유저 보유 재화 저장에서 같은 값을 사용한다.
+
+```text
+activity_report_t0
+activity_report_t1
+activity_report_t2
+activity_report_t3
+```
+
+`data/items.js`의 `grade`는 `tier1`부터 `tier4`를 사용하지만, 안정 itemId는 기존 계산 데이터와 맞춰 `activity_report_t0`부터 `activity_report_t3`를 유지한다.
+
+레벨 계산 결과는 활동 보고서 이미지를 직접 넘기지 않고 `itemId`를 넘긴다.  
+화면은 `itemId`로 `data/items.js`에서 이미지와 이름을 찾는다.
 
 ## 주의
 

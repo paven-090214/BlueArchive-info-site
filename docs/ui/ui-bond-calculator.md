@@ -3,6 +3,8 @@
 ## 본문 구조
 - 최상단 : `docs\ui\ui-common.md`를 참조한다.
 - 좌측 : 현재 내가 선택할 학생
+- 선택한 학생 이미지는 학생 데이터의 `iconImageUrl`을 우선 사용한다.
+- `iconImageUrl`이 없으면 기존 이미지 필드 또는 placeholder를 사용한다.
 - 우측 : 계산 결과
 - 하단 : 선물 목록
 

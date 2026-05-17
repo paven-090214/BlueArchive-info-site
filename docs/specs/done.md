@@ -15,6 +15,11 @@
 - [x] 메인 페이지 우측 상단 통합검색 UI 만들기
 - [x] 통합검색 입력창 기본 UI 표시하기
 - [x] 진행 중인 픽업 표시 ui
+  - [x] 메인 페이지 학생 이미지 연결 여부 결정
+     - 현재 `index.html`은 학생 데이터 기반 이미지 영역이 없음
+     - 진행 중인 픽업 영역은 픽업 데이터의 `character.imageUrl` 또는 `bannerImageUrl`을 사용
+     - 현 단계에서는 보류
+     - 학생 데이터 기반 카드가 추가되면 `iconImageUrl` 우선으로 연결
 
 ### academies.html
 
@@ -88,6 +93,19 @@
 - [x] 선물 보유 수량 UI를 표시 전용 값으로 정리
 - [x] 계산 수량 input의 브라우저 기본 증감 UI 제거
 
+## 이미지 연결
+
+  - [x] 학생 대표 이미지 경로 분리
+     - 큰 대표 이미지는 `portraitImageUrl`로 연결
+     - 작은 얼굴 아이콘은 `iconImageUrl`로 연결
+     - `character-detail.html`, `characters.html`은 `portraitImageUrl` 우선 사용
+     - `bond-calculator.html`, `academy-detail.html`은 `iconImageUrl` 우선 사용
+     - 기존 `profileImageUrl`은 fallback으로만 유지
+  - [x] 기존 `profileImageUrl` fallback 경로 정리
+     - `profileImageUrl`을 새 `portraitImageUrl`과 같은 경로로 맞춤
+     - 전환 중인 페이지가 실수로 `profileImageUrl`만 보더라도 케이 대표 이미지가 표시되도록 유지
+     - 추후 전체 페이지가 `portraitImageUrl` / `iconImageUrl` 기준으로 안정화되면 제거 여부 재검토
+
 ## 픽업 데이터 
 
 ### 픽업 데이터 파일
@@ -132,6 +150,22 @@
 - [x] 학원 클릭 시 학원 상세 페이지로 이동
 - [x] 동아리 클릭 시 소속 학생 목록 표시
 - [x] 학생 목록 페이지 학생 이름 검색과 필터를 임시 데이터와 연결
+- [x] 비의서 itemId를 `secret-tech-note`로 통일
+- [x] 활동 보고서 itemId를 `activity_report_t0~t3`로 통일
+  - [x] 학생별 엘레프 itemId 매핑 만들기
+     - `data/items.js`에 학생별 엘레프 item 추가
+     - itemId는 `{studentSlug}-eleph` 형식을 우선 사용
+     - 유저 보유 재화 저장은 이미지 경로가 아니라 itemId 기준으로 연결
+  - [x] 엘레프 이미지 후보 목록 만들기
+     - 현재 학생별 엘레프 itemId에 대해 원본 이미지 후보 파일을 별도 후보 데이터로 정리
+     - 후보 파일은 최종 imageUrl로 바로 사용하지 않고 검수 후 연결
+  - [x] 엘레프 이미지 파일 역매핑하기
+     - 이미지 파일명이 `CH0064` 또는 `Item_Icon_SecretStone_Maki.png`처럼 되어 있어도 이름으로 추측하지 않기
+     - 학생별 엘레프 item에 실제 파일명을 명시적으로 연결
+     - 확실하지 않은 매핑은 `imageUrl: null`, `needsReview: true`로 두기
+     - 현재 확정: 노아, 노아(파자마), 아루, 히후미, 유우카, 시로코, 무츠키, 히나, 이오리, 케이
+     - 미확정: 없음
+
 
 ### 샘플 재화 계산
 

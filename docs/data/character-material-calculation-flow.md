@@ -196,10 +196,10 @@ data/starRankRequirements.js
 전용무기 3성 -> 전용무기 4성: 200, 크레딧 : 2,000,000
 ```
 
-현재 학생별 엘레프 itemId가 안정 데이터로 없으므로 임시로 다음 ID를 사용한다.
+학생별 엘레프 itemId는 다음 형식을 우선 사용한다.
 
 ```js
-`${selectedStudent.id}-eleph`
+`${selectedStudent.slug}-eleph`
 ```
 
 예:
@@ -208,7 +208,10 @@ data/starRankRequirements.js
 kei-eleph
 ```
 
-그래서 화면에는 `케이의 엘레프`가 `검수 필요`로 표시된다.
+학생별 엘레프 item은 `data/items.js`에 등록하고, `imageUrl`은 실제 엘레프 이미지 파일 경로를 명시적으로 연결한다.
+이미지 파일명이 학생 이름이 아니라 `CH0064.png` 또는 `Item_Icon_SecretStone_Maki.png` 같은 형식이어도 파일명으로 학생을 추측하지 않는다.
+확실하지 않은 매핑은 `imageUrl: null`, `needsReview: true`로 둔다.
+학생 상세 화면은 성급 계산 결과의 엘레프 `itemId`로 `data/items.js`를 조회해 이름, 이미지, 검수 상태를 표시한다.
 
 ## 결과 합산
 
@@ -237,7 +240,9 @@ kei-eleph
        필요 수량 N
 ```
 
-오파츠 재화는 `itemId`로 `data/ooparts-candidates.js`를 조회하고, `imageUrl`이 있으면 실제 이미지를 표시한다.
+재화 이름, 이미지, 검수 상태는 `itemId`로 `data/items.js`를 먼저 조회한다.
+계산 결과에 남아 있는 `itemName` 또는 `imageUrl`은 아직 마스터에 없는 데이터의 fallback으로만 사용한다.
+오파츠 후보처럼 아직 `data/items.js`에 병합하지 않은 재화는 `data/ooparts-candidates.js`를 fallback으로 조회한다.
 이미지가 없는 재화는 이름에 따라 간단한 글자 placeholder를 표시한다.
 
 예:
@@ -287,6 +292,7 @@ createMaterialCard()
 ## 다음에 개선할 부분
 
 - 학생별 엘레프 stable itemId를 별도 데이터로 만들기
+- 학생별 엘레프 이미지를 `data/items.js` item과 명시적으로 연결하기
 - 재화 이미지 연결하기
 - 장비 티어업 재화 계산 추가
 - 애장품 재화 계산 추가

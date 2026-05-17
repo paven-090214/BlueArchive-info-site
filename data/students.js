@@ -241,6 +241,8 @@ export const students = [
     releaseDate: "(JP)2026/01/29",
     Height : 152,
     profile: "케이 학생 정보입니다. 현재는 임시 데이터로 표시합니다.",
-    profileImageUrl: "./images/student-profile/kei.webp",
+    profileImageUrl: "./images/students/portraits/kei.webp",
+    portraitImageUrl: "./images/students/portraits/kei.webp",
+    iconImageUrl: "./images/students/icons/Kei.webp",
   },
 ];

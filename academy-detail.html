@@ -191,15 +191,25 @@
         link.href = `character-detail.html?id=${student.id}`;
         link.className = "club-character-item";
 
-        const image = document.createElement("span");
-        image.className = "student-image-placeholder";
-        image.setAttribute("aria-hidden", "true");
-        image.textContent = student.name.slice(0, 1);
+        const imageUrl = student.iconImageUrl || student.profileImageUrl;
+        const visual = imageUrl
+          ? document.createElement("img")
+          : document.createElement("span");
+        visual.className = "student-image-placeholder";
+
+        if (imageUrl) {
+          visual.src = imageUrl;
+          visual.alt = `${student.name} 아이콘`;
+          visual.loading = "lazy";
+        } else {
+          visual.setAttribute("aria-hidden", "true");
+          visual.textContent = student.name.slice(0, 1);
+        }
 
         const name = document.createElement("span");
         name.textContent = student.name;
 
-        link.append(image, name);
+        link.append(visual, name);
         return link;
       }
 

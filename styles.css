@@ -224,6 +224,7 @@ a {
     linear-gradient(150deg, #2d8fe3 0%, #f37ca5 100%);
   color: #ffffff;
   font-weight: 900;
+  object-fit: contain;
 }
 
 .search-empty {

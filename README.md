@@ -21,48 +21,6 @@
 - 현재 이벤트 정보 조회
 -  캐릭터 검색
 
-## 구조
-
-```text
- docs/
-  ├─ overview/
-  │  ├─ project-overview.md
-  │  ├─ file-map.md
-  │  └─ roadmap.md
-  │
-  ├─ specs/
-  │  ├─ requirements.md
-  │  ├─ database-design.md
-  │  └─ todo.md
-  │
-  ├─ ui/
-  │  ├─ common.md
-  │  ├─ main.md
-  │  ├─ characters.md
-  │  ├─ character-detail.md
-  │  ├─ academy-detail.md
-  │  ├─ pickup-history.md
-  │  └─ bond-calculator.md
-  │
-  ├─ data/
-  │  ├─ resource-calculator.md
-  │  ├─ character-level-calculator.md
-  │  ├─ skill-material-calculator.md
-  │  └─ star-rank-calculator.md
-  │
-  └─ code-guide/
-     ├─ README.md
-     ├─ index-html.md
-     ├─ characters-html.md
-     ├─ character-detail-html.md
-     ├─ academies-data.md
-     └─ study/
-        ├─ index-html-study.md
-        ├─ characters-html-study.md
-        ├─ character-detail-html-study.md
-        └─ academy-study.md
-```
-
 ## 실행 방법
 ``` bash
 python -m http.server 8000

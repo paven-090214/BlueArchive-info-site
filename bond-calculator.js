@@ -269,7 +269,7 @@ function renderSelectedStudent() {
   selectedStudentVisual.replaceChildren();
 
   const slot = createVisualSlot({
-    imageUrl: student?.imageUrl ?? student?.profileImageUrl ?? null,
+    imageUrl: student?.iconImageUrl ?? student?.imageUrl ?? student?.profileImageUrl ?? null,
     altText: student ? `${student.name} 이미지` : "학생 이미지 준비 중",
     placeholderText: "학생 이미지 준비 중",
     wrapperClass: "bond-selected-student-visual-slot",

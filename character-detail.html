@@ -534,6 +534,7 @@
 
     <script type="module">
       import { academies, oopartsCandidates, studentTerrainAdaptations, students } from "./data/index.js";
+      import { items } from "./data/items.js";
       import { calculateCharacterLevelMaterials } from "./utils/characterLevelCalculator.js";
       import { calculateSkillMaterials, SKILL_LEVEL_RANGES } from "./utils/skillMaterialCalculator.js";
       import { calculateStarRankEleph } from "./utils/starRankCalculator.js";
@@ -597,6 +598,7 @@
       const OWNED_MATERIAL_STORAGE_KEY = "bluearchive:owned-material-quantities:v1";
       const ownedMaterialQuantityById = new Map();
       const oopartsCandidateById = new Map(oopartsCandidates.map((item) => [item.id, item]));
+      const itemById = new Map(items.map((item) => [item.id, item]));
 
       function renderStudentDetail(student) {
         const academyName = selectedAcademy?.name || "임시 학원";
@@ -604,9 +606,11 @@
         document.title = `${student.name} | BlueArchive Info Site`;
         characterProfileVisual.replaceChildren();
 
-        if(student.profileImageUrl) {
+        const profileImageUrl = student.portraitImageUrl || student.profileImageUrl;
+
+        if(profileImageUrl) {
           const image = document.createElement("img");
-          image.src = student.profileImageUrl;
+          image.src = profileImageUrl;
           image.alt = student.name;
           image.className = "character-profile-image";
           characterProfileVisual.append(image);
@@ -845,13 +849,16 @@
         skillResults.forEach((result) => mergeMaterials(materialMap, result.materials));
 
         if (starResult.elephQuantity > 0) {
+          const elephItemId = `${selectedStudent.slug}-eleph`;
+          const elephItem = itemById.get(elephItemId);
           mergeMaterials(materialMap, [
             {
-              itemId: `${selectedStudent.id}-eleph`,
-              itemName: `${selectedStudent.name}의 엘레프`,
+              itemId: elephItemId,
+              itemName: elephItem?.name ?? `${selectedStudent.name}의 엘레프`,
               tier: null,
+              imageUrl: elephItem?.imageUrl ?? null,
               quantity: starResult.elephQuantity,
-              needsReview: true,
+              needsReview: elephItem ? Boolean(elephItem.needsReview) : true,
             },
           ]);
         }
@@ -909,8 +916,21 @@
             return -1;
           }
 
-          return left.itemName.localeCompare(right.itemName, "ko");
+          return getMaterialDisplayName(left).localeCompare(getMaterialDisplayName(right), "ko");
         });
+      }
+
+      function getMaterialMasterItem(material) {
+        return itemById.get(material.itemId);
+      }
+
+      function getMaterialDisplayName(material) {
+        return getMaterialMasterItem(material)?.name ?? material.itemName ?? material.itemId;
+      }
+
+      function getMaterialNeedsReview(material) {
+        const masterItem = getMaterialMasterItem(material);
+        return Boolean(material.needsReview || masterItem?.needsReview);
       }
 
       function createMaterialCard(material) {
@@ -924,10 +944,10 @@
         titleRow.className = "material-title-row";
 
         const title = document.createElement("h3");
-        title.textContent = material.itemName;
+        title.textContent = getMaterialDisplayName(material);
         titleRow.append(title);
 
-        if (material.needsReview) {
+        if (getMaterialNeedsReview(material)) {
           const badge = document.createElement("span");
           badge.className = "material-review-badge";
           badge.textContent = "검수 필요";
@@ -947,20 +967,23 @@
       }
 
       function createMaterialIcon(material) {
+        const masterItem = getMaterialMasterItem(material);
         const item = oopartsCandidateById.get(material.itemId);
+        const imageUrl = masterItem?.imageUrl || material.imageUrl || item?.imageUrl;
+        const displayName = getMaterialDisplayName(material);
 
-        if (item?.imageUrl) {
+        if (imageUrl) {
           const image = document.createElement("img");
           image.className = "material-image";
-          image.src = item.imageUrl;
-          image.alt = material.itemName;
+          image.src = imageUrl;
+          image.alt = displayName;
           return image;
         }
 
         const placeholder = document.createElement("div");
         placeholder.className = "material-image-placeholder";
         placeholder.setAttribute("aria-hidden", "true");
-        placeholder.textContent = getMaterialInitial(material.itemName);
+        placeholder.textContent = getMaterialInitial(displayName);
         return placeholder;
       }
 
