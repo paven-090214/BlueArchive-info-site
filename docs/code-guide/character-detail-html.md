@@ -1,44 +1,65 @@
-# character-detail.html
+# character-detail.html 코드 공부 문서
 
-## 공부 기준
+## 목적
 
-이 문서는 학생 상세 페이지인 `character-detail.html`을 공부하기 위한 문서다.
+이 문서는 `character-detail.html`을 공부하기 위한 설명 문서다.
 
-기준 학생은 `케이`다.
+목표는 다음 흐름을 이해하는 것이다.
+
+- HTML이 어떤 영역으로 나뉘는지
+- 학생 데이터가 화면 어디에 들어가는지
+- 각 함수가 어떤 일을 하는지
+- 학생 레벨, 성급, 스킬 레벨 변경이 재화 계산으로 어떻게 이어지는지
+- 장비, 애장품, 스탯, 전용무기 영역이 현재 실제 계산과 연결되어 있는지
+
+현재 페이지는 정적 HTML 안에 `script type="module"`이 들어 있는 구조다. 별도 `character-detail.js` 파일은 아직 없다.
+
+## 실행 URL
+
+현재 학생 상세 페이지는 URL의 `slug` 값을 읽는다.
 
 ```text
-character-detail.html?id=kei
+character-detail.html?slug=kei
 ```
 
-주의할 점:
+예전 문서나 코드에서 `id`를 기준으로 설명한 부분이 있다면 현재 코드와 다르다. 현재 기준은 `slug`다.
 
-- 현재 `data/students.js`에서 케이의 `id`는 숫자 `10`이 아니라 문자열 `"kei"`다.
-- 그래서 URL도 `?id=10`이 아니라 `?id=kei`로 여는 것이 현재 데이터 기준에 맞다.
-- 계산 UI는 학생 레벨, 성급, 전용무기 성급, 스킬 레벨을 입력값으로 사용한다.
-- 계산 결과는 필요한 재화 영역에 카드 형태로 출력된다.
+학생을 찾는 코드:
 
-## 연결된 파일
+```js
+const characterSlugParam = new URLSearchParams(window.location.search).get("slug");
 
-### HTML / CSS
+const selectedStudent =
+  students.find((student) => student.slug === characterSlugParam) ||
+  students.find((student) => student.slug === "kei") ||
+  students[0];
+```
+
+의미:
+
+- URL에 `?slug=학생slug`가 있으면 그 학생을 찾는다.
+- 못 찾으면 `slug === "kei"`인 학생을 기본값으로 사용한다.
+- 케이도 없으면 `students[0]`을 사용한다.
+
+## 연결 파일
+
+HTML/CSS:
 
 ```text
 character-detail.html
 styles.css
 ```
 
-### 데이터
+페이지에서 직접 import하는 데이터:
 
 ```text
 data/index.js
 data/academies.js
 data/students.js
-data/characterExpTable.js
-data/activityReports.js
-data/skillMaterialRequirements.js
-data/starRankRequirements.js
+data/student-terrain-adaptations.js
 ```
 
-### 계산 함수
+계산 함수:
 
 ```text
 utils/characterLevelCalculator.js
@@ -46,119 +67,416 @@ utils/skillMaterialCalculator.js
 utils/starRankCalculator.js
 ```
 
-## HTML 전체 구조
+계산 함수가 내부에서 사용하는 데이터:
+
+```text
+data/characterExpTable.js
+data/activityReports.js
+data/skillMaterialRequirements.js
+data/starRankRequirements.js
+```
+
+## 전체 HTML 구조
+
+큰 구조는 다음과 같다.
 
 ```text
 body
 ├─ header.site-header
+│  ├─ a.logo
+│  └─ div.student-search
 └─ main.page-shell.character-detail-shell
    ├─ section.character-detail-grid
    │  ├─ article.character-profile-panel
-   │  │  ├─ 큰 학생 표시 영역
-   │  │  └─ 이름 / 프로필 설명
    │  └─ article.character-info-panel
-   │     ├─ 기본 정보 dl
-   │     └─ 지형 적성 영역
    └─ section.character-detail-stack
       ├─ article.character-skill-panel
-      │  └─ EX / 1스킬 / 2스킬 / 3스킬 카드
       ├─ article.student-level-panel
-      │  ├─ 목표 학생 레벨 입력
-      │  ├─ 목표 성급 선택
-      │  ├─ 장비 티어 placeholder
-      │  ├─ 애장품 placeholder
-      │  └─ 필요한 재화 material-list
+      ├─ article.equipment-panel
+      ├─ article.favorite-item-panel
       ├─ article.character-stat-panel
-      └─ article.character-weapon-panel
+      ├─ article.required-material-panel
+      ├─ article.exclusive-weapon-panel
+      └─ article.memorial-panel
 ```
 
-## script type="module"
+상단 `character-detail-grid`는 학생 프로필과 기본 정보를 보여준다.
 
-학생 상세 페이지의 실제 동작은 아래 모듈 스크립트에서 처리한다.
+하단 `character-detail-stack`은 스킬, 성장 설정, 장비, 애장품, 스탯, 필요한 재화, 전용무기, 메모리얼을 세로로 보여준다.
+
+## 상단 왼쪽: character-profile-panel
+
+HTML 위치:
+
+```html
+<article class="panel character-profile-panel">
+  <div class="character-large-placeholder" aria-hidden="true"></div>
+  <div class="character-profile-copy">
+    <p class="eyebrow">PROFILE</p>
+    <div class="character-profile-title-row">
+      <h1 id="character-profile-name">리쿠하치마 아루</h1>
+      <div class="character-profile-tags" aria-label="학생 전투 정보">
+        ...
+      </div>
+    </div>
+    <p id="character-profile-description">...</p>
+  </div>
+</article>
+```
+
+역할:
+
+- `.character-large-placeholder`: 학생 프로필 이미지 또는 이름 fallback이 들어간다.
+- `#character-profile-name`: 학생의 `fullName`이 들어간다.
+- `.character-profile-tags`: 공격 타입, 역할, 방어 타입, 포지션이 들어간다.
+- `#character-profile-description`: 학생의 `profile` 문자열이 들어간다.
+
+현재 `#character-profile-name`은 CSS에서 `transform: translateX(32px)`로 약간 오른쪽으로 보정되어 있다.
+
+## 상단 오른쪽: character-info-panel
+
+HTML 위치:
+
+```html
+<article class="panel character-info-panel">
+  <div class="panel-heading character-info-heading">
+    ...
+    <span class="combat-badge" data-student-field="combatClass">Striker</span>
+  </div>
+  <dl class="character-info-list">
+    <dd data-student-field="fullName">...</dd>
+    <dd data-student-field="birthday">...</dd>
+    ...
+  </dl>
+  <div class="terrain-aptitude-section">...</div>
+</article>
+```
+
+`data-student-field` 속성이 중요하다.
+
+예:
+
+```html
+<dd data-student-field="weaponType">SR</dd>
+```
+
+스크립트는 이 속성을 찾아서 학생 데이터를 넣는다.
 
 ```js
-import { academies, students } from "./data/index.js";
+const target = document.querySelector(`[data-student-field="${field}"]`);
+target.textContent = value;
+```
+
+즉 `fieldValues.weaponType` 값이 위 `dd`에 들어간다.
+
+## 중단: 스킬 영역
+
+HTML 위치:
+
+```html
+<article class="panel character-skill-panel">
+  <div class="skill-list">
+    <article class="skill-card">EX 스킬</article>
+    <article class="skill-card">1스킬</article>
+    <article class="skill-card">2스킬</article>
+    <article class="skill-card">3스킬</article>
+  </div>
+</article>
+```
+
+처음 HTML에는 각 스킬 카드마다 목표 레벨 select만 있다.
+
+```html
+<select class="skill-level-select" aria-label="EX 스킬 레벨">
+  <option value="1">Lv. 1</option>
+  ...
+</select>
+```
+
+페이지 로딩 후 `setupSkillMaterialControls()`가 실행되면 각 스킬 카드의 select가 목표 레벨용으로 정리된다.
+
+현재 연결 방식:
+
+```text
+첫 번째 skill-card -> ex
+두 번째 skill-card -> normal
+세 번째 skill-card -> passive
+네 번째 skill-card -> sub
+```
+
+이 순서가 바뀌면 스킬 타입 연결도 같이 바뀌므로 주의해야 한다.
+
+## 성장 설정 영역
+
+HTML 위치:
+
+```html
+<article class="panel student-level-panel">
+  <input id="student-level-input" type="number" min="1" max="90" value="1" />
+  <input id="student-level-range" type="range" min="1" max="90" value="1" />
+  <div class="growth-star-row" data-growth-star-row></div>
+</article>
+```
+
+역할:
+
+- `#student-level-input`: 목표 학생 레벨 숫자 입력
+- `#student-level-range`: 목표 학생 레벨 슬라이더
+- `[data-growth-star-row]`: 기본 성급 1~5성과 전용무기 1~4성 버튼이 동적으로 들어가는 곳
+
+현재 학생의 실제 보유 상태는 저장하지 않는다.
+
+현재 기준:
+
+```text
+현재 학생 레벨 = 1
+현재 기본 성급 = 학생 데이터의 baseStar
+현재 전용무기 성급 = 0
+```
+
+## 장비 영역
+
+HTML 위치:
+
+```html
+<article class="panel equipment-panel">
+  <article class="equipment-card">장비 1</article>
+  <article class="equipment-card">장비 2</article>
+  <article class="equipment-card">장비 3</article>
+</article>
+```
+
+현재 상태:
+
+- 장비 1, 장비 2, 장비 3은 고정 placeholder다.
+- 각 장비는 T1~T8 select를 가지고 있다.
+- 현재 JavaScript에서 장비 select 값을 읽지 않는다.
+- 현재 필요한 재화 계산에도 장비 티어는 반영되지 않는다.
+- 장비 이미지, 장비 이름, 장비별 스탯 효과도 아직 데이터와 연결되지 않았다.
+
+즉 지금 장비 영역은 UI 뼈대만 있는 상태다.
+
+공부할 때 기억할 점:
+
+```text
+장비 select 변경 -> 현재 아무 계산도 실행하지 않음
+```
+
+나중에 장비 계산을 붙이려면 다음 작업이 필요하다.
+
+- 장비별 슬롯 데이터
+- 장비 티어업 요구량 데이터
+- 장비 select change 이벤트
+- `renderRequiredMaterials()` 안에서 장비 결과 합산
+
+## 애장품 영역
+
+HTML 위치:
+
+```html
+<article class="panel favorite-item-panel">
+  <article class="equipment-card favorite-item-card">
+    <h3>애장품 이름</h3>
+    <select class="equipment-tier-select" aria-label="애장품 티어">
+      <option value="none">미선택</option>
+      <option value="tier1">1티어</option>
+      <option value="tier2">2티어</option>
+    </select>
+  </article>
+</article>
+```
+
+현재 상태:
+
+- 애장품 이름은 placeholder다.
+- 학생별 애장품 존재 여부를 확인하지 않는다.
+- 애장품이 없는 학생이어도 카드가 표시된다.
+- 애장품 select 값을 JavaScript에서 읽지 않는다.
+- 필요한 재화 계산에도 애장품은 반영되지 않는다.
+
+즉 애장품 영역도 현재는 UI placeholder다.
+
+## 스탯 영역
+
+HTML 위치:
+
+```html
+<article class="panel character-stat-panel">
+  <dl class="stat-grid">
+    <dt>공격력</dt>
+    <dd>N</dd>
+    ...
+  </dl>
+</article>
+```
+
+현재 상태:
+
+- 모든 값이 `N`이다.
+- 학생 레벨, 성급, 장비, 애장품 변경과 연결되어 있지 않다.
+- JavaScript에서 스탯 영역을 갱신하는 함수가 없다.
+
+즉 스탯 영역은 아직 표시 placeholder다.
+
+## 필요한 재화 영역
+
+HTML 위치:
+
+```html
+<article class="panel required-material-panel">
+  <div class="material-list">
+    ...
+  </div>
+</article>
+```
+
+처음 HTML에는 임시 카드가 들어 있다. 하지만 페이지 로딩 후 `renderRequiredMaterials()`가 실행되면서 기존 카드들이 계산 결과 카드로 교체된다.
+
+교체 코드:
+
+```js
+materialList.replaceChildren(...cards);
+```
+
+현재 실제로 반영되는 계산:
+
+- 학생 레벨업 보고서/크레딧
+- 스킬 강화 재화
+- 성급/전용무기 성급 엘레프
+
+현재 반영되지 않는 계산:
+
+- 장비 티어업 재화
+- 애장품 재화
+- 장비/애장품에 따른 스탯
+
+## 전용무기 영역
+
+HTML 위치:
+
+```html
+<article class="panel exclusive-weapon-panel">
+  <h2>전용무기 이름</h2>
+  <p class="weapon-locked-message" data-weapon-display-locked-message hidden>미개방</p>
+  ...
+</article>
+```
+
+현재 상태:
+
+- 전용무기 이름과 설명은 placeholder다.
+- 전용무기 효과 카드도 고정 HTML이다.
+- `data-weapon-display-locked-message` 속성은 있지만 현재 JavaScript에서 사용하지 않는다.
+- 전용무기 성급 선택은 성장 설정의 별 버튼에서만 계산에 반영된다.
+- 표시 순서는 `exclusive-weapon-copy` 설명 영역, `weapon-image-placeholder` 가로 이미지 영역, `weapon-effect-card-list` 효과 카드 영역이다.
+
+즉 전용무기 영역의 표시 내용은 아직 학생별 데이터와 연결되지 않았다.
+
+## script import
+
+스크립트 시작 부분:
+
+```js
+import { academies, studentTerrainAdaptations, students } from "./data/index.js";
 import { calculateCharacterLevelMaterials } from "./utils/characterLevelCalculator.js";
 import { calculateSkillMaterials, SKILL_LEVEL_RANGES } from "./utils/skillMaterialCalculator.js";
 import { calculateStarRankEleph } from "./utils/starRankCalculator.js";
 ```
 
-의미:
+각 import 역할:
 
-- `academies`, `students`: 화면에 표시할 학생 기본 정보와 학원 이름을 찾는다.
+- `academies`: 학생의 `academySlug`로 학원 이름을 찾는다.
+- `studentTerrainAdaptations`: 학생별 시가지/야외/실내 적성 데이터를 찾는다.
+- `students`: URL의 `slug`로 표시할 학생을 찾는다.
 - `calculateCharacterLevelMaterials`: 목표 학생 레벨까지 필요한 보고서와 크레딧을 계산한다.
-- `calculateSkillMaterials`: 스킬 레벨업에 필요한 BD, 기술 노트, 오파츠, 크레딧을 계산한다.
-- `calculateStarRankEleph`: 성급과 전용무기 성급에 필요한 엘레프 수량을 계산한다.
+- `calculateSkillMaterials`: 스킬 현재/목표 레벨에 따른 재화를 계산한다.
+- `SKILL_LEVEL_RANGES`: EX는 1~5, 나머지는 1~10 범위를 제공한다.
+- `calculateStarRankEleph`: 목표 성급/전용무기 성급까지 필요한 엘레프를 계산한다.
 
-## 학생 찾기 흐름
+## DOM 변수
 
-```js
-const characterIdParam = new URLSearchParams(window.location.search).get("id");
-```
-
-URL에서 `id` 값을 가져온다.
-
-케이 페이지라면:
-
-```text
-character-detail.html?id=kei
-```
-
-이므로:
+스크립트 초반에 HTML 요소를 변수로 잡는다.
 
 ```js
-characterIdParam === "kei"
+const characterProfileName = document.querySelector("#character-profile-name");
+const characterProfileDescription = document.querySelector("#character-profile-description");
+const studentLevelInput = document.querySelector("#student-level-input");
+const studentLevelRange = document.querySelector("#student-level-range");
+const characterProfileVisual = document.querySelector(".character-large-placeholder");
+const materialList = document.querySelector(".material-list");
+const growthStarRow = document.querySelector("[data-growth-star-row]");
+const terrainAptitudeList = document.querySelector(".terrain-aptitude-list");
+const roleImage = document.querySelector("[data-role-image]");
 ```
 
-다음 코드에서 숫자로 바꿀 수 있으면 숫자로 바꾸고, 아니면 문자열 그대로 사용한다.
+이 변수들은 이후 함수들이 화면을 바꿀 때 계속 사용한다.
+
+예:
 
 ```js
-const characterId = Number.isNaN(Number(characterIdParam))
-  ? characterIdParam
-  : Number(characterIdParam);
+characterProfileName.textContent = student.fullName;
+materialList.replaceChildren(...cards);
+growthStarRow.replaceChildren(...buttons);
 ```
 
-케이는 숫자가 아니므로:
+## 상수 데이터
+
+이미지 경로 상수:
 
 ```js
-characterId === "kei"
+const STAR_ICON_URL = "./images/icon/Icon_star.webp";
+const BLUE_STAR_ICON_URL = "./images/icon/Icon_blue_star.webp";
+const BLANK_STAR_ICON_URL = "./images/icon/Icon_blank_star.webp";
 ```
 
-그 다음 학생 배열에서 id가 같은 학생을 찾는다.
+지역 적성 키:
+
+```js
+const TERRAIN_KEYS = ["urban", "outdoor", "indoor"];
+```
+
+지역 정보:
+
+```js
+const TERRAIN_META = {
+  urban: { label: "시가지", imageUrl: "./images/terrains/urban.webp" },
+  outdoor: { label: "야외", imageUrl: "./images/terrains/outdoor.webp" },
+  indoor: { label: "실내", imageUrl: "./images/terrains/indoor.webp" },
+};
+```
+
+지역 랭크 이미지:
+
+```js
+const TERRAIN_RANK_IMAGE_URLS = {
+  SS: "./images/terrain-ranks/rank-ss.webp",
+  S: "./images/terrain-ranks/rank-s.webp",
+  ...
+};
+```
+
+역할 이미지:
+
+```js
+const ROLE_IMAGE_URLS = {
+  "딜러": "./images/role/attacker.webp",
+  "탱커": "./images/role/tank.webp",
+  ...
+};
+```
+
+## selectedStudent / selectedAcademy
+
+학생 선택:
 
 ```js
 const selectedStudent =
-  students.find((student) => student.id === characterId) ||
-  students.find((student) => student.id === 3) ||
+  students.find((student) => student.slug === characterSlugParam) ||
+  students.find((student) => student.slug === "kei") ||
   students[0];
 ```
 
-케이 기준 결과:
-
-```js
-selectedStudent.id === "kei"
-selectedStudent.name === "케이"
-selectedStudent.baseStar === 3
-```
-
-만약 URL의 id에 해당하는 학생을 못 찾으면 id가 `3`인 학생을 fallback으로 사용하고, 그것도 없으면 첫 번째 학생을 사용한다.
-
-## 케이 데이터
-
-`data/students.js`의 케이 데이터는 현재 이런 성격이다.
-
-```text
-id: "kei"
-name: "케이"
-academySlug: "millennium"
-baseStar: 3
-role: "서포터"
-position: "Back"
-attackType: "신비"
-defenseType: "탄력장갑"
-```
-
-학원 이름은 학생 데이터의 `academySlug`로 찾는다.
+학원 선택:
 
 ```js
 const selectedAcademy = academies.find(
@@ -166,54 +484,141 @@ const selectedAcademy = academies.find(
 );
 ```
 
-케이는 `academySlug`가 `"millennium"`이므로 밀레니엄 학원 데이터를 찾는다.
+학생 데이터에는 학원 이름을 직접 넣지 않고 `academySlug`를 넣는다. 화면에 표시할 학원 이름은 `academies`에서 찾는다.
 
 ## renderStudentDetail(student)
 
-이 함수는 선택된 학생의 기본 정보를 화면에 출력한다.
-
-```js
-renderStudentDetail(selectedStudent);
-```
-
-주요 역할:
+역할:
 
 ```text
-1. 브라우저 제목을 학생 이름으로 변경한다.
-2. 큰 표시 영역에 학생 이름을 넣는다.
-3. 프로필 설명을 넣는다.
-4. data-student-field 속성을 가진 dd 요소들에 학생 정보를 넣는다.
+선택된 학생의 기본 정보를 화면에 넣는다.
 ```
+
+처리 흐름:
+
+1. 학생의 학원 이름을 구한다.
+2. 브라우저 탭 제목을 학생 이름으로 바꾼다.
+3. 프로필 이미지 영역을 비운다.
+4. `profileImageUrl`이 있으면 이미지를 넣고, 없으면 학생 이름 fallback을 넣는다.
+5. 큰 이름과 프로필 설명을 넣는다.
+6. 역할 이미지 경로를 설정한다.
+7. `data-student-field` 요소들에 학생 정보를 넣는다.
+
+핵심 코드:
+
+```js
+characterProfileVisual.replaceChildren();
+
+if(student.profileImageUrl) {
+  const image = document.createElement("img");
+  image.src = student.profileImageUrl;
+  image.alt = student.name;
+  image.className = "character-profile-image";
+  characterProfileVisual.append(image);
+} else {
+  const fallback = document.createElement("span");
+  fallback.id = "character-profile-mark";
+  fallback.textContent = student.name;
+  characterProfileVisual.append(fallback);
+}
+```
+
+`replaceChildren()`은 기존 자식 요소를 모두 지우고 새로 넣기 위한 준비다.
+
+`fieldValues` 연결:
+
+```js
+const fieldValues = {
+  fullName: student.fullName,
+  birthday: student.birthday,
+  academyName, // 키, 값이 같이 때문에 축약함
+  attackType: student.attackType,
+  defenseType: student.defenseType,
+  role: student.role,
+  position: student.position ?? "임시 표시",
+  combatClass: student.combatClass ?? "임시 표시",
+  ...
+};
+```
+
+여기서 key는 HTML의 `data-student-field` 값과 맞아야 한다.
 
 예:
 
-```html
-<dd data-student-field="attackType">폭발</dd>
+```js
+fieldValues.fullName
 ```
 
-여기에 케이 데이터가 들어가면:
+은 아래 HTML에 들어간다.
+
+```html
+<dd data-student-field="fullName">...</dd>
+```
+
+주의:
+
+- `?? "임시 표시"`는 값이 `null` 또는 `undefined`일 때만 임시 표시를 넣는다.
+- 빈 문자열 `""`은 `??`로 대체되지 않는다.
+
+## renderTerrainAdaptations(student)
+
+역할:
 
 ```text
-신비
+학생의 시가지/야외/실내 적성을 카드로 다시 그린다.
 ```
 
-가 표시된다.
-
-핵심 코드는 이 부분이다.
+학생 적성 데이터 찾기:
 
 ```js
-Object.entries(fieldValues).forEach(([field, value]) => {
-  const target = document.querySelector(`[data-student-field="${field}"]`);
-
-  if (target) {
-    target.textContent = value;
-  }
-});
+const adaptation =
+  studentTerrainAdaptations.find((item) => item.studentId === student.id) ||
+  studentTerrainAdaptations.find((item) => item.studentSlug === student.slug);
 ```
 
-`fieldValues` 객체의 key와 HTML의 `data-student-field` 값이 연결된다.
+의미:
 
-## 계산에 쓰는 상태 변수
+- 먼저 `studentId`가 같은 데이터를 찾는다.
+- 없으면 `studentSlug`가 같은 데이터를 찾는다.
+
+카드 생성 흐름:
+
+```text
+TERRAIN_KEYS ["urban", "outdoor", "indoor"]를 순회
+-> 각 terrainKey에 맞는 지역 이름과 이미지 경로를 가져옴
+-> 학생 적성 랭크를 가져옴
+-> 랭크 이미지가 있으면 img 추가
+-> 카드 article 반환
+-> terrainAptitudeList.replaceChildren(...cards)
+```
+
+현재 코드에서 주의할 점:
+
+```js
+} else {
+    const empty = document.createElement("span");
+    empty.textContent = "데이터 없음";
+
+    body.append(title);
+}
+```
+
+여기서는 `empty`를 만들지만 실제로 append하지 않고 `title`을 한 번 더 append하고 있다. 그래서 데이터가 없는 경우 `데이터 없음` 문구가 화면에 나오지 않을 수 있다.
+
+이 문서는 공부용이므로 코드는 수정하지 않았다.
+
+## 초기 렌더링
+
+학생 기본 정보와 지역 적성은 상태 변수 선언보다 먼저 한 번 렌더링된다.
+
+```js
+renderStudentDetail(selectedStudent);
+renderTerrainAdaptations(selectedStudent);
+```
+
+이 두 함수는 계산 상태와 상관없이 선택된 학생 데이터를 화면에 넣는다.
+
+## 성장 상태 변수
 
 ```js
 let selectedBaseStar = getBaseStar(selectedStudent);
@@ -223,33 +628,29 @@ let targetBaseStar = selectedBaseStar;
 let targetWeaponStar = selectedWeaponStar;
 const initialStudentLevel = 1;
 const initialBaseStar = getBaseStar(selectedStudent);
-const initialWeaponStar = getWeaponStar();
 ```
 
-케이 기준 초기값:
+의미:
+
+- `selectedBaseStar`: 현재 화면에서 선택된 기본 성급
+- `selectedWeaponStar`: 현재 화면에서 선택된 전용무기 성급
+- `targetStudentLevel`: 목표 학생 레벨
+- `targetBaseStar`: 계산에 사용할 목표 기본 성급
+- `targetWeaponStar`: 계산에 사용할 목표 전용무기 성급
+- `initialStudentLevel`: 현재 학생 레벨, 지금은 항상 1
+- `initialBaseStar`: 학생 데이터의 기본 성급
+
+현재 `initialWeaponStar` 변수는 없다. `calculateStarRankEleph()`는 `currentWeaponStar` 기본값이 `0`이므로 전달하지 않아도 0으로 계산된다.
+
+## syncStudentLevel(value)
+
+역할:
 
 ```text
-selectedBaseStar = 3
-selectedWeaponStar = 0
-targetStudentLevel = 1
-targetBaseStar = 3
-targetWeaponStar = 0
-initialStudentLevel = 1
-initialBaseStar = 3
-initialWeaponStar = 0
+숫자 입력과 슬라이더를 같은 값으로 맞추고, 필요한 재화를 다시 계산한다.
 ```
 
-현재 구현에서는 유저의 실제 보유 상태를 저장하지 않는다.
-
-그래서:
-
-- 현재 학생 레벨은 항상 `1`로 본다.
-- 현재 전용무기 성급은 항상 `0`으로 본다.
-- 현재 기본 성급은 학생 데이터의 `baseStar`를 사용한다.
-
-## 목표 학생 레벨 입력
-
-학생 레벨은 number input과 range input이 같이 움직인다.
+코드:
 
 ```js
 function syncStudentLevel(value) {
@@ -261,396 +662,483 @@ function syncStudentLevel(value) {
 }
 ```
 
-흐름:
+처리 흐름:
 
-```text
 1. 입력값을 숫자로 바꾼다.
-2. 최소 1, 최대 90으로 제한한다.
-3. number input과 range input 값을 같은 값으로 맞춘다.
-4. targetStudentLevel을 갱신한다.
-5. renderRequiredMaterials()를 다시 실행해서 필요한 재화를 갱신한다.
-```
+2. 숫자가 아니면 1로 본다.
+3. 최소 1, 최대 90으로 제한한다.
+4. number input과 range input 값을 같은 값으로 맞춘다.
+5. `targetStudentLevel`을 갱신한다.
+6. `renderRequiredMaterials()`를 실행해서 재화를 다시 계산한다.
 
-즉 목표 레벨을 바꿀 때마다 계산 결과가 다시 그려진다.
-
-## 성급 / 전용무기 별 버튼
-
-성급 선택 UI는 총 9칸이다.
-
-```text
-1~5번: 기본 성급
-6~9번: 전용무기 1~4성
-```
-
-별 종류를 판단하는 함수:
+이벤트 연결:
 
 ```js
-function getGrowthStarKind(slotNumber, baseStar, weaponStar) {
-  if (slotNumber <= 5) {
-    return slotNumber <= baseStar ? "student" : "blank";
-  }
+studentLevelInput.addEventListener("input", () => {
+  syncStudentLevel(studentLevelInput.value);
+});
 
-  return slotNumber - 5 <= weaponStar ? "weapon" : "blank";
+studentLevelRange.addEventListener("input", () => {
+  syncStudentLevel(studentLevelRange.value);
+});
+```
+
+## clampNumber(value, min, max)
+
+역할:
+
+```text
+숫자를 min~max 사이로 제한한다.
+```
+
+코드:
+
+```js
+function clampNumber(value, min, max) {
+  return Math.min(max, Math.max(min, Number(value) || 0));
 }
 ```
 
-케이가 기본 3성, 전용무기 0성이라면:
+예:
 
 ```text
-1번 student
-2번 student
-3번 student
-4번 blank
-5번 blank
-6번 blank
-7번 blank
-8번 blank
-9번 blank
+clampNumber(3, 1, 5) -> 3
+clampNumber(9, 1, 5) -> 5
+clampNumber(null, 1, 5) -> 1
 ```
 
-기본 성급 버튼을 누르면:
+## getBaseStar(student)
+
+역할:
+
+```text
+학생 데이터의 baseStar를 1~5 범위로 보정해서 반환한다.
+```
+
+코드:
+
+```js
+function getBaseStar(student) {
+  return clampNumber(student.baseStar ?? 1, 1, 5);
+}
+```
+
+`student.baseStar`가 없으면 1성으로 본다.
+
+## getWeaponStar()
+
+역할:
+
+```text
+현재 전용무기 성급을 반환한다.
+```
+
+현재 코드:
+
+```js
+function getWeaponStar() {
+  return 0;
+}
+```
+
+현재 프로젝트는 유저별 보유 상태를 저장하지 않으므로 전용무기 성급은 항상 0으로 시작한다.
+
+## getGrowthStarKind(slotNumber, baseStar, weaponStar)
+
+역할:
+
+```text
+1~9번 별 칸이 노란 별인지, 파란 별인지, 빈 별인지 판단한다.
+```
+
+규칙:
+
+```text
+1~5번 칸: 기본 성급
+6~9번 칸: 전용무기 1~4성
+```
+
+코드:
+
+```js
+if (slotNumber <= 5) {
+  return slotNumber <= baseStar ? "student" : "blank";
+}
+
+return slotNumber - 5 <= weaponStar ? "weapon" : "blank";
+```
+
+예:
+
+```text
+baseStar = 3, weaponStar = 0
+1 student
+2 student
+3 student
+4 blank
+5 blank
+6 blank
+7 blank
+8 blank
+9 blank
+```
+
+예:
+
+```text
+baseStar = 5, weaponStar = 2
+1~5 student
+6 weapon
+7 weapon
+8 blank
+9 blank
+```
+
+## getStarIconUrl(kind)
+
+역할:
+
+```text
+별 종류에 맞는 이미지 경로를 반환한다.
+```
+
+반환:
+
+```text
+student -> 노란 별
+weapon -> 파란 별
+blank -> 빈 별
+```
+
+## createStarIcon(kind)
+
+역할:
+
+```text
+별 이미지 img 요소를 만든다.
+```
+
+코드:
+
+```js
+const image = document.createElement("img");
+image.className = `star-icon ${kind}-star-icon`;
+image.src = getStarIconUrl(kind);
+image.alt = "";
+image.setAttribute("aria-hidden", "true");
+```
+
+`aria-hidden="true"`는 이 이미지가 장식용이라는 뜻이다. 실제 버튼의 의미는 버튼의 `aria-label`이 담당한다.
+
+## renderStarIcons(count, kind, ariaLabel)
+
+역할:
+
+```text
+같은 종류의 별 여러 개를 span으로 묶어서 만든다.
+```
+
+현재 `character-detail.html` 안에서는 이 함수가 호출되지 않는다. 남아 있는 보조 함수로 볼 수 있다.
+
+나중에 별을 단순 표시용으로 보여줄 때 사용할 수 있다.
+
+## createGrowthStarButton(slotNumber)
+
+역할:
+
+```text
+성장 설정의 별 버튼 하나를 만든다.
+```
+
+처리 흐름:
+
+1. `slotNumber`에 맞는 별 종류를 구한다.
+2. `button` 요소를 만든다.
+3. 1~5번이면 기본 성급 선택 버튼으로 만든다.
+4. 6~9번이면 전용무기 성급 선택 버튼으로 만든다.
+5. 버튼 안에 별 이미지 하나를 넣는다.
+
+기본 성급 버튼 클릭:
 
 ```js
 targetBaseStar = slotNumber;
 targetWeaponStar = 0;
+selectedBaseStar = targetBaseStar;
+selectedWeaponStar = targetWeaponStar;
+renderGrowthStars();
+renderRequiredMaterials();
 ```
 
-전용무기 버튼을 누르면:
+의미:
+
+- 기본 성급을 선택하면 전용무기 성급은 0으로 초기화한다.
+- 별 UI를 다시 그린다.
+- 필요한 재화를 다시 계산한다.
+
+전용무기 버튼 클릭:
 
 ```js
 targetBaseStar = 5;
 targetWeaponStar = weaponRank;
+selectedBaseStar = targetBaseStar;
+selectedWeaponStar = targetWeaponStar;
+renderGrowthStars();
+renderRequiredMaterials();
 ```
 
-즉 전용무기를 선택하면 기본 성급은 자동으로 5성 취급된다.
+의미:
+
+- 전용무기를 선택하면 기본 성급은 자동으로 5성으로 본다.
+- 전용무기 성급을 목표값으로 저장한다.
+- 별 UI와 필요한 재화를 다시 계산한다.
+
+## renderGrowthStars()
+
+역할:
+
+```text
+성장 설정의 별 버튼 9개를 다시 그린다.
+```
+
+코드:
+
+```js
+const buttons = [];
+
+for (let slotNumber = 1; slotNumber <= 9; slotNumber += 1) {
+  buttons.push(createGrowthStarButton(slotNumber));
+}
+
+growthStarRow.replaceChildren(...buttons);
+```
+
+별을 클릭할 때마다 `selectedBaseStar`, `selectedWeaponStar`가 바뀌고, 이 함수가 다시 실행되어 화면의 별 색이 갱신된다.
 
 ## setupSkillMaterialControls()
 
-HTML에는 이미 스킬 카드와 현재 레벨 select가 있다.
+역할:
 
-`setupSkillMaterialControls()`는 여기에 목표 레벨 select를 추가한다.
+```text
+스킬 카드의 기존 select를 목표 레벨 select로 사용하고, 현재 레벨은 내부에서 최소값으로 고정한다.
+```
+
+스킬 카드 찾기:
 
 ```js
+const skillCards = document.querySelectorAll(".character-skill-panel .skill-card");
 const skillTypes = ["ex", "normal", "passive", "sub"];
 ```
 
-스킬 카드 순서와 skillType 연결:
+각 카드에서 필요한 요소:
+
+```js
+const targetSelect = card.querySelector(".skill-level-select");
+const titleRow = card.querySelector(".skill-title-row");
+const range = SKILL_LEVEL_RANGES[skillType];
+```
+
+목표 select에 데이터 속성 추가:
+
+```js
+targetSelect.dataset.skillType = skillType;
+targetSelect.dataset.levelKind = "target";
+```
+
+이후 `getSkillMaterialResults()`는 이 속성을 기준으로 목표 레벨 select를 찾는다.
+
+기본 목표 레벨은 해당 스킬의 최대 레벨이다.
 
 ```text
-첫 번째 카드 -> ex
-두 번째 카드 -> normal
-세 번째 카드 -> passive
-네 번째 카드 -> sub
+EX -> Lv. 5
+normal/passive/sub -> Lv. 10
 ```
 
-스킬 레벨 범위:
+이벤트 연결:
 
 ```js
-export const SKILL_LEVEL_RANGES = {
-  ex: { min: 1, max: 5 },
-  normal: { min: 1, max: 10 },
-  passive: { min: 1, max: 10 },
-  sub: { min: 1, max: 10 },
-};
-```
-
-그래서:
-
-- EX 스킬 목표 select는 `Lv. 1`부터 `Lv. 5`까지 만든다.
-- 나머지 스킬 목표 select는 `Lv. 1`부터 `Lv. 10`까지 만든다.
-
-목표 select를 만든 뒤에는 현재 select와 목표 select 양쪽에 이벤트를 붙인다.
-
-```js
-currentSelect.addEventListener("change", renderRequiredMaterials);
 targetSelect.addEventListener("change", renderRequiredMaterials);
 ```
 
-즉 스킬 레벨을 바꾸면 필요한 재화가 다시 계산된다.
+스킬 목표 레벨이 바뀌면 필요한 재화가 다시 계산된다. 현재 레벨은 각 스킬의 최소 레벨로 내부 고정한다.
+
+## getSkillLabel(skillType)
+
+역할:
+
+```text
+스킬 타입 코드를 화면/aria-label용 한글 이름으로 바꾼다.
+```
+
+매핑:
+
+```text
+ex -> EX 스킬
+normal -> 1스킬
+passive -> 2스킬
+sub -> 3스킬
+```
 
 ## renderRequiredMaterials()
 
-이 함수가 필요한 재화를 실제로 계산하고 화면에 출력하는 핵심 함수다.
-
-전체 흐름:
+역할:
 
 ```text
-1. 학생 레벨업 재화를 계산한다.
-2. 성급 / 전용무기 엘레프를 계산한다.
-3. 스킬 레벨업 재화를 계산한다.
-4. itemId 기준으로 재화를 합산한다.
-5. 필요한 경우 케이의 엘레프를 추가한다.
-6. 재화를 정렬한다.
-7. 재화 카드 article 배열을 만든다.
-8. 데이터가 없거나 필요한 재화가 없으면 안내 문구를 추가한다.
-9. material-list의 기존 내용을 새 카드들로 교체한다.
+현재 선택된 성장값을 기준으로 필요한 재화를 계산하고 화면에 출력한다.
 ```
 
-코드 구조:
+이 페이지의 계산 핵심 함수다.
+
+처리 흐름:
+
+1. 학생 레벨업 재화를 계산한다.
+2. 성급/전용무기 엘레프를 계산한다.
+3. 스킬 재화를 계산한다.
+4. 같은 `itemId`의 재화를 합산한다.
+5. 엘레프가 필요하면 임시 엘레프 재화를 추가한다.
+6. 재화를 정렬한다.
+7. 재화 카드를 만든다.
+8. 스킬 데이터가 없으면 안내 문구를 추가한다.
+9. `.material-list` 내용을 새 카드로 교체한다.
+
+학생 레벨 계산:
 
 ```js
-const levelResult = calculateCharacterLevelMaterials(...);
-const starResult = calculateStarRankEleph(...);
+const levelResult = calculateCharacterLevelMaterials({
+  currentLevel: initialStudentLevel,
+  targetLevel: targetStudentLevel,
+});
+```
+
+성급/전용무기 계산:
+
+```js
+const starResult = calculateStarRankEleph({
+  currentBaseStar: initialBaseStar,
+  targetBaseStar,
+  targetWeaponStar,
+});
+```
+
+`currentWeaponStar`는 넘기지 않는다. `calculateStarRankEleph()`의 기본값이 0이라서 현재 전용무기는 0성으로 계산된다.
+
+스킬 계산:
+
+```js
 const skillResults = getSkillMaterialResults();
+```
+
+합산:
+
+```js
 const materialMap = new Map();
 
 mergeMaterials(materialMap, levelResult.materials);
 skillResults.forEach((result) => mergeMaterials(materialMap, result.materials));
 ```
 
-여기서 `materialMap`을 쓰는 이유는 같은 재화를 하나로 합치기 위해서다.
-
-예:
-
-```text
-레벨업 크레딧 3,780
-스킬 강화 크레딧 80,000
-```
-
-둘 다 `itemId`가 `"credit"`이면:
-
-```text
-크레딧 83,780
-```
-
-한 카드로 합쳐진다.
-
-## 학생 레벨업 계산
-
-호출:
+엘레프 추가:
 
 ```js
-calculateCharacterLevelMaterials({
-  currentLevel: initialStudentLevel,
-  targetLevel: targetStudentLevel,
-});
+if (starResult.elephQuantity > 0) {
+  mergeMaterials(materialMap, [
+    {
+      itemId: `${selectedStudent.id}-eleph`,
+      itemName: `${selectedStudent.name}의 엘레프`,
+      tier: null,
+      quantity: starResult.elephQuantity,
+      needsReview: true,
+    },
+  ]);
+}
 ```
 
-케이도 다른 학생과 같은 학생 레벨 EXP 테이블을 사용한다.
+주의:
 
-사용 데이터:
+- 엘레프 `itemId`는 아직 안정적인 itemId가 아니라 임시 규칙이다.
+- 그래서 `needsReview: true`가 붙는다.
+
+화면 교체:
+
+```js
+materialList.replaceChildren(...cards);
+```
+
+## getSkillMaterialResults()
+
+역할:
 
 ```text
-data/characterExpTable.js
-data/activityReports.js
+화면에 있는 스킬 목표 select 값을 읽어서 스킬 재화 계산 결과 배열을 만든다.
 ```
 
-계산 방식:
+목표 레벨 select 찾기:
 
-```text
-필요 EXP = 목표 레벨 누적 EXP - 현재 레벨 누적 EXP
-필요 크레딧 = 필요 EXP * 7
+```js
+document.querySelectorAll(".skill-level-select[data-level-kind='target']")
 ```
 
-활동 보고서는 높은 EXP 보고서부터 최대한 사용한다.
-
-보고서 종류:
-
-```text
-초급 활동 보고서: 50 EXP
-일반 활동 보고서: 500 EXP
-상급 활동 보고서: 2,000 EXP
-최상급 활동 보고서: 10,000 EXP
-```
-
-예를 들어 목표 레벨을 10으로 바꾸면:
-
-```text
-Lv.1 누적 EXP = 0
-Lv.10 누적 EXP = 540
-필요 EXP = 540
-필요 크레딧 = 540 * 7 = 3,780
-```
-
-## 스킬 재화 계산
-
-스킬 계산은 `getSkillMaterialResults()`가 현재 화면의 select 값을 읽어서 실행한다.
+계산 호출:
 
 ```js
 return calculateSkillMaterials({
   studentId: selectedStudent.id,
   skillType,
-  currentLevel: currentSelect.value,
-  targetLevel: targetSelect?.value ?? currentSelect.value,
+  currentLevel: range.min,
+  targetLevel: targetSelect.value,
 });
 ```
 
-케이 기준:
-
-```js
-studentId: "kei"
-```
-
-`calculateSkillMaterials()`는 `data/skillMaterialRequirements.js`에서 아래 조건에 맞는 행만 찾는다.
-
-```js
-row.studentId === studentId
-row.skillType === skillType
-row.fromLevel >= normalizedCurrentLevel
-row.toLevel <= normalizedTargetLevel
-```
-
-예:
-
-```text
-케이 EX 현재 Lv.1, 목표 Lv.3
-```
-
-그러면 조건에 맞는 행은:
-
-```text
-studentId가 "kei"
-skillType이 "ex"
-fromLevel이 1 이상
-toLevel이 3 이하
-```
-
-즉 보통:
-
-```text
-1 -> 2 행
-2 -> 3 행
-```
-
-이 선택된다.
-
-그 행들의 `materials` 배열을 돌면서 `itemId` 기준으로 합산한다.
-
-## 오파츠 계산
-
-오파츠만 별도로 계산하는 함수가 있는 것은 아니다.
-
-오파츠는 `data/skillMaterialRequirements.js` 안의 스킬 재화 목록에 포함되어 있고, 스킬 재화 계산 과정에서 같이 합산된다.
-
-예:
-
-```js
-{
-  itemId: "phaistos_disc_piece",
-  itemName: "Phaistos Disc Piece",
-  quantity: 18,
-  needsReview: true
-}
-```
-
-이런 데이터가 스킬 요구 재화 행에 들어 있으면, `calculateSkillMaterials()`가 다른 재화와 똑같이 처리한다.
-
-정리하면:
-
-```text
-스킬 레벨 select 변경
--> getSkillMaterialResults()
--> calculateSkillMaterials()
--> skillMaterialRequirements에서 케이 행 찾기
--> BD / 기술 노트 / 오파츠 / 크레딧을 itemId 기준으로 합산
--> renderRequiredMaterials()에서 전체 재화와 다시 합산
--> 화면에 카드로 출력
-```
-
-## 성급 / 전용무기 엘레프 계산
-
-호출:
-
-```js
-calculateStarRankEleph({
-  currentBaseStar: initialBaseStar,
-  currentWeaponStar: initialWeaponStar,
-  targetBaseStar,
-  targetWeaponStar,
-});
-```
-
-케이 기준 현재값:
-
-```text
-currentBaseStar = 3
-currentWeaponStar = 0
-```
-
-성급 순서:
-
-```text
-base-1
-base-2
-base-3
-base-4
-base-5
-weapon-1
-weapon-2
-weapon-3
-weapon-4
-```
-
-`data/starRankRequirements.js`에 있는 수량:
-
-```text
-3성 -> 4성: 100
-4성 -> 5성: 120
-5성 -> 전용무기 1성: 0
-전용무기 1성 -> 전용무기 2성: 120
-전용무기 2성 -> 전용무기 3성: 180
-전용무기 3성 -> 전용무기 4성: 200
-```
-
-예:
-
-```text
-케이 3성 -> 5성
-필요 엘레프 = 100 + 120 = 220
-```
-
-예:
-
-```text
-케이 3성 -> 전용무기 2성
-필요 엘레프 = 100 + 120 + 0 + 120 = 340
-```
-
-엘레프 결과는 아직 안정적인 itemId 데이터가 없어서 임시 id를 만든다.
-
-```js
-itemId: `${selectedStudent.id}-eleph`
-itemName: `${selectedStudent.name}의 엘레프`
-needsReview: true
-```
-
-케이 기준:
-
-```text
-itemId: "kei-eleph"
-itemName: "케이의 엘레프"
-검수 필요 표시
-```
+여기서 `studentId`는 `selectedStudent.id`를 사용한다. URL은 `slug`로 찾지만, 스킬 재화 데이터 연결은 학생의 `id`를 사용한다.
 
 ## mergeMaterials(materialMap, materials)
 
-이 함수는 재화를 합치는 역할이다.
+역할:
+
+```text
+같은 itemId를 가진 재화를 하나로 합친다.
+```
+
+예:
+
+```text
+학생 레벨업 크레딧 3,780
+스킬 강화 크레딧 80,000
+```
+
+둘 다 `itemId: "credit"`이면 최종 결과는:
+
+```text
+크레딧 83,780
+```
+
+코드:
 
 ```js
 const existing = materialMap.get(material.itemId);
+
+if (existing) {
+  existing.quantity += material.quantity;
+  existing.needsReview = existing.needsReview || Boolean(material.needsReview);
+  return;
+}
 ```
 
-이미 같은 `itemId`가 있으면:
-
-```js
-existing.quantity += material.quantity;
-existing.needsReview = existing.needsReview || Boolean(material.needsReview);
-```
-
-즉:
-
-- 수량은 더한다.
-- 하나라도 `needsReview: true`이면 최종 카드도 검수 필요가 된다.
-
-같은 `itemId`가 없으면 새로 넣는다.
-
-```js
-materialMap.set(material.itemId, { ...material, needsReview: Boolean(material.needsReview) });
-```
+`needsReview`는 하나라도 true면 최종 결과도 true가 된다.
 
 ## sortMaterials(materials)
 
-재화 카드를 보여주기 전에 정렬한다.
+역할:
+
+```text
+재화 카드 표시 순서를 정한다.
+```
+
+규칙:
+
+- 크레딧은 뒤로 보낸다.
+- 나머지는 `itemName` 기준으로 한글 정렬한다.
+
+코드:
 
 ```js
 if (left.itemId === "credit") {
@@ -664,16 +1152,15 @@ if (right.itemId === "credit") {
 return left.itemName.localeCompare(right.itemName, "ko");
 ```
 
-의미:
-
-- 크레딧은 항상 뒤쪽으로 보낸다.
-- 나머지는 이름 기준으로 정렬한다.
-
 ## createMaterialCard(material)
 
-재화 하나를 화면에 보이는 카드 하나로 만든다.
+역할:
 
-결과 구조:
+```text
+재화 하나를 화면에 표시할 카드 article로 만든다.
+```
+
+생성되는 구조:
 
 ```text
 article.material-card
@@ -682,105 +1169,164 @@ article.material-card
    ├─ div.material-title-row
    │  ├─ h3 재화 이름
    │  └─ span.material-review-badge 검수 필요
-   └─ p 필요 수량 N
+   └─ p 필요 수량 strong
 ```
 
-`needsReview`가 true이면 검수 필요 badge를 붙인다.
+`needsReview`가 true면 `검수 필요` 배지가 붙는다.
 
-수량은 `formatNumber()`로 천 단위 쉼표가 들어간다.
+수량 출력:
 
 ```js
-new Intl.NumberFormat("ko-KR").format(value)
+quantity.innerHTML = `필요 수량 <strong>${formatNumber(material.quantity)}</strong>`;
+```
+
+## createMaterialNotice(message)
+
+역할:
+
+```text
+재화 카드 대신 안내 문구를 만든다.
+```
+
+사용되는 경우:
+
+- 선택한 학생의 스킬 재화 데이터가 없을 때
+- 계산할 재화가 없을 때
+
+## getMaterialInitial(name)
+
+역할:
+
+```text
+재화 이미지 placeholder 안에 들어갈 짧은 글자를 정한다.
+```
+
+규칙:
+
+```text
+이름에 "크레딧" 포함 -> C
+이름에 "BD" 포함 -> BD
+이름에 "보고서" 포함 -> EXP
+이름에 "노트" 포함 -> 노
+이름에 "엘레프" 포함 -> 엘
+그 외 -> 이름 첫 글자
+```
+
+현재 실제 재화 이미지를 연결하지 않고 placeholder를 쓰기 때문에 필요한 함수다.
+
+## formatNumber(value)
+
+역할:
+
+```text
+숫자에 한국어 기준 천 단위 쉼표를 넣는다.
 ```
 
 예:
 
 ```text
 80000 -> 80,000
+1234567 -> 1,234,567
 ```
 
-## getMaterialInitial(name)
+코드:
 
-현재는 실제 재화 이미지를 쓰지 않고 placeholder 글자를 표시한다.
-
-```text
-크레딧 포함 -> C
-BD 포함 -> BD
-보고서 포함 -> EXP
-노트 포함 -> 노
-엘레프 포함 -> 엘
-그 외 -> 첫 글자
-```
-
-그래서 오파츠 이름이 영어라면 첫 글자가 표시된다.
-
-예:
-
-```text
-Phaistos Disc Piece -> P
-Broken Phaistos Disc -> B
+```js
+return new Intl.NumberFormat("ko-KR").format(value);
 ```
 
 ## 마지막 실행 순서
 
-스크립트 마지막에는 초기 화면을 만들기 위한 함수들이 실행된다.
+스크립트 마지막:
 
 ```js
 setupSkillMaterialControls();
 syncStudentLevel(1);
 renderGrowthStars();
-renderWeaponStarDisplay();
 renderRequiredMaterials();
 ```
 
-흐름:
+실행 흐름:
+
+1. 스킬 카드의 select를 목표 레벨 select로 정리한다.
+2. 학생 레벨을 1로 맞추고 재화 계산을 실행한다.
+3. 성장 별 버튼 9개를 그린다.
+4. 필요한 재화를 다시 계산해서 표시한다.
+
+`syncStudentLevel(1)` 안에서도 `renderRequiredMaterials()`가 실행된다. 그래서 초기 로딩 때 재화 계산은 한 번 이상 실행된다.
+
+## 계산 흐름 요약
 
 ```text
-1. 스킬 카드에 현재/목표 레벨 select를 준비한다.
-2. 학생 레벨을 1로 맞추고 재화 계산을 한 번 실행한다.
-3. 성급 별 버튼을 그린다.
-4. 전용무기 별 표시를 갱신한다.
-5. 필요한 재화를 다시 계산해서 화면에 출력한다.
+URL slug
+-> selectedStudent
+-> renderStudentDetail()
+-> renderTerrainAdaptations()
+
+학생 레벨 입력 변경
+-> syncStudentLevel()
+-> renderRequiredMaterials()
+-> calculateCharacterLevelMaterials()
+-> material-list 갱신
+
+성급/전용무기 별 클릭
+-> targetBaseStar / targetWeaponStar 변경
+-> renderGrowthStars()
+-> renderRequiredMaterials()
+-> calculateStarRankEleph()
+-> material-list 갱신
+
+스킬 목표 select 변경
+-> renderRequiredMaterials()
+-> getSkillMaterialResults()
+-> calculateSkillMaterials()
+-> material-list 갱신
 ```
 
-`syncStudentLevel(1)` 안에서도 `renderRequiredMaterials()`가 실행되므로, 초기 로딩 때 계산 함수가 한 번 이상 실행된다.
+## 현재 연결된 것과 연결 안 된 것
 
-## 케이 페이지를 따라 읽는 순서
+연결된 것:
 
-처음 공부할 때는 아래 순서로 보면 된다.
+- URL `slug`로 학생 선택
+- 학생 프로필 이미지 또는 fallback 표시
+- 학생 이름, 프로필, 전투 정보, 기본 정보 표시
+- 역할 이미지 표시
+- 지역 적성 표시
+- 목표 학생 레벨에 따른 보고서/크레딧 계산
+- 목표 성급/전용무기 성급에 따른 엘레프 계산
+- 스킬 목표 레벨에 따른 스킬 재화 계산
+- 계산된 재화 카드 표시
 
-```text
-1. character-detail.html?id=kei 로 접속한다고 가정한다.
-2. URL에서 id 값을 읽는 부분을 본다.
-3. selectedStudent가 어떻게 케이 객체가 되는지 본다.
-4. renderStudentDetail(selectedStudent)가 기본 정보를 어떻게 넣는지 본다.
-5. 초기 상태 변수들이 케이 기준으로 어떤 값이 되는지 적어본다.
-6. setupSkillMaterialControls()가 스킬 카드에 목표 select를 추가하는 과정을 본다.
-7. 목표 레벨을 바꾸면 syncStudentLevel()이 실행되는 흐름을 본다.
-8. 별을 누르면 targetBaseStar, targetWeaponStar가 어떻게 바뀌는지 본다.
-9. renderRequiredMaterials() 안에서 세 계산 결과가 합쳐지는 과정을 본다.
-10. 마지막에 materialList.replaceChildren(...cards)로 화면이 교체되는 것을 확인한다.
-```
+아직 연결되지 않은 것:
 
-## 핵심 요약
+- 장비 select 값
+- 장비 티어업 재화 계산
+- 애장품 존재 여부
+- 애장품 티어 select 값
+- 애장품 재화 계산
+- 스탯 계산
+- 전용무기 이름/효과 데이터
+- 메모리얼 이미지 데이터
+- 유저별 현재 보유 상태 저장
 
-```text
-selectedStudent
-  -> 화면 기본 정보 출력
-  -> 계산에 사용할 studentId 제공
+## 공부할 때 추천 순서
 
-targetStudentLevel
-  -> 학생 레벨업 재화 계산
+1. HTML에서 `character-profile-panel`과 `character-info-panel`을 먼저 본다.
+2. `data-student-field`가 어떤 방식으로 데이터와 연결되는지 확인한다.
+3. `renderStudentDetail()`을 읽고 학생 기본 정보가 들어가는 흐름을 따라간다.
+4. `renderTerrainAdaptations()`를 읽고 동적 카드 생성 방식을 본다.
+5. 성장 상태 변수들을 보고 현재값/목표값을 구분한다.
+6. `syncStudentLevel()`을 읽고 input과 range가 동기화되는 흐름을 본다.
+7. `createGrowthStarButton()`과 `renderGrowthStars()`를 읽고 별 버튼 구조를 이해한다.
+8. `setupSkillMaterialControls()`를 읽고 기존 HTML select가 목표 레벨 select로 정리되는 과정을 본다.
+9. `renderRequiredMaterials()`를 읽고 세 계산 결과가 어떻게 하나의 재화 목록으로 합쳐지는지 본다.
+10. 장비/애장품/스탯/전용무기 영역은 현재 placeholder라는 점을 기억하고, 나중에 어떤 데이터가 필요할지 따로 정리한다.
 
-targetBaseStar / targetWeaponStar
-  -> 엘레프 계산
+## 수정할 때 주의할 점
 
-스킬 현재/목표 select
-  -> 스킬 재화 계산
-
-levelResult + skillResults + starResult
-  -> itemId 기준 합산
-  -> material card 생성
-  -> material-list에 출력
-```
-
+- 스킬 카드는 순서로 `ex`, `normal`, `passive`, `sub`가 연결된다. HTML 카드 순서를 바꾸면 JavaScript 연결도 같이 확인해야 한다.
+- `data-student-field` 이름을 바꾸면 `fieldValues`의 key도 같이 바꿔야 한다.
+- `selectedStudent`는 URL `slug`로 찾지만, 스킬 재화 계산은 `selectedStudent.id`를 사용한다.
+- 장비와 애장품 select는 현재 계산에 연결되어 있지 않다. 값을 바꿔도 재화 목록은 변하지 않는다.
+- `renderRequiredMaterials()`는 여러 계산 결과를 `itemId` 기준으로 합친다. 새 계산을 추가할 때도 `itemId`, `itemName`, `quantity`, `needsReview` 형태를 맞추는 것이 좋다.
+- 확실하지 않은 데이터는 추측해서 넣지 말고 `null` 또는 `needsReview: true`로 표시한다.

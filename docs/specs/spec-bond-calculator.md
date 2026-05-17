@@ -49,22 +49,41 @@
 - 선물 이름
 - 선물 등급
 - 선물 이미지 경로
-- 기본 인연 포인트
 
 선물 등급은 다음과 같이 나눈다.
 
-- 일반 선물
-- 고급 선물
+- 일반 선물: `normal`
+- 고급 선물: `advanced`
 
 각 선물은 학생별 선호도에 따라 다른 인연 포인트를 가진다.
 
-선호도는 다음과 같이 나눈다.
-- 기본
-- 좋아함
-- 제일 좋아함
+선호도 값은 다음과 같이 사용한다.
 
+- 등록 없음 또는 `null`: 기본
+- `preferred`: 좋아함
+- `liked`: 호감
 
-일반 선물과 고급 선물은 선호도별 인연 포인트 값이 다르다.
+일반 선물과 고급 선물은 선호도별 인연 포인트와 표정 이미지가 다르다.
+
+일반 선물(`normal`)의 인연 포인트와 표정 이미지는 다음과 같다.
+
+- 기본: 20, `images/gift-ranks/normal.webp`
+- 좋아함(`preferred`): 40, `images/gift-ranks/preferred.webp`
+- 호감(`liked`): 60, `images/gift-ranks/liked.webp`
+
+고급 선물(`advanced`)의 인연 포인트와 표정 이미지는 다음과 같다.
+
+- 기본: 120, `images/gift-ranks/preferred.webp`
+- 좋아함(`preferred`): 180, `images/gift-ranks/liked.webp`
+- 호감(`liked`): 240, `images/gift-ranks/favorite.webp`
+
+학생별 선호도 데이터에 등록되지 않은 선물은 등급별 기본값으로 계산한다.
+표정 이미지는 선물 아이콘 이미지와 별도로 표시하는 선호도 반응 이미지다.
+
+고정 포인트 선물은 학생별 선호도와 무관하게 `fixedPoint` 값을 우선 사용한다.
+
+- `gift-48` ~ `gift-49`: 240, `images/gift-ranks/favorite.webp`
+- `gift-50` ~ `gift-66`: 60, `images/gift-ranks/liked.webp`
 
 ## 학생별 선호 선물
 
@@ -73,7 +92,6 @@
 - `characterId`
 - `giftId`
 - `preference`
-- `point`
 
 학생을 선택하면 해당 학생의 선호 선물을 인연 포인트가 높은 순서로 표시한다.
 
@@ -81,6 +99,23 @@
 
 `모든 선물 보기`를 누르면 모든 선물을 표시한다.
 
+## 유저 보유 선물 수량
+
+선물 정의 데이터와 유저 보유 수량, 계산에 사용할 수량은 분리한다.
+
+- 선물 정의 데이터: `data/gifts.js`
+- 유저 보유 수량: `ownedGiftQuantityById`
+- 계산에 사용할 수량: `selectedGiftQuantityById`
+
+유저 보유 수량은 `giftId` 기준으로 저장하고 조회한다.
+
+```text
+{ giftId: "gift-4", quantity: 12 }
+```
+
+계산에는 유저 보유 수량이 아니라 계산에 사용할 수량만 반영한다.
+유저 보유 수량은 참고용 표시값이며, 계산에 사용할 수량은 보유 수량을 초과할 수 있다.
+유저 보유 수량 데이터가 아직 없으면 보유 수량은 0개로 표시한다.
 
 ## 계산 방식 정리
 
@@ -99,8 +134,9 @@
 인연랭크 계산기는 다음 데이터 파일을 사용한다.
 
 ```text
-data/bond-rank-requirements.js
+data/students.js
+data/bond/bond-rank-requirements.js
 data/gifts.js
 data/character-gift-preferences.js
-data/bond-point-sources.js
+data/bond/bond-point-sources.js
 ```

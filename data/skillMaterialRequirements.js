@@ -1,6 +1,6 @@
 export const skillMaterialRequirements = [
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "ex",
     "fromLevel": 1,
@@ -14,7 +14,7 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "phaistos_disc_piece",
+        "itemId": "artifact-phaistos-tier1",
         "itemName": "Phaistos Disc Piece",
         "tier": null,
         "quantity": 18,
@@ -32,7 +32,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "ex",
     "fromLevel": 2,
@@ -53,14 +53,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "broken_phaistos_disc",
+        "itemId": "artifact-phaistos-tier2",
         "itemName": "Broken Phaistos Disc",
         "tier": 0,
         "quantity": 15,
         "needsReview": true
       },
       {
-        "itemId": "istanbul_rocket_piece",
+        "itemId": "artifact-rocket-tier1",
         "itemName": "Istanbul Rocket Piece",
         "tier": null,
         "quantity": 32,
@@ -78,7 +78,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "ex",
     "fromLevel": 3,
@@ -99,14 +99,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "damaged_phaistos_disc",
+        "itemId": "artifact-phaistos-tier3",
         "itemName": "Damaged Phaistos Disc",
         "tier": 1,
         "quantity": 11,
         "needsReview": true
       },
       {
-        "itemId": "broken_istanbul_rocket",
+        "itemId": "artifact-rocket-tier2",
         "itemName": "Broken Istanbul Rocket",
         "tier": 0,
         "quantity": 26,
@@ -124,7 +124,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "ex",
     "fromLevel": 4,
@@ -145,14 +145,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "intact_phaistos_disc",
+        "itemId": "artifact-phaistos-tier4",
         "itemName": "Intact Phaistos Disc",
         "tier": 3,
         "quantity": 7,
         "needsReview": true
       },
       {
-        "itemId": "repaired_istanbul_rocket",
+        "itemId": "artifact-rocket-tier3",
         "itemName": "Repaired Istanbul Rocket",
         "tier": null,
         "quantity": 23,
@@ -170,7 +170,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "normal",
     "fromLevel": 1,
@@ -195,7 +195,7 @@ export const skillMaterialRequirements = [
     "needsReview": false
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "normal",
     "fromLevel": 2,
@@ -220,7 +220,7 @@ export const skillMaterialRequirements = [
     "needsReview": false
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "normal",
     "fromLevel": 3,
@@ -241,7 +241,7 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "phaistos_disc_piece",
+        "itemId": "artifact-phaistos-tier1",
         "itemName": "Phaistos Disc Piece",
         "tier": null,
         "quantity": 5,
@@ -259,7 +259,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "normal",
     "fromLevel": 4,
@@ -273,14 +273,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "broken_phaistos_disc",
+        "itemId": "artifact-phaistos-tier2",
         "itemName": "Broken Phaistos Disc",
         "tier": 0,
         "quantity": 4,
         "needsReview": true
       },
       {
-        "itemId": "istanbul_rocket_piece",
+        "itemId": "artifact-rocket-tier1",
         "itemName": "Istanbul Rocket Piece",
         "tier": null,
         "quantity": 14,
@@ -298,7 +298,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "normal",
     "fromLevel": 5,
@@ -319,14 +319,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "broken_phaistos_disc",
+        "itemId": "artifact-phaistos-tier2",
         "itemName": "Broken Phaistos Disc",
         "tier": 0,
         "quantity": 10,
         "needsReview": true
       },
       {
-        "itemId": "istanbul_rocket_piece",
+        "itemId": "artifact-rocket-tier1",
         "itemName": "Istanbul Rocket Piece",
         "tier": null,
         "quantity": 19,
@@ -344,7 +344,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "normal",
     "fromLevel": 6,
@@ -358,14 +358,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "damaged_phaistos_disc",
+        "itemId": "artifact-phaistos-tier3",
         "itemName": "Damaged Phaistos Disc",
         "tier": 1,
         "quantity": 3,
         "needsReview": true
       },
       {
-        "itemId": "broken_istanbul_rocket",
+        "itemId": "artifact-rocket-tier2",
         "itemName": "Broken Istanbul Rocket",
         "tier": 0,
         "quantity": 16,
@@ -383,7 +383,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "normal",
     "fromLevel": 7,
@@ -404,14 +404,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "intact_phaistos_disc",
+        "itemId": "artifact-phaistos-tier4",
         "itemName": "Intact Phaistos Disc",
         "tier": 3,
         "quantity": 4,
         "needsReview": true
       },
       {
-        "itemId": "repaired_istanbul_rocket",
+        "itemId": "artifact-rocket-tier3",
         "itemName": "Repaired Istanbul Rocket",
         "tier": null,
         "quantity": 8,
@@ -429,7 +429,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "normal",
     "fromLevel": 8,
@@ -443,14 +443,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "intact_phaistos_disc",
+        "itemId": "artifact-phaistos-tier4",
         "itemName": "Intact Phaistos Disc",
         "tier": 3,
         "quantity": 9,
         "needsReview": true
       },
       {
-        "itemId": "repaired_istanbul_rocket",
+        "itemId": "artifact-rocket-tier3",
         "itemName": "Repaired Istanbul Rocket",
         "tier": null,
         "quantity": 15,
@@ -468,7 +468,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "normal",
     "fromLevel": 9,
@@ -493,7 +493,7 @@ export const skillMaterialRequirements = [
     "needsReview": false
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "passive",
     "fromLevel": 1,
@@ -518,7 +518,7 @@ export const skillMaterialRequirements = [
     "needsReview": false
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "passive",
     "fromLevel": 2,
@@ -543,7 +543,7 @@ export const skillMaterialRequirements = [
     "needsReview": false
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "passive",
     "fromLevel": 3,
@@ -564,7 +564,7 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "phaistos_disc_piece",
+        "itemId": "artifact-phaistos-tier1",
         "itemName": "Phaistos Disc Piece",
         "tier": null,
         "quantity": 5,
@@ -582,7 +582,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "passive",
     "fromLevel": 4,
@@ -596,14 +596,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "broken_phaistos_disc",
+        "itemId": "artifact-phaistos-tier2",
         "itemName": "Broken Phaistos Disc",
         "tier": 0,
         "quantity": 4,
         "needsReview": true
       },
       {
-        "itemId": "istanbul_rocket_piece",
+        "itemId": "artifact-rocket-tier1",
         "itemName": "Istanbul Rocket Piece",
         "tier": null,
         "quantity": 14,
@@ -621,7 +621,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "passive",
     "fromLevel": 5,
@@ -642,14 +642,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "broken_phaistos_disc",
+        "itemId": "artifact-phaistos-tier2",
         "itemName": "Broken Phaistos Disc",
         "tier": 0,
         "quantity": 10,
         "needsReview": true
       },
       {
-        "itemId": "istanbul_rocket_piece",
+        "itemId": "artifact-rocket-tier1",
         "itemName": "Istanbul Rocket Piece",
         "tier": null,
         "quantity": 19,
@@ -667,7 +667,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "passive",
     "fromLevel": 6,
@@ -681,14 +681,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "damaged_phaistos_disc",
+        "itemId": "artifact-phaistos-tier3",
         "itemName": "Damaged Phaistos Disc",
         "tier": 1,
         "quantity": 3,
         "needsReview": true
       },
       {
-        "itemId": "broken_istanbul_rocket",
+        "itemId": "artifact-rocket-tier2",
         "itemName": "Broken Istanbul Rocket",
         "tier": 0,
         "quantity": 16,
@@ -706,7 +706,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "passive",
     "fromLevel": 7,
@@ -727,14 +727,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "intact_phaistos_disc",
+        "itemId": "artifact-phaistos-tier4",
         "itemName": "Intact Phaistos Disc",
         "tier": 3,
         "quantity": 4,
         "needsReview": true
       },
       {
-        "itemId": "repaired_istanbul_rocket",
+        "itemId": "artifact-rocket-tier3",
         "itemName": "Repaired Istanbul Rocket",
         "tier": null,
         "quantity": 8,
@@ -752,7 +752,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "passive",
     "fromLevel": 8,
@@ -766,14 +766,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "intact_phaistos_disc",
+        "itemId": "artifact-phaistos-tier4",
         "itemName": "Intact Phaistos Disc",
         "tier": 3,
         "quantity": 9,
         "needsReview": true
       },
       {
-        "itemId": "repaired_istanbul_rocket",
+        "itemId": "artifact-rocket-tier3",
         "itemName": "Repaired Istanbul Rocket",
         "tier": null,
         "quantity": 15,
@@ -791,7 +791,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "passive",
     "fromLevel": 9,
@@ -816,7 +816,7 @@ export const skillMaterialRequirements = [
     "needsReview": false
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "sub",
     "fromLevel": 1,
@@ -841,7 +841,7 @@ export const skillMaterialRequirements = [
     "needsReview": false
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "sub",
     "fromLevel": 2,
@@ -866,7 +866,7 @@ export const skillMaterialRequirements = [
     "needsReview": false
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "sub",
     "fromLevel": 3,
@@ -887,7 +887,7 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "phaistos_disc_piece",
+        "itemId": "artifact-phaistos-tier1",
         "itemName": "Phaistos Disc Piece",
         "tier": null,
         "quantity": 5,
@@ -905,7 +905,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "sub",
     "fromLevel": 4,
@@ -919,14 +919,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "broken_phaistos_disc",
+        "itemId": "artifact-phaistos-tier2",
         "itemName": "Broken Phaistos Disc",
         "tier": 0,
         "quantity": 4,
         "needsReview": true
       },
       {
-        "itemId": "istanbul_rocket_piece",
+        "itemId": "artifact-rocket-tier1",
         "itemName": "Istanbul Rocket Piece",
         "tier": null,
         "quantity": 14,
@@ -944,7 +944,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "sub",
     "fromLevel": 5,
@@ -965,14 +965,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "broken_phaistos_disc",
+        "itemId": "artifact-phaistos-tier2",
         "itemName": "Broken Phaistos Disc",
         "tier": 0,
         "quantity": 10,
         "needsReview": true
       },
       {
-        "itemId": "istanbul_rocket_piece",
+        "itemId": "artifact-rocket-tier1",
         "itemName": "Istanbul Rocket Piece",
         "tier": null,
         "quantity": 19,
@@ -990,7 +990,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "sub",
     "fromLevel": 6,
@@ -1004,14 +1004,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "damaged_phaistos_disc",
+        "itemId": "artifact-phaistos-tier3",
         "itemName": "Damaged Phaistos Disc",
         "tier": 1,
         "quantity": 3,
         "needsReview": true
       },
       {
-        "itemId": "broken_istanbul_rocket",
+        "itemId": "artifact-rocket-tier2",
         "itemName": "Broken Istanbul Rocket",
         "tier": 0,
         "quantity": 16,
@@ -1029,7 +1029,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "sub",
     "fromLevel": 7,
@@ -1050,14 +1050,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "intact_phaistos_disc",
+        "itemId": "artifact-phaistos-tier4",
         "itemName": "Intact Phaistos Disc",
         "tier": 3,
         "quantity": 4,
         "needsReview": true
       },
       {
-        "itemId": "repaired_istanbul_rocket",
+        "itemId": "artifact-rocket-tier3",
         "itemName": "Repaired Istanbul Rocket",
         "tier": null,
         "quantity": 8,
@@ -1075,7 +1075,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "sub",
     "fromLevel": 8,
@@ -1089,14 +1089,14 @@ export const skillMaterialRequirements = [
         "needsReview": false
       },
       {
-        "itemId": "intact_phaistos_disc",
+        "itemId": "artifact-phaistos-tier4",
         "itemName": "Intact Phaistos Disc",
         "tier": 3,
         "quantity": 9,
         "needsReview": true
       },
       {
-        "itemId": "repaired_istanbul_rocket",
+        "itemId": "artifact-rocket-tier3",
         "itemName": "Repaired Istanbul Rocket",
         "tier": null,
         "quantity": 15,
@@ -1114,7 +1114,7 @@ export const skillMaterialRequirements = [
     "needsReview": true
   },
   {
-    "studentId": "kei",
+    "studentId": 10,
     "studentName": "Kei",
     "skillType": "sub",
     "fromLevel": 9,

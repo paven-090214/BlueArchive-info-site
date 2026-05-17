@@ -1,5 +1,5 @@
-import { activityReports } from "../data/activityReports.js";
-import { characterExpTable } from "../data/characterExpTable.js";
+import { activityReports } from "../data/growth/activityReports.js";
+import { characterExpTable } from "../data/growth/characterExpTable.js";
 
 const CREDIT_PER_EXP = 7;
 

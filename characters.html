@@ -13,17 +13,23 @@
         <span class="logo-text">BlueArchive Info Site</span>
       </a>
 
-      <div class="student-search" role="search" aria-label="통합검색">
+      <form class="site-search" id="site-search-form" role="search" aria-label="통합검색">
         <label class="search-label" for="site-search-input">통합검색</label>
         <input
           id="site-search-input"
-          class="student-search-input"
+          class="site-search-input"
           type="search"
           placeholder="통합검색"
           autocomplete="off"
-          aria-expanded="false"
         />
-      </div>
+        <button class="site-search-button" type="submit" aria-label="검색 실행">🔍</button>
+      </form>
+
+      <nav class="header-auth" aria-label="계정 메뉴">
+        <a href="#" class="header-auth-link">로그인</a>
+        <span aria-hidden="true">|</span>
+        <a href="#" class="header-auth-link">회원가입</a>
+      </nav>
     </header>
 
     <main class="page-shell characters-shell">

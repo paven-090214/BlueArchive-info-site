@@ -127,6 +127,7 @@ data/ooparts-candidates.js
 
 오파츠 후보 데이터는 아직 `data/items.js`에 병합하지 않는다.  
 검수 후 나중에 재화 마스터로 병합한다.
+후보 데이터의 `imageUrl`은 `sourceImagePath`를 기준으로 실제 이미지 경로를 연결한다.
 
 후보 데이터 구조:
 
@@ -139,7 +140,7 @@ data/ooparts-candidates.js
   grade: "tier1",
   school: null,
   familyId: "artifact-wolfsegg",
-  imageUrl: null,
+  imageUrl: "./images/Ooparts - Ooparts_files/Item_Icon_Material_Wolfsegg_0.png",
   sourceImagePath: "Item_Icon_Material_Wolfsegg_0.png",
   needsReview: true
 }
@@ -224,6 +225,10 @@ data/student-growth-profiles.js
 ```text
 data/skillMaterialRequirements.js
 ```
+
+스킬 강화 요구량의 `studentId`는 URL slug가 아니라 `students.js`의 숫자 `id`를 사용한다.  
+예: 케이는 `slug: "kei"`로 상세 페이지에 접근하지만, 스킬 재화 요구량은 `studentId: 10`으로 연결한다.
+스킬 강화 요구량에서 오파츠 재화는 `data/ooparts-candidates.js`의 `id`를 `itemId`로 사용한다.
 
 스킬 강화 재화 계산 규칙:
 

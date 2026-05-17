@@ -26,4 +26,5 @@
 ## 목차
 
 - [index.html 설명](./index-html.md)
-
+- [character-detail.html 설명](./character-detail-html.md)
+- [characterLevelCalculator.js 설명](./character-level-calculator.md)

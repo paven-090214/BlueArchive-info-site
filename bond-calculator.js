@@ -1,5 +1,5 @@
-import { bondCalculatorStudents } from "./data/bond-calculator-students.js";
-import { bondRankRequirements } from "./data/bond-rank-requirements.js";
+import { students as bondCalculatorStudents } from "./data/students.js";
+import { bondRankRequirements } from "./data/bond/bond-rank-requirements.js";
 import { gifts } from "./data/gifts.js";
 import { characterGiftPreferences } from "./data/character-gift-preferences.js";
 
@@ -36,9 +36,16 @@ const schedulePointsValue = document.querySelector("#bond-schedule-points");
 const studentsById = new Map(bondCalculatorStudents.map((student) => [student.id, student]));
 const rankRequirementMap = new Map(bondRankRequirements.map((item) => [item.rank, item]));
 const preferenceMap = new Map();
-const quantityByGiftId = new Map();
+const ownedGiftQuantityById = new Map();
+const selectedGiftQuantityById = new Map();
+const giftRankImageUrls = {
+  normal: "./images/gift-ranks/normal.webp",
+  preferred: "./images/gift-ranks/preferred.webp",
+  liked: "./images/gift-ranks/liked.webp",
+  favorite: "./images/gift-ranks/favorite.webp",
+};
 
-let selectedStudentId = bondCalculatorStudents[0]?.id ?? null;
+let selectedStudentId = bondCalculatorStudents[9]?.id ?? null;
 let showAllGifts = false;
 
 for (const record of characterGiftPreferences) {
@@ -118,15 +125,23 @@ function getGiftPointForStudent(studentId, gift) {
   }
 
   if (gift.grade === "advanced") {
-    return preference ? 180 : 120;
+    if (preference === "liked") {
+      return 240;
+    }
+
+    if (preference === "preferred") {
+      return 180;
+    }
+
+    return 120;
   }
 
   if (gift.grade === "normal") {
-    if (preference === "favorite") {
+    if (preference === "liked") {
       return 60;
     }
 
-    if (preference === "liked") {
+    if (preference === "preferred") {
       return 40;
     }
 
@@ -134,6 +149,44 @@ function getGiftPointForStudent(studentId, gift) {
   }
 
   return 0;
+}
+
+function getGiftRankImageUrl(studentId, gift) {
+  if (gift.fixedPoint === 240) {
+    return giftRankImageUrls.favorite;
+  }
+
+  if (gift.fixedPoint === 60) {
+    return giftRankImageUrls.liked;
+  }
+
+  const preference = getPreferenceForGift(studentId, gift.id);
+
+  if (gift.grade === "advanced") {
+    if (preference === "liked") {
+      return giftRankImageUrls.favorite;
+    }
+
+    if (preference === "preferred") {
+      return giftRankImageUrls.liked;
+    }
+
+    return giftRankImageUrls.preferred;
+  }
+
+  if (gift.grade === "normal") {
+    if (preference === "liked") {
+      return giftRankImageUrls.liked;
+    }
+
+    if (preference === "preferred") {
+      return giftRankImageUrls.preferred;
+    }
+
+    return giftRankImageUrls.normal;
+  }
+
+  return giftRankImageUrls.normal;
 }
 
 function getVisibleGifts() {
@@ -161,11 +214,27 @@ function getVisibleGifts() {
 }
 
 function getGiftQuantity(giftId) {
-  return quantityByGiftId.get(giftId) ?? 0;
+  return selectedGiftQuantityById.get(giftId) ?? 0;
+}
+
+function getOwnedGiftQuantity(giftId) {
+  return ownedGiftQuantityById.get(giftId) ?? 0;
+}
+
+function setOwnedGiftQuantities(records) {
+  ownedGiftQuantityById.clear();
+
+  for (const record of records) {
+    const quantity = Math.max(0, Math.trunc(Number(record.quantity) || 0));
+    ownedGiftQuantityById.set(record.giftId, quantity);
+  }
+
+  updateBondState();
 }
 
 function setGiftQuantity(giftId, nextValue) {
-  quantityByGiftId.set(giftId, Math.max(0, Math.trunc(nextValue)));
+  const normalizedValue = Math.max(0, Math.trunc(Number(nextValue) || 0));
+  selectedGiftQuantityById.set(giftId, normalizedValue);
   calculateBondState();
 }
 
@@ -200,7 +269,7 @@ function renderSelectedStudent() {
   selectedStudentVisual.replaceChildren();
 
   const slot = createVisualSlot({
-    imageUrl: student?.imageUrl ?? null,
+    imageUrl: student?.imageUrl ?? student?.profileImageUrl ?? null,
     altText: student ? `${student.name} 이미지` : "학생 이미지 준비 중",
     placeholderText: "학생 이미지 준비 중",
     wrapperClass: "bond-selected-student-visual-slot",
@@ -299,6 +368,13 @@ function renderGiftList() {
       placeholderText: "선물 이미지 준비 중",
       wrapperClass: "bond-gift-card-visual-slot",
     });
+    const rankImage = document.createElement("img");
+    rankImage.src = getGiftRankImageUrl(student?.id ?? null, gift);
+    rankImage.alt = "";
+    rankImage.loading = "lazy";
+    rankImage.className = "bond-gift-rank-image";
+    rankImage.setAttribute("aria-hidden", "true");
+    visual.append(rankImage);
 
     const exp = document.createElement("strong");
     exp.className = "bond-gift-exp";
@@ -332,25 +408,30 @@ function renderGiftList() {
 
     minusButton.addEventListener("click", () => {
       const nextValue = getGiftQuantity(gift.id) - 1;
-      quantityInput.value = String(Math.max(0, nextValue));
       setGiftQuantity(gift.id, nextValue);
+      quantityInput.value = String(getGiftQuantity(gift.id));
     });
 
     plusButton.addEventListener("click", () => {
       const nextValue = getGiftQuantity(gift.id) + 1;
-      quantityInput.value = String(nextValue);
       setGiftQuantity(gift.id, nextValue);
+      quantityInput.value = String(getGiftQuantity(gift.id));
     });
 
     quantityInput.addEventListener("input", () => {
       const nextValue = Number(quantityInput.value);
       const safeValue = Number.isFinite(nextValue) ? Math.max(0, Math.trunc(nextValue)) : 0;
-      quantityInput.value = String(safeValue);
       setGiftQuantity(gift.id, safeValue);
+      quantityInput.value = String(getGiftQuantity(gift.id));
     });
 
     controls.append(minusButton, quantityInput, plusButton);
-    card.append(exp, visual, controls, tooltip);
+
+    const ownedQuantity = document.createElement("p");
+    ownedQuantity.className = "bond-gift-owned-quantity";
+    ownedQuantity.textContent = `보유 ${formatNumber(getOwnedGiftQuantity(gift.id))}개`;
+
+    card.append(exp, visual, controls, ownedQuantity, tooltip);
     return card;
   });
 
@@ -376,8 +457,14 @@ function calculateBondState() {
   const scheduleCount =
     remainingPoints > 0 && schedulePoints > 0 ? Math.ceil(remainingPoints / schedulePoints) : 0;
 
-  currentRankSummary.textContent = `${currentRank}랭크`;
-  targetRankSummary.textContent = `${targetRank}랭크`;
+  if (currentRankSummary) {
+    currentRankSummary.textContent = `${currentRank}랭크`;
+  }
+
+  if (targetRankSummary) {
+    targetRankSummary.textContent = `${targetRank}랭크`;
+  }
+
   nextRankPointsValue.textContent = `${formatNumber(nextRankPoints)} P`;
   targetTotalPointsValue.textContent = `${formatNumber(totalTargetPoints)} P`;
   giftTotalPointsValue.textContent = `${formatNumber(giftTotalPoints)} P`;
@@ -386,10 +473,12 @@ function calculateBondState() {
   scheduleCountValue.textContent = `${formatNumber(scheduleCount)}회`;
   excessPointsValue.textContent = `${formatNumber(excessPoints)} P`;
 
-  if (targetRank <= currentRank) {
-    resultNote.textContent = "목표 랭크가 현재 랭크보다 작거나 같아서 필요한 포인트는 0으로 표시됩니다.";
-  } else {
-    resultNote.textContent = "선물 수량을 조정하면 남은 포인트와 카페/스케줄 필요 횟수가 함께 변합니다.";
+  if (resultNote) {
+    if (targetRank <= currentRank) {
+      resultNote.textContent = "목표 랭크가 현재 랭크보다 작거나 같아서 필요한 포인트는 0으로 표시됩니다.";
+    } else {
+      resultNote.textContent = "선물 수량을 조정하면 남은 포인트와 카페/스케줄 필요 횟수가 함께 변합니다.";
+    }
   }
 }
 

@@ -9,6 +9,7 @@ Current stack:
 - CSS
 - JavaScript
 - Static data files in `data/`
+- Utility calculators in `utils/`
 
 There is no backend and no database connection yet.  
 Files in `data/` act as temporary data storage.
@@ -44,16 +45,39 @@ Unknown values must be `null`, placeholder text, or `needsReview: true`.
 
 Before editing, read only the documents related to the requested task.
 
+Docs are organized by purpose:
+- `docs/overview/`: project overview, roadmap, broad requirements
+- `docs/specs/`: feature behavior and functional rules
+- `docs/ui/`: layout, visual structure, component states, responsive UI rules
+- `docs/data/`: data shape, calculation data, source/processing rules
+- `docs/code-guide/`: code reading notes and file-level explanations
+
 Common docs:
-- `docs/todo.md`
-- `docs/project-plan.md`
-- `docs/requirement.md`
-- `docs/ui-common.md`
-- `docs/ui-layout.md`
-- `docs/ui-main.md`
-- `docs/ui-character.md`
-- `docs/ui-bond-calculator.md`
-- `docs/database-design.md`
+- `docs/overview/project-overview.md`
+- `docs/overview/project-roadmap.md`
+- `docs/overview/requirements.md`
+- `docs/specs/todo.md`
+- `docs/ui/ui-common.md`
+
+Feature docs:
+- Bond calculator:
+  - `docs/specs/spec-bond-calculator.md`
+  - `docs/ui/ui-bond-calculator.md`
+- Character list/detail:
+  - `docs/ui/ui-chracter.md`
+  - `docs/specs/spec-chracter-detail.md`
+  - `docs/ui/ui-chracter-detail.md`
+- Academies:
+  - `docs/ui/ui-academies.md`
+- Main page:
+  - `docs/ui/ui-main.md`
+- Pickup history:
+  - `docs/ui/ui-pickup-history.md`
+- Growth/material calculators:
+  - `docs/data/data-resource-calculator.md`
+  - `docs/data/data-character-level-calculator.md`
+  - `docs/data/data-star-rank-calculator.md`
+  - `docs/data/character-material-calculation-flow.md`
 
 Do not read every document unless needed.
 
@@ -73,16 +97,31 @@ Main scripts:
 - `bond-calculator.js`
 - `styles.css`
 
+Utility scripts:
+- `utils/characterLevelCalculator.js`
+- `utils/skillMaterialCalculator.js`
+- `utils/starRankCalculator.js`
+
 Main data:
 - `data/index.js`
 - `data/academies.js`
 - `data/clubs.js`
 - `data/students.js`
+- `data/bond-calculator-students.js`
 - `data/pickups.json`
+- `data/pickups.js`
 - `data/gifts.js`
 - `data/character-gift-preferences.js`
 - `data/bond-rank-requirements.js`
 - `data/bond-point-sources.js`
+- `data/items.js`
+- `data/ooparts-candidates.js`
+- `data/student-growth-profiles.js`
+- `data/characterExpTable.js`
+- `data/activityReports.js`
+- `data/skillMaterialRequirements.js`
+- `data/starRankRequirements.js`
+- `data/student-terrain-adaptations.js`
 
 Images:
 - `images/academies/`
@@ -93,7 +132,9 @@ Images:
 Raw/source files:
 - `sources/`
 - `scripts/`
+- `tools/`
 - `data/raw/rawItems.js`
+- CSV files in `data/`
 
 Do not modify raw/source files unless explicitly asked.
 
@@ -103,13 +144,26 @@ Do not modify raw/source files unless explicitly asked.
 
 When UI or data structure changes, update the related document.
 
+Keep document responsibilities separated:
+- Functional behavior and calculation rules belong in `docs/specs/`.
+- Layout, visual states, component placement, and responsive behavior belong in `docs/ui/`.
+- Data structures, source data, ID mapping, and calculation data belong in `docs/data/`.
+- Code reading notes belong in `docs/code-guide/`.
+- Remaining work belongs in `docs/specs/todo.md`.
+
 Examples:
-- Main page changes → `docs/ui-main.md`
-- Student page changes → `docs/ui-character.md`
-- Bond calculator changes → `docs/ui-bond-calculator.md`
-- Resource calculator changes → `docs/ui-resource-calculator.md` or `docs/data-resource-calculator.md`
-- Remaining work → `docs/todo.md`
-- DB design changes → only if explicitly requested
+- Main page UI changes -> `docs/ui/ui-main.md`
+- Character list UI changes -> `docs/ui/ui-chracter.md`
+- Character detail behavior changes -> `docs/specs/spec-chracter-detail.md`
+- Character detail UI changes -> `docs/ui/ui-chracter-detail.md`
+- Bond calculator behavior changes -> `docs/specs/spec-bond-calculator.md`
+- Bond calculator UI changes -> `docs/ui/ui-bond-calculator.md`
+- Growth/material data changes -> related file in `docs/data/`
+- Pickup history UI changes -> `docs/ui/ui-pickup-history.md`
+- Remaining work -> `docs/specs/todo.md`
+- DB design changes -> only if explicitly requested
+
+Do not put new feature specifications or data rules into UI documents just because the screen uses them. Add or update the matching `docs/specs/` or `docs/data/` document instead.
 
 Do not create new PRD/spec documents unless the user asks.
 
@@ -221,7 +275,8 @@ Rules:
 For detailed bond calculator rules, read:
 
 ```text
-docs/ui-bond-calculator.md
+docs/specs/spec-bond-calculator.md
+docs/ui/ui-bond-calculator.md
 ```
 
 Only keep the core rules here:
@@ -242,11 +297,13 @@ Only keep the core rules here:
 
 ## Resource Calculator Rules
 
-The resource calculator is not implemented yet.
+The standalone resource calculator page is not implemented yet.
+
+Some character growth/material calculations already exist in character detail and utility files. Before changing that area, read the related data docs.
 
 When starting it, create or update one of these documents first:
-- `docs/ui-resource-calculator.md`
-- `docs/data-resource-calculator.md`
+- `docs/ui/ui-resource-calculator.md`
+- `docs/data/data-resource-calculator.md`
 
 Do not mix resource calculator rules into `AGENTS.md`.
 

@@ -47,9 +47,10 @@ data/starRankRequirements.js
 ## 전체 흐름
 
 ```text
-character-detail.html?id=kei 접속
-  -> URL의 id 값을 읽음
-  -> data/students.js에서 id가 "kei"인 학생을 찾음
+character-detail.html?slug=kei 접속
+  -> URL의 slug 값을 읽음
+  -> data/students.js에서 slug가 "kei"인 학생을 찾음
+  -> 이후 계산 데이터 연결에는 학생의 숫자 id를 사용
   -> 학생 기본 정보를 화면에 표시
   -> 목표 레벨, 목표 성급, 스킬 현재/목표 레벨 입력 UI 준비
   -> renderRequiredMaterials() 실행
@@ -60,13 +61,15 @@ character-detail.html?id=kei 접속
 
 ## 학생 선택 흐름
 
-`character-detail.html`은 URL query string에서 학생 ID를 읽는다.
+`character-detail.html`은 URL query string에서 학생 slug를 읽는다.
 
 예:
 
 ```text
-character-detail.html?id=1
+character-detail.html?slug=kei
 ```
+
+URL은 공유와 접근성을 위해 slug를 사용하고, 내부 계산 데이터 연결은 `students.js`의 숫자 `id`를 우선 사용한다.
 
 ## 현재값과 목표값
 
@@ -132,6 +135,10 @@ calculateSkillMaterials({
 ```text
 data/skillMaterialRequirements.js
 ```
+
+`data/skillMaterialRequirements.js`의 `studentId`는 `students.js`의 숫자 `id`와 연결한다.
+오파츠 재화의 `itemId`는 `data/ooparts-candidates.js`의 안정 ID를 사용한다.
+예: `artifact-phaistos-tier1`, `artifact-rocket-tier3`
 
 필터 조건:
 
@@ -230,7 +237,8 @@ kei-eleph
        필요 수량 N
 ```
 
-아이콘 이미지는 아직 실제 재화 이미지를 쓰지 않고, 이름에 따라 간단한 글자 placeholder를 표시한다.
+오파츠 재화는 `itemId`로 `data/ooparts-candidates.js`를 조회하고, `imageUrl`이 있으면 실제 이미지를 표시한다.
+이미지가 없는 재화는 이름에 따라 간단한 글자 placeholder를 표시한다.
 
 예:
 
