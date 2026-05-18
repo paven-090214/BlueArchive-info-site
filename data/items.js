@@ -1,3 +1,5 @@
+import { equipmentMaterials } from "./equipment-materials.js";
+
 export const itemTypes = [
   "currency",
   "pyroxene",
@@ -6,12 +8,25 @@ export const itemTypes = [
   "tech-note",
   "artifact",
   "equipment-blueprint",
+  "equipment-enhancement",
   "eleph",
   "gift",
   "unknown",
 ];
 
-export const itemGrades = ["tier1", "tier2", "tier3", "tier4", null];
+export const itemGrades = [
+  "tier1",
+  "tier2",
+  "tier3",
+  "tier4",
+  "tier5",
+  "tier6",
+  "tier7",
+  "tier8",
+  "tier9",
+  "tier10",
+  null,
+];
 
 export const items = [
   {
@@ -82,6 +97,46 @@ export const items = [
     school: null,
     familyId: "activity-report",
     imageUrl: "./images/reports/activity-report-superior.webp",
+    needsReview: false,
+  },
+  {
+    id: "equipment-enhancement-stone-basic",
+    name: "하급 강화석",
+    type: "equipment-enhancement",
+    grade: "tier1",
+    school: null,
+    familyId: "equipment-enhancement-stone",
+    imageUrl: "./images/items/equipment-enhancement-stones/equipment_icon_exp_0.webp",
+    needsReview: false,
+  },
+  {
+    id: "equipment-enhancement-stone-normal",
+    name: "일반 강화석",
+    type: "equipment-enhancement",
+    grade: "tier2",
+    school: null,
+    familyId: "equipment-enhancement-stone",
+    imageUrl: "./images/items/equipment-enhancement-stones/equipment_icon_exp_1.webp",
+    needsReview: false,
+  },
+  {
+    id: "equipment-enhancement-stone-advanced",
+    name: "상급 강화석",
+    type: "equipment-enhancement",
+    grade: "tier3",
+    school: null,
+    familyId: "equipment-enhancement-stone",
+    imageUrl: "./images/items/equipment-enhancement-stones/equipment_icon_exp_2.webp",
+    needsReview: false,
+  },
+  {
+    id: "equipment-enhancement-stone-superior",
+    name: "최상급 강화석",
+    type: "equipment-enhancement",
+    grade: "tier4",
+    school: null,
+    familyId: "equipment-enhancement-stone",
+    imageUrl: "./images/items/equipment-enhancement-stones/equipment_icon_exp_3.webp",
     needsReview: false,
   },
   {
@@ -464,4 +519,15 @@ export const items = [
     imageUrl: null,
     needsReview: true,
   },
+  ...equipmentMaterials.map((material) => ({
+    id: material.id,
+    name: material.displayName,
+    type: material.materialTypeId,
+    grade: `tier${material.tier}`,
+    school: null,
+    equipmentTypeId: material.equipmentTypeId,
+    familyId: `equipment-${material.equipmentTypeId}-blueprint`,
+    imageUrl: material.imageUrl,
+    needsReview: material.needsReview,
+  })),
 ];

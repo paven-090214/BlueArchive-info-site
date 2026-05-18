@@ -59,7 +59,7 @@ artifact-sample-b-tier1
 artifact-sample-b-tier2
 artifact-sample-b-tier3
 artifact-sample-b-tier4
-equipment-hat-blueprint-tier1
+equipment-hat-blueprint-t2
 student-eleph-1
 gift-sample
 unknown-resource-sample
@@ -195,6 +195,12 @@ tier1
 tier2
 tier3
 tier4
+tier5
+tier6
+tier7
+tier8
+tier9
+tier10
 null
 ```
 
@@ -209,6 +215,8 @@ null
 
 `t0`부터 `t3`은 각각 `tier1`부터 `tier4`에 대응한다.
 
+장비 설계도는 장비 티어에 맞춰 `tier2`부터 `tier10`까지 사용할 수 있다.
+
 ## Type
 
 우선 다음 값을 사용한다.
@@ -221,6 +229,7 @@ bd
 tech-note
 artifact
 equipment-blueprint
+equipment-enhancement
 eleph
 gift
 unknown
@@ -275,6 +284,26 @@ activity_report_t3
 
 `data/items.js`에서도 같은 ID를 사용하고, `grade` 필드는 `tier1`부터 `tier4`로 분류한다.
 
+장비 강화석은 `type: "equipment-enhancement"`를 사용한다.
+
+```text
+equipment-enhancement-stone-basic
+equipment-enhancement-stone-normal
+equipment-enhancement-stone-advanced
+equipment-enhancement-stone-superior
+```
+
+각 강화석은 `data/equipment-enhancement-items.js`의 EXP 값과 같은 안정 ID를 사용한다.
+
+강화석 이미지:
+
+```text
+equipment-enhancement-stone-basic -> ./images/items/equipment-enhancement-stones/equipment_icon_exp_0.webp
+equipment-enhancement-stone-normal -> ./images/items/equipment-enhancement-stones/equipment_icon_exp_1.webp
+equipment-enhancement-stone-advanced -> ./images/items/equipment-enhancement-stones/equipment_icon_exp_2.webp
+equipment-enhancement-stone-superior -> ./images/items/equipment-enhancement-stones/equipment_icon_exp_3.webp
+```
+
 ## Grade
 
 우선 다음 값을 사용한다.
@@ -284,10 +313,17 @@ tier1
 tier2
 tier3
 tier4
+tier5
+tier6
+tier7
+tier8
+tier9
+tier10
 null
 ```
 
-BD, 기술 노트, 활동 보고서처럼 기존 명칭이 있는 재화도 데이터 구조에서는 `tier1`부터 `tier4`로 통일한다.  
+BD, 기술 노트, 활동 보고서처럼 기존 명칭이 있는 재화는 데이터 구조에서 `tier1`부터 `tier4`로 통일한다.  
+장비 설계도는 장비 티어에 맞춰 `tier2`부터 `tier10`까지 사용한다.  
 화면 표시용 등급명은 나중에 별도 매핑으로 처리한다.
 
 ## 오파츠 구조
@@ -490,22 +526,26 @@ data/student-growth-profiles.js
 
 ```js
 {
-  studentId: 1,
+  studentSlug: "kei",
   materialSchool: "millennium",
   elephItemId: null,
   artifactFamilyIds: ["artifact-sample-a", "artifact-sample-b"],
-  equipmentSlotIds: ["hat", "bag", "watch"],
+  equipment: {
+    slot1: "hat",
+    slot2: "bag",
+    slot3: "watch",
+  },
   needsReview: true
 }
 ```
 
 필드 의미:
 
-- `studentId`: 학생 ID. 현재 프로젝트의 숫자 `id`를 유지한다.
+- `studentSlug`: 학생 slug. 현재 학생 상세 URL과 학생 장비 데이터 연결 기준이다.
 - `materialSchool`: BD와 기술 노트에 사용할 학원 slug
 - `elephItemId`: 학생 엘레프 아이템 ID. 확실하지 않으면 `null`
 - `artifactFamilyIds`: 학생이 사용하는 오파츠 계열 ID 목록
-- `equipmentSlotIds`: 학생 장비 슬롯 ID 목록
+- `equipment`: 학생이 사용하는 장비 종류. `slot1`, `slot2`, `slot3`에 장비 내부 ID를 저장한다.
 - `needsReview`: 검수 필요 여부
 
 ## 학생별 엘레프 이미지 매핑

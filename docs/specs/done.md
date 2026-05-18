@@ -203,3 +203,16 @@
 
 - [x] 메인 페이지 학원 드롭다운 메뉴 UI 만들기
 - [x] 학생 상세 페이지에 총기별 이미지 표시하기
+
+## 장비 계산기 점검
+
+- [x] 장비 레벨업 비용 데이터 row 수 확인
+  - `data/equipment-level-costs.js`는 Lv.1 -> Lv.70 구간 기준 69개 row를 가진다.
+- [x] 장비 계산 함수 import 및 기본 실행 확인
+  - `utils/equipmentCalculator.js`에서 `calculateEquipmentCost`, `calculateStudentEquipmentMaterials` import가 가능하다.
+  - `T3 LV1 -> T6 MAX` 형태 계산이 실행된다.
+  - 잘못된 입력인 `T6 MAX -> T5 MAX`는 `TARGET_BELOW_CURRENT`를 반환한다.
+- [x] 장비 설계도와 강화석 재화 마스터 조회 구조 확인
+  - 장비 설계도는 `data/equipment-materials.js`에서 안정 ID, 표시명, 이미지 경로를 가진다.
+  - 강화석은 `data/items.js`에서 `type: "equipment-enhancement"`로 조회된다.
+  - 학생 상세 재화 카드는 `itemId` 기준으로 `data/items.js`의 이름, 이미지, 검수 상태를 우선 조회한다.

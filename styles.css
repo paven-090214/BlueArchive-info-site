@@ -1810,6 +1810,8 @@ select {
 }
 
 .skill-level-select,
+.equipment-type-select,
+.equipment-state-select,
 .equipment-tier-select {
   flex: 0 0 auto;
   min-height: 36px;
@@ -1820,7 +1822,9 @@ select {
 }
 
 .skill-level-select:focus,
+.equipment-type-select:focus,
 .equipment-tier-select:focus,
+.equipment-state-select:focus,
 .student-level-control input:focus,
 .star-button:focus {
   border-color: var(--blue);
@@ -1987,6 +1991,37 @@ select {
   gap: 12px;
 }
 
+.equipment-upgrade-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.equipment-tier-level-group {
+  display: grid;
+  grid-template-columns: minmax(42px, auto) minmax(86px, 1fr) minmax(72px, 0.8fr);
+  align-items: center;
+  gap: 8px;
+}
+
+.equipment-control-label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.equipment-type-select {
+  max-width: 150px;
+}
+
+.equipment-state-select {
+  min-width: 0;
+  min-height: 36px;
+  padding-block: 6px;
+  font-size: 13px;
+}
+
 .stat-grid {
   display: grid;
   gap: 10px;
@@ -2043,6 +2078,13 @@ select {
 .material-owned-quantity {
   margin-top: 4px;
   color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.material-shortage-quantity {
+  margin-top: 4px;
+  color: #b23b3b;
   font-size: 12px;
   font-weight: 800;
 }
@@ -2948,6 +2990,15 @@ select {
   .equipment-title-row {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .equipment-type-select {
+    max-width: none;
+  }
+
+  .equipment-upgrade-controls,
+  .equipment-tier-level-group {
+    grid-template-columns: 1fr;
   }
 
   .student-level-control {
