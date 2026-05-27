@@ -139,7 +139,7 @@
         </article>
       </section>
 
-      <section class="character-detail-stack" aria-label="캐릭터 추가 상세 정보">
+      <section class="character-detail-sections" aria-label="캐릭터 추가 상세 정보">
         <article class="panel character-skill-panel">
           <div class="panel-heading">
             <p class="eyebrow">SKILL</p>
@@ -171,8 +171,8 @@
                 <div class="skill-icon-placeholder" aria-hidden="true">1</div>
                 <div class="skill-content">
                   <div class="skill-title-row">
-                    <h3>1스킬</h3>
-                    <select class="skill-level-select" aria-label="1스킬 레벨">
+                    <h3>기본 스킬</h3>
+                    <select class="skill-level-select" aria-label="기본 스킬 레벨">
                       <option value="1">Lv. 1</option>
                       <option value="2">Lv. 2</option>
                       <option value="3">Lv. 3</option>
@@ -195,8 +195,8 @@
                 <div class="skill-icon-placeholder" aria-hidden="true">2</div>
                 <div class="skill-content">
                   <div class="skill-title-row">
-                    <h3>2스킬</h3>
-                    <select class="skill-level-select" aria-label="2스킬 레벨">
+                    <h3>강화 스킬</h3>
+                    <select class="skill-level-select" aria-label="강화 스킬 레벨">
                       <option value="1">Lv. 1</option>
                       <option value="2">Lv. 2</option>
                       <option value="3">Lv. 3</option>
@@ -219,8 +219,8 @@
                 <div class="skill-icon-placeholder" aria-hidden="true">3</div>
                 <div class="skill-content">
                   <div class="skill-title-row">
-                    <h3>3스킬</h3>
-                    <select class="skill-level-select" aria-label="3스킬 레벨">
+                    <h3>서브 스킬</h3>
+                    <select class="skill-level-select" aria-label="서브 스킬 레벨">
                       <option value="1">Lv. 1</option>
                       <option value="2">Lv. 2</option>
                       <option value="3">Lv. 3</option>
@@ -302,80 +302,6 @@
           </article>
         </article>
 
-        <article class="panel character-stat-panel">
-          <div class="panel-heading">
-            <p class="eyebrow">STAT</p>
-            <h2>스탯</h2>
-          </div>
-
-          <dl class="stat-grid">
-            <div>
-              <dt>공격력</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>방어력</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>체력</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>치유력</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>명중</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>회피</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>치명 수치</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>치명 대미지</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>안정성</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>사거리</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>CC 강화력</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>CC 저항력</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>공격 속도</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>이동 속도</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>코스트 회복력</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>탄약</dt>
-              <dd>N</dd>
-            </div>
-          </dl>
-        </article>
-
         <article class="panel required-material-panel">
           <div class="panel-heading">
             <p class="eyebrow">MATERIAL</p>
@@ -422,36 +348,46 @@
           <div class="exclusive-weapon-layout">
             <div class="exclusive-weapon-copy">
               <p class="eyebrow">WEAPON</p>
-              <h2>전용무기 이름</h2>
+              <h2 data-exclusive-weapon-name>전용무기 이름</h2>
               <p class="weapon-locked-message" data-weapon-display-locked-message hidden>미개방</p>
               <p>전용무기 효과 설명 placeholder입니다. 실제 효과와 수치는 추후 데이터로 연결합니다.</p>
             </div>
-            <div class="weapon-image-placeholder" aria-hidden="true">W</div>
+            <div class="weapon-image-placeholder" data-exclusive-weapon-image-slot aria-hidden="true">W</div>
             <div class="weapon-effect-card-list">
               <article class="skill-card weapon-effect-card">
                 <div class="skill-card-body">
-                  <div class="skill-icon-placeholder weapon-effect-icon" aria-hidden="true">2</div>
+                  <div class="weapon-star-row" aria-label="전용무기 2성">
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                  </div>
                   <div class="skill-content">
-                    <h3>전용무기 2성</h3>
-                    <p>강화 스킬 +로 강화</p>
+                    <p data-exclusive-weapon-enhanced-skill>준비중</p>
+                    <div data-exclusive-weapon-enhanced-stats></div>
                   </div>
                 </div>
               </article>
               <article class="skill-card weapon-effect-card">
                 <div class="skill-card-body">
-                  <div class="skill-icon-placeholder weapon-effect-icon" aria-hidden="true">3</div>
+                  <div class="weapon-star-row" aria-label="전용무기 3성">
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                  </div>
                   <div class="skill-content">
-                    <h3>전용무기 3성</h3>
                     <p>지역 적성 전투력을 SS로 강화</p>
                   </div>
                 </div>
               </article>
               <article class="skill-card weapon-effect-card">
                 <div class="skill-card-body">
-                  <div class="skill-icon-placeholder weapon-effect-icon" aria-hidden="true">4</div>
+                  <div class="weapon-star-row" aria-label="전용무기 4성">
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                  </div>
                   <div class="skill-content">
-                    <h3>전용무기 4성</h3>
-                    <p>특효 가산 +10% / 코스트 상한 +0.5</p>
+                    <p data-exclusive-weapon-rank4-effect>준비중</p>
                   </div>
                 </div>
               </article>
@@ -465,7 +401,7 @@
             <h2>메모리얼</h2>
           </div>
 
-          <div class="memorial-placeholder" aria-label="메모리얼 이미지 또는 GIF placeholder">
+          <div class="memorial-placeholder" data-memorial-slot aria-label="메모리얼 이미지 또는 GIF placeholder">
             <span>Memorial Placeholder</span>
           </div>
         </article>
@@ -475,13 +411,14 @@
     <script type="module">
       import {
         academies,
-        equipmentSlots,
-        equipmentTypes,
         oopartsCandidates,
         studentEquipmentBySlug,
         studentTerrainAdaptations,
-        students,
       } from "./data/index.js";
+      import { equipmentSlots, equipmentTypes } from "./data/equipment-types.js?v=tier1";
+      import { exclusiveWeapons } from "./data/exclusive-weapons.js";
+      import { students } from "./data/students.js";
+      import { studentSkillsByStudentId } from "./data/student-skills.js";
       import { items } from "./data/items.js";
       import { calculateCharacterLevelMaterials } from "./utils/characterLevelCalculator.js";
       import {
@@ -501,8 +438,15 @@
       const materialList = document.querySelector(".material-list");
       const growthStarRow = document.querySelector("[data-growth-star-row]");
       const equipmentList = document.querySelector("[data-equipment-list]");
+      const skillList = document.querySelector(".skill-list");
+      const memorialSlot = document.querySelector("[data-memorial-slot]");
       const terrainAptitudeList = document.querySelector(".terrain-aptitude-list");
       const roleImage = document.querySelector("[data-role-image]");
+      const exclusiveWeaponName = document.querySelector("[data-exclusive-weapon-name]");
+      const exclusiveWeaponImageSlot = document.querySelector("[data-exclusive-weapon-image-slot]");
+      const exclusiveWeaponRank4Effect = document.querySelector("[data-exclusive-weapon-rank4-effect]");
+      const exclusiveWeaponEnhancedSkill = document.querySelector("[data-exclusive-weapon-enhanced-skill]");
+      const exclusiveWeaponEnhancedStats = document.querySelector("[data-exclusive-weapon-enhanced-stats]");
       const STAR_ICON_URL = "./images/icon/Icon_star.webp";
       const BLUE_STAR_ICON_URL = "./images/icon/Icon_blue_star.webp";
       const BLANK_STAR_ICON_URL = "./images/icon/Icon_blank_star.webp";
@@ -510,6 +454,32 @@
       const characterSlugParam = new URLSearchParams(window.location.search).get("slug");
 
       const TERRAIN_KEYS = ["urban", "outdoor", "indoor"];
+      const MEMORIAL_VIDEO_URLS_BY_SLUG = {
+        kei: "./images/students/memorial/kei_memorial.mp4",
+      };
+      const SKILL_SLOT_ORDER = ["ex", "basic", "passive", "sub"];
+      const SKILL_SLOT_META = {
+        ex: {
+          label: "EX 스킬",
+          iconText: "EX",
+          materialType: "ex",
+        },
+        basic: {
+          label: "기본 스킬",
+          iconText: "1",
+          materialType: "normal",
+        },
+        passive: {
+          label: "강화 스킬",
+          iconText: "2",
+          materialType: "passive",
+        },
+        sub: {
+          label: "서브 스킬",
+          iconText: "3",
+          materialType: "sub",
+        },
+      };
 
       const TERRAIN_META = {
         urban: {
@@ -555,6 +525,7 @@
       const itemById = new Map(items.map((item) => [item.id, item]));
       const equipmentTypeById = new Map(equipmentTypes.map((item) => [item.id, item]));
       const selectedEquipmentProfile = studentEquipmentBySlug[selectedStudent.slug];
+      const selectedExclusiveWeapon = getExclusiveWeaponForStudent(selectedStudent);
 
       function renderStudentDetail(student) {
         const academyName = selectedAcademy?.name || "임시 학원";
@@ -578,6 +549,10 @@
 
         characterProfileName.textContent = student.fullName;
         characterProfileDescription.textContent = student.profile;
+        renderExclusiveWeaponSummary();
+        renderExclusiveWeaponEnhancedSkill(student);
+        renderExclusiveWeaponRank4Effect(student);
+        renderMemorialMedia(student);
 
         if (roleImage) {
           roleImage.src = ROLE_IMAGE_URLS[student.role] || "./images/duuu/duuu.webp";
@@ -608,6 +583,299 @@
             target.textContent = value;
           }
         });
+      }
+
+      function getExclusiveWeaponForStudent(student) {
+        return exclusiveWeapons[student.slug] ?? exclusiveWeapons[student.id] ?? null;
+      }
+
+      function renderExclusiveWeaponSummary() {
+        if (exclusiveWeaponName) {
+          exclusiveWeaponName.textContent = selectedExclusiveWeapon?.name ?? "전용무기 준비중";
+        }
+
+        if (!exclusiveWeaponImageSlot) {
+          return;
+        }
+
+        const imageUrl = normalizeAssetPath(selectedExclusiveWeapon?.image);
+        exclusiveWeaponImageSlot.replaceChildren();
+        exclusiveWeaponImageSlot.classList.toggle("has-weapon-image", Boolean(imageUrl));
+
+        if (!imageUrl) {
+          exclusiveWeaponImageSlot.textContent = "W";
+          return;
+        }
+
+        const image = document.createElement("img");
+        image.className = "weapon-image";
+        image.src = imageUrl;
+        image.alt = selectedExclusiveWeapon?.name ?? "전용무기";
+        exclusiveWeaponImageSlot.append(image);
+      }
+
+      function normalizeAssetPath(path) {
+        if (!path) {
+          return null;
+        }
+
+        const normalizedPath = path.replace(/\\/g, "/");
+        return normalizedPath.startsWith(".") ? normalizedPath : `./${normalizedPath}`;
+      }
+
+      function renderMemorialMedia(student) {
+        if (!memorialSlot) {
+          return;
+        }
+
+        const videoUrl = normalizeAssetPath(student.memorialVideoUrl || MEMORIAL_VIDEO_URLS_BY_SLUG[student.slug]);
+
+        if (!videoUrl) {
+          return;
+        }
+
+        const video = document.createElement("video");
+        video.className = "memorial-video";
+        video.src = videoUrl;
+        video.controls = true;
+        video.autoplay = true;
+        video.loop = true;
+        video.muted = true;
+        video.playsInline = true;
+        video.setAttribute("playsinline", "");
+        video.setAttribute("aria-label", `${student.name} 메모리얼 영상`);
+
+        memorialSlot.replaceChildren(video);
+        memorialSlot.classList.add("has-media");
+      }
+
+      function renderSkillCards(student) {
+        if (!skillList) {
+          return;
+        }
+
+        const skillData = studentSkillsByStudentId[student.id];
+        const cards = SKILL_SLOT_ORDER.flatMap((slotKey) => {
+          const slot = skillData?.skills?.[slotKey];
+          const variants = Array.isArray(slot?.variants) ? slot.variants : [];
+
+          return variants
+            .slice()
+            .sort((first, second) => (first.order ?? 0) - (second.order ?? 0))
+            .map((variant) => createSkillCard(slotKey, variant));
+        });
+
+        if (cards.length === 0) {
+          return;
+        }
+
+        skillList.replaceChildren(...cards);
+      }
+
+      function createSkillCard(slotKey, variant) {
+        const meta = SKILL_SLOT_META[slotKey] ?? SKILL_SLOT_META.basic;
+        const card = document.createElement("article");
+        card.className = "skill-card";
+        card.dataset.skillMaterialType = meta.materialType;
+
+        const body = document.createElement("div");
+        body.className = "skill-card-body";
+        body.append(createSkillIcon(meta, variant), createSkillContent(meta, variant));
+
+        card.append(body);
+        return card;
+      }
+
+      function createSkillIcon(meta, variant) {
+        if (variant.icon) {
+          const image = document.createElement("img");
+          image.className = "skill-icon-placeholder";
+          image.src = variant.icon;
+          image.alt = variant.name || meta.label;
+          return image;
+        }
+
+        const placeholder = document.createElement("div");
+        placeholder.className = "skill-icon-placeholder";
+        placeholder.setAttribute("aria-hidden", "true");
+        placeholder.textContent = meta.iconText;
+        return placeholder;
+      }
+
+      function createSkillContent(meta, variant) {
+        const content = document.createElement("div");
+        content.className = "skill-content";
+
+        const titleRow = document.createElement("div");
+        titleRow.className = "skill-title-row";
+
+        const title = document.createElement("h3");
+        title.textContent = variant.name || meta.label;
+
+        titleRow.append(title, createSkillLevelSelect(meta));
+        content.append(titleRow);
+
+        if (variant.cost !== null && variant.cost !== undefined) {
+          content.append(createSkillMetaText(`코스트 ${variant.cost}`));
+        }
+
+        if (variant.trigger) {
+          content.append(createSkillMetaText(`발동 조건: ${variant.trigger}`));
+        }
+
+        const effectTexts = getSkillEffectTexts(variant);
+
+        if (effectTexts.length > 0) {
+          effectTexts.forEach((effectText) => {
+            content.append(createSkillMetaText(effectText));
+          });
+        } else {
+          content.append(createSkillMetaText("스킬 효과 준비중"));
+        }
+
+        if (variant.changeRule) {
+          content.append(createSkillMetaText(`변경 조건: ${variant.changeRule}`));
+        }
+
+        return content;
+      }
+
+      function createSkillLevelSelect(meta) {
+        const select = document.createElement("select");
+        select.className = "skill-level-select";
+        select.setAttribute("aria-label", `${meta.label} 레벨`);
+
+        const range = SKILL_LEVEL_RANGES[meta.materialType];
+        const maxLevel = range?.max ?? 10;
+
+        for (let level = 1; level <= maxLevel; level += 1) {
+          const option = document.createElement("option");
+          option.value = String(level);
+          option.textContent = `Lv. ${level}`;
+          select.append(option);
+        }
+
+        return select;
+      }
+
+      function createSkillMetaText(text) {
+        const paragraph = document.createElement("p");
+        paragraph.textContent = text;
+        return paragraph;
+      }
+
+      function getSkillEffectTexts(variant) {
+        if (!Array.isArray(variant.effects)) {
+          return [];
+        }
+
+        return variant.effects
+          .map((effect) => formatSkillEffect(effect))
+          .filter(Boolean);
+      }
+
+      function formatSkillEffect(effect) {
+        const template = effect?.template;
+
+        if (!template) {
+          return "";
+        }
+
+        const levelValues = effect.levels?.[1] ?? {};
+
+        return template.replace(/\{([^}]+)\}/g, (match, key) => {
+          const value = levelValues[key];
+          return value === null || value === undefined ? match : String(value);
+        });
+      }
+
+      function renderExclusiveWeaponRank4Effect(student) {
+        if (!exclusiveWeaponRank4Effect) {
+          return;
+        }
+
+        exclusiveWeaponRank4Effect.textContent = getExclusiveWeaponRank4EffectText(student);
+      }
+
+      function getExclusiveWeaponRank4EffectText(student) {
+        if (student.combatClass === "Striker") {
+          return "특효 가산 +10%";
+        }
+
+        if (student.combatClass === "Special") {
+          return "코스트 상한 +0.5";
+        }
+
+        return "준비중";
+      }
+
+      function renderExclusiveWeaponEnhancedSkill(student) {
+        if (!exclusiveWeaponEnhancedSkill || !exclusiveWeaponEnhancedStats) {
+          return;
+        }
+
+        const enhancedSkill = selectedExclusiveWeapon?.enhancedSkill;
+        exclusiveWeaponEnhancedSkill.textContent = getEnhancedSkillText(student, enhancedSkill);
+        exclusiveWeaponEnhancedStats.replaceChildren(...createEnhancedStatLineElements(enhancedSkill?.statLines));
+      }
+
+      function getEnhancedSkillText(student, enhancedSkill) {
+        if (!enhancedSkill) {
+          return "준비중";
+        }
+
+        if (enhancedSkill.nameOverride) {
+          return `${enhancedSkill.nameOverride}로 강화`;
+        }
+
+        const targetSkill = findSkillVariant(student.id, enhancedSkill.target);
+
+        if (!targetSkill?.name) {
+          return "준비중";
+        }
+
+        return `${targetSkill.name}+로 강화`;
+      }
+
+      function findSkillVariant(studentId, target) {
+        const slot = target?.slot;
+        const variantId = target?.variantId;
+
+        if (!slot || !variantId) {
+          return null;
+        }
+
+        const variants = studentSkillsByStudentId[studentId]?.skills?.[slot]?.variants;
+
+        if (!Array.isArray(variants)) {
+          return null;
+        }
+
+        return variants.find((variant) => variant.id === variantId) ?? null;
+      }
+
+      function createEnhancedStatLineElements(statLines) {
+        if (!Array.isArray(statLines) || statLines.length === 0) {
+          const fallback = document.createElement("p");
+          fallback.className = "weapon-stat-growth";
+          fallback.textContent = "스탯 증가량 준비중";
+          return [fallback];
+        }
+
+        return statLines.map((line) => {
+          const paragraph = document.createElement("p");
+          paragraph.className = "weapon-stat-growth";
+          paragraph.textContent = formatEnhancedStatLine(line);
+          return paragraph;
+        });
+      }
+
+      function formatEnhancedStatLine(line) {
+        const prefix = line.prefix ? `${line.prefix} ` : "";
+        const unit = line.unit ?? "";
+        const suffix = line.suffix ? ` ${line.suffix}` : "";
+
+        return `${prefix}${line.label} ${line.before} -> ${line.after}${unit}${suffix}`;
       }
 
       function renderTerrainAdaptations(student) {
@@ -760,7 +1028,7 @@
         const skillTypes = ["ex", "normal", "passive", "sub"];
 
         skillCards.forEach((card, index) => {
-          const skillType = skillTypes[index];
+          const skillType = card.dataset.skillMaterialType || skillTypes[index];
           const targetSelect = card.querySelector(".skill-level-select");
           const titleRow = card.querySelector(".skill-title-row");
           const range = SKILL_LEVEL_RANGES[skillType];
@@ -780,9 +1048,9 @@
       function getSkillLabel(skillType) {
         const labels = {
           ex: "EX 스킬",
-          normal: "1스킬",
-          passive: "2스킬",
-          sub: "3스킬",
+          normal: "기본 스킬",
+          passive: "강화 스킬",
+          sub: "서브 스킬",
         };
 
         return labels[skillType] || "스킬";
@@ -947,7 +1215,7 @@
           tierSelect.append(option);
         }
 
-        tierSelect.value = "1";
+        tierSelect.value = String(EQUIPMENT_TIER_RANGE.max);
         return tierSelect;
       }
 
@@ -1022,15 +1290,17 @@
 
       function setEquipmentVisual(visual, equipmentTypeId, tier) {
         visual.replaceChildren();
+        visual.classList.toggle("is-unequipped", tier === 0);
 
         const equipmentType = equipmentTypeById.get(equipmentTypeId);
-        const imageUrl = tier > 0 ? equipmentType?.iconImageUrlsByTier?.[tier] : null;
+        const displayTier = tier > 0 ? tier : 1;
+        const imageUrl = equipmentType?.iconImageUrlsByTier?.[displayTier] ?? null;
 
         if (imageUrl) {
           const image = document.createElement("img");
           image.className = "equipment-image";
           image.src = imageUrl;
-          image.alt = `${equipmentType.displayName} T${tier}`;
+          image.alt = tier > 0 ? `${equipmentType.displayName} T${tier}` : `${equipmentType.displayName} 미착용`;
           visual.append(image);
           return;
         }
@@ -1308,6 +1578,7 @@
         return new Intl.NumberFormat("ko-KR").format(value);
       }
 
+      renderSkillCards(selectedStudent);
       setupSkillMaterialControls();
       setupEquipmentControls();
       loadOwnedMaterialQuantities();

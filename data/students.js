@@ -244,5 +244,6 @@ export const students = [
     profileImageUrl: "./images/students/portraits/kei.webp",
     portraitImageUrl: "./images/students/portraits/kei.webp",
     iconImageUrl: "./images/students/icons/Kei.webp",
+    memorialVideoUrl: "./images/students/memorial/kei_memorial.mp4",
   },
 ];

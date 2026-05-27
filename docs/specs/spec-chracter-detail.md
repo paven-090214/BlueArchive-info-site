@@ -35,6 +35,22 @@
 - 장비 티어는 장비별로 독립적으로 선택한다.
 - 장비 티어 선택에 따라 추후 학생 스탯이 변경될 예정이다.
 
+### 학생 스킬 표시 데이터
+
+- 학생 스킬 표시 데이터는 학생 `id` 기준으로 연결한다.
+- 스킬 슬롯은 `skills.ex`, `skills.basic`, `skills.passive`, `skills.sub`를 사용한다.
+- 스킬 슬롯은 EX 스킬, 기본 스킬, 강화 스킬, 서브 스킬 순서로 표시한다.
+- `skills.ex`는 EX 스킬, `skills.basic`은 기본 스킬, `skills.passive`는 강화 스킬, `skills.sub`는 서브 스킬에 대응한다.
+- 각 스킬 슬롯은 단일 스킬 객체가 아니라 `variants` 배열을 가진다.
+- 같은 슬롯 안에 기본 스킬, 조건부 변경 스킬, 상태별 스킬이 2개 이상 존재할 수 있다.
+- 각 variant는 `id`, `order`, `name`, `icon`, `cost`, `trigger`, `effects`, `changeRule`을 가질 수 있다.
+- 각 effect는 `template`과 `levels`를 가진다.
+- 현재 학생 상세 페이지는 전투 시뮬레이션을 하지 않으므로 스킬 변경 조건은 `changeRule` 텍스트로 표시한다.
+- 추후 실제 변경 로직이 필요하면 `cycle`, `changeTo` 같은 구조로 확장한다.
+- 스킬 variants 데이터가 없는 학생은 기존 스킬 표시 UI가 깨지지 않도록 fallback 표시를 유지한다.
+- 전용무기 2성 강화 문구는 전용무기 데이터의 `enhancedSkill.target.slot`과 `enhancedSkill.target.variantId`로 학생 스킬 variants를 찾아 자동 생성한다.
+- 전용무기 2성 강화 문구는 `enhancedSkill.nameOverride`가 있으면 이를 우선 사용하고, 없으면 `${skill.name}+로 강화` 형식으로 표시한다.
+
 ## 추가할 기능
 - 학생 상세 URL은 접근성을 위해 `slug`를 사용하고, 계산 데이터와 저장 데이터 연결은 `students.js`의 숫자 `id`를 우선 사용한다.
 - 스킬영역에서 사용자가 현재 레벨이 3인데 목표레벨은 3이하게 될 수 없다.
