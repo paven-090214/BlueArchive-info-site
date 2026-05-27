@@ -30,17 +30,26 @@ export function calculateStarRankEleph({
       targetRank,
       elephQuantity: 0,
       transitions: [],
+      missingTransitions: [],
+      needsReview: false,
+      hasCompleteData: true,
     };
   }
 
   const transitionMap = new Map(requirements.map((requirement) => [requirement.fromRank, requirement]));
   const transitions = [];
+  const missingTransitions = [];
 
   for (let index = currentIndex; index < targetIndex; index += 1) {
     const fromRank = RANK_ORDER[index];
+    const toRank = RANK_ORDER[index + 1];
     const requirement = transitionMap.get(fromRank);
 
-    if (!requirement || requirement.toRank !== RANK_ORDER[index + 1]) {
+    if (!requirement || requirement.toRank !== toRank) {
+      missingTransitions.push({
+        fromRank,
+        toRank,
+      });
       continue;
     }
 
@@ -52,6 +61,9 @@ export function calculateStarRankEleph({
     targetRank,
     elephQuantity: transitions.reduce((sum, transition) => sum + transition.elephQuantity, 0),
     transitions,
+    missingTransitions,
+    needsReview: missingTransitions.length > 0,
+    hasCompleteData: missingTransitions.length === 0,
   };
 }
 

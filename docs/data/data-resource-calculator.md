@@ -651,6 +651,7 @@ data/skillMaterialRequirements.js
 스킬 강화 요구량의 `studentId`는 URL slug가 아니라 `students.js`의 숫자 `id`를 사용한다.  
 예: 케이는 `slug: "kei"`로 상세 페이지에 접근하지만, 스킬 재화 요구량은 `studentId: 10`으로 연결한다.
 스킬 강화 요구량에서 오파츠 재화는 `data/ooparts-candidates.js`의 `id`를 `itemId`로 사용한다.
+스킬 강화 계산에서 요청한 레벨 구간의 요구량 row가 일부 누락되면 `missingRows`와 `needsReview: true`로 반환하고, 학생 상세 화면은 검수 필요 안내를 표시한다.
 
 스킬 강화 재화 계산 규칙:
 

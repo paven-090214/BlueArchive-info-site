@@ -6,8 +6,10 @@ const [sourceArg = "sources/arca-pickup-1-111.html", outputArg = "data/pickup-ca
 const sourceFile = path.resolve(__dirname, "..", sourceArg);
 const outputFile = path.resolve(__dirname, "..", outputArg);
 const sourceName = path.basename(sourceFile);
+const studentsFile = path.resolve(__dirname, "..", "data/students.js");
 
 const html = fs.readFileSync(sourceFile, "utf8").replace(/\r?\n/g, " ");
+const studentNameMap = createStudentNameMap(fs.readFileSync(studentsFile, "utf8"));
 
 function decodeHtml(value) {
   return value
@@ -23,6 +25,35 @@ function decodeHtml(value) {
 
 function stripTags(value) {
   return decodeHtml(value.replace(/<[^>]*>/g, ""));
+}
+
+function createStudentNameMap(source) {
+  const records = new Map();
+  const studentBlocks = [...source.matchAll(/\{\s*id:\s*(\d+),[\s\S]*?slug:\s*"([^"]+)",[\s\S]*?name:\s*"([^"]+)"/g)];
+
+  studentBlocks.forEach((match) => {
+    const [, id, slug, name] = match;
+
+    records.set(name, {
+      characterId: Number(id),
+      characterSlug: slug,
+    });
+  });
+
+  return records;
+}
+
+function createCharacterRecord(name, type) {
+  const student = studentNameMap.get(name);
+
+  return {
+    name,
+    characterId: student?.characterId ?? null,
+    characterSlug: student?.characterSlug ?? null,
+    imageUrl: null,
+    type,
+    needsReview: !student,
+  };
 }
 
 function toIsoDate(shortDate) {
@@ -100,12 +131,7 @@ function getCharacters(rawTitle) {
       .map((name) => name.trim())
       .filter(Boolean);
 
-    return names.map((name) => ({
-      name,
-      characterId: null,
-      imageUrl: null,
-      type,
-    }));
+    return names.map((name) => createCharacterRecord(name, type));
   });
 }
 
@@ -128,22 +154,20 @@ function getDistributions(blockHtml) {
       .trim();
 
     if (candidate) {
-      distributions.push({
-        name: candidate,
-        characterId: null,
-        type: "배포",
-      });
+      distributions.push(createCharacterRecord(candidate, "배포"));
     }
   }
 
-  return [...new Map(distributions.map((distribution) => [distribution.name, distribution])).values()];
+  return [...new Map(distributions.map((distribution) => [distribution.characterId ?? distribution.name, distribution])).values()];
 }
 
-function getNeedsReview({ dateInfo, characters }) {
+function getNeedsReview({ dateInfo, characters, distributions }) {
   const hasMissingCharacterType = characters.some((character) => character.type === null);
+  const hasUnmappedCharacter = characters.some((character) => character.needsReview);
+  const hasUnmappedDistribution = distributions.some((distribution) => distribution.needsReview);
   const hasDateIssue = dateInfo.needsReview;
 
-  return hasDateIssue || hasMissingCharacterType;
+  return hasDateIssue || hasMissingCharacterType || hasUnmappedCharacter || hasUnmappedDistribution;
 }
 
 const entryPattern =
@@ -174,6 +198,7 @@ const candidates = matches.map((match, index) => {
     needsReview: getNeedsReview({
       dateInfo,
       characters,
+      distributions,
     }),
   };
 });

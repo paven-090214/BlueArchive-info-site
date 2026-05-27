@@ -1,5 +1,6 @@
 import { students as bondCalculatorStudents } from "./data/students.js";
 import { bondRankRequirements } from "./data/bond/bond-rank-requirements.js";
+import { bondPointSources } from "./data/bond/bond-point-sources.js";
 import { gifts } from "./data/gifts.js";
 import { characterGiftPreferences } from "./data/character-gift-preferences.js";
 
@@ -35,6 +36,7 @@ const schedulePointsValue = document.querySelector("#bond-schedule-points");
 
 const studentsById = new Map(bondCalculatorStudents.map((student) => [student.id, student]));
 const rankRequirementMap = new Map(bondRankRequirements.map((item) => [item.rank, item]));
+const pointSourceMap = new Map(bondPointSources.map((source) => [source.id, source]));
 const preferenceMap = new Map();
 const ownedGiftQuantityById = new Map();
 const selectedGiftQuantityById = new Map();
@@ -44,8 +46,10 @@ const giftRankImageUrls = {
   liked: "./images/gift-ranks/liked.webp",
   favorite: "./images/gift-ranks/favorite.webp",
 };
+const defaultStudent =
+  studentsById.get(10) ?? bondCalculatorStudents.find((student) => student.slug === "kei") ?? null;
 
-let selectedStudentId = bondCalculatorStudents[9]?.id ?? null;
+let selectedStudentId = defaultStudent?.id ?? null;
 let showAllGifts = false;
 
 for (const record of characterGiftPreferences) {
@@ -75,6 +79,10 @@ function getRankRequirement(rank) {
 
 function getRankTotalExp(rank) {
   return rankRequirementMap.get(rank)?.totalExp ?? 0;
+}
+
+function getPointSourcePoints(sourceId) {
+  return pointSourceMap.get(sourceId)?.pointsPerUse ?? 0;
 }
 
 function clampRankInput(input) {
@@ -221,6 +229,7 @@ function getOwnedGiftQuantity(giftId) {
   return ownedGiftQuantityById.get(giftId) ?? 0;
 }
 
+// Future hook for loading saved owned gift quantities.
 function setOwnedGiftQuantities(records) {
   ownedGiftQuantityById.clear();
 
@@ -290,8 +299,8 @@ function renderSelectedStudent() {
 }
 
 function renderPointSourceSummary() {
-  cafePointsValue.textContent = "15";
-  schedulePointsValue.textContent = "25";
+  cafePointsValue.textContent = String(getPointSourcePoints("cafe"));
+  schedulePointsValue.textContent = String(getPointSourcePoints("schedule"));
 }
 
 function createSuggestionItem(student) {
@@ -450,8 +459,8 @@ function calculateBondState() {
   const nextRankRequirement = getRankRequirement(currentRank);
   const nextRankPoints = Math.max(nextRankRequirement - currentPoints - giftTotalPoints, 0);
   const excessPoints = Math.max(giftTotalPoints - totalTargetPoints, 0);
-  const cafePoints = 15;
-  const schedulePoints = 25;
+  const cafePoints = getPointSourcePoints("cafe");
+  const schedulePoints = getPointSourcePoints("schedule");
 
   const cafeCount = remainingPoints > 0 && cafePoints > 0 ? Math.ceil(remainingPoints / cafePoints) : 0;
   const scheduleCount =

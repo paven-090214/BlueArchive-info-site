@@ -1,5 +1,6 @@
 import { equipmentMaterials } from "./equipment-materials.js";
 
+// Classification lists for data validation and filter options.
 export const itemTypes = [
   "currency",
   "pyroxene",
@@ -14,6 +15,7 @@ export const itemTypes = [
   "unknown",
 ];
 
+// Classification lists for data validation and filter options.
 export const itemGrades = [
   "tier1",
   "tier2",

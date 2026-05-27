@@ -32,6 +32,7 @@ export function calculateLevelCost(
       overflowExp: 0,
       materials: [],
       creditQuantity: 0,
+      missingRows: [],
       needsReview: levelCosts.length === 0,
     };
   }
@@ -39,6 +40,20 @@ export function calculateLevelCost(
   const matchedRows = levelCosts.filter(
     (row) => row.fromLevel >= normalizedFromLevel && row.toLevel <= normalizedToLevel,
   );
+  const matchedRowMap = new Map(matchedRows.map((row) => [`${row.fromLevel}->${row.toLevel}`, row]));
+  const missingRows = [];
+
+  for (let level = normalizedFromLevel; level < normalizedToLevel; level += 1) {
+    const key = `${level}->${level + 1}`;
+
+    if (!matchedRowMap.has(key)) {
+      missingRows.push({
+        fromLevel: level,
+        toLevel: level + 1,
+      });
+    }
+  }
+
   const materialMap = new Map();
   let requiredExp = 0;
   let creditQuantity = 0;
@@ -60,7 +75,8 @@ export function calculateLevelCost(
     overflowExp: enhancementResult.overflowExp,
     materials: [...materialMap.values()],
     creditQuantity,
-    needsReview: levelCosts.length === 0,
+    missingRows,
+    needsReview: levelCosts.length === 0 || missingRows.length > 0 || Boolean(enhancementResult.needsReview),
   };
 }
 
@@ -76,12 +92,24 @@ export function calculateEnhancementItemCost(
       providedExp: 0,
       overflowExp: 0,
       materials: [],
+      needsReview: false,
     };
   }
 
   const sortedItems = [...enhancementItems]
     .filter((item) => normalizeQuantity(item.exp) > 0)
     .sort((left, right) => right.exp - left.exp);
+
+  if (sortedItems.length === 0) {
+    return {
+      requiredExp: normalizedRequiredExp,
+      providedExp: 0,
+      overflowExp: 0,
+      materials: [],
+      needsReview: true,
+    };
+  }
+
   const maxExp = Math.max(...sortedItems.map((item) => item.exp));
   const limit = normalizedRequiredExp + maxExp;
   const bestByExp = Array.from({ length: limit + 1 }, () => null);
@@ -150,6 +178,7 @@ export function calculateEnhancementItemCost(
     providedExp: bestExp,
     overflowExp: bestExp - normalizedRequiredExp,
     materials,
+    needsReview: false,
   };
 }
 
@@ -170,6 +199,8 @@ export function calculateTierUpCost(
       materials: [],
       creditQuantity: 0,
       transitions: [],
+      missingTransitions: [],
+      needsReview: false,
     };
   }
 
@@ -179,11 +210,16 @@ export function calculateTierUpCost(
   const materialMap = new Map();
   let creditQuantity = 0;
   const transitions = [];
+  const missingTransitions = [];
 
   for (let tier = normalizedFromTier; tier < normalizedToTier; tier += 1) {
     const transition = transitionMap.get(`${tier}->${tier + 1}`);
 
     if (!transition) {
+      missingTransitions.push({
+        fromTier: tier,
+        toTier: tier + 1,
+      });
       continue;
     }
 
@@ -209,6 +245,8 @@ export function calculateTierUpCost(
     materials: [...materialMap.values()],
     creditQuantity,
     transitions,
+    missingTransitions,
+    needsReview: missingTransitions.length > 0,
   };
 }
 
@@ -220,6 +258,7 @@ export function calculateEquipmentCost(input) {
   const materialMap = new Map();
   let creditQuantity = 0;
   const steps = [];
+  let needsReview = false;
 
   if (!equipmentType) {
     return createEquipmentCostResult({
@@ -232,6 +271,7 @@ export function calculateEquipmentCost(input) {
       steps,
       isValid: false,
       errorCode: "MISSING_EQUIPMENT_TYPE",
+      needsReview: false,
     });
   }
 
@@ -246,6 +286,7 @@ export function calculateEquipmentCost(input) {
       steps,
       isValid: false,
       errorCode: "TARGET_BELOW_CURRENT",
+      needsReview: false,
     });
   }
 
@@ -260,6 +301,7 @@ export function calculateEquipmentCost(input) {
       steps,
       isValid: true,
       errorCode: null,
+      needsReview: false,
     });
   }
 
@@ -276,6 +318,7 @@ export function calculateEquipmentCost(input) {
 
       mergeMaterials(materialMap, levelResult.materials);
       creditQuantity += levelResult.creditQuantity;
+      needsReview = needsReview || Boolean(levelResult.needsReview);
       steps.push({
         type: "level",
         tier,
@@ -286,6 +329,7 @@ export function calculateEquipmentCost(input) {
         overflowExp: levelResult.overflowExp,
         materials: levelResult.materials,
         creditQuantity: levelResult.creditQuantity,
+        missingRows: levelResult.missingRows,
         needsReview: levelResult.needsReview,
       });
     }
@@ -294,12 +338,15 @@ export function calculateEquipmentCost(input) {
       const tierUpResult = calculateTierUpCost(equipmentType, tier, tier + 1);
       mergeMaterials(materialMap, tierUpResult.materials);
       creditQuantity += tierUpResult.creditQuantity;
+      needsReview = needsReview || Boolean(tierUpResult.needsReview);
       steps.push({
         type: "tier-up",
         fromTier: tier,
         toTier: tier + 1,
         materials: tierUpResult.materials,
         creditQuantity: tierUpResult.creditQuantity,
+        missingTransitions: tierUpResult.missingTransitions,
+        needsReview: tierUpResult.needsReview,
       });
     }
   }
@@ -312,8 +359,9 @@ export function calculateEquipmentCost(input) {
     materials: [...materialMap.values()],
     creditQuantity,
     steps,
-    isValid: true,
-    errorCode: null,
+    isValid: !needsReview,
+    errorCode: needsReview ? "MISSING_COST_DATA" : null,
+    needsReview,
   });
 }
 
@@ -327,6 +375,7 @@ export function calculateStudentEquipmentCost({ slots }) {
 
   return {
     isValid: results.every((result) => result.isValid),
+    needsReview: results.some((result) => result.needsReview),
     results,
     materials: [...materialMap.values()],
   };
@@ -334,6 +383,7 @@ export function calculateStudentEquipmentCost({ slots }) {
 
 export const calculateStudentEquipmentMaterials = calculateStudentEquipmentCost;
 
+// Shared helper for comparing required materials with owned inventory.
 export function calculateMissingMaterials(requiredMaterials, userInventory) {
   const inventoryMap = createInventoryMap(userInventory);
 
@@ -360,6 +410,7 @@ function createEquipmentCostResult({
   steps,
   isValid,
   errorCode,
+  needsReview,
 }) {
   const finalMaterials = [...materials];
 
@@ -379,6 +430,7 @@ function createEquipmentCostResult({
     targetTier,
     isValid,
     errorCode,
+    needsReview,
     materials: finalMaterials,
     steps,
   };

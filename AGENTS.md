@@ -1,5 +1,27 @@
 # AGENTS.md
 
+## 공통 규칙
+
+- 불필요한 파일 구조 변경 금지
+- 기존 기능을 깨지 않도록 최소 수정
+- 코드 수정 전 반드시 관련 파일을 먼저 읽고 계획 수립
+- 수정 후 변경 파일 목록과 이유를 요약
+- 가능하면 브라우저 동작 기준으로 최종 확인
+
+## 역할 분담
+
+### Planner
+- 코드를 수정하지 않고 구조 분석과 작업 계획만 작성
+
+### Implementer
+- Planner의 계획을 바탕으로 최소 범위로 코드 수정
+
+### Reviewer
+- 코드를 수정하지 않고 버그, 누락, 위험한 변경 검토
+
+### Final Checker
+- 최종 diff, 실행 방법, 남은 위험 요소 확인
+
 ## Project Overview
 
 This is a static Blue Archive information site.
@@ -358,3 +380,19 @@ Before finishing a task:
 3. Update related docs if UI or data structure changed.
 4. Summarize modified files.
 5. Mention remaining issues or data that needs review.
+
+## Self Check Before Final Response
+
+Before final response, verify:
+
+- Only files related to the user request were modified.
+- No unrelated refactors were made.
+- No game data was invented.
+- Stable IDs are used for data relationships when IDs exist.
+- Raw/source files were not used directly unless explicitly requested.
+- UI changes updated the related docs/ui file.
+- Behavior or calculation changes updated the related docs/specs or docs/data file.
+- Obvious UI issues were checked, including overlap, broken layout, and large unused gaps.
+- Security risks were checked, including unsafe innerHTML, external scripts, exposed keys/tokens, and unexpected network/database usage.
+- A reasonable verification step was run or clearly explained.
+- git status was checked.

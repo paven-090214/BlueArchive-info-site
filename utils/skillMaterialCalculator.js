@@ -30,8 +30,11 @@ export function calculateSkillMaterials({
       currentLevel: normalizedCurrentLevel,
       targetLevel: normalizedTargetLevel,
       matchedRows: [],
+      missingRows: [],
       materials: [],
       hasData: hasSkillData({ studentId, skillType, requirements }),
+      hasCompleteData: true,
+      needsReview: false,
     };
   }
 
@@ -42,6 +45,19 @@ export function calculateSkillMaterials({
       row.fromLevel >= normalizedCurrentLevel &&
       row.toLevel <= normalizedTargetLevel,
   );
+  const matchedRowMap = new Map(matchedRows.map((row) => [`${row.fromLevel}->${row.toLevel}`, row]));
+  const missingRows = [];
+
+  for (let level = normalizedCurrentLevel; level < normalizedTargetLevel; level += 1) {
+    const key = `${level}->${level + 1}`;
+
+    if (!matchedRowMap.has(key)) {
+      missingRows.push({
+        fromLevel: level,
+        toLevel: level + 1,
+      });
+    }
+  }
 
   const materialMap = new Map();
 
@@ -71,8 +87,11 @@ export function calculateSkillMaterials({
     currentLevel: normalizedCurrentLevel,
     targetLevel: normalizedTargetLevel,
     matchedRows,
+    missingRows,
     materials: [...materialMap.values()],
     hasData: hasSkillData({ studentId, skillType, requirements }),
+    hasCompleteData: missingRows.length === 0,
+    needsReview: missingRows.length > 0,
   };
 }
 

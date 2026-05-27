@@ -81,9 +81,14 @@ calculateStarRankEleph({
   currentRank,
   targetRank,
   elephQuantity,
-  transitions
+  transitions,
+  missingTransitions,
+  needsReview,
+  hasCompleteData
 }
 ```
+
+전환 요구량 데이터가 누락되면 해당 구간을 `missingTransitions`에 넣고 `needsReview: true`, `hasCompleteData: false`로 반환한다.
 
 ## 주의
 

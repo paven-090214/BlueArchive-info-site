@@ -1720,8 +1720,7 @@ select {
 }
 
 .skill-card-body,
-.material-card,
-.equipment-card {
+.material-card {
   display: grid;
   grid-template-columns: 58px minmax(0, 1fr);
   gap: 12px;
@@ -1734,6 +1733,11 @@ select {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface-soft);
+}
+
+.equipment-card {
+  display: grid;
+  gap: 12px;
 }
 
 .skill-title-row,
@@ -1810,7 +1814,6 @@ select {
 }
 
 .skill-level-select,
-.equipment-type-select,
 .equipment-state-select,
 .equipment-tier-select {
   flex: 0 0 auto;
@@ -1822,7 +1825,6 @@ select {
 }
 
 .skill-level-select:focus,
-.equipment-type-select:focus,
 .equipment-tier-select:focus,
 .equipment-state-select:focus,
 .student-level-control input:focus,
@@ -1850,6 +1852,12 @@ select {
 .equipment-icon-placeholder {
   width: 58px;
   height: 58px;
+}
+
+.equipment-image {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
 }
 
 .material-image {
@@ -1991,17 +1999,56 @@ select {
   gap: 12px;
 }
 
-.equipment-upgrade-controls {
+.equipment-comparison-controls {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 12px;
   margin-top: 12px;
 }
 
-.equipment-tier-level-group {
+.equipment-state-panel {
   display: grid;
-  grid-template-columns: minmax(42px, auto) minmax(86px, 1fr) minmax(72px, 0.8fr);
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 8px;
   align-items: center;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.equipment-state-label {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.equipment-visual {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+}
+
+.equipment-state-name {
+  margin: 0;
+  color: var(--blue-dark);
+  font-size: 15px;
+}
+
+.equipment-state-summary {
+  grid-column: 2;
+  margin: -4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.equipment-state-controls {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(76px, auto);
   gap: 8px;
 }
 
@@ -2011,8 +2058,31 @@ select {
   font-weight: 800;
 }
 
-.equipment-type-select {
-  max-width: 150px;
+.equipment-fixed-type-badge,
+.equipment-max-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #eaf4ff;
+  color: var(--blue-dark);
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.equipment-fixed-type-badge.is-review {
+  background: #fff7e6;
+  color: #76521a;
+}
+
+.equipment-max-badge {
+  min-height: 36px;
+  border: 1px solid var(--line);
+  background: var(--surface-soft);
+  color: var(--muted);
 }
 
 .equipment-state-select {
@@ -2976,13 +3046,14 @@ select {
     grid-template-columns: 1fr;
   }
 
-  .skill-card-body,
-  .equipment-card {
+  .skill-card-body {
     grid-template-columns: 48px minmax(0, 1fr);
   }
 
   .skill-icon-placeholder,
-  .equipment-icon-placeholder {
+  .equipment-icon-placeholder,
+  .equipment-image,
+  .equipment-visual {
     width: 48px;
     height: 48px;
   }
@@ -2992,13 +3063,14 @@ select {
     flex-direction: column;
   }
 
-  .equipment-type-select {
-    max-width: none;
+  .equipment-comparison-controls,
+  .equipment-state-panel,
+  .equipment-state-controls {
+    grid-template-columns: 1fr;
   }
 
-  .equipment-upgrade-controls,
-  .equipment-tier-level-group {
-    grid-template-columns: 1fr;
+  .equipment-state-summary {
+    grid-column: auto;
   }
 
   .student-level-control {

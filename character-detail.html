@@ -799,19 +799,17 @@
 
       function createEquipmentCard(slot, index) {
         const profileEquipmentTypeId = selectedEquipmentProfile?.[slot.id] ?? "";
-        const defaultEquipmentTypeId = slot.equipmentTypeIds.includes(profileEquipmentTypeId)
+        const fixedEquipmentTypeId = slot.equipmentTypeIds.includes(profileEquipmentTypeId)
           ? profileEquipmentTypeId
           : "";
+        const equipmentType = equipmentTypeById.get(fixedEquipmentTypeId);
+        const isEquipmentKnown = Boolean(fixedEquipmentTypeId);
 
         const card = document.createElement("article");
         card.className = "equipment-card";
         card.dataset.equipmentCard = "true";
         card.dataset.slotId = slot.id;
-
-        const icon = document.createElement("div");
-        icon.className = "equipment-icon-placeholder";
-        icon.setAttribute("aria-hidden", "true");
-        icon.textContent = getEquipmentIconText(defaultEquipmentTypeId);
+        card.dataset.equipmentTypeId = fixedEquipmentTypeId;
 
         const content = document.createElement("div");
         content.className = "equipment-content";
@@ -822,29 +820,30 @@
         const title = document.createElement("h3");
         title.textContent = `${index + 1}번 장비`;
 
-        const typeSelect = createEquipmentTypeSelect(slot, defaultEquipmentTypeId);
-        titleRow.append(title, typeSelect);
+        const fixedTypeBadge = document.createElement("span");
+        fixedTypeBadge.className = isEquipmentKnown
+          ? "equipment-fixed-type-badge"
+          : "equipment-fixed-type-badge is-review";
+        fixedTypeBadge.textContent = equipmentType?.displayName ?? "장비 확인 필요";
+        titleRow.append(title, fixedTypeBadge);
 
         const note = document.createElement("p");
         note.className = "equipment-slot-note";
-        note.textContent = getEquipmentSlotNote(slot, defaultEquipmentTypeId);
+        note.textContent = getEquipmentSlotNote(slot, fixedEquipmentTypeId);
 
         const controls = document.createElement("div");
-        controls.className = "equipment-upgrade-controls";
+        controls.className = "equipment-comparison-controls";
         controls.append(
-          createEquipmentCurrentGroup({
-            label: "현재",
-            includeNone: true,
-            defaultTier: "none",
-          }),
-          createEquipmentTargetGroup({
-            label: "목표",
-            defaultTier: "1",
-          }),
+          createEquipmentStatePanel({ mode: "current", equipmentTypeId: fixedEquipmentTypeId }),
+          createEquipmentStatePanel({ mode: "target", equipmentTypeId: fixedEquipmentTypeId }),
         );
 
         content.append(titleRow, note, controls);
-        card.append(icon, content);
+        card.append(content);
+
+        if (!isEquipmentKnown) {
+          card.classList.add("is-equipment-review");
+        }
 
         card.querySelectorAll("select, input").forEach((control) => {
           control.addEventListener("change", () => {
@@ -861,48 +860,49 @@
         return card;
       }
 
-      function createEquipmentTypeSelect(slot, defaultEquipmentTypeId) {
-        const select = document.createElement("select");
-        select.className = "equipment-type-select";
-        select.dataset.equipmentField = "type";
-        select.setAttribute("aria-label", `${slot.displayName} 장비 종류`);
+      function createEquipmentStatePanel({ mode, equipmentTypeId }) {
+        const panel = document.createElement("div");
+        panel.className = `equipment-state-panel equipment-state-panel-${mode}`;
 
-        const emptyOption = document.createElement("option");
-        emptyOption.value = "";
-        emptyOption.textContent = "장비 미지정";
-        select.append(emptyOption);
+        const label = document.createElement("span");
+        label.className = "equipment-state-label";
+        label.textContent = mode === "current" ? "현재 장비" : "목표 장비";
 
-        slot.equipmentTypeIds.forEach((equipmentTypeId) => {
-          const equipmentType = equipmentTypeById.get(equipmentTypeId);
-          const option = document.createElement("option");
-          option.value = equipmentTypeId;
-          option.textContent = equipmentType?.displayName ?? equipmentTypeId;
-          select.append(option);
-        });
+        const visual = document.createElement("div");
+        visual.className = "equipment-visual";
+        visual.dataset.equipmentVisual = mode;
 
-        select.value = defaultEquipmentTypeId;
-        return select;
+        const name = document.createElement("h4");
+        name.className = "equipment-state-name";
+        name.textContent = equipmentTypeById.get(equipmentTypeId)?.displayName ?? "장비 미지정";
+
+        const summary = document.createElement("p");
+        summary.className = "equipment-state-summary";
+        summary.dataset.equipmentSummary = mode;
+
+        const controlGroup = document.createElement("div");
+        controlGroup.className = "equipment-state-controls";
+
+        if (mode === "current") {
+          controlGroup.append(createEquipmentCurrentTierSelect(), createEquipmentCurrentStateSelect());
+        } else {
+          controlGroup.append(createEquipmentTargetTierSelect(), createEquipmentTargetMaxBadge());
+        }
+
+        panel.append(label, visual, name, summary, controlGroup);
+        return panel;
       }
 
-      function createEquipmentCurrentGroup({ label, includeNone, defaultTier }) {
-        const group = document.createElement("div");
-        group.className = "equipment-tier-level-group";
-
-        const groupLabel = document.createElement("span");
-        groupLabel.className = "equipment-control-label";
-        groupLabel.textContent = label;
-
+      function createEquipmentCurrentTierSelect() {
         const tierSelect = document.createElement("select");
         tierSelect.className = "equipment-tier-select";
         tierSelect.dataset.equipmentField = "currentTier";
-        tierSelect.setAttribute("aria-label", `장비 ${label} 티어`);
+        tierSelect.setAttribute("aria-label", "장비 현재 티어");
 
-        if (includeNone) {
-          const noneOption = document.createElement("option");
-          noneOption.value = "none";
-          noneOption.textContent = "미착용";
-          tierSelect.append(noneOption);
-        }
+        const noneOption = document.createElement("option");
+        noneOption.value = "none";
+        noneOption.textContent = "미착용";
+        tierSelect.append(noneOption);
 
         for (let tier = EQUIPMENT_TIER_RANGE.min; tier <= EQUIPMENT_TIER_RANGE.max; tier += 1) {
           const option = document.createElement("option");
@@ -911,8 +911,11 @@
           tierSelect.append(option);
         }
 
-        tierSelect.value = defaultTier;
+        tierSelect.value = "none";
+        return tierSelect;
+      }
 
+      function createEquipmentCurrentStateSelect() {
         const stateSelect = document.createElement("select");
         stateSelect.className = "equipment-state-select";
         stateSelect.dataset.equipmentField = "currentState";
@@ -928,19 +931,10 @@
 
         stateSelect.append(lv1Option, maxOption);
         stateSelect.value = CURRENT_EQUIPMENT_STATES.MAX;
-
-        group.append(groupLabel, tierSelect, stateSelect);
-        return group;
+        return stateSelect;
       }
 
-      function createEquipmentTargetGroup({ label, defaultTier }) {
-        const group = document.createElement("div");
-        group.className = "equipment-tier-level-group";
-
-        const groupLabel = document.createElement("span");
-        groupLabel.className = "equipment-control-label";
-        groupLabel.textContent = label;
-
+      function createEquipmentTargetTierSelect() {
         const tierSelect = document.createElement("select");
         tierSelect.className = "equipment-tier-select";
         tierSelect.dataset.equipmentField = "targetTier";
@@ -949,29 +943,30 @@
         for (let tier = EQUIPMENT_TIER_RANGE.min; tier <= EQUIPMENT_TIER_RANGE.max; tier += 1) {
           const option = document.createElement("option");
           option.value = String(tier);
-          option.textContent = `T${tier} MAX`;
+          option.textContent = `T${tier}`;
           tierSelect.append(option);
         }
 
-        tierSelect.value = defaultTier;
+        tierSelect.value = "1";
+        return tierSelect;
+      }
 
+      function createEquipmentTargetMaxBadge() {
         const targetNote = document.createElement("span");
-        targetNote.className = "equipment-control-label";
+        targetNote.className = "equipment-max-badge";
         targetNote.textContent = "MAX";
-
-        group.append(groupLabel, tierSelect, targetNote);
-        return group;
+        return targetNote;
       }
 
       function updateEquipmentCardState(card, slot) {
-        const typeSelect = card.querySelector("[data-equipment-field='type']");
-        const icon = card.querySelector(".equipment-icon-placeholder");
         const note = card.querySelector(".equipment-slot-note");
-        const equipmentTypeId = typeSelect?.value ?? "";
+        const equipmentTypeId = card.dataset.equipmentTypeId ?? "";
 
-        icon.textContent = getEquipmentIconText(equipmentTypeId);
         note.textContent = getEquipmentSlotNote(slot, equipmentTypeId);
         syncEquipmentCurrentState(card);
+        syncEquipmentTargetTier(card);
+        syncEquipmentControlsAvailability(card);
+        updateEquipmentVisuals(card, equipmentTypeId);
       }
 
       function syncEquipmentCurrentState(card) {
@@ -981,20 +976,87 @@
         currentStateSelect.disabled = currentTierSelect.value === "none";
       }
 
-      function getEquipmentIconText(equipmentTypeId) {
-        return equipmentTypeById.get(equipmentTypeId)?.displayName.slice(0, 1) ?? "장";
+      function syncEquipmentTargetTier(card) {
+        const currentTierSelect = card.querySelector("[data-equipment-field='currentTier']");
+        const targetTierSelect = card.querySelector("[data-equipment-field='targetTier']");
+        const currentTier = getCurrentTierNumber(currentTierSelect.value);
+        const minTargetTier = currentTier === 0 ? EQUIPMENT_TIER_RANGE.min : currentTier;
+
+        [...targetTierSelect.options].forEach((option) => {
+          option.disabled = Number(option.value) < minTargetTier;
+        });
+
+        if (Number(targetTierSelect.value) < minTargetTier) {
+          targetTierSelect.value = String(minTargetTier);
+        }
+      }
+
+      function syncEquipmentControlsAvailability(card) {
+        const hasEquipmentType = Boolean(card.dataset.equipmentTypeId);
+
+        card.querySelectorAll("select").forEach((select) => {
+          select.disabled = !hasEquipmentType || (
+            select.dataset.equipmentField === "currentState" &&
+            card.querySelector("[data-equipment-field='currentTier']")?.value === "none"
+          );
+        });
+      }
+
+      function updateEquipmentVisuals(card, equipmentTypeId) {
+        const currentTierValue = card.querySelector("[data-equipment-field='currentTier']")?.value ?? "none";
+        const currentState = card.querySelector("[data-equipment-field='currentState']")?.value ?? CURRENT_EQUIPMENT_STATES.LV1;
+        const targetTierValue = card.querySelector("[data-equipment-field='targetTier']")?.value ?? "1";
+        const currentTier = getCurrentTierNumber(currentTierValue);
+        const targetTier = Number(targetTierValue);
+
+        setEquipmentVisual(card.querySelector("[data-equipment-visual='current']"), equipmentTypeId, currentTier);
+        setEquipmentVisual(card.querySelector("[data-equipment-visual='target']"), equipmentTypeId, targetTier);
+
+        const currentSummary = card.querySelector("[data-equipment-summary='current']");
+        const targetSummary = card.querySelector("[data-equipment-summary='target']");
+        currentSummary.textContent = currentTier === 0
+          ? "미착용 / 상태 없음"
+          : `T${currentTier} / ${formatEquipmentState(currentState)}`;
+        targetSummary.textContent = equipmentTypeId ? `T${targetTier} / MAX` : "장비 데이터 확인 필요";
+      }
+
+      function setEquipmentVisual(visual, equipmentTypeId, tier) {
+        visual.replaceChildren();
+
+        const equipmentType = equipmentTypeById.get(equipmentTypeId);
+        const imageUrl = tier > 0 ? equipmentType?.iconImageUrlsByTier?.[tier] : null;
+
+        if (imageUrl) {
+          const image = document.createElement("img");
+          image.className = "equipment-image";
+          image.src = imageUrl;
+          image.alt = `${equipmentType.displayName} T${tier}`;
+          visual.append(image);
+          return;
+        }
+
+        const placeholder = document.createElement("div");
+        placeholder.className = "equipment-icon-placeholder";
+        placeholder.setAttribute("aria-hidden", "true");
+        placeholder.textContent = equipmentType?.displayName.slice(0, 1) ?? "확";
+        visual.append(placeholder);
+      }
+
+      function getCurrentTierNumber(value) {
+        return value === "none" ? 0 : Number(value);
+      }
+
+      function formatEquipmentState(state) {
+        return state === CURRENT_EQUIPMENT_STATES.MAX ? "MAX" : "Lv.1";
       }
 
       function getEquipmentSlotNote(slot, equipmentTypeId) {
         if (!equipmentTypeId) {
-          const names = slot.equipmentTypeIds
-            .map((id) => equipmentTypeById.get(id)?.displayName ?? id)
-            .join(", ");
-          return `가능 장비: ${names}`;
+          return `${slot.displayName}의 학생별 장비 데이터 확인이 필요합니다.`;
         }
 
         const name = equipmentTypeById.get(equipmentTypeId)?.displayName ?? equipmentTypeId;
-        return `${name} 승급 재화를 계산합니다. 레벨업 EXP 재화는 추후 공통 테이블 연결 후 계산합니다.`;
+        return `${name}의 현재 상태에서 목표 티어 MAX까지 필요한 장비 재화를 계산합니다.`;
       }
 
       function getEquipmentMaterialResult() {
@@ -1005,7 +1067,7 @@
 
       function getEquipmentSlotStates() {
         return [...document.querySelectorAll("[data-equipment-card='true']")].map((card) => ({
-          equipmentTypeId: card.querySelector("[data-equipment-field='type']")?.value ?? "",
+          equipmentTypeId: card.dataset.equipmentTypeId ?? "",
           currentTier: card.querySelector("[data-equipment-field='currentTier']")?.value ?? "none",
           currentState: card.querySelector("[data-equipment-field='currentState']")?.value ?? CURRENT_EQUIPMENT_STATES.LV1,
           targetTier: card.querySelector("[data-equipment-field='targetTier']")?.value ?? 1,
@@ -1023,11 +1085,12 @@
           targetWeaponStar,
         });
         const skillResults = getSkillMaterialResults();
+        const equipmentResult = getEquipmentMaterialResult();
         const materialMap = new Map();
 
         mergeMaterials(materialMap, levelResult.materials);
         skillResults.forEach((result) => mergeMaterials(materialMap, result.materials));
-        mergeMaterials(materialMap, getEquipmentMaterialResult().materials);
+        mergeMaterials(materialMap, equipmentResult.materials);
 
         if (starResult.elephQuantity > 0) {
           const elephItemId = `${selectedStudent.slug}-eleph`;
@@ -1050,6 +1113,22 @@
 
         if (!skillHasData) {
           cards.push(createMaterialNotice("스킬 재화 데이터가 아직 없습니다."));
+        }
+
+        if (skillResults.some((result) => result.needsReview)) {
+          cards.push(createMaterialNotice("일부 스킬 재화 요구량 구간은 데이터 검수가 필요합니다."));
+        }
+
+        if (levelResult.needsReview) {
+          cards.push(createMaterialNotice("학생 레벨업 EXP 또는 활동 보고서 데이터 검수가 필요합니다."));
+        }
+
+        if (starResult.needsReview) {
+          cards.push(createMaterialNotice("성급/전용무기 요구량 데이터 검수 필요"));
+        }
+
+        if (equipmentResult.needsReview) {
+          cards.push(createMaterialNotice("일부 장비 재화 요구량 구간은 데이터 검수가 필요합니다."));
         }
 
         if (materials.length === 0 && skillHasData) {
@@ -1136,7 +1215,10 @@
         }
 
         const quantity = document.createElement("p");
-        quantity.innerHTML = `필요 수량 <strong>${formatNumber(material.quantity)}</strong>`;
+        const quantityLabel = document.createTextNode("필요 수량 ");
+        const quantityValue = document.createElement("strong");
+        quantityValue.textContent = formatNumber(material.quantity);
+        quantity.append(quantityLabel, quantityValue);
 
         const ownedQuantity = document.createElement("p");
         ownedQuantity.className = "material-owned-quantity";
