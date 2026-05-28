@@ -230,6 +230,7 @@ tech-note
 artifact
 equipment-blueprint
 equipment-enhancement
+weapon-enhancement
 eleph
 gift
 unknown
@@ -303,6 +304,26 @@ equipment-enhancement-stone-normal -> ./images/items/equipment-enhancement-stone
 equipment-enhancement-stone-advanced -> ./images/items/equipment-enhancement-stones/equipment_icon_exp_2.webp
 equipment-enhancement-stone-superior -> ./images/items/equipment-enhancement-stones/equipment_icon_exp_3.webp
 ```
+
+전용무기 강화 파츠는 `type: "weapon-enhancement"`를 사용한다.
+
+```text
+weapon-part-spring-tier1
+weapon-part-spring-tier2
+weapon-part-spring-tier3
+weapon-part-spring-tier4
+weapon-part-hammer-tier1
+weapon-part-hammer-tier2
+weapon-part-hammer-tier3
+weapon-part-hammer-tier4
+weapon-part-barrel-tier1
+weapon-part-barrel-tier2
+weapon-part-barrel-tier3
+weapon-part-barrel-tier4
+```
+
+각 파츠는 `data/growth/exclusiveWeaponEnhancementItems.js`의 EXP 값과 같은 안정 ID를 사용한다.
+이번 비로그인 전용무기 레벨업 계산에서는 공이를 계산하지 않는다.
 
 ## Grade
 

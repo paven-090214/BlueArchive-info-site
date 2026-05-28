@@ -9,12 +9,12 @@
 - 학생 레벨업
 - 스킬 강화
 - 성급 및 전용무기 성급
+- 전용무기 레벨업
 
 아직 계산하지 않는 대상:
 
 - 장비 티어업
 - 애장품
-- 전용무기 레벨업
 - 유저 보유 재화 차감
 
 ## 관련 파일
@@ -32,6 +32,7 @@ styles.css
 utils/characterLevelCalculator.js
 utils/skillMaterialCalculator.js
 utils/starRankCalculator.js
+utils/exclusiveWeaponCalculator.js
 ```
 
 데이터:
@@ -42,6 +43,8 @@ data/characterExpTable.js
 data/activityReports.js
 data/skillMaterialRequirements.js
 data/starRankRequirements.js
+data/growth/exclusiveWeaponLevelCosts.js
+data/growth/exclusiveWeaponEnhancementItems.js
 ```
 
 ## 전체 흐름
@@ -79,6 +82,7 @@ URL은 공유와 접근성을 위해 slug를 사용하고, 내부 계산 데이�
 | --- | --- | --- |
 | 학생 레벨 | 임시로 1 | 화면의 목표 학생 레벨 입력 |
 | 기본 성급 | `students.js`의 `baseStar` | 별 UI에서 선택한 기본 성급 |
+| 전용무기 레벨 | 임시로 1 | 목표 전용무기 성급에 따른 최대 레벨 |
 | 스킬 레벨 | 스킬 카드의 현재 레벨 select | 스킬 카드의 목표 레벨 select |
 
 ## 레벨업 계산
@@ -228,6 +232,58 @@ kei-eleph
 ```text
 레벨업 크레딧 + 스킬 강화 크레딧 = 크레딧 카드 1개
 ```
+
+## 전용무기 레벨업 계산
+
+함수:
+
+```js
+calculateExclusiveWeaponMaterials({
+  weaponType,
+  targetWeaponStar
+})
+```
+
+데이터:
+
+```text
+data/growth/exclusiveWeaponLevelCosts.js
+data/growth/exclusiveWeaponEnhancementItems.js
+```
+
+현재 전용무기 레벨은 별도 저장 UI가 없으므로 Lv.1로 고정한다.
+목표 전용무기 성급이 없으면 전용무기 레벨업 재화는 계산하지 않는다.
+
+목표 전용무기 성급별 목표 레벨:
+
+| 목표 전용무기 성급 | 목표 레벨 |
+| --- | --- |
+| 1성 | Lv.30 |
+| 2성 | Lv.40 |
+| 3성 | Lv.50 |
+| 4성 | Lv.60 |
+
+예를 들어 목표가 전용무기 1성이면 Lv.1 -> Lv.30까지 계산한다.
+계산은 레벨 비용 데이터에서 `1 -> 2`부터 `29 -> 30`까지의 행을 합산한다.
+
+전용무기 강화 재료 계산:
+
+- 학생의 `weaponType`이 `bonusWeaponTypes`에 포함된 전용 파츠만 사용한다.
+- 이번 단계에서는 비로그인 기준이므로 공이는 계산하지 않는다.
+- 재료 사용 순서는 `tierOrder` 역순이다.
+- 표시 순서와 계산 순서는 티타늄 -> 크로뮴 -> 온전한 -> 녹슨이다.
+- 각 재료의 EXP는 `baseExp * bonusMultiplier`의 effective EXP를 사용한다.
+- 필요한 EXP를 초과하면 초과분은 `overExp`로 남긴다.
+
+전용무기 강화 재료 안정 ID:
+
+```text
+weapon-part-spring-tier1 ~ weapon-part-spring-tier4
+weapon-part-hammer-tier1 ~ weapon-part-hammer-tier4
+weapon-part-barrel-tier1 ~ weapon-part-barrel-tier4
+```
+
+로그인 유저의 보유 공이 우선 사용과 보유 재화 차감 계산은 이후 단계에서 구현한다.
 
 ## 화면 표시
 

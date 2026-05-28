@@ -426,6 +426,7 @@
         EQUIPMENT_TIER_RANGE,
         calculateStudentEquipmentMaterials,
       } from "./utils/equipmentCalculator.js";
+      import { calculateExclusiveWeaponMaterials } from "./utils/exclusiveWeaponCalculator.js";
       import { loadOwnedMaterialQuantityMap } from "./utils/materialStorage.js";
       import { calculateSkillMaterials, SKILL_LEVEL_RANGES } from "./utils/skillMaterialCalculator.js";
       import { calculateStarRankEleph } from "./utils/starRankCalculator.js";
@@ -1356,11 +1357,13 @@
         });
         const skillResults = getSkillMaterialResults();
         const equipmentResult = getEquipmentMaterialResult();
+        const exclusiveWeaponResult = getExclusiveWeaponMaterialResult();
         const materialMap = new Map();
 
         mergeMaterials(materialMap, levelResult.materials);
         skillResults.forEach((result) => mergeMaterials(materialMap, result.materials));
         mergeMaterials(materialMap, equipmentResult.materials);
+        mergeMaterials(materialMap, exclusiveWeaponResult.materials);
 
         if (starResult.elephQuantity > 0) {
           const elephItemId = `${selectedStudent.slug}-eleph`;
@@ -1401,11 +1404,26 @@
           cards.push(createMaterialNotice("일부 장비 재화 요구량 구간은 데이터 검수가 필요합니다."));
         }
 
+        if (exclusiveWeaponResult.needsReview) {
+          cards.push(createMaterialNotice("전용무기 강화 재화 데이터 검수가 필요합니다."));
+        }
+
+        if (exclusiveWeaponResult.overExp > 0) {
+          cards.push(createMaterialNotice(`전용무기 강화 재료 초과 EXP ${formatNumber(exclusiveWeaponResult.overExp)}가 발생합니다.`));
+        }
+
         if (materials.length === 0 && skillHasData) {
           cards.push(createMaterialNotice("선택한 성장 구간에 필요한 재화가 없습니다."));
         }
 
         materialList.replaceChildren(...cards);
+      }
+
+      function getExclusiveWeaponMaterialResult() {
+        return calculateExclusiveWeaponMaterials({
+          weaponType: selectedStudent.weaponType,
+          targetWeaponStar,
+        });
       }
 
       function getSkillMaterialResults() {
