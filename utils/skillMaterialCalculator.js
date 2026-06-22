@@ -1,5 +1,3 @@
-import { skillMaterialRequirements } from "../data/skillMaterialRequirements.js";
-
 export const SKILL_LEVEL_RANGES = {
   ex: { min: 1, max: 5 },
   normal: { min: 1, max: 10 },
@@ -12,7 +10,7 @@ export function calculateSkillMaterials({
   skillType,
   currentLevel,
   targetLevel,
-  requirements = skillMaterialRequirements,
+  requirements = [],
 }) {
   const range = SKILL_LEVEL_RANGES[skillType];
 

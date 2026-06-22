@@ -89,4 +89,22 @@ export const studentSkillsByStudentId = {
     },
     needsReview: true,
   },
+  15: {
+    studentId: 15,
+    skills: {
+      ex: {
+        variants: [],
+      },
+      basic: {
+        variants: [],
+      },
+      passive: {
+        variants: [],
+      },
+      sub: {
+        variants: [],
+      },
+    },
+    needsReview: true,
+  },
 };

@@ -32,5 +32,16 @@ export const exclusiveWeapons = {
         }
       ]
     }
-  }
+  },
+  "yuuka-track": {
+    studentId: 15,
+    name: null,
+    image: null,
+    description: null,
+    weaponType: null,
+    stats: {},
+    starEffects: [],
+    enhancedSkill: null,
+    needsReview: true,
+  },
 };

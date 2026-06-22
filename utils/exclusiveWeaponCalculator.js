@@ -96,7 +96,7 @@ export function calculateExclusiveWeaponEnhancementItems({
 
   const matchedItems = enhancementItems
     .filter((item) => !item.isUniversalBonus)
-    .filter((item) => item.bonusWeaponTypes.includes(weaponType))
+    .filter((item) => canUseEnhancementItemForWeaponType(item, weaponType))
     .map((item) => ({
       ...item,
       effectiveExp: Math.trunc(item.baseExp * item.bonusMultiplier),
@@ -152,6 +152,10 @@ export function calculateExclusiveWeaponEnhancementItems({
     materials,
     needsReview: false,
   };
+}
+
+export function canUseEnhancementItemForWeaponType(item, weaponType) {
+  return item.bonusWeaponTypes.includes("ALL") || item.bonusWeaponTypes.includes(weaponType);
 }
 
 function createEmptyResult({ weaponType, currentLevel, targetLevel, targetWeaponStar, needsReview }) {

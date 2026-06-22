@@ -162,6 +162,46 @@ Do not modify raw/source files unless explicitly asked.
 
 ---
 
+## Current Component Structure
+
+```text
+Static pages
+- index.html: main page
+- characters.html: student list page
+- character-detail.html: student detail page and current inline render logic
+- academy-detail.html: academy detail page
+- pickup-history.html: pickup archive page
+- bond-calculator.html: bond calculator page
+
+Shared style
+- styles.css: global layout, cards, character detail panels, calculator UI styles
+
+Student detail data
+- data/students.js: student base profile, display slug, basic combat/profile fields, image paths
+- data/student-skills.js: student skill display data keyed by numeric student id
+- data/exclusive-weapons.js: exclusive weapon display data keyed by student slug or id
+- data/student-unique-items.js: unique item/favorite item data keyed by numeric student id
+- data/student-equipment.js: student equipment slot data keyed by student slug
+- data/student-terrain-adaptations.js: terrain adaptation data keyed by numeric student id with slug fallback
+- data/items.js: stable item master, including eleph and material item IDs
+- data/index.js: central export surface for data modules used by pages
+
+Student detail utilities
+- utils/characterLevelCalculator.js: student level material calculation
+- utils/skillMaterialCalculator.js: skill material calculation by numeric student id
+- utils/starRankCalculator.js: base star and exclusive weapon star eleph calculation
+- utils/equipmentCalculator.js: equipment material calculation
+- utils/exclusiveWeaponCalculator.js: exclusive weapon level material calculation
+- utils/userInventoryStorage.js: localStorage user inventory lookup layer
+- utils/materialStorage.js: compatibility re-export for the user inventory lookup layer
+
+Source and temporary data
+- sources/students/*.extracted.json: extracted source data used for manual mapping into stable data files
+- data/raw/rawItems.js: raw item source data, not used directly by calculators
+```
+
+---
+
 ## Documentation Rules
 
 When UI or data structure changes, update the related document.

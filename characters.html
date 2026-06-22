@@ -25,11 +25,19 @@
         <button class="site-search-button" type="submit" aria-label="검색 실행">🔍</button>
       </form>
 
-      <nav class="header-auth" aria-label="계정 메뉴">
-        <a href="#" class="header-auth-link">로그인</a>
-        <span aria-hidden="true">|</span>
-        <a href="#" class="header-auth-link">회원가입</a>
-      </nav>
+      <div class="header-actions">
+        <div class="site-language-toggle" aria-label="표시 언어">
+          <button class="site-language-button is-active" type="button" data-language-button="ko">한국어</button>
+          <button class="site-language-button" type="button" data-language-button="en">English</button>
+          <button class="site-language-button" type="button" data-language-button="jp">日本語</button>
+        </div>
+
+        <nav class="header-auth" aria-label="계정 메뉴">
+          <a href="#" class="header-auth-link">로그인</a>
+          <span aria-hidden="true">|</span>
+          <a href="#" class="header-auth-link">회원가입</a>
+        </nav>
+      </div>
     </header>
 
     <main class="page-shell characters-shell">
@@ -46,7 +54,7 @@
               id="character-name-search"
               class="character-search-input"
               type="search"
-              placeholder="학생 이름 검색"
+              placeholder="학생 이름 또는 영문명 검색"
               autocomplete="off"
             />
           </div>
@@ -119,7 +127,7 @@
           <div class="panel-heading">
             <p class="eyebrow">STUDENTS</p>
             <h1>학생 목록</h1>
-            <p>현재는 임시 학생 데이터로 카드와 필터만 표시합니다. 실제 DB 연동은 이후 단계에서 진행합니다.</p>
+            <p>SchaleDB 기준 학생 데이터를 불러와 카드와 필터를 표시합니다.</p>
           </div>
 
           <div id="characters-list" class="characters-list"></div>
@@ -127,232 +135,6 @@
       </div>
     </main>
 
-    <script type="module">
-      import { academies, clubs, students } from "./data/index.js";
-
-      const charactersList = document.querySelector("#characters-list");
-      const filterForm = document.querySelector("#character-filter-form");
-      const academyFilter = document.querySelector("#academy-filter");
-      const clubFilter = document.querySelector("#club-filter");
-      const baseStarFilter = document.querySelector("#base-star-filter");
-      const attackFilter = document.querySelector("#attack-filter");
-      const defenseFilter = document.querySelector("#defense-filter");
-      const roleFilter = document.querySelector("#role-filter");
-      const positionFilter = document.querySelector("#position-filter");
-      const combatClassFilter = document.querySelector("#combat-class-filter");
-      const nameSearchInput = document.querySelector("#character-name-search");
-      const STAR_ICON_URL = "./images/icon/Icon_star.webp";
-
-      function getAcademyName(slug) {
-        return academies.find((academy) => academy.slug === slug)?.shortName || "임시 학원";
-      }
-
-      function getClubName(clubId) {
-        return clubs.find((club) => club.id === clubId)?.name || "임시 동아리";
-      }
-
-      function createCharacterCard(student) {
-        const link = document.createElement("a");
-        link.className = "student-list-card";
-        link.href = `character-detail.html?id=${student.slug}`;
-
-        const portrait = document.createElement("div");
-        portrait.className = `student-list-portrait ${student.portraitClass || "aru"}`;
-        const portraitImageUrl = student.portraitImageUrl || student.profileImageUrl;
-
-        if (portraitImageUrl) {
-          const image = document.createElement("img");
-          image.src = portraitImageUrl;
-          image.alt = `${student.name} 대표 이미지`;
-          image.loading = "lazy";
-          portrait.append(image);
-        } else {
-          portrait.textContent = student.name;
-        }
-
-        const content = document.createElement("div");
-        content.className = "student-list-card-content";
-
-        const titleRow = document.createElement("div");
-        titleRow.className = "student-list-title-row";
-        const name = document.createElement("h3");
-        const baseStar = getStudentBaseStar(student);
-        const baseStarIcons = renderStarIcons(baseStar, "student", `기본 성급 ${baseStar}성`);
-
-        const club = document.createElement("p");
-        club.className = "student-list-club";
-        club.textContent = `${getAcademyName(student.academySlug)} · ${getClubName(student.clubId)}`;
-
-        const detailList = document.createElement("dl");
-        detailList.className = "student-id-detail-list";
-
-        const roleItem = createTextDetail("역할", student.role);
-        const attackItem = createBadgeDetail("공격 타입", student.attackType, "attack");
-        const defenseItem = createBadgeDetail("방어 타입", student.defenseType, "defense");
-
-        name.textContent = student.name;
-        titleRow.append(name, baseStarIcons);
-
-        detailList.append(roleItem, attackItem, defenseItem);
-
-        content.append(titleRow, club, detailList);
-
-        link.append(portrait, content);
-        return link;
-      }
-
-      function getStudentBaseStar(student) {
-        return Number(student.baseStar ?? 0);
-      }
-
-      function createStarIcon() {
-        const image = document.createElement("img");
-        image.className = `star-icon student-star-icon`;
-        image.src = STAR_ICON_URL;
-        image.alt = "";
-        image.setAttribute("aria-hidden", "true");
-        return image;
-      }
-
-      function renderStarIcons(count, ariaLabel) {
-        const list = document.createElement("span");
-        list.className = `star-icon-list student-star-icon-list`;
-        list.setAttribute("aria-label", ariaLabel);
-
-        for (let index = 0; index < count; index += 1) {
-          list.append(createStarIcon());
-        }
-
-        return list;
-      }
-
-      function createTextDetail(label, value) {
-        const item = document.createElement("div");
-        const term = document.createElement("dt");
-        const description = document.createElement("dd");
-        term.textContent = label;
-        description.textContent = value;
-        item.append(term, description);
-        return item;
-      }
-
-      function createBadgeDetail(label, value, type) {
-        const item = document.createElement("div");
-        const term = document.createElement("dt");
-        const description = document.createElement("dd");
-        const badge = document.createElement("span");
-        term.textContent = label;
-        badge.className = `type-badge ${type}-${getTypeClass(value)}`;
-        badge.textContent = value;
-        description.append(badge);
-        item.append(term, description);
-        return item;
-      }
-
-      function getTypeClass(value) {
-        const typeMap = {
-          "폭발": "red",
-          "경장갑": "red",
-          "관통": "yellow",
-          "중장갑": "yellow",
-          "신비": "blue",
-          "특수장갑": "blue",
-          "진동": "purple",
-          "탄력장갑": "purple",
-        };
-
-        return typeMap[value] || "neutral";
-      }
-
-      function addOptions(select, values) {
-        values.forEach((value) => {
-          const option = document.createElement("option");
-          option.value = value;
-          option.textContent = value;
-          select.append(option);
-        });
-      }
-
-      function addAcademyOptions() {
-        academies.forEach((academy) => {
-          const option = document.createElement("option");
-          option.value = academy.slug;
-          option.textContent = academy.shortName;
-          academyFilter.append(option);
-        });
-      }
-
-      function addClubOptions(academySlug = "") {
-        const selectedClubValue = clubFilter.value;
-        const filteredClubs = academySlug
-          ? clubs.filter((club) => club.academySlug === academySlug)
-          : clubs;
-
-        clubFilter.replaceChildren(new Option("전체", ""));
-
-        filteredClubs.forEach((club) => {
-          const option = document.createElement("option");
-          option.value = club.id;
-          option.textContent = club.name;
-          clubFilter.append(option);
-        });
-      }
-
-      function renderCharacters() {
-        const filterValues = {
-          nameKeyword: nameSearchInput.value.trim(),
-          academySlug: academyFilter.value,
-          clubId: clubFilter.value,
-          baseStar: baseStarFilter.value,
-          attackType: attackFilter.value,
-          defenseType: defenseFilter.value,
-          role: roleFilter.value,
-          position : positionFilter.value,
-          combatClass : combatClassFilter.value
-        };
-
-        const filteredStudents = students.filter((student) => {
-          return (
-            (!filterValues.nameKeyword || student.name.includes(filterValues.nameKeyword)) &&
-            (!filterValues.academySlug || student.academySlug === filterValues.academySlug) &&
-            (!filterValues.clubId || student.clubId === filterValues.clubId) &&
-            (!filterValues.baseStar || String(getStudentBaseStar(student)) === filterValues.baseStar) &&
-            (!filterValues.attackType || student.attackType === filterValues.attackType) &&
-            (!filterValues.defenseType || student.defenseType === filterValues.defenseType) &&
-            (!filterValues.role || student.role === filterValues.role) &&
-            (!filterValues.position || student.position === filterValues.position) &&
-            (!filterValues.combatClass || student.combatClass === filterValues.combatClass)
-          );
-        });
-
-        if (filteredStudents.length === 0) {
-          const emptyMessage = document.createElement("p");
-          emptyMessage.className = "search-empty";
-          emptyMessage.textContent = "조건에 맞는 학생이 없습니다.";
-          charactersList.replaceChildren(emptyMessage);
-          return;
-        }
-
-        charactersList.replaceChildren(...filteredStudents.map(createCharacterCard));
-      }
-
-      addAcademyOptions();
-      addClubOptions();
-      addOptions(attackFilter, [...new Set(students.map((student) => student.attackType))]);
-      addOptions(defenseFilter, [...new Set(students.map((student) => student.defenseType))]);
-      addOptions(roleFilter, [...new Set(students.map((student) => student.role))]);
-      addOptions(positionFilter, [...new Set(students.map((student) => student.position))]);
-      addOptions(combatClassFilter, [...new Set(students.map((student) => student.combatClass))]);
-
-      academyFilter.addEventListener("change", () => {
-        addClubOptions(academyFilter.value);
-        // renderCharacters();
-      });
-
-      nameSearchInput.addEventListener("input", renderCharacters);
-      filterForm.addEventListener("change", renderCharacters);
-
-      renderCharacters();
-    </script>
+    <script type="module" src="./pages/charactersPage.js"></script>
   </body>
 </html>

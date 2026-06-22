@@ -51,6 +51,18 @@
 - 전용무기 2성 강화 문구는 전용무기 데이터의 `enhancedSkill.target.slot`과 `enhancedSkill.target.variantId`로 학생 스킬 variants를 찾아 자동 생성한다.
 - 전용무기 2성 강화 문구는 `enhancedSkill.nameOverride`가 있으면 이를 우선 사용하고, 없으면 `${skill.name}+로 강화` 형식으로 표시한다.
 
+### SchaleDB 학생 상세 데이터
+
+- 학생 기본 지역 적성은 SchaleDB raw student의 `StreetBattleAdaptation`, `OutdoorBattleAdaptation`, `IndoorBattleAdaptation` 값을 사용한다.
+- SchaleDB 지역 적성 숫자는 `0=D`, `1=C`, `2=B`, `3=A`, `4=S`, `5=SS` 표시 랭크로 변환한다.
+- 애장품은 SchaleDB raw student의 `Gear`를 사용한다.
+- `Gear.Name`이 있는 경우에만 애장품이 존재하는 것으로 보고, 빈 객체이거나 이름이 없으면 `null`로 처리한다.
+- 전용무기 3성 지역 적성 상승은 `Weapon.AdaptationType`과 `Weapon.AdaptationValue`를 사용한다.
+- 전용무기 4성 효과는 SchaleDB raw에 별도 필드가 없으므로 `SquadType`과 `BulletType` 기준으로 계산한다.
+- `SquadType`이 `Main`이면 학생의 공격 타입에 맞는 특효 가산 `+10%`를 표시한다.
+- `SquadType`이 `Support`이면 최대 코스트 `+0.5`를 표시한다.
+- raw 값이 없거나 판정할 수 없는 경우에는 임의 값을 만들지 않고 검수 필요 상태로 둔다.
+
 ## 추가할 기능
 - 학생 상세 URL은 접근성을 위해 `slug`를 사용하고, 계산 데이터와 저장 데이터 연결은 `students.js`의 숫자 `id`를 우선 사용한다.
 - 스킬영역에서 사용자가 현재 레벨이 3인데 목표레벨은 3이하게 될 수 없다.
