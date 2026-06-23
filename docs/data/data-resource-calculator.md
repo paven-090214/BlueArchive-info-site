@@ -230,6 +230,7 @@ tech-note
 artifact
 equipment-blueprint
 equipment-enhancement
+weapon-enhancement
 eleph
 gift
 unknown
@@ -303,6 +304,26 @@ equipment-enhancement-stone-normal -> ./images/items/equipment-enhancement-stone
 equipment-enhancement-stone-advanced -> ./images/items/equipment-enhancement-stones/equipment_icon_exp_2.webp
 equipment-enhancement-stone-superior -> ./images/items/equipment-enhancement-stones/equipment_icon_exp_3.webp
 ```
+
+전용무기 강화 파츠는 `type: "weapon-enhancement"`를 사용한다.
+
+```text
+weapon-part-spring-tier1
+weapon-part-spring-tier2
+weapon-part-spring-tier3
+weapon-part-spring-tier4
+weapon-part-hammer-tier1
+weapon-part-hammer-tier2
+weapon-part-hammer-tier3
+weapon-part-hammer-tier4
+weapon-part-barrel-tier1
+weapon-part-barrel-tier2
+weapon-part-barrel-tier3
+weapon-part-barrel-tier4
+```
+
+각 파츠는 `data/growth/exclusiveWeaponEnhancementItems.js`의 EXP 값과 같은 안정 ID를 사용한다.
+이번 비로그인 전용무기 레벨업 계산에서는 공이를 계산하지 않는다.
 
 ## Grade
 
@@ -642,6 +663,45 @@ images/items/eleph/hifumi-eleph.png
 
 요구량 데이터는 성장 재화 연결 데이터와 분리한다.
 
+## 능력개방 재화 연결
+
+학생 상세 페이지의 능력개방 계산은 `utils/abilityUnlockCalculator.js`에서 처리한다.
+
+계산 함수:
+
+```js
+calculateAbilityUnlockMaterials({
+  student,
+  abilityUnlockState,
+  itemsById,
+  inventory
+})
+```
+
+`abilityUnlockState`는 보너스별 현재 단계와 목표 단계를 가진다.
+
+```js
+{
+  maxHpBonus: { currentLevel: 0, targetLevel: 0 },
+  attackBonus: { currentLevel: 0, targetLevel: 0 },
+  healBonus: { currentLevel: 0, targetLevel: 0 }
+}
+```
+
+보너스별 WB 재화 매핑:
+
+| 보너스 | 재화 |
+| --- | --- |
+| 최대체력 보너스 | 교양 체육 WB |
+| 공격력 보너스 | 교양 사격 WB |
+| 치유력 보너스 | 교양 위생 WB |
+
+WB itemId는 계산 함수에 전달된 `itemsById`에서 이름 또는 아이콘 이름으로 찾는다.
+확인 가능한 item을 찾지 못하면 임의 itemId를 만들지 않고 `needsReview: true`로 표시한다.
+
+능력개방 계산 함수는 `fetch`, DOM 조작, `localStorage` 읽기를 직접 수행하지 않는다.
+유저 보유 수량은 호출자가 `inventory`로 전달한다.
+
 스킬 강화 요구량:
 
 ```text
@@ -651,6 +711,7 @@ data/skillMaterialRequirements.js
 스킬 강화 요구량의 `studentId`는 URL slug가 아니라 `students.js`의 숫자 `id`를 사용한다.  
 예: 케이는 `slug: "kei"`로 상세 페이지에 접근하지만, 스킬 재화 요구량은 `studentId: 10`으로 연결한다.
 스킬 강화 요구량에서 오파츠 재화는 `data/ooparts-candidates.js`의 `id`를 `itemId`로 사용한다.
+스킬 강화 계산에서 요청한 레벨 구간의 요구량 row가 일부 누락되면 `missingRows`와 `needsReview: true`로 반환하고, 학생 상세 화면은 검수 필요 안내를 표시한다.
 
 스킬 강화 재화 계산 규칙:
 

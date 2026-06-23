@@ -1,6 +1,4 @@
-node_modules/
-dist/
-build/
-.vite/
+﻿.vite/
 .env
-.DS_Storesources/
+.DS_Store
+/sources/

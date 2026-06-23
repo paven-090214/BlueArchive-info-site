@@ -128,7 +128,6 @@ a {
 }
 
 .header-auth {
-  grid-area: auth;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -225,6 +224,15 @@ a {
   color: #ffffff;
   font-weight: 900;
   object-fit: contain;
+}
+
+.header-actions {
+  grid-area: auth;
+  display: inline-flex;
+  align-items: center;
+  justify-self: end;
+  gap: 14px;
+  min-width: 0;
 }
 
 .search-empty {
@@ -508,12 +516,15 @@ p {
   position: sticky;
   top: 100px;
   min-height: auto;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .character-search {
   display: grid;
   gap: 8px;
   margin-bottom: 16px;
+  min-width: 0;
 }
 
 .character-search-label {
@@ -523,7 +534,9 @@ p {
 }
 
 .character-search-input {
+  box-sizing: border-box;
   width: 100%;
+  max-width: 100%;
   min-height: 44px;
   padding: 10px 14px;
   border: 1px solid var(--line);
@@ -542,6 +555,56 @@ p {
 .character-filter-form {
   display: grid;
   gap: 14px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.character-filter-form label {
+  display: grid;
+  min-width: 0;
+  gap: 8px;
+}
+
+.character-filter-form select {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.site-language-toggle {
+  display: inline-grid;
+  grid-template-columns: repeat(3, minmax(0, auto));
+  gap: 8px;
+  min-width: 0;
+}
+
+.site-language-button {
+  min-width: 0;
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.site-language-button.is-active {
+  border-color: var(--blue);
+  background: rgba(45, 143, 227, 0.1);
+  color: var(--blue-dark);
+}
+
+.character-filter-panel :where(input, select) {
+  display: block;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  min-inline-size: 0;
 }
 
 .filter-star-label {
@@ -1465,6 +1528,40 @@ select {
   align-items: start;
 }
 
+.character-form-switcher {
+  margin-bottom: 18px;
+}
+
+.character-form-heading {
+  align-items: center;
+}
+
+.character-form-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.character-form-button {
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.character-form-button.is-active {
+  border-color: var(--blue);
+  background: rgba(45, 143, 227, 0.12);
+  color: var(--blue-dark);
+}
+
 .character-profile-panel,
 .character-info-panel {
   min-height: auto;
@@ -1688,7 +1785,7 @@ select {
   font-weight: 800;
 }
 
-.character-detail-stack {
+.character-detail-sections {
   display: grid;
   gap: 18px;
   margin-top: 18px;
@@ -1696,13 +1793,69 @@ select {
 
 .character-skill-panel,
 .student-level-panel,
-.character-stat-panel,
 .required-material-panel,
 .exclusive-weapon-panel,
 .equipment-panel,
+.ability-unlock-panel,
 .favorite-item-panel,
 .memorial-panel {
   min-height: auto;
+}
+
+.required-material-details {
+  display: grid;
+  gap: 14px;
+}
+
+.required-material-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.required-material-summary::-webkit-details-marker {
+  display: none;
+}
+
+.required-material-summary .eyebrow {
+  display: block;
+  margin-bottom: 0;
+}
+
+.required-material-summary::after {
+  content: "펼치기";
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--blue-dark);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.required-material-details[open] .required-material-summary::after {
+  content: "접기";
+}
+
+.required-material-title {
+  display: block;
+  margin-top: 4px;
+  color: #17324d;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.required-material-count {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .skill-list {
@@ -1720,8 +1873,7 @@ select {
 }
 
 .skill-card-body,
-.material-card,
-.equipment-card {
+.material-card {
   display: grid;
   grid-template-columns: 58px minmax(0, 1fr);
   gap: 12px;
@@ -1734,6 +1886,11 @@ select {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface-soft);
+}
+
+.equipment-card {
+  display: grid;
+  gap: 14px;
 }
 
 .skill-title-row,
@@ -1750,6 +1907,25 @@ select {
   flex-wrap: wrap;
   gap: 8px;
   justify-content: flex-end;
+}
+
+.equipment-control-group {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  max-width: 560px;
+}
+
+.ability-unlock-list {
+  display: grid;
+  gap: 12px;
+}
+
+.ability-unlock-control-group {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-width: 420px;
 }
 
 .compact-field {
@@ -1771,6 +1947,44 @@ select {
 .material-card p,
 .equipment-card p {
   margin-bottom: 0;
+  font-size: 14px;
+}
+
+.skill-name {
+  color: #17324d;
+  font-weight: 900;
+}
+
+.skill-review-note {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.skill-variant-list,
+.enhanced-skill-section {
+  display: grid;
+  gap: 10px;
+}
+
+.skill-info-block {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.skill-info-block + .skill-info-block {
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.enhanced-skill-section {
+  margin-top: 10px;
+}
+
+.enhanced-skill-section h4 {
+  margin: 0;
+  color: #17324d;
   font-size: 14px;
 }
 
@@ -1798,6 +2012,19 @@ select {
   font-weight: 900;
 }
 
+.student-form-count-badge {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-height: 24px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(45, 143, 227, 0.1);
+  color: var(--blue-dark);
+  font-size: 12px;
+  font-weight: 900;
+}
+
 .material-empty-message {
   margin: 0;
   padding: 14px;
@@ -1810,7 +2037,6 @@ select {
 }
 
 .skill-level-select,
-.equipment-type-select,
 .equipment-state-select,
 .equipment-tier-select {
   flex: 0 0 auto;
@@ -1822,7 +2048,6 @@ select {
 }
 
 .skill-level-select:focus,
-.equipment-type-select:focus,
 .equipment-tier-select:focus,
 .equipment-state-select:focus,
 .student-level-control input:focus,
@@ -1850,6 +2075,116 @@ select {
 .equipment-icon-placeholder {
   width: 58px;
   height: 58px;
+}
+
+.equipment-image {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+
+.equipment-visual-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.equipment-visual-row::after {
+  content: "→";
+  order: 2;
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.equipment-visual-row .equipment-visual:first-child {
+  order: 1;
+}
+
+.equipment-visual-row .equipment-visual:last-child {
+  order: 3;
+}
+
+.equipment-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 118px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.equipment-visual-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.equipment-visual-copy strong {
+  color: #17324d;
+  font-size: 15px;
+}
+
+.equipment-visual .equipment-icon-placeholder {
+  width: 72px;
+  height: 72px;
+}
+
+.material-image {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+}
+
+.equipment-slot-material-list {
+  display: grid;
+  gap: 8px;
+}
+
+.equipment-slot-material {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+}
+
+.equipment-slot-material .material-image,
+.equipment-slot-material .material-image-placeholder {
+  width: 42px;
+  height: 42px;
+}
+
+.equipment-slot-material-content {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  font-size: 12px;
+}
+
+.equipment-slot-material-content strong {
+  overflow-wrap: anywhere;
+  color: #27435d;
+}
+
+.equipment-review-note {
+  color: #76521a;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.equipment-visual.is-unequipped .equipment-image {
+  opacity: 0.38;
+  filter: grayscale(0.35) saturate(0.72);
 }
 
 .material-image {
@@ -1957,6 +2292,11 @@ select {
   height: 20px;
 }
 
+.star-button:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
 .student-star.is-active {
   background: transparent;
 }
@@ -1991,17 +2331,56 @@ select {
   gap: 12px;
 }
 
-.equipment-upgrade-controls {
+.equipment-comparison-controls {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 12px;
   margin-top: 12px;
 }
 
-.equipment-tier-level-group {
+.equipment-state-panel {
   display: grid;
-  grid-template-columns: minmax(42px, auto) minmax(86px, 1fr) minmax(72px, 0.8fr);
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 8px;
   align-items: center;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.equipment-state-label {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.equipment-state-panel .equipment-visual {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+}
+
+.equipment-state-name {
+  margin: 0;
+  color: var(--blue-dark);
+  font-size: 15px;
+}
+
+.equipment-state-summary {
+  grid-column: 2;
+  margin: -4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.equipment-state-controls {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(76px, auto);
   gap: 8px;
 }
 
@@ -2011,8 +2390,31 @@ select {
   font-weight: 800;
 }
 
-.equipment-type-select {
-  max-width: 150px;
+.equipment-fixed-type-badge,
+.equipment-max-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #eaf4ff;
+  color: var(--blue-dark);
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.equipment-fixed-type-badge.is-review {
+  background: #fff7e6;
+  color: #76521a;
+}
+
+.equipment-max-badge {
+  min-height: 36px;
+  border: 1px solid var(--line);
+  background: var(--surface-soft);
+  color: var(--muted);
 }
 
 .equipment-state-select {
@@ -2020,26 +2422,6 @@ select {
   min-height: 36px;
   padding-block: 6px;
   font-size: 13px;
-}
-
-.stat-grid {
-  display: grid;
-  gap: 10px;
-  margin: 0;
-}
-
-.stat-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.stat-grid div {
-  padding: 13px 14px;
-  border-radius: 8px;
-  background: var(--surface-soft);
-}
-
-.stat-grid dd {
-  color: #27435d;
 }
 
 .memorial-placeholder {
@@ -2063,6 +2445,20 @@ select {
   font-size: 24px;
   font-weight: 900;
   text-shadow: 0 3px 14px rgba(0, 0, 0, 0.26);
+}
+
+.memorial-placeholder.has-media {
+  background: #ffffff;
+  color: inherit;
+  text-shadow: none;
+}
+
+.memorial-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  object-fit: contain;
 }
 
 .material-list {
@@ -2111,25 +2507,54 @@ select {
   font-size: 34px;
 }
 
+.weapon-image-placeholder.has-weapon-image {
+  background: #ffffff;
+  color: inherit;
+}
+
+.weapon-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .weapon-star-row {
-  margin: 8px 0 12px;
+  flex-wrap: nowrap;
+  align-self: start;
+  min-width: max-content;
+  margin: 0;
 }
 
 .weapon-rank-star {
-  display: grid;
-  place-items: center;
   width: 32px;
   height: 32px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #ffffff;
-  color: #b5c0cc;
-  font-size: 18px;
-  font-weight: 900;
+  object-fit: contain;
 }
 
 .weapon-effect-card {
   background: #ffffff;
+}
+
+.weapon-effect-card .skill-card-body {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+}
+
+.weapon-effect-card .skill-content {
+  min-width: 0;
+}
+
+.weapon-effect-card .skill-content p {
+  margin: 0;
+}
+
+.weapon-effect-card .skill-content p + p {
+  margin-top: 5px;
+}
+
+.weapon-stat-growth {
+  color: #27435d;
+  font-weight: 800;
 }
 
 .bond-calculator-shell {
@@ -2775,10 +3200,6 @@ select {
     grid-template-columns: 1fr;
   }
 
-  .stat-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .terrain-aptitude-list {
     grid-template-columns: repeat(3, minmax(110px, 1fr));
     overflow-x: auto;
@@ -2851,6 +3272,12 @@ select {
   .site-search {
     width: 100%;
     justify-self: stretch;
+  }
+
+  .header-actions {
+    justify-self: stretch;
+    justify-content: space-between;
+    width: 100%;
   }
 
   .student-suggestions {
@@ -2965,7 +3392,6 @@ select {
     grid-template-columns: 1fr;
   }
 
-  .stat-grid,
   .material-list,
   .exclusive-weapon-layout {
     grid-template-columns: 1fr;
@@ -2976,15 +3402,46 @@ select {
     grid-template-columns: 1fr;
   }
 
-  .skill-card-body,
-  .equipment-card {
+  .skill-card-body {
     grid-template-columns: 48px minmax(0, 1fr);
   }
 
   .skill-icon-placeholder,
-  .equipment-icon-placeholder {
+  .equipment-icon-placeholder,
+  .equipment-image,
+  .equipment-state-panel .equipment-visual {
     width: 48px;
     height: 48px;
+  }
+
+  .equipment-visual .equipment-icon-placeholder,
+  .equipment-visual .equipment-image {
+    width: 64px;
+    height: 64px;
+  }
+
+  .equipment-visual-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .equipment-visual-row::after {
+    content: "↓";
+  }
+
+  .equipment-visual {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .equipment-control-group {
+    grid-template-columns: 1fr;
+    max-width: none;
+  }
+
+  .ability-unlock-control-group {
+    grid-template-columns: 1fr;
+    max-width: none;
   }
 
   .equipment-title-row {
@@ -2992,13 +3449,14 @@ select {
     flex-direction: column;
   }
 
-  .equipment-type-select {
-    max-width: none;
+  .equipment-comparison-controls,
+  .equipment-state-panel,
+  .equipment-state-controls {
+    grid-template-columns: 1fr;
   }
 
-  .equipment-upgrade-controls,
-  .equipment-tier-level-group {
-    grid-template-columns: 1fr;
+  .equipment-state-summary {
+    grid-column: auto;
   }
 
   .student-level-control {

@@ -2,7 +2,7 @@
 
 ## 현재 상태
 
-학생 레벨업 EXP 데이터는 `data/characterExpTable.js`를 사용한다.  
+학생 레벨업 EXP 데이터는 `data/growth/characterExpTable.js`를 사용한다.  
 활동 보고서 데이터는 `data/growth/activityReports.js`를 사용한다.
 
 계산 함수:
@@ -29,7 +29,10 @@ calculateCharacterLevelMaterials({
   requiredExp,
   creditQuantity,
   reports,
-  materials
+  materials,
+  missingLevels,
+  needsReview,
+  hasCompleteData
 }
 ```
 
@@ -43,6 +46,10 @@ target.totalExp - current.totalExp
 
 목표 레벨이 현재 레벨보다 낮거나 같으면 필요 EXP는 `0`이다.
 
+EXP 테이블이 비어 있으면 조용히 정상 계산으로 처리하지 않고 `needsReview: true`, `hasCompleteData: false`로 반환한다.
+
+현재 레벨부터 목표 레벨까지 필요한 EXP row가 누락되면 해당 레벨을 `missingLevels`에 넣고 `needsReview: true`, `hasCompleteData: false`로 반환한다.
+
 ## 크레딧 계산
 
 학생 레벨업에 필요한 크레딧은 다음 공식으로 계산한다.
@@ -53,7 +60,7 @@ target.totalExp - current.totalExp
 
 ## 활동 보고서 계산
 
-활동 보고서는 `data/activityReports.js`의 EXP 값을 사용한다.
+활동 보고서는 `data/growth/activityReports.js`의 EXP 값을 사용한다.
 
 현재 추천 수량은 높은 등급 활동 보고서부터 채우고, 마지막 초급 활동 보고서에서 부족 EXP를 올림 처리한다.
 
@@ -67,6 +74,8 @@ target.totalExp - current.totalExp
 ```
 
 활동 보고서 데이터는 이미지 경로를 `imageUrl`로 가지고 있지만, 학생 상세 화면은 최종 표시 정보는 `data/items.js`를 우선 조회한다.
+
+필요 EXP가 있는데 활동 보고서 데이터가 비어 있으면 `needsReview: true`, `hasCompleteData: false`로 반환한다.
 
 ```text
 초급 활동 보고서: ./images/reports/activity-report-basic.webp

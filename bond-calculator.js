@@ -1,7 +1,9 @@
-import { students as bondCalculatorStudents } from "./data/students.js";
+import { getAllStudentsByLocale } from "./data/schaledb/schaleDbStore.js";
 import { bondRankRequirements } from "./data/bond/bond-rank-requirements.js";
+import { bondPointSources } from "./data/bond/bond-point-sources.js";
 import { gifts } from "./data/gifts.js";
 import { characterGiftPreferences } from "./data/character-gift-preferences.js";
+import { getPreferredLanguage, getSchaleLocale } from "./utils/languagePreference.js";
 
 const siteSearchForm = document.querySelector("#site-search-form");
 const siteSearchInput = document.querySelector("#site-search-input");
@@ -33,8 +35,10 @@ const resultNote = document.querySelector("#bond-result-note");
 const cafePointsValue = document.querySelector("#bond-cafe-points");
 const schedulePointsValue = document.querySelector("#bond-schedule-points");
 
-const studentsById = new Map(bondCalculatorStudents.map((student) => [student.id, student]));
+const DEFAULT_BOND_STUDENT_ID = 10135;
+const DEFAULT_BOND_STUDENT_SLUG = "kei";
 const rankRequirementMap = new Map(bondRankRequirements.map((item) => [item.rank, item]));
+const pointSourceMap = new Map(bondPointSources.map((source) => [source.id, source]));
 const preferenceMap = new Map();
 const ownedGiftQuantityById = new Map();
 const selectedGiftQuantityById = new Map();
@@ -44,8 +48,9 @@ const giftRankImageUrls = {
   liked: "./images/gift-ranks/liked.webp",
   favorite: "./images/gift-ranks/favorite.webp",
 };
-
-let selectedStudentId = bondCalculatorStudents[9]?.id ?? null;
+let bondCalculatorStudents = [];
+let studentsById = new Map();
+let selectedStudentId = null;
 let showAllGifts = false;
 
 for (const record of characterGiftPreferences) {
@@ -69,12 +74,58 @@ function getSelectedStudent() {
   return selectedStudentId ? studentsById.get(selectedStudentId) ?? null : null;
 }
 
+function createBondCalculatorStudent(student) {
+  const searchValues = [
+    student.name,
+    student.devName,
+    student.slug,
+    ...(student.searchTags ?? []),
+  ];
+
+  return {
+    id: student.id,
+    slug: student.slug,
+    name: student.name ?? "이름 확인 필요",
+    iconImageUrl: student.raw?.IconImageUrl ?? student.raw?.iconImageUrl ?? null,
+    imageUrl: student.raw?.PortraitImageUrl ?? student.raw?.portraitImageUrl ?? null,
+    profileImageUrl: student.raw?.ProfileImageUrl ?? student.raw?.profileImageUrl ?? null,
+    searchText: searchValues
+      .filter(Boolean)
+      .map((value) => normalize(value))
+      .join(" "),
+  };
+}
+
+async function loadBondCalculatorStudents() {
+  const locale = getSchaleLocale(getPreferredLanguage());
+  const students = await getAllStudentsByLocale(locale);
+  bondCalculatorStudents = students.map(createBondCalculatorStudent);
+  studentsById = new Map(bondCalculatorStudents.map((student) => [student.id, student]));
+
+  if (!studentsById.has(selectedStudentId)) {
+    selectedStudentId = getDefaultStudent()?.id ?? null;
+  }
+}
+
+function getDefaultStudent() {
+  return (
+    studentsById.get(DEFAULT_BOND_STUDENT_ID) ??
+    bondCalculatorStudents.find((student) => student.slug === DEFAULT_BOND_STUDENT_SLUG) ??
+    bondCalculatorStudents[0] ??
+    null
+  );
+}
+
 function getRankRequirement(rank) {
   return rankRequirementMap.get(rank)?.expToNext ?? 0;
 }
 
 function getRankTotalExp(rank) {
   return rankRequirementMap.get(rank)?.totalExp ?? 0;
+}
+
+function getPointSourcePoints(sourceId) {
+  return pointSourceMap.get(sourceId)?.pointsPerUse ?? 0;
 }
 
 function clampRankInput(input) {
@@ -221,17 +272,6 @@ function getOwnedGiftQuantity(giftId) {
   return ownedGiftQuantityById.get(giftId) ?? 0;
 }
 
-function setOwnedGiftQuantities(records) {
-  ownedGiftQuantityById.clear();
-
-  for (const record of records) {
-    const quantity = Math.max(0, Math.trunc(Number(record.quantity) || 0));
-    ownedGiftQuantityById.set(record.giftId, quantity);
-  }
-
-  updateBondState();
-}
-
 function setGiftQuantity(giftId, nextValue) {
   const normalizedValue = Math.max(0, Math.trunc(Number(nextValue) || 0));
   selectedGiftQuantityById.set(giftId, normalizedValue);
@@ -290,8 +330,8 @@ function renderSelectedStudent() {
 }
 
 function renderPointSourceSummary() {
-  cafePointsValue.textContent = "15";
-  schedulePointsValue.textContent = "25";
+  cafePointsValue.textContent = String(getPointSourcePoints("cafe"));
+  schedulePointsValue.textContent = String(getPointSourcePoints("schedule"));
 }
 
 function createSuggestionItem(student) {
@@ -313,7 +353,7 @@ function renderStudentSuggestions() {
     return;
   }
 
-  const matches = bondCalculatorStudents.filter((student) => normalize(student.name).includes(query));
+  const matches = bondCalculatorStudents.filter((student) => student.searchText.includes(query));
 
   if (matches.length === 0) {
     const empty = document.createElement("div");
@@ -450,8 +490,8 @@ function calculateBondState() {
   const nextRankRequirement = getRankRequirement(currentRank);
   const nextRankPoints = Math.max(nextRankRequirement - currentPoints - giftTotalPoints, 0);
   const excessPoints = Math.max(giftTotalPoints - totalTargetPoints, 0);
-  const cafePoints = 15;
-  const schedulePoints = 25;
+  const cafePoints = getPointSourcePoints("cafe");
+  const schedulePoints = getPointSourcePoints("schedule");
 
   const cafeCount = remainingPoints > 0 && cafePoints > 0 ? Math.ceil(remainingPoints / cafePoints) : 0;
   const scheduleCount =
@@ -548,7 +588,12 @@ function bindEvents() {
   });
 }
 
-function initialize() {
+async function initialize() {
+  selectedStudentValue.textContent = "학생 데이터를 불러오는 중...";
+  selectedStudentNote.textContent = "";
+
+  await loadBondCalculatorStudents();
+
   const initialStudent = studentsById.get(selectedStudentId) ?? null;
   if (initialStudent) {
     studentSearchInput.value = initialStudent.name;
@@ -566,5 +611,10 @@ function initialize() {
   studentSearchInput.setAttribute("aria-expanded", "false");
 }
 
-bindEvents();
-initialize();
+initialize()
+  .then(bindEvents)
+  .catch((error) => {
+    console.error(error);
+    selectedStudentValue.textContent = "학생 데이터를 불러오지 못했습니다.";
+    selectedStudentNote.textContent = "잠시 후 다시 시도해주세요.";
+  });

@@ -58,5 +58,12 @@ export const studentEquipmentBySlug = {
     slot2: "bag",
     slot3: "watch",
     needsReview: false,
-  }
+  },
+  "yuuka-track": {
+    studentId: 15,
+    slot1: null,
+    slot2: null,
+    slot3: null,
+    needsReview: true,
+  },
 };

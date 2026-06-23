@@ -22,7 +22,7 @@ export const equipmentTypes = [
     displayName: "모자",
     slotId: "slot1",
     iconImageUrlsByTier: {
-      1: null,
+      1: "./images/items/Equipment_Icon/Equipment_Icon_Hat_Tier1.png",
       2: "./images/items/Equipment_Icon/Equipment_Icon_Hat_Tier2.png",
       3: "./images/items/Equipment_Icon/Equipment_Icon_Hat_Tier3.png",
       4: "./images/items/Equipment_Icon/Equipment_Icon_Hat_Tier4.png",
@@ -39,7 +39,7 @@ export const equipmentTypes = [
     displayName: "장갑",
     slotId: "slot1",
     iconImageUrlsByTier: {
-      1: null,
+      1: "./images/items/Equipment_Icon/Equipment_Icon_Gloves_Tier1.png",
       2: "./images/items/Equipment_Icon/Equipment_Icon_Gloves_Tier2.png",
       3: "./images/items/Equipment_Icon/81px-Equipment_Icon_Gloves_Tier3.png",
       4: "./images/items/Equipment_Icon/81px-Equipment_Icon_Gloves_Tier4.png",
@@ -56,7 +56,7 @@ export const equipmentTypes = [
     displayName: "신발",
     slotId: "slot1",
     iconImageUrlsByTier: {
-      1: null,
+      1: "./images/items/Equipment_Icon/Equipment_Icon_Shoes_Tier1.png",
       2: "./images/items/Equipment_Icon/Equipment_Icon_Shoes_Tier2.png",
       3: "./images/items/Equipment_Icon/Equipment_Icon_Shoes_Tier3.png",
       4: "./images/items/Equipment_Icon/Equipment_Icon_Shoes_Tier4.png",
@@ -73,7 +73,7 @@ export const equipmentTypes = [
     displayName: "가방",
     slotId: "slot2",
     iconImageUrlsByTier: {
-      1: null,
+      1: "./images/items/Equipment_Icon/Equipment_Icon_Bag_Tier1.png",
       2: "./images/items/Equipment_Icon/Equipment_Icon_Bag_Tier2.png",
       3: "./images/items/Equipment_Icon/Equipment_Icon_Bag_Tier3.png",
       4: "./images/items/Equipment_Icon/Equipment_Icon_Bag_Tier4.png",
@@ -90,7 +90,7 @@ export const equipmentTypes = [
     displayName: "배지",
     slotId: "slot2",
     iconImageUrlsByTier: {
-      1: null,
+      1: "./images/items/Equipment_Icon/81px-Equipment_Icon_Badge_Tier1.png",
       2: "./images/items/Equipment_Icon/Equipment_Icon_Badge_Tier2.png",
       3: "./images/items/Equipment_Icon/Equipment_Icon_Badge_Tier3.png",
       4: "./images/items/Equipment_Icon/Equipment_Icon_Badge_Tier4.png",
@@ -107,7 +107,7 @@ export const equipmentTypes = [
     displayName: "헤어핀",
     slotId: "slot2",
     iconImageUrlsByTier: {
-      1: null,
+      1: "./images/items/Equipment_Icon/Equipment_Icon_Hairpin_Tier1.png",
       2: "./images/items/Equipment_Icon/Equipment_Icon_Hairpin_Tier2.png",
       3: "./images/items/Equipment_Icon/Equipment_Icon_Hairpin_Tier3.png",
       4: "./images/items/Equipment_Icon/Equipment_Icon_Hairpin_Tier4.png",
@@ -124,7 +124,7 @@ export const equipmentTypes = [
     displayName: "부적",
     slotId: "slot3",
     iconImageUrlsByTier: {
-      1: null,
+      1: "./images/items/Equipment_Icon/Equipment_Icon_Charm_Tier1.png",
       2: "./images/items/Equipment_Icon/Equipment_Icon_Charm_Tier2.png",
       3: "./images/items/Equipment_Icon/Equipment_Icon_Charm_Tier3.png",
       4: "./images/items/Equipment_Icon/Equipment_Icon_Charm_Tier4.png",
@@ -141,7 +141,7 @@ export const equipmentTypes = [
     displayName: "목걸이",
     slotId: "slot3",
     iconImageUrlsByTier: {
-      1: null,
+      1: "./images/items/Equipment_Icon/Equipment_Icon_Necklace_Tier1.png",
       2: "./images/items/Equipment_Icon/Equipment_Icon_Necklace_Tier2.png",
       3: "./images/items/Equipment_Icon/Equipment_Icon_Necklace_Tier3.png",
       4: "./images/items/Equipment_Icon/Equipment_Icon_Necklace_Tier4.png",
@@ -158,7 +158,7 @@ export const equipmentTypes = [
     displayName: "손목시계",
     slotId: "slot3",
     iconImageUrlsByTier: {
-      1: null,
+      1: "./images/items/Equipment_Icon/Equipment_Icon_Watch_Tier1.png",
       2: "./images/items/Equipment_Icon/81px-Equipment_Icon_Watch_Tier2.png",
       3: "./images/items/Equipment_Icon/81px-Equipment_Icon_Watch_Tier3.png",
       4: "./images/items/Equipment_Icon/Equipment_Icon_Watch_Tier4.png",

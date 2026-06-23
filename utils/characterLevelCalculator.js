@@ -9,7 +9,8 @@ export function calculateCharacterLevelMaterials({
   expTable = characterExpTable,
   reports = activityReports,
 }) {
-  const maxLevel = Math.max(...expTable.map((row) => row.level));
+  const hasExpTable = expTable.length > 0;
+  const maxLevel = hasExpTable ? Math.max(...expTable.map((row) => row.level)) : 1;
   const normalizedCurrentLevel = normalizeLevel(currentLevel, maxLevel);
   const normalizedTargetLevel = normalizeLevel(targetLevel, maxLevel);
 
@@ -21,9 +22,17 @@ export function calculateCharacterLevelMaterials({
       creditQuantity: 0,
       reports: [],
       materials: [],
+      missingLevels: [],
+      needsReview: !hasExpTable,
+      hasCompleteData: hasExpTable,
     };
   }
 
+  const missingLevels = getMissingExpLevels({
+    currentLevel: normalizedCurrentLevel,
+    targetLevel: normalizedTargetLevel,
+    expTable,
+  });
   const requiredExp = getRequiredExp({
     currentLevel: normalizedCurrentLevel,
     targetLevel: normalizedTargetLevel,
@@ -31,6 +40,8 @@ export function calculateCharacterLevelMaterials({
   });
   const creditQuantity = requiredExp * CREDIT_PER_EXP;
   const reportRequirements = calculateActivityReports({ requiredExp, reports });
+  const hasReportData = reports.length > 0 || requiredExp === 0;
+  const needsReview = !hasExpTable || missingLevels.length > 0 || !hasReportData;
 
   return {
     currentLevel: normalizedCurrentLevel,
@@ -38,6 +49,9 @@ export function calculateCharacterLevelMaterials({
     requiredExp,
     creditQuantity,
     reports: reportRequirements,
+    missingLevels,
+    needsReview,
+    hasCompleteData: !needsReview,
     materials: [
       ...reportRequirements.map((report) => ({
         itemId: report.itemId,
@@ -63,6 +77,19 @@ function getRequiredExp({ currentLevel, targetLevel, expTable }) {
   const targetTotalExp = expMap.get(targetLevel)?.totalExp ?? currentTotalExp;
 
   return Math.max(0, targetTotalExp - currentTotalExp);
+}
+
+function getMissingExpLevels({ currentLevel, targetLevel, expTable }) {
+  const levelSet = new Set(expTable.map((row) => row.level));
+  const missingLevels = [];
+
+  for (let level = currentLevel; level <= targetLevel; level += 1) {
+    if (!levelSet.has(level)) {
+      missingLevels.push(level);
+    }
+  }
+
+  return missingLevels;
 }
 
 function calculateActivityReports({ requiredExp, reports }) {
