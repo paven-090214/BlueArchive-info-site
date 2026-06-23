@@ -25,11 +25,19 @@
         <button class="site-search-button" type="submit" aria-label="검색 실행">🔍</button>
       </form>
 
-      <nav class="header-auth" aria-label="계정 메뉴">
-        <a href="#" class="header-auth-link">로그인</a>
-        <span aria-hidden="true">|</span>
-        <a href="#" class="header-auth-link">회원가입</a>
-      </nav>
+      <div class="header-actions">
+        <div class="site-language-toggle" aria-label="표시 언어">
+          <button class="site-language-button is-active" type="button" data-language-button="ko">한국어</button>
+          <button class="site-language-button" type="button" data-language-button="en">English</button>
+          <button class="site-language-button" type="button" data-language-button="jp">日本語</button>
+        </div>
+
+        <nav class="header-auth" aria-label="계정 메뉴">
+          <a href="#" class="header-auth-link">로그인</a>
+          <span aria-hidden="true">|</span>
+          <a href="#" class="header-auth-link">회원가입</a>
+        </nav>
+      </div>
     </header>
 
     <main class="page-shell character-detail-shell">
@@ -93,12 +101,12 @@
               <dd data-student-field="designer">DoReMi</dd>
             </div>
             <div>
-              <dt>일러스트레이터</dt>
-              <dd data-student-field="illustrator">DoReMi</dd>
-            </div>
-            <div>
               <dt>성우</dt>
               <dd data-student-field="voiceActor">콘도 레이나</dd>
+            </div>
+            <div>
+              <dt>일러스트레이터</dt>
+              <dd data-student-field="illustrator">DoReMi</dd>
             </div>
             <div>
               <dt>출시일</dt>
@@ -139,7 +147,7 @@
         </article>
       </section>
 
-      <section class="character-detail-stack" aria-label="캐릭터 추가 상세 정보">
+      <section class="character-detail-sections" aria-label="캐릭터 추가 상세 정보">
         <article class="panel character-skill-panel">
           <div class="panel-heading">
             <p class="eyebrow">SKILL</p>
@@ -171,8 +179,8 @@
                 <div class="skill-icon-placeholder" aria-hidden="true">1</div>
                 <div class="skill-content">
                   <div class="skill-title-row">
-                    <h3>1스킬</h3>
-                    <select class="skill-level-select" aria-label="1스킬 레벨">
+                    <h3>기본 스킬</h3>
+                    <select class="skill-level-select" aria-label="기본 스킬 레벨">
                       <option value="1">Lv. 1</option>
                       <option value="2">Lv. 2</option>
                       <option value="3">Lv. 3</option>
@@ -195,8 +203,8 @@
                 <div class="skill-icon-placeholder" aria-hidden="true">2</div>
                 <div class="skill-content">
                   <div class="skill-title-row">
-                    <h3>2스킬</h3>
-                    <select class="skill-level-select" aria-label="2스킬 레벨">
+                    <h3>강화 스킬</h3>
+                    <select class="skill-level-select" aria-label="강화 스킬 레벨">
                       <option value="1">Lv. 1</option>
                       <option value="2">Lv. 2</option>
                       <option value="3">Lv. 3</option>
@@ -219,8 +227,8 @@
                 <div class="skill-icon-placeholder" aria-hidden="true">3</div>
                 <div class="skill-content">
                   <div class="skill-title-row">
-                    <h3>3스킬</h3>
-                    <select class="skill-level-select" aria-label="3스킬 레벨">
+                    <h3>서브 스킬</h3>
+                    <select class="skill-level-select" aria-label="서브 스킬 레벨">
                       <option value="1">Lv. 1</option>
                       <option value="2">Lv. 2</option>
                       <option value="3">Lv. 3</option>
@@ -247,14 +255,21 @@
           </div>
           
           <div class="star-setting-group" aria-label="학생 성급 및 전용무기 성급">
-            <p class="star-setting-label">목표 성급</p>
+            <p class="star-setting-label">기본 성급</p>
             <div class="growth-star-row" data-growth-star-row></div>
           </div>
 
           <div class="growth-setting-grid">
             <div class="student-level-control">
-              <span>학생 레벨:</span>
-              <input id="student-level-input" type="number" min="1" max="90" value="1" aria-label="학생 레벨 직접 입력" />
+              <span>학생 레벨</span>
+              <label class="compact-field">
+                현재 레벨
+                <input id="student-current-level-input" type="number" min="1" max="90" value="1" aria-label="학생 현재 레벨 직접 입력" />
+              </label>
+              <label class="compact-field">
+                목표 레벨
+                <input id="student-level-input" type="number" min="1" max="90" value="90" aria-label="학생 목표 레벨 직접 입력" />
+              </label>
               <div class="student-level-range-wrap">
                 <span>Lv. 1</span>
                 <input
@@ -262,8 +277,8 @@
                   type="range"
                   min="1"
                   max="90"
-                  value="1"
-                  aria-label="학생 레벨 슬라이드바"
+                  value="90"
+                  aria-label="학생 목표 레벨 슬라이드바"
                 />
                 <span>Lv. 90</span>
               </div>
@@ -278,6 +293,15 @@
           </div>
 
           <div class="equipment-list" data-equipment-list></div>
+        </article>
+
+        <article class="panel ability-unlock-panel">
+          <div class="panel-heading">
+            <p class="eyebrow">ABILITY UNLOCK</p>
+            <h2>능력개방</h2>
+          </div>
+
+          <div class="ability-unlock-list" data-ability-unlock-list></div>
         </article>
 
         <article class="panel favorite-item-panel">
@@ -302,87 +326,17 @@
           </article>
         </article>
 
-        <article class="panel character-stat-panel">
-          <div class="panel-heading">
-            <p class="eyebrow">STAT</p>
-            <h2>스탯</h2>
-          </div>
-
-          <dl class="stat-grid">
-            <div>
-              <dt>공격력</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>방어력</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>체력</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>치유력</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>명중</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>회피</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>치명 수치</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>치명 대미지</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>안정성</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>사거리</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>CC 강화력</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>CC 저항력</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>공격 속도</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>이동 속도</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>코스트 회복력</dt>
-              <dd>N</dd>
-            </div>
-            <div>
-              <dt>탄약</dt>
-              <dd>N</dd>
-            </div>
-          </dl>
-        </article>
-
         <article class="panel required-material-panel">
-          <div class="panel-heading">
-            <p class="eyebrow">MATERIAL</p>
-            <h2>필요한 재화</h2>
-          </div>
+          <details class="required-material-details">
+            <summary class="required-material-summary">
+              <span>
+                <span class="eyebrow">MATERIAL</span>
+                <span class="required-material-title">필요한 재화</span>
+                <span class="required-material-count" data-required-material-count>계산 대기</span>
+              </span>
+            </summary>
 
-          <div class="material-list">
+            <div class="material-list">
             <article class="material-card">
               <div class="material-image-placeholder" aria-hidden="true">M</div>
               <div>
@@ -415,43 +369,54 @@
                 <p class="material-owned-quantity">보유 0개</p>
               </div>
             </article>
-          </div>
+            </div>
+          </details>
         </article>
 
         <article class="panel exclusive-weapon-panel">
           <div class="exclusive-weapon-layout">
             <div class="exclusive-weapon-copy">
               <p class="eyebrow">WEAPON</p>
-              <h2>전용무기 이름</h2>
+              <h2 data-exclusive-weapon-name>전용무기 이름</h2>
               <p class="weapon-locked-message" data-weapon-display-locked-message hidden>미개방</p>
-              <p>전용무기 효과 설명 placeholder입니다. 실제 효과와 수치는 추후 데이터로 연결합니다.</p>
+              <p data-exclusive-weapon-desc>전용무기 효과 설명 placeholder입니다. 실제 효과와 수치는 추후 데이터로 연결합니다.</p>
             </div>
-            <div class="weapon-image-placeholder" aria-hidden="true">W</div>
+            <div class="weapon-image-placeholder" data-exclusive-weapon-image-slot aria-hidden="true">W</div>
             <div class="weapon-effect-card-list">
               <article class="skill-card weapon-effect-card">
                 <div class="skill-card-body">
-                  <div class="skill-icon-placeholder weapon-effect-icon" aria-hidden="true">2</div>
+                  <div class="weapon-star-row" aria-label="전용무기 2성">
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                  </div>
                   <div class="skill-content">
-                    <h3>전용무기 2성</h3>
-                    <p>강화 스킬 +로 강화</p>
+                    <p data-exclusive-weapon-enhanced-skill>준비중</p>
+                    <div data-exclusive-weapon-enhanced-stats></div>
                   </div>
                 </div>
               </article>
               <article class="skill-card weapon-effect-card">
                 <div class="skill-card-body">
-                  <div class="skill-icon-placeholder weapon-effect-icon" aria-hidden="true">3</div>
+                  <div class="weapon-star-row" aria-label="전용무기 3성">
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                  </div>
                   <div class="skill-content">
-                    <h3>전용무기 3성</h3>
-                    <p>지역 적성 전투력을 SS로 강화</p>
+                    <p data-exclusive-weapon-rank3-effect>지역 적성 효과 확인 필요</p>
                   </div>
                 </div>
               </article>
               <article class="skill-card weapon-effect-card">
                 <div class="skill-card-body">
-                  <div class="skill-icon-placeholder weapon-effect-icon" aria-hidden="true">4</div>
+                  <div class="weapon-star-row" aria-label="전용무기 4성">
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                    <img class="weapon-rank-star" src="./images/icon/Icon_blue_star.webp" alt="" aria-hidden="true" />
+                  </div>
                   <div class="skill-content">
-                    <h3>전용무기 4성</h3>
-                    <p>특효 가산 +10% / 코스트 상한 +0.5</p>
+                    <p data-exclusive-weapon-rank4-effect>준비중</p>
                   </div>
                 </div>
               </article>
@@ -465,772 +430,13 @@
             <h2>메모리얼</h2>
           </div>
 
-          <div class="memorial-placeholder" aria-label="메모리얼 이미지 또는 GIF placeholder">
+          <div class="memorial-placeholder" data-memorial-slot aria-label="메모리얼 이미지 또는 GIF placeholder">
             <span>Memorial Placeholder</span>
           </div>
         </article>
       </section>
     </main>
 
-    <script type="module">
-      import {
-        academies,
-        equipmentSlots,
-        equipmentTypes,
-        oopartsCandidates,
-        studentEquipmentBySlug,
-        studentTerrainAdaptations,
-        students,
-      } from "./data/index.js";
-      import { items } from "./data/items.js";
-      import { calculateCharacterLevelMaterials } from "./utils/characterLevelCalculator.js";
-      import {
-        CURRENT_EQUIPMENT_STATES,
-        EQUIPMENT_TIER_RANGE,
-        calculateStudentEquipmentMaterials,
-      } from "./utils/equipmentCalculator.js";
-      import { loadOwnedMaterialQuantityMap } from "./utils/materialStorage.js";
-      import { calculateSkillMaterials, SKILL_LEVEL_RANGES } from "./utils/skillMaterialCalculator.js";
-      import { calculateStarRankEleph } from "./utils/starRankCalculator.js";
-
-      const characterProfileName = document.querySelector("#character-profile-name");
-      const characterProfileDescription = document.querySelector("#character-profile-description");
-      const studentLevelInput = document.querySelector("#student-level-input");
-      const studentLevelRange = document.querySelector("#student-level-range");
-      const characterProfileVisual = document.querySelector(".character-large-placeholder");
-      const materialList = document.querySelector(".material-list");
-      const growthStarRow = document.querySelector("[data-growth-star-row]");
-      const equipmentList = document.querySelector("[data-equipment-list]");
-      const terrainAptitudeList = document.querySelector(".terrain-aptitude-list");
-      const roleImage = document.querySelector("[data-role-image]");
-      const STAR_ICON_URL = "./images/icon/Icon_star.webp";
-      const BLUE_STAR_ICON_URL = "./images/icon/Icon_blue_star.webp";
-      const BLANK_STAR_ICON_URL = "./images/icon/Icon_blank_star.webp";
-
-      const characterSlugParam = new URLSearchParams(window.location.search).get("slug");
-
-      const TERRAIN_KEYS = ["urban", "outdoor", "indoor"];
-
-      const TERRAIN_META = {
-        urban: {
-          label: "시가지",
-          imageUrl: "./images/terrains/urban.webp",
-        },
-        outdoor: {
-          label: "야외",
-          imageUrl: "./images/terrains/outdoor.webp",
-        },
-        indoor: {
-          label: "실내",
-          imageUrl: "./images/terrains/indoor.webp",
-        },
-      };
-
-      const TERRAIN_RANK_IMAGE_URLS = {
-        SS: "./images/terrain-ranks/rank-ss.webp",
-        S: "./images/terrain-ranks/rank-s.webp",
-        A: "./images/terrain-ranks/rank-a.webp",
-        B: "./images/terrain-ranks/rank-b.webp",
-        C: "./images/terrain-ranks/rank-c.webp",
-        D: "./images/terrain-ranks/rank-d.webp",
-      };
-
-      const ROLE_IMAGE_URLS = {
-        "딜러": "./images/role/attacker.webp",
-        "탱커": "./images/role/tank.webp",
-        "힐러": "./images/role/healer.webp",
-        "서포터": "./images/role/support.webp",
-        "택티컬 서포트": "./images/role/tactical-support.webp",
-      };
-
-      const selectedStudent =
-        students.find((student) => student.slug === characterSlugParam) ||
-        students.find((student) => student.slug === "kei") ||
-        students[0];
-      const selectedAcademy = academies.find(
-        (academy) => academy.slug === selectedStudent.academySlug,
-      );
-      const ownedMaterialQuantityById = new Map();
-      const oopartsCandidateById = new Map(oopartsCandidates.map((item) => [item.id, item]));
-      const itemById = new Map(items.map((item) => [item.id, item]));
-      const equipmentTypeById = new Map(equipmentTypes.map((item) => [item.id, item]));
-      const selectedEquipmentProfile = studentEquipmentBySlug[selectedStudent.slug];
-
-      function renderStudentDetail(student) {
-        const academyName = selectedAcademy?.name || "임시 학원";
-
-        document.title = `${student.name} | BlueArchive Info Site`;
-        characterProfileVisual.replaceChildren();
-
-        const profileImageUrl = student.portraitImageUrl || student.profileImageUrl;
-
-        if(profileImageUrl) {
-          const image = document.createElement("img");
-          image.src = profileImageUrl;
-          image.alt = student.name;
-          image.className = "character-profile-image";
-          characterProfileVisual.append(image);
-        } else {
-          const fallback = document.createElement("span");
-          fallback.textContent = student.name;
-          characterProfileVisual.append(fallback);
-        }
-
-        characterProfileName.textContent = student.fullName;
-        characterProfileDescription.textContent = student.profile;
-
-        if (roleImage) {
-          roleImage.src = ROLE_IMAGE_URLS[student.role] || "./images/duuu/duuu.webp";
-        }
-
-        const fieldValues = {
-          fullName: student.fullName,
-          birthday: student.birthday,
-          academyName,
-          attackType: student.attackType,
-          defenseType: student.defenseType,
-          role: student.role,
-          position: student.position ?? "임시 표시",
-          combatClass: student.combatClass ?? "임시 표시",
-          age: student.age,
-          weaponType: student.weaponType ?? "임시 표시",
-          hobby: student.hobby,
-          designer: student.designer,
-          illustrator: student.illustrator,
-          voiceActor: student.voiceActor,
-          releaseDate: student.releaseDate,
-        };
-
-        Object.entries(fieldValues).forEach(([field, value]) => {
-          const target = document.querySelector(`[data-student-field="${field}"]`);
-
-          if (target) {
-            target.textContent = value;
-          }
-        });
-      }
-
-      function renderTerrainAdaptations(student) {
-        const adaptation =
-          studentTerrainAdaptations.find((item) => item.studentId === student.id) ||
-          studentTerrainAdaptations.find((item) => item.studentSlug === student.slug);
-
-        const cards = TERRAIN_KEYS.map((terrainKey) => {
-          const terrain = TERRAIN_META[terrainKey];
-          const rank = adaptation?.[terrainKey] ?? null;
-          const rankImageUrl = rank ? TERRAIN_RANK_IMAGE_URLS[rank] : null;
-
-          const card = document.createElement("article");
-          card.className = "terrain-aptitude-card";
-
-          const terrainImage = document.createElement("img");
-          terrainImage.className = "terrain-place-image";
-          terrainImage.src = terrain.imageUrl;
-          terrainImage.alt = terrain.label;
-
-          const body = document.createElement("div");
-
-          const title = document.createElement("strong");
-          title.textContent = terrain.label;
-
-          body.append(title);
-
-          if (rankImageUrl) {
-            const rankImage = document.createElement("img");
-            rankImage.className = "terrain-rank-image";
-            rankImage.src = rankImageUrl;
-            rankImage.alt = rank;
-            body.append(rankImage);
-          } else {
-              const empty = document.createElement("span");
-              empty.textContent = "데이터 없음";
-
-              body.append(title);
-          }
-
-
-          card.append(terrainImage, body);
-          return card;
-        });
-
-        terrainAptitudeList.replaceChildren(...cards);
-      }
-
-      renderStudentDetail(selectedStudent);
-      renderTerrainAdaptations(selectedStudent);
-
-      let targetBaseStar = getBaseStar(selectedStudent);
-      let targetWeaponStar = 0;
-      let targetStudentLevel = Number(studentLevelInput.value) || 1;
-      const initialStudentLevel = 1;
-      const initialBaseStar = getBaseStar(selectedStudent);
-
-      function syncStudentLevel(value) {
-        const normalizedLevel = Math.min(90, Math.max(1, Number(value) || 1));
-        studentLevelInput.value = String(normalizedLevel);
-        studentLevelRange.value = String(normalizedLevel);
-        targetStudentLevel = normalizedLevel;
-        renderRequiredMaterials();
-      }
-
-      studentLevelInput.addEventListener("input", () => {
-        syncStudentLevel(studentLevelInput.value);
-      });
-
-      studentLevelRange.addEventListener("input", () => {
-        syncStudentLevel(studentLevelRange.value);
-      });
-
-      function getBaseStar(student) {
-        return student.baseStar ?? 3;
-      }
-
-      function getGrowthStarKind(slotNumber, baseStar, weaponStar) {
-        if (slotNumber <= 5) {
-          return slotNumber <= baseStar ? "student" : "blank";
-        }
-
-        return slotNumber - 5 <= weaponStar ? "weapon" : "blank";
-      }
-
-      function getStarIconUrl(kind) {
-        if (kind === "student") {
-          return STAR_ICON_URL;
-        }
-
-        if (kind === "weapon") {
-          return BLUE_STAR_ICON_URL;
-        }
-
-        return BLANK_STAR_ICON_URL;
-      }
-
-      function createStarIcon(kind) {
-        const image = document.createElement("img");
-        image.className = `star-icon ${kind}-star-icon`;
-        image.src = getStarIconUrl(kind);
-        image.alt = "";
-        image.setAttribute("aria-hidden", "true");
-        return image;
-      }
-
-      function createGrowthStarButton(slotNumber) {
-        const kind = getGrowthStarKind(slotNumber, targetBaseStar, targetWeaponStar);
-        const button = document.createElement("button");
-        button.className = `star-button growth-star-slot ${kind}-star`;
-        button.type = "button";
-        button.dataset.starSlot = String(slotNumber);
-        button.setAttribute("aria-pressed", String(kind !== "blank"));
-
-        if (slotNumber <= 5) {
-          button.setAttribute("aria-label", `기본 성급 ${slotNumber}성 선택`);
-          button.addEventListener("click", () => {
-            targetBaseStar = slotNumber;
-            targetWeaponStar = 0;
-            renderGrowthStars();
-            renderRequiredMaterials();
-          });
-        } else {
-          const weaponRank = slotNumber - 5;
-          button.setAttribute("aria-label", `전용무기 ${weaponRank}성 선택`);
-          button.addEventListener("click", () => {
-            targetBaseStar = 5;
-            targetWeaponStar = weaponRank;
-            renderGrowthStars();
-            renderRequiredMaterials();
-          });
-        }
-
-        button.append(createStarIcon(kind));
-        return button;
-      }
-
-      function renderGrowthStars() {
-        const buttons = [];
-
-        for (let slotNumber = 1; slotNumber <= 9; slotNumber += 1) {
-          buttons.push(createGrowthStarButton(slotNumber));
-        }
-
-        growthStarRow.replaceChildren(...buttons);
-      }
-
-      function setupSkillMaterialControls() {
-        const skillCards = document.querySelectorAll(".character-skill-panel .skill-card");
-        const skillTypes = ["ex", "normal", "passive", "sub"];
-
-        skillCards.forEach((card, index) => {
-          const skillType = skillTypes[index];
-          const targetSelect = card.querySelector(".skill-level-select");
-          const titleRow = card.querySelector(".skill-title-row");
-          const range = SKILL_LEVEL_RANGES[skillType];
-
-          if (!skillType || !targetSelect || !titleRow || !range) {
-            return;
-          }
-
-          targetSelect.dataset.skillType = skillType;
-          targetSelect.dataset.levelKind = "target";
-          targetSelect.setAttribute("aria-label", `${getSkillLabel(skillType)} 목표 레벨`);
-          targetSelect.value = String(range.max);
-          targetSelect.addEventListener("change", renderRequiredMaterials);
-        });
-      }
-
-      function getSkillLabel(skillType) {
-        const labels = {
-          ex: "EX 스킬",
-          normal: "1스킬",
-          passive: "2스킬",
-          sub: "3스킬",
-        };
-
-        return labels[skillType] || "스킬";
-      }
-
-      function setupEquipmentControls() {
-        if (!equipmentList) {
-          return;
-        }
-
-        const cards = equipmentSlots.map((slot, index) => createEquipmentCard(slot, index));
-        equipmentList.replaceChildren(...cards);
-      }
-
-      function createEquipmentCard(slot, index) {
-        const profileEquipmentTypeId = selectedEquipmentProfile?.[slot.id] ?? "";
-        const defaultEquipmentTypeId = slot.equipmentTypeIds.includes(profileEquipmentTypeId)
-          ? profileEquipmentTypeId
-          : "";
-
-        const card = document.createElement("article");
-        card.className = "equipment-card";
-        card.dataset.equipmentCard = "true";
-        card.dataset.slotId = slot.id;
-
-        const icon = document.createElement("div");
-        icon.className = "equipment-icon-placeholder";
-        icon.setAttribute("aria-hidden", "true");
-        icon.textContent = getEquipmentIconText(defaultEquipmentTypeId);
-
-        const content = document.createElement("div");
-        content.className = "equipment-content";
-
-        const titleRow = document.createElement("div");
-        titleRow.className = "equipment-title-row";
-
-        const title = document.createElement("h3");
-        title.textContent = `${index + 1}번 장비`;
-
-        const typeSelect = createEquipmentTypeSelect(slot, defaultEquipmentTypeId);
-        titleRow.append(title, typeSelect);
-
-        const note = document.createElement("p");
-        note.className = "equipment-slot-note";
-        note.textContent = getEquipmentSlotNote(slot, defaultEquipmentTypeId);
-
-        const controls = document.createElement("div");
-        controls.className = "equipment-upgrade-controls";
-        controls.append(
-          createEquipmentCurrentGroup({
-            label: "현재",
-            includeNone: true,
-            defaultTier: "none",
-          }),
-          createEquipmentTargetGroup({
-            label: "목표",
-            defaultTier: "1",
-          }),
-        );
-
-        content.append(titleRow, note, controls);
-        card.append(icon, content);
-
-        card.querySelectorAll("select, input").forEach((control) => {
-          control.addEventListener("change", () => {
-            updateEquipmentCardState(card, slot);
-            renderRequiredMaterials();
-          });
-          control.addEventListener("input", () => {
-            updateEquipmentCardState(card, slot);
-            renderRequiredMaterials();
-          });
-        });
-
-        updateEquipmentCardState(card, slot);
-        return card;
-      }
-
-      function createEquipmentTypeSelect(slot, defaultEquipmentTypeId) {
-        const select = document.createElement("select");
-        select.className = "equipment-type-select";
-        select.dataset.equipmentField = "type";
-        select.setAttribute("aria-label", `${slot.displayName} 장비 종류`);
-
-        const emptyOption = document.createElement("option");
-        emptyOption.value = "";
-        emptyOption.textContent = "장비 미지정";
-        select.append(emptyOption);
-
-        slot.equipmentTypeIds.forEach((equipmentTypeId) => {
-          const equipmentType = equipmentTypeById.get(equipmentTypeId);
-          const option = document.createElement("option");
-          option.value = equipmentTypeId;
-          option.textContent = equipmentType?.displayName ?? equipmentTypeId;
-          select.append(option);
-        });
-
-        select.value = defaultEquipmentTypeId;
-        return select;
-      }
-
-      function createEquipmentCurrentGroup({ label, includeNone, defaultTier }) {
-        const group = document.createElement("div");
-        group.className = "equipment-tier-level-group";
-
-        const groupLabel = document.createElement("span");
-        groupLabel.className = "equipment-control-label";
-        groupLabel.textContent = label;
-
-        const tierSelect = document.createElement("select");
-        tierSelect.className = "equipment-tier-select";
-        tierSelect.dataset.equipmentField = "currentTier";
-        tierSelect.setAttribute("aria-label", `장비 ${label} 티어`);
-
-        if (includeNone) {
-          const noneOption = document.createElement("option");
-          noneOption.value = "none";
-          noneOption.textContent = "미착용";
-          tierSelect.append(noneOption);
-        }
-
-        for (let tier = EQUIPMENT_TIER_RANGE.min; tier <= EQUIPMENT_TIER_RANGE.max; tier += 1) {
-          const option = document.createElement("option");
-          option.value = String(tier);
-          option.textContent = `T${tier}`;
-          tierSelect.append(option);
-        }
-
-        tierSelect.value = defaultTier;
-
-        const stateSelect = document.createElement("select");
-        stateSelect.className = "equipment-state-select";
-        stateSelect.dataset.equipmentField = "currentState";
-        stateSelect.setAttribute("aria-label", "장비 현재 상태");
-
-        const lv1Option = document.createElement("option");
-        lv1Option.value = CURRENT_EQUIPMENT_STATES.LV1;
-        lv1Option.textContent = "Lv.1";
-
-        const maxOption = document.createElement("option");
-        maxOption.value = CURRENT_EQUIPMENT_STATES.MAX;
-        maxOption.textContent = "MAX";
-
-        stateSelect.append(lv1Option, maxOption);
-        stateSelect.value = CURRENT_EQUIPMENT_STATES.MAX;
-
-        group.append(groupLabel, tierSelect, stateSelect);
-        return group;
-      }
-
-      function createEquipmentTargetGroup({ label, defaultTier }) {
-        const group = document.createElement("div");
-        group.className = "equipment-tier-level-group";
-
-        const groupLabel = document.createElement("span");
-        groupLabel.className = "equipment-control-label";
-        groupLabel.textContent = label;
-
-        const tierSelect = document.createElement("select");
-        tierSelect.className = "equipment-tier-select";
-        tierSelect.dataset.equipmentField = "targetTier";
-        tierSelect.setAttribute("aria-label", "장비 목표 티어");
-
-        for (let tier = EQUIPMENT_TIER_RANGE.min; tier <= EQUIPMENT_TIER_RANGE.max; tier += 1) {
-          const option = document.createElement("option");
-          option.value = String(tier);
-          option.textContent = `T${tier} MAX`;
-          tierSelect.append(option);
-        }
-
-        tierSelect.value = defaultTier;
-
-        const targetNote = document.createElement("span");
-        targetNote.className = "equipment-control-label";
-        targetNote.textContent = "MAX";
-
-        group.append(groupLabel, tierSelect, targetNote);
-        return group;
-      }
-
-      function updateEquipmentCardState(card, slot) {
-        const typeSelect = card.querySelector("[data-equipment-field='type']");
-        const icon = card.querySelector(".equipment-icon-placeholder");
-        const note = card.querySelector(".equipment-slot-note");
-        const equipmentTypeId = typeSelect?.value ?? "";
-
-        icon.textContent = getEquipmentIconText(equipmentTypeId);
-        note.textContent = getEquipmentSlotNote(slot, equipmentTypeId);
-        syncEquipmentCurrentState(card);
-      }
-
-      function syncEquipmentCurrentState(card) {
-        const currentTierSelect = card.querySelector("[data-equipment-field='currentTier']");
-        const currentStateSelect = card.querySelector("[data-equipment-field='currentState']");
-
-        currentStateSelect.disabled = currentTierSelect.value === "none";
-      }
-
-      function getEquipmentIconText(equipmentTypeId) {
-        return equipmentTypeById.get(equipmentTypeId)?.displayName.slice(0, 1) ?? "장";
-      }
-
-      function getEquipmentSlotNote(slot, equipmentTypeId) {
-        if (!equipmentTypeId) {
-          const names = slot.equipmentTypeIds
-            .map((id) => equipmentTypeById.get(id)?.displayName ?? id)
-            .join(", ");
-          return `가능 장비: ${names}`;
-        }
-
-        const name = equipmentTypeById.get(equipmentTypeId)?.displayName ?? equipmentTypeId;
-        return `${name} 승급 재화를 계산합니다. 레벨업 EXP 재화는 추후 공통 테이블 연결 후 계산합니다.`;
-      }
-
-      function getEquipmentMaterialResult() {
-        return calculateStudentEquipmentMaterials({
-          slots: getEquipmentSlotStates(),
-        });
-      }
-
-      function getEquipmentSlotStates() {
-        return [...document.querySelectorAll("[data-equipment-card='true']")].map((card) => ({
-          equipmentTypeId: card.querySelector("[data-equipment-field='type']")?.value ?? "",
-          currentTier: card.querySelector("[data-equipment-field='currentTier']")?.value ?? "none",
-          currentState: card.querySelector("[data-equipment-field='currentState']")?.value ?? CURRENT_EQUIPMENT_STATES.LV1,
-          targetTier: card.querySelector("[data-equipment-field='targetTier']")?.value ?? 1,
-        }));
-      }
-
-      function renderRequiredMaterials() {
-        const levelResult = calculateCharacterLevelMaterials({
-          currentLevel: initialStudentLevel,
-          targetLevel: targetStudentLevel,
-        });
-        const starResult = calculateStarRankEleph({
-          currentBaseStar: initialBaseStar,
-          targetBaseStar,
-          targetWeaponStar,
-        });
-        const skillResults = getSkillMaterialResults();
-        const materialMap = new Map();
-
-        mergeMaterials(materialMap, levelResult.materials);
-        skillResults.forEach((result) => mergeMaterials(materialMap, result.materials));
-        mergeMaterials(materialMap, getEquipmentMaterialResult().materials);
-
-        if (starResult.elephQuantity > 0) {
-          const elephItemId = `${selectedStudent.slug}-eleph`;
-          const elephItem = itemById.get(elephItemId);
-          mergeMaterials(materialMap, [
-            {
-              itemId: elephItemId,
-              itemName: elephItem?.name ?? `${selectedStudent.name}의 엘레프`,
-              tier: null,
-              imageUrl: elephItem?.imageUrl ?? null,
-              quantity: starResult.elephQuantity,
-              needsReview: elephItem ? Boolean(elephItem.needsReview) : true,
-            },
-          ]);
-        }
-
-        const materials = sortMaterials([...materialMap.values()]);
-        const skillHasData = skillResults.some((result) => result.hasData);
-        const cards = materials.map(createMaterialCard);
-
-        if (!skillHasData) {
-          cards.push(createMaterialNotice("스킬 재화 데이터가 아직 없습니다."));
-        }
-
-        if (materials.length === 0 && skillHasData) {
-          cards.push(createMaterialNotice("선택한 성장 구간에 필요한 재화가 없습니다."));
-        }
-
-        materialList.replaceChildren(...cards);
-      }
-
-      function getSkillMaterialResults() {
-        return [...document.querySelectorAll(".skill-level-select[data-level-kind='target']")].map((targetSelect) => {
-          const skillType = targetSelect.dataset.skillType;
-          const range = SKILL_LEVEL_RANGES[skillType];
-
-          return calculateSkillMaterials({
-            studentId: selectedStudent.id,
-            skillType,
-            currentLevel: range.min,
-            targetLevel: targetSelect.value,
-          });
-        });
-      }
-
-      function mergeMaterials(materialMap, materials) {
-        materials.forEach((material) => {
-          const existing = materialMap.get(material.itemId);
-
-          if (existing) {
-            existing.quantity += material.quantity;
-            existing.needsReview = existing.needsReview || Boolean(material.needsReview);
-            return;
-          }
-
-          materialMap.set(material.itemId, { ...material, needsReview: Boolean(material.needsReview) });
-        });
-      }
-
-      function sortMaterials(materials) {
-        return materials.sort((left, right) => {
-          if (left.itemId === "credit") {
-            return 1;
-          }
-
-          if (right.itemId === "credit") {
-            return -1;
-          }
-
-          return getMaterialDisplayName(left).localeCompare(getMaterialDisplayName(right), "ko");
-        });
-      }
-
-      function getMaterialMasterItem(material) {
-        return itemById.get(material.itemId);
-      }
-
-      function getMaterialDisplayName(material) {
-        return getMaterialMasterItem(material)?.name ?? material.itemName ?? material.displayName ?? material.itemId;
-      }
-
-      function getMaterialNeedsReview(material) {
-        const masterItem = getMaterialMasterItem(material);
-        return Boolean(material.needsReview || masterItem?.needsReview);
-      }
-
-      function createMaterialCard(material) {
-        const card = document.createElement("article");
-        card.className = "material-card";
-
-        const icon = createMaterialIcon(material);
-
-        const body = document.createElement("div");
-        const titleRow = document.createElement("div");
-        titleRow.className = "material-title-row";
-
-        const title = document.createElement("h3");
-        title.textContent = getMaterialDisplayName(material);
-        titleRow.append(title);
-
-        if (getMaterialNeedsReview(material)) {
-          const badge = document.createElement("span");
-          badge.className = "material-review-badge";
-          badge.textContent = "검수 필요";
-          titleRow.append(badge);
-        }
-
-        const quantity = document.createElement("p");
-        quantity.innerHTML = `필요 수량 <strong>${formatNumber(material.quantity)}</strong>`;
-
-        const ownedQuantity = document.createElement("p");
-        ownedQuantity.className = "material-owned-quantity";
-        ownedQuantity.textContent = `보유 ${formatNumber(getOwnedMaterialQuantity(material.itemId))}개`;
-
-        const shortageQuantity = document.createElement("p");
-        shortageQuantity.className = "material-shortage-quantity";
-        shortageQuantity.textContent = `부족 ${formatNumber(getMaterialShortageQuantity(material))}개`;
-
-        body.append(titleRow, quantity, ownedQuantity, shortageQuantity);
-        card.append(icon, body);
-        return card;
-      }
-
-      function createMaterialIcon(material) {
-        const masterItem = getMaterialMasterItem(material);
-        const item = oopartsCandidateById.get(material.itemId);
-        const imageUrl = masterItem?.imageUrl || material.imageUrl || item?.imageUrl;
-        const displayName = getMaterialDisplayName(material);
-
-        if (imageUrl) {
-          const image = document.createElement("img");
-          image.className = "material-image";
-          image.src = imageUrl;
-          image.alt = displayName;
-          return image;
-        }
-
-        const placeholder = document.createElement("div");
-        placeholder.className = "material-image-placeholder";
-        placeholder.setAttribute("aria-hidden", "true");
-        placeholder.textContent = getMaterialInitial(displayName);
-        return placeholder;
-      }
-
-      function getOwnedMaterialQuantity(itemId) {
-        return ownedMaterialQuantityById.get(itemId) ?? 0;
-      }
-
-      function getMaterialShortageQuantity(material) {
-        return Math.max(0, material.quantity - getOwnedMaterialQuantity(material.itemId));
-      }
-
-      function loadOwnedMaterialQuantities() {
-        ownedMaterialQuantityById.clear();
-        loadOwnedMaterialQuantityMap().forEach((quantity, itemId) => {
-          ownedMaterialQuantityById.set(itemId, quantity);
-        });
-      }
-
-      function createMaterialNotice(message) {
-        const notice = document.createElement("p");
-        notice.className = "material-empty-message";
-        notice.textContent = message;
-        return notice;
-      }
-
-      function getMaterialInitial(name) {
-        if (name.includes("크레딧")) {
-          return "C";
-        }
-
-        if (name.includes("BD")) {
-          return "BD";
-        }
-
-        if (name.includes("보고서")) {
-          return "EXP";
-        }
-
-        if (name.includes("노트")) {
-          return "노";
-        }
-
-        if (name.includes("엘레프")) {
-          return "엘";
-        }
-
-        if (name.includes("설계도")) {
-          return "도";
-        }
-
-        return name.slice(0, 1);
-      }
-
-      function formatNumber(value) {
-        return new Intl.NumberFormat("ko-KR").format(value);
-      }
-
-      setupSkillMaterialControls();
-      setupEquipmentControls();
-      loadOwnedMaterialQuantities();
-      renderGrowthStars();
-      renderRequiredMaterials();
-    </script>
+    <script type="module" src="./pages/characterDetailPage.js?v=required-materials-debug-20260623"></script>
   </body>
 </html>

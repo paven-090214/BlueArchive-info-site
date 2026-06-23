@@ -7,4 +7,12 @@ export const studentTerrainAdaptations = [
     indoor: "A",
     needsReview: false,
   },
+  {
+    studentId: 15,
+    studentSlug: "yuuka-track",
+    urban: null,
+    outdoor: null,
+    indoor: null,
+    needsReview: true,
+  },
 ];
