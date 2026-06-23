@@ -8,14 +8,14 @@
 
 - 학생 레벨업
 - 스킬 강화
-- 성급 및 전용무기 성급
+- 전용무기 성급
+- 장비 티어업
+- 능력개방
 - 전용무기 레벨업
 
 아직 계산하지 않는 대상:
 
-- 장비 티어업
 - 애장품
-- 유저 보유 재화 차감
 
 ## 관련 파일
 
@@ -32,6 +32,8 @@ styles.css
 utils/characterLevelCalculator.js
 utils/skillMaterialCalculator.js
 utils/starRankCalculator.js
+utils/equipmentCalculator.js
+utils/abilityUnlockCalculator.js
 utils/exclusiveWeaponCalculator.js
 ```
 
@@ -42,7 +44,8 @@ data/students.js
 data/characterExpTable.js
 data/activityReports.js
 data/skillMaterialRequirements.js
-data/starRankRequirements.js
+data/items.js
+data/equipment-level-costs.js
 data/growth/exclusiveWeaponLevelCosts.js
 data/growth/exclusiveWeaponEnhancementItems.js
 ```
@@ -55,9 +58,10 @@ character-detail.html?slug=kei 접속
   -> data/students.js에서 slug가 "kei"인 학생을 찾음
   -> 이후 계산 데이터 연결에는 학생의 숫자 id를 사용
   -> 학생 기본 정보를 화면에 표시
-  -> 목표 레벨, 목표 성급, 스킬 현재/목표 레벨 입력 UI 준비
+  -> 학생 현재/목표 레벨, 기본 성급 표시, 스킬 현재/목표 레벨 입력 UI 준비
+  -> 장비 현재/목표 티어, 능력개방 현재/목표 단계 입력 UI 준비
   -> renderRequiredMaterials() 실행
-  -> 세 계산 함수 실행
+  -> 학생 레벨, 스킬, 장비, 능력개방, 전용무기 계산 함수 실행
   -> itemId 기준으로 결과 합산
   -> 필요한 재화 영역에 카드로 표시
 ```
@@ -81,9 +85,14 @@ URL은 공유와 접근성을 위해 slug를 사용하고, 내부 계산 데이�
 | 항목 | 현재값 | 목표값 |
 | --- | --- | --- |
 | 학생 레벨 | 임시로 1 | 화면의 목표 학생 레벨 입력 |
-| 기본 성급 | `students.js`의 `baseStar` | 별 UI에서 선택한 기본 성급 |
+| 기본 성급 | `students.js`의 기본 성급 | 목표값 없음 |
 | 전용무기 레벨 | 임시로 1 | 목표 전용무기 성급에 따른 최대 레벨 |
 | 스킬 레벨 | 스킬 카드의 현재 레벨 select | 스킬 카드의 목표 레벨 select |
+| 장비 티어 | 장비별 현재 티어 select | 장비별 목표 티어 select |
+| 능력개방 단계 | 보너스별 현재 단계 select | 보너스별 목표 단계 select |
+
+페이지 최초 로드 시 학생 목표 레벨과 스킬 목표 레벨은 각 항목의 최대값으로 둔다.
+성급 상승 재화는 이번 단계에서 계산하지 않고, 노란 별은 학생 기본 성급 그대로 표시한다.
 
 ## 레벨업 계산
 
@@ -140,7 +149,8 @@ calculateSkillMaterials({
 data/skillMaterialRequirements.js
 ```
 
-`data/skillMaterialRequirements.js`의 `studentId`는 `students.js`의 숫자 `id`와 연결한다.
+`data/skillMaterialRequirements.js`의 `studentId`는 우선 `students.js`의 숫자 `id`와 연결한다.
+SchaleDB 학생 id와 기존 스킬 요구량 데이터의 id가 다른 경우에는 학생 slug, pathName, 표시명, raw 이름 후보로 `studentName`을 찾아 연결한다.
 오파츠 재화의 `itemId`는 `data/ooparts-candidates.js`의 안정 ID를 사용한다.
 예: `artifact-phaistos-tier1`, `artifact-rocket-tier3`
 
@@ -153,10 +163,13 @@ row.fromLevel >= currentLevel
 row.toLevel <= targetLevel
 ```
 
+스킬 타입은 슬롯별로 한 번씩만 계산한다.
+표시 스킬이 여러 개이거나 + 스킬이 있어도 별도 레벨 계산을 만들지 않는다.
+
 스킬 타입:
 
 | 화면 | skillType | 현재 레벨 | 목표 범위 |
-| --- | --- | --- |------------|-------|
+| --- | --- | --- | --- |
 | EX 스킬 | `ex` |     1~5     | 1~5 |
 | 1스킬 | `normal` |    1~10    | 1~10 |
 | 2스킬 | `passive` |    1~10    | 1~10 |
@@ -168,62 +181,74 @@ Kei 외 학생처럼 스킬 데이터가 없으면 스킬 재화는 표시하지
 스킬 재화 데이터가 아직 없습니다.
 ```
 
-## 성급/전용무기 성급 계산
+## 장비 티어업 계산
 
 함수:
 
 ```js
-calculateStarRankEleph({
-  currentBaseStar,
-  currentWeaponStar,
-  targetBaseStar,
-  targetWeaponStar
+calculateEquipmentMaterials({
+  student,
+  equipmentState,
+  equipmentByCategory,
+  itemsById,
+  currencyById,
+  levelCostRows
 })
 ```
 
 데이터:
 
 ```text
-data/starRankRequirements.js
+data/student-equipment.js
+data/equipment-level-costs.js
+SchaleDB equipment/items/currency 데이터
 ```
 
-공통 규칙:
+장비 영역은 현재 티어와 목표 티어 선택만 담당한다.
+장비 필요 재화는 필요한 재화 영역에 합산해서 표시한다.
+목표 티어가 현재 티어보다 낮아지면 현재 티어 이상으로 보정한다.
 
-```text
-1성 -> 2성: 30
-2성 -> 3성: 80
-3성 -> 4성: 100
-4성 -> 5성: 120
-5성 -> 전용무기 1성: 0
-전용무기 1성 -> 전용무기 2성: 120, 크레딧 : 1,000,000
-전용무기 2성 -> 전용무기 3성: 180, 크레딧 : 1,500,000
-전용무기 3성 -> 전용무기 4성: 200, 크레딧 : 2,000,000
-```
+## 능력개방 계산
 
-학생별 엘레프 itemId는 다음 형식을 우선 사용한다.
+함수:
 
 ```js
-`${selectedStudent.slug}-eleph`
+calculateAbilityUnlockMaterials({
+  student,
+  abilityUnlockState,
+  itemsById,
+  inventory
+})
 ```
 
-예:
+보너스별 재화 매핑:
 
-```text
-kei-eleph
-```
+| 보너스 | 재화 |
+| --- | --- |
+| 최대체력 보너스 | 교양 체육 WB |
+| 공격력 보너스 | 교양 사격 WB |
+| 치유력 보너스 | 교양 위생 WB |
 
-학생별 엘레프 item은 `data/items.js`에 등록하고, `imageUrl`은 실제 엘레프 이미지 파일 경로를 명시적으로 연결한다.
-이미지 파일명이 학생 이름이 아니라 `CH0064.png` 또는 `Item_Icon_SecretStone_Maki.png` 같은 형식이어도 파일명으로 학생을 추측하지 않는다.
-확실하지 않은 매핑은 `imageUrl: null`, `needsReview: true`로 둔다.
-학생 상세 화면은 성급 계산 결과의 엘레프 `itemId`로 `data/items.js`를 조회해 이름, 이미지, 검수 상태를 표시한다.
+능력개방 영역은 현재 단계와 목표 단계 선택만 담당한다.
+필요 재화 목록은 능력개방 영역 안에 직접 표시하지 않고 필요한 재화 영역에 합산한다.
+WB itemId는 `itemsById`에서 이름 또는 아이콘 이름으로 찾고, 찾지 못하면 임의 ID를 만들지 않고 검수 필요로 둔다.
+
+## 성급 표시
+
+학생 상세 페이지의 노란 별은 학생 기본 성급 표시만 담당한다.
+성급 상승 목표 선택과 엘레프/성급 크레딧 계산은 이번 단계의 필요한 재화 합산 대상에서 제외한다.
+전용무기 성급을 선택해도 노란 별은 학생 기본 성급 그대로 유지한다.
 
 ## 결과 합산
 
-`renderRequiredMaterials()`가 세 계산 결과를 합친다.
+`renderRequiredMaterialsSection()`이 여러 계산 결과를 합친다.
 
 중요 규칙:
 
 - `itemId`가 같으면 수량을 합산한다.
+- `ownedQuantity`는 호출자가 준비한 보유 재화 목록에서 계산한다.
+- `missingQuantity`는 필요 수량에서 보유 수량을 뺀 값으로 계산한다.
+- 각 재화에는 `sources`를 남겨 어떤 계산에서 온 재화인지 추적할 수 있게 한다.
 - 하나라도 `needsReview: true`이면 최종 카드도 `검수 필요`로 표시한다.
 - 크레딧은 여러 계산에서 나오므로 `credit` 하나로 합산된다.
 
@@ -340,8 +365,8 @@ renderWeaponStarDisplay()
 결과 합산과 표시:
 
 ```text
-renderRequiredMaterials()
-mergeMaterials()
+renderRequiredMaterialsSection()
+mergeRequiredMaterials()
 createMaterialCard()
 ```
 
@@ -350,6 +375,4 @@ createMaterialCard()
 - 학생별 엘레프 stable itemId를 별도 데이터로 만들기
 - 학생별 엘레프 이미지를 `data/items.js` item과 명시적으로 연결하기
 - 재화 이미지 연결하기
-- 장비 티어업 재화 계산 추가
 - 애장품 재화 계산 추가
-- 계산 로직을 inline script에서 별도 JS 파일로 분리하기

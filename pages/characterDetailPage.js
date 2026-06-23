@@ -7,14 +7,29 @@ import {
   getStudentGroupByIdByLocale,
   getStudentGroupByStudentIdByLocale,
 } from "../data/schaledb/schaleDbStore.js";
+import { items as siteItems } from "../data/items.js";
 import { equipmentLevelCosts } from "../data/equipment-level-costs.js";
+import { skillMaterialRequirements } from "../data/skillMaterialRequirements.js";
 import { getSchaleLabel } from "../data/schaledb/schaleDbLabels.js";
+import { calculateCharacterLevelMaterials } from "../utils/characterLevelCalculator.js";
 import {
   calculateEquipmentMaterials,
   createEquipmentByCategory,
   CURRENT_EQUIPMENT_STATES,
   EQUIPMENT_TIER_RANGE,
 } from "../utils/equipmentCalculator.js";
+import { calculateExclusiveWeaponMaterials } from "../utils/exclusiveWeaponCalculator.js";
+import {
+  calculateSkillMaterials,
+  SKILL_LEVEL_RANGES,
+} from "../utils/skillMaterialCalculator.js";
+import {
+  ABILITY_UNLOCK_LEVEL_RANGE,
+  calculateAbilityUnlockMaterials,
+  DEFAULT_ABILITY_UNLOCK_STATE,
+  getAbilityUnlockBonusConfigs,
+  normalizeAbilityUnlockState,
+} from "../utils/abilityUnlockCalculator.js";
 import {
   getEffectiveTerrain,
   getExclusiveWeaponStar4Effect,
@@ -35,8 +50,13 @@ const skillList = document.querySelector(".skill-list");
 const terrainAptitudeList = document.querySelector(".terrain-aptitude-list");
 const roleImage = document.querySelector("[data-role-image]");
 const growthStarRow = document.querySelector("[data-growth-star-row]");
+const studentCurrentLevelInput = document.querySelector("#student-current-level-input");
+const studentLevelInput = document.querySelector("#student-level-input");
+const studentLevelRange = document.querySelector("#student-level-range");
 const equipmentList = document.querySelector("[data-equipment-list]");
+const abilityUnlockList = document.querySelector("[data-ability-unlock-list]");
 const materialList = document.querySelector(".material-list");
+const requiredMaterialCount = document.querySelector("[data-required-material-count]");
 const favoriteItemPanel = document.querySelector(".favorite-item-panel");
 const favoriteItemCard = document.querySelector(".favorite-item-card");
 const exclusiveWeaponName = document.querySelector("[data-exclusive-weapon-name]");
@@ -58,6 +78,12 @@ let selectedWeaponStar = 0;
 let equipmentMaterialData = null;
 let equipmentStateStudentId = null;
 let equipmentState = {};
+let abilityUnlockStateStudentId = null;
+let abilityUnlockState = structuredClone(DEFAULT_ABILITY_UNLOCK_STATE);
+let growthStateStudentId = null;
+let studentLevelState = { currentLevel: 1, targetLevel: 90 };
+let skillLevelState = {};
+let activeStudentForMaterials = null;
 
 const TERRAIN_META = [
   ["street", "시가지", "./images/terrains/urban.webp"],
@@ -115,6 +141,17 @@ const SKILL_SLOT_CONFIG = [
   { key: "passive", plusKey: "passivePlus", label: "강화 스킬", iconText: "2", maxLevel: 10 },
   { key: "sub", label: "서브 스킬", iconText: "3", maxLevel: 10 },
 ];
+
+function createDefaultSkillLevelState() {
+  return Object.fromEntries(
+    SKILL_SLOT_CONFIG
+      .filter((slot) => SKILL_LEVEL_RANGES[slot.key])
+      .map((slot) => [slot.key, {
+        currentLevel: SKILL_LEVEL_RANGES[slot.key].min,
+        targetLevel: SKILL_LEVEL_RANGES[slot.key].max,
+      }]),
+  );
+}
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initializeCharacterDetailPage);
@@ -214,12 +251,22 @@ async function loadEquipmentMaterialData() {
     equipmentByCategory: createEquipmentByCategory(equipment),
     items,
     itemsById: new Map(items.map((item) => [item.id, item])),
+    displayItemsById: createDisplayItemsById(items),
     currency,
     currencyById: new Map(currency.map((item) => [item.id, item])),
     levelCostRows: equipmentLevelCosts,
   };
 
   return equipmentMaterialData;
+}
+
+function createDisplayItemsById(schaleItems = []) {
+  return new Map([
+    ...siteItems.map((item) => [String(item.id), item]),
+    ...schaleItems
+      .filter((item) => item?.id !== null && item?.id !== undefined)
+      .map((item) => [String(item.id), item]),
+  ]);
 }
 
 async function createDetailContextFromStudent(student, locale) {
@@ -263,20 +310,23 @@ function renderStudentDetailContext(detailContext) {
 }
 
 function renderStudentDetail(student, group = null, activeForm = null) {
+  activeStudentForMaterials = student;
   document.title = `${student.name ?? "학생 상세"} | BlueArchive Info Site`;
-  selectedGrowthStar = clampStarValue(selectedGrowthStar || Number(student.star ?? 0), Number(student.star ?? 0), 5);
+  selectedGrowthStar = getBaseStar(student);
   selectedWeaponStar = clampStarValue(selectedWeaponStar, 0, 4);
+  ensureGrowthStateForStudent(student);
   renderFormSwitcher(group, activeForm);
   renderProfile(student);
   renderBasicFields(student);
   renderTerrainAdaptations(student);
   renderUniqueItem(student);
   renderSkillCards(student);
+  renderStudentLevelControls(student);
   renderGrowthStars(student);
-  const equipmentResult = calculateCurrentEquipmentMaterials(student);
   renderEquipmentCards(student);
+  renderAbilityUnlockSection(student);
   renderWeapon(student);
-  renderEquipmentMaterialSummary(equipmentResult);
+  updateRequiredMaterials(student);
   renderMemorialPlaceholder();
 }
 
@@ -557,8 +607,8 @@ function createSkillSlotCard({ skills, slot }) {
   const title = document.createElement("h3");
   title.textContent = slot.label;
 
-  const levelSelect = createSkillLevelSelect(slot);
-  titleRow.append(title, levelSelect);
+  const levelControls = createSkillLevelControlGroup(slot);
+  titleRow.append(title, levelControls);
 
   const variantList = document.createElement("div");
   variantList.className = "skill-variant-list";
@@ -636,15 +686,37 @@ function getFallbackSkillSlot(index) {
   };
 }
 
-function createSkillLevelSelect(slot) {
+function createSkillLevelControlGroup(slot) {
+  const group = document.createElement("div");
+  group.className = "skill-level-control-group";
+  group.append(
+    createSkillLevelSelect({
+      slot,
+      label: `${slot.label} 현재 레벨`,
+      value: skillLevelState[slot.key]?.currentLevel ?? SKILL_LEVEL_RANGES[slot.key]?.min ?? 1,
+      onChange: (value) => updateSkillLevelState(slot.key, { currentLevel: Number(value) }),
+    }),
+    createSkillLevelSelect({
+      slot,
+      label: `${slot.label} 목표 레벨`,
+      value: skillLevelState[slot.key]?.targetLevel ?? slot.maxLevel,
+      onChange: (value) => updateSkillLevelState(slot.key, { targetLevel: Number(value) }),
+    }),
+  );
+  return group;
+}
+
+function createSkillLevelSelect({ slot, label, value, onChange }) {
   const select = document.createElement("select");
   select.className = "skill-level-select";
-  select.setAttribute("aria-label", `${slot.label} 레벨`);
+  select.setAttribute("aria-label", label);
 
   for (let level = 1; level <= slot.maxLevel; level += 1) {
     select.append(new Option(`Lv. ${level}`, String(level)));
   }
 
+  select.value = String(value);
+  select.addEventListener("change", () => onChange(select.value));
   return select;
 }
 
@@ -666,26 +738,56 @@ function createSkillMeta(skill) {
   return meta;
 }
 
+function renderStudentLevelControls(student) {
+  ensureGrowthStateForStudent(student);
+
+  if (!studentCurrentLevelInput || !studentLevelInput || !studentLevelRange) {
+    return;
+  }
+
+  const maxLevel = getMaxStudentLevel();
+  studentCurrentLevelInput.max = String(maxLevel);
+  studentLevelInput.max = String(maxLevel);
+  studentLevelRange.max = String(maxLevel);
+  studentCurrentLevelInput.value = String(studentLevelState.currentLevel);
+  studentLevelInput.value = String(studentLevelState.targetLevel);
+  studentLevelRange.value = String(studentLevelState.targetLevel);
+
+  bindStudentLevelControls(student);
+}
+
+function bindStudentLevelControls(student) {
+  if (studentCurrentLevelInput.dataset.boundLevelControl === "true") {
+    return;
+  }
+
+  studentCurrentLevelInput.dataset.boundLevelControl = "true";
+  studentLevelInput.dataset.boundLevelControl = "true";
+  studentLevelRange.dataset.boundLevelControl = "true";
+
+  studentCurrentLevelInput.addEventListener("input", () => {
+    updateStudentLevelState({ currentLevel: Number(studentCurrentLevelInput.value) });
+  });
+  studentLevelInput.addEventListener("input", () => {
+    updateStudentLevelState({ targetLevel: Number(studentLevelInput.value) });
+  });
+  studentLevelRange.addEventListener("input", () => {
+    updateStudentLevelState({ targetLevel: Number(studentLevelRange.value) });
+  });
+}
+
 function renderGrowthStars(student) {
-  const baseStar = Number(student.star ?? 0);
-  selectedGrowthStar = clampStarValue(selectedGrowthStar || baseStar, baseStar, 5);
+  const baseStar = getBaseStar(student);
+  selectedGrowthStar = baseStar;
   const controls = [];
 
   for (let index = 1; index <= 5; index += 1) {
     controls.push(createStarButton({
       value: index,
-      isActive: index <= selectedGrowthStar,
+      isActive: index <= baseStar,
       iconUrl: STAR_ICON_URL,
       blankIconUrl: BLANK_STAR_ICON_URL,
-      label: `목표 ${index}성`,
-      onClick: () => {
-        selectedGrowthStar = index;
-        selectedWeaponStar = 0;
-        renderGrowthStars(student);
-        renderSkillCards(student);
-        renderTerrainAdaptations(student);
-        renderWeapon(student);
-      },
+      label: `기본 ${index}성`,
     }));
   }
 
@@ -697,12 +799,13 @@ function renderGrowthStars(student) {
       blankIconUrl: "./images/icon/Icon_blank_star.webp",
       label: `전용무기 ${index}성`,
       onClick: () => {
-        selectedGrowthStar = 5;
+        selectedGrowthStar = baseStar;
         selectedWeaponStar = index;
         renderGrowthStars(student);
         renderSkillCards(student);
         renderTerrainAdaptations(student);
         renderWeapon(student);
+        updateRequiredMaterials(student);
       },
     }));
   }
@@ -725,7 +828,11 @@ function createStarButton({ value, isActive, iconUrl, blankIconUrl, label, onCli
   image.setAttribute("aria-hidden", "true");
 
   button.append(image);
-  button.addEventListener("click", onClick);
+  if (typeof onClick === "function") {
+    button.addEventListener("click", onClick);
+  } else {
+    button.disabled = true;
+  }
   return button;
 }
 
@@ -739,6 +846,73 @@ function renderEquipmentCards(student) {
 
   ensureEquipmentStateForStudent(student);
   equipmentList.replaceChildren(...slots.map((slot, index) => createEquipmentCard(slot, index, student)));
+}
+
+function renderAbilityUnlockSection(student) {
+  ensureAbilityUnlockStateForStudent(student);
+
+  if (!abilityUnlockList) {
+    return;
+  }
+
+  abilityUnlockList.replaceChildren(
+    ...getAbilityUnlockBonusConfigs().map((bonus) => createAbilityUnlockCard(bonus, student)),
+  );
+}
+
+function createAbilityUnlockCard(bonus, student) {
+  const card = document.createElement("article");
+  card.className = "equipment-card ability-unlock-card";
+  const bonusState = abilityUnlockState[bonus.key] ?? { currentLevel: 0, targetLevel: 0 };
+
+  const content = document.createElement("div");
+  content.className = "equipment-content";
+
+  const titleRow = document.createElement("div");
+  titleRow.className = "equipment-title-row";
+
+  const title = document.createElement("h3");
+  title.textContent = bonus.displayName;
+  titleRow.append(title);
+
+  const controls = document.createElement("div");
+  controls.className = "ability-unlock-control-group";
+  controls.append(
+    createAbilityUnlockSelect({
+      label: `${bonus.displayName} 현재 단계`,
+      value: bonusState.currentLevel,
+      onChange: (value) => updateAbilityUnlockState(student, bonus.key, { currentLevel: Number(value) }),
+    }),
+    createAbilityUnlockSelect({
+      label: `${bonus.displayName} 목표 단계`,
+      value: bonusState.targetLevel,
+      minLevel: bonusState.currentLevel,
+      onChange: (value) => updateAbilityUnlockState(student, bonus.key, { targetLevel: Number(value) }),
+    }),
+  );
+
+  content.append(titleRow, controls);
+  card.append(content);
+  return card;
+}
+
+function createAbilityUnlockSelect({ label, value, minLevel = ABILITY_UNLOCK_LEVEL_RANGE.min, onChange }) {
+  const field = document.createElement("label");
+  field.className = "compact-field";
+  field.textContent = label;
+
+  const select = document.createElement("select");
+  select.className = "equipment-tier-select";
+  select.setAttribute("aria-label", label);
+
+  for (let level = minLevel; level <= ABILITY_UNLOCK_LEVEL_RANGE.max; level += 1) {
+    select.append(new Option(`${level}단계`, String(level)));
+  }
+
+  select.value = String(Math.max(minLevel, Number(value) || 0));
+  select.addEventListener("change", () => onChange(select.value));
+  field.append(select);
+  return field;
 }
 
 function createEquipmentCard(slot, index, student) {
@@ -965,6 +1139,138 @@ function calculateCurrentEquipmentMaterials(student) {
   });
 }
 
+function calculateCurrentAbilityUnlockMaterials(student) {
+  ensureAbilityUnlockStateForStudent(student);
+
+  return calculateAbilityUnlockMaterials({
+    student,
+    abilityUnlockState,
+    itemsById: equipmentMaterialData?.displayItemsById ?? equipmentMaterialData?.itemsById,
+    inventory: getUserInventory(),
+  });
+}
+
+function calculateCurrentCharacterLevelMaterials(student) {
+  ensureGrowthStateForStudent(student);
+  const result = calculateCharacterLevelMaterials({
+    currentLevel: studentLevelState.currentLevel,
+    targetLevel: studentLevelState.targetLevel,
+  });
+
+  const levelMaterialResult = normalizeMaterialResult({
+    materials: result.materials,
+    source: "level",
+    hasData: result.hasCompleteData,
+    needsReview: result.needsReview,
+    missingData: result.missingLevels?.map((level) => `MISSING_STUDENT_LEVEL_${level}`) ?? [],
+  });
+  console.log("[required materials] level result", levelMaterialResult);
+  return levelMaterialResult;
+}
+
+function calculateCurrentSkillMaterials(student) {
+  ensureGrowthStateForStudent(student);
+  const skillRequirementStudentId = getSkillRequirementStudentId(student);
+  const slotResults = SKILL_SLOT_CONFIG
+    .filter((slot) => SKILL_LEVEL_RANGES[slot.key])
+    .map((slot) => calculateSkillMaterials({
+      studentId: skillRequirementStudentId,
+      skillType: slot.key,
+      currentLevel: skillLevelState[slot.key]?.currentLevel,
+      targetLevel: skillLevelState[slot.key]?.targetLevel,
+      requirements: skillMaterialRequirements,
+    }));
+
+  const skillMaterialResult = normalizeMaterialResult({
+    materials: slotResults.flatMap((result) => result.materials),
+    source: "skill",
+    hasData: slotResults.every((result) => result.hasData && result.hasCompleteData),
+    needsReview: slotResults.some((result) => result.needsReview || !result.hasData),
+    missingData: slotResults.flatMap((result) => [
+      ...(!result.hasData ? [`MISSING_SKILL_DATA_${result.skillType}`] : []),
+      ...result.missingRows.map((row) => `MISSING_SKILL_${result.skillType}_${row.fromLevel}_${row.toLevel}`),
+    ]),
+  });
+  console.log("[required materials] skill result", {
+    activeStudent: student,
+    skillRequirementStudentId,
+    skillLevelState,
+    slotResults,
+    skillMaterialResult,
+  });
+  return skillMaterialResult;
+}
+
+function getSkillRequirementStudentId(student) {
+  const directId = Number(student?.id);
+
+  if (skillMaterialRequirements.some((row) => Number(row.studentId) === directId)) {
+    return directId;
+  }
+
+  const candidates = new Set([
+    student?.slug,
+    student?.pathName,
+    student?.name,
+    student?.devName,
+    student?.raw?.PathName,
+    student?.raw?.DevName,
+    student?.raw?.Name,
+    student?.raw?.NameEn,
+  ].filter(Boolean).map((value) => normalizeSearchText(value)));
+
+  const matchedRequirement = skillMaterialRequirements.find((row) => {
+    return candidates.has(normalizeSearchText(row.studentName));
+  });
+
+  return Number(matchedRequirement?.studentId ?? directId);
+}
+
+function calculateCurrentExclusiveWeaponMaterials(student) {
+  const result = calculateExclusiveWeaponMaterials({
+    weaponType: student?.weaponType,
+    targetWeaponStar: selectedWeaponStar,
+  });
+
+  return normalizeMaterialResult({
+    materials: result.materials,
+    source: "exclusive_weapon",
+    hasData: result.hasCompleteData,
+    needsReview: result.needsReview,
+    missingData: result.missingRows?.map((row) => `MISSING_WEAPON_LEVEL_${row.fromLevel}_${row.toLevel}`) ?? [],
+  });
+}
+
+function calculateCurrentRequiredMaterials(student) {
+  console.log("[required materials] active student", student);
+  const characterLevelResult = calculateCurrentCharacterLevelMaterials(student);
+  const skillResult = calculateCurrentSkillMaterials(student);
+  const starMaterialResult = {
+    requiredMaterials: [],
+    hasData: true,
+    needsReview: false,
+    skipped: true,
+    reason: "성급 상승 재화는 현재 필요한 재화 합산 대상에서 제외",
+  };
+  console.log("[required materials] star result", starMaterialResult);
+  const equipmentResult = calculateCurrentEquipmentMaterials(student);
+  const abilityUnlockResult = calculateCurrentAbilityUnlockMaterials(student);
+  const exclusiveWeaponResult = calculateCurrentExclusiveWeaponMaterials(student);
+  const mergedRequiredMaterials = mergeRequiredMaterials({
+    results: [
+      characterLevelResult,
+      skillResult,
+      equipmentResult,
+      abilityUnlockResult,
+      exclusiveWeaponResult,
+    ],
+    itemsById: equipmentMaterialData?.displayItemsById,
+    inventory: getUserInventory(),
+  });
+  console.log("[required materials] merged", mergedRequiredMaterials);
+  return mergedRequiredMaterials;
+}
+
 function ensureEquipmentStateForStudent(student) {
   if (equipmentStateStudentId === Number(student?.id)) {
     return;
@@ -975,6 +1281,28 @@ function ensureEquipmentStateForStudent(student) {
   equipmentState = Object.fromEntries(
     slots.map((category, index) => [`slot${index + 1}`, createDefaultEquipmentSlotState(category)]),
   );
+}
+
+function ensureAbilityUnlockStateForStudent(student) {
+  if (abilityUnlockStateStudentId === Number(student?.id)) {
+    return;
+  }
+
+  abilityUnlockStateStudentId = Number(student?.id);
+  abilityUnlockState = structuredClone(DEFAULT_ABILITY_UNLOCK_STATE);
+}
+
+function ensureGrowthStateForStudent(student) {
+  if (growthStateStudentId === Number(student?.id)) {
+    return;
+  }
+
+  growthStateStudentId = Number(student?.id);
+  studentLevelState = {
+    currentLevel: 1,
+    targetLevel: getMaxStudentLevel(),
+  };
+  skillLevelState = createDefaultSkillLevelState();
 }
 
 function createDefaultEquipmentSlotState(category) {
@@ -999,32 +1327,289 @@ function updateEquipmentSlotState(student, slotIndex, partialState) {
     equipmentState[slotKey].targetTier = equipmentState[slotKey].currentTier;
   }
 
-  const equipmentResult = calculateCurrentEquipmentMaterials(student);
   renderEquipmentCards(student);
-  renderEquipmentMaterialSummary(equipmentResult);
+  updateRequiredMaterials(student);
 }
 
-function renderEquipmentMaterialSummary(equipmentResult) {
-  if (!equipmentResult) {
-    replaceWithNotice(materialList, "장비 재화 데이터를 불러오지 못했습니다.");
+function updateStudentLevelState(partialState) {
+  if (!activeStudentForMaterials) {
     return;
   }
 
-  if (equipmentResult.requiredMaterials.length === 0) {
+  ensureGrowthStateForStudent(activeStudentForMaterials);
+  studentLevelState = normalizeStudentLevelState({
+    ...studentLevelState,
+    ...partialState,
+  });
+  renderStudentLevelControls(activeStudentForMaterials);
+  updateRequiredMaterials(activeStudentForMaterials);
+}
+
+function updateSkillLevelState(skillType, partialState) {
+  if (!activeStudentForMaterials) {
+    return;
+  }
+
+  ensureGrowthStateForStudent(activeStudentForMaterials);
+  skillLevelState[skillType] = normalizeSkillSlotState(skillType, {
+    ...(skillLevelState[skillType] ?? {}),
+    ...partialState,
+  });
+  renderSkillCards(activeStudentForMaterials);
+  updateRequiredMaterials(activeStudentForMaterials);
+}
+
+function updateAbilityUnlockState(student, bonusKey, partialState) {
+  ensureAbilityUnlockStateForStudent(student);
+  abilityUnlockState[bonusKey] = {
+    ...(abilityUnlockState[bonusKey] ?? { currentLevel: 0, targetLevel: 0 }),
+    ...partialState,
+  };
+  abilityUnlockState = normalizeAbilityUnlockState(abilityUnlockState);
+
+  renderAbilityUnlockSection(student);
+  updateRequiredMaterials(student);
+}
+
+function updateRequiredMaterials(student) {
+  console.log("[required materials] update called", {
+    student,
+    container: materialList,
+  });
+  renderRequiredMaterialsSection(calculateCurrentRequiredMaterials(student));
+}
+
+function renderRequiredMaterialsSection(requiredMaterialResult) {
+  console.log("[required materials] container", materialList);
+  console.log("[required materials] render input", requiredMaterialResult);
+  if (!requiredMaterialResult) {
+    updateRequiredMaterialSummary(null);
+    replaceWithNotice(materialList, "재화 데이터를 불러오지 못했습니다.");
+    return;
+  }
+
+  if (requiredMaterialResult.requiredMaterials.length === 0) {
+    updateRequiredMaterialSummary(requiredMaterialResult);
     replaceWithNotice(
       materialList,
-      equipmentResult.needsReview ? "장비 재화 데이터 확인 필요" : "필요 재화 없음",
+      requiredMaterialResult.needsReview ? "재화 데이터 확인 필요" : "필요 재화 없음",
     );
     return;
   }
 
-  const cards = equipmentResult.requiredMaterials.map(createMaterialCard);
+  const cards = requiredMaterialResult.requiredMaterials.map(createMaterialCard);
+  updateRequiredMaterialSummary(requiredMaterialResult);
 
-  if (equipmentResult.needsReview) {
-    cards.push(createNotice("일부 장비 재화 데이터는 검수 필요 상태입니다."));
+  if (requiredMaterialResult.needsReview) {
+    cards.push(createNotice("일부 재화 데이터는 검수 필요 상태입니다."));
   }
 
   materialList.replaceChildren(...cards);
+}
+
+function updateRequiredMaterialSummary(requiredMaterialResult) {
+  if (!requiredMaterialCount) {
+    return;
+  }
+
+  if (!requiredMaterialResult) {
+    requiredMaterialCount.textContent = "계산 실패";
+    return;
+  }
+
+  const materials = requiredMaterialResult.requiredMaterials ?? [];
+  const skillCount = materials.filter((material) => material.sources?.includes("skill")).length;
+
+  if (materials.length === 0) {
+    requiredMaterialCount.textContent = requiredMaterialResult.needsReview ? "검수 필요" : "필요 재화 없음";
+    return;
+  }
+
+  requiredMaterialCount.textContent = skillCount > 0
+    ? `총 ${materials.length}개 · 스킬 ${skillCount}개 포함`
+    : `총 ${materials.length}개`;
+}
+
+function normalizeMaterialResult({ materials = [], source, hasData = true, needsReview = false, missingData = [] } = {}) {
+  return {
+    requiredMaterials: materials.map((material) => ({
+      itemId: material.itemId ?? "",
+      name: material.name ?? material.itemName ?? null,
+      requiredQuantity: Number(material.requiredQuantity ?? material.quantity ?? 0),
+      icon: material.icon ?? "",
+      category: material.category ?? source,
+      sources: [source],
+      needsReview: Boolean(material.needsReview),
+    })),
+    hasData,
+    needsReview,
+    missingData,
+  };
+}
+
+function mergeRequiredMaterials({ results = [], itemsById, inventory } = {}) {
+  const materialMap = new Map();
+  const missingData = [];
+  const inventoryMap = createInventoryMap(inventory);
+
+  results.forEach((result) => {
+    if (!result) {
+      return;
+    }
+
+    if (Array.isArray(result.missingData)) {
+      missingData.push(...result.missingData);
+    }
+
+    (result.requiredMaterials ?? []).forEach((material) => {
+      const materialKey = material.itemId || material.category;
+
+      if (!materialKey) {
+        return;
+      }
+
+      const existing = materialMap.get(String(materialKey));
+      const item = getItemFromMapLike(itemsById, material.itemId);
+      const requiredQuantity = Number(material.requiredQuantity ?? 0);
+
+      if (existing) {
+        existing.requiredQuantity += requiredQuantity;
+        existing.sources = mergeSources(existing.sources, material.sources ?? material.category);
+        existing.ownedQuantity = getOwnedQuantity(inventoryMap, existing.itemId);
+        existing.missingQuantity = Math.max(0, existing.requiredQuantity - existing.ownedQuantity);
+        existing.needsReview = existing.needsReview || Boolean(material.needsReview);
+        return;
+      }
+
+      const itemId = material.itemId ? String(material.itemId) : "";
+      const ownedQuantity = getOwnedQuantity(inventoryMap, itemId);
+      materialMap.set(String(materialKey), {
+        ...material,
+        itemId,
+        name: item?.name ?? item?.Name ?? material.name ?? "재화 이름 확인 필요",
+        icon: resolveDisplayItemIcon(item) || material.icon || "",
+        requiredQuantity,
+        ownedQuantity,
+        missingQuantity: Math.max(0, requiredQuantity - ownedQuantity),
+        sources: mergeSources([], material.sources ?? material.category),
+        needsReview: Boolean(material.needsReview) || Boolean(item?.needsReview),
+      });
+    });
+  });
+
+  const requiredMaterials = [...materialMap.values()];
+  return {
+    requiredMaterials,
+    materials: requiredMaterials,
+    hasData: results.every((result) => result?.hasData),
+    needsReview: results.some((result) => result?.needsReview),
+    missingData,
+  };
+}
+
+function normalizeStudentLevelState(state) {
+  const maxLevel = getMaxStudentLevel();
+  const currentLevel = clampInteger(state.currentLevel, 1, maxLevel);
+  const targetLevel = clampInteger(state.targetLevel, 1, maxLevel);
+
+  return {
+    currentLevel,
+    targetLevel: Math.max(currentLevel, targetLevel),
+  };
+}
+
+function normalizeSkillSlotState(skillType, state) {
+  const range = SKILL_LEVEL_RANGES[skillType] ?? { min: 1, max: 10 };
+  const currentLevel = clampInteger(state.currentLevel, range.min, range.max);
+  const targetLevel = clampInteger(state.targetLevel, range.min, range.max);
+
+  return {
+    currentLevel,
+    targetLevel: Math.max(currentLevel, targetLevel),
+  };
+}
+
+function getMaxStudentLevel() {
+  const maxLevel = Number(studentLevelInput?.max ?? studentLevelRange?.max ?? 90);
+  return Number.isFinite(maxLevel) ? maxLevel : 90;
+}
+
+function getItemFromMapLike(source, itemId) {
+  if (itemId === null || itemId === undefined || itemId === "") {
+    return null;
+  }
+
+  if (source instanceof Map) {
+    return source.get(String(itemId)) ?? source.get(Number(itemId)) ?? null;
+  }
+
+  if (source && typeof source === "object") {
+    return source[itemId] ?? null;
+  }
+
+  return null;
+}
+
+function resolveDisplayItemIcon(item) {
+  const icon = item?.imageUrl ?? item?.icon ?? item?.Icon ?? "";
+
+  if (!icon) {
+    return "";
+  }
+
+  if (String(icon).startsWith("./") || String(icon).startsWith("http")) {
+    return icon;
+  }
+
+  return `./images/items/${icon}.png`;
+}
+
+function createInventoryMap(userInventory) {
+  if (userInventory instanceof Map) {
+    return new Map([...userInventory.entries()].map(([itemId, quantity]) => [
+      String(itemId),
+      Number(quantity) || 0,
+    ]));
+  }
+
+  if (Array.isArray(userInventory)) {
+    return new Map(userInventory
+      .filter((item) => item?.itemId)
+      .map((item) => [String(item.itemId), Number(item.quantity) || 0]));
+  }
+
+  if (userInventory && typeof userInventory === "object") {
+    return new Map(Object.entries(userInventory).map(([itemId, quantity]) => [
+      String(itemId),
+      Number(quantity) || 0,
+    ]));
+  }
+
+  return new Map();
+}
+
+function getOwnedQuantity(inventoryMap, itemId) {
+  if (!itemId) {
+    return 0;
+  }
+
+  return inventoryMap.get(String(itemId)) ?? 0;
+}
+
+function mergeSources(existingSources = [], source) {
+  const sources = Array.isArray(source) ? source : [source];
+  return [...new Set([
+    ...existingSources.filter(Boolean),
+    ...sources.filter(Boolean),
+  ])];
+}
+
+function normalizeSearchText(value) {
+  return String(value ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "")
+    .replace(/[()（）]/g, "");
 }
 
 function createMaterialCard(material) {
@@ -1152,8 +1737,13 @@ function renderUniqueItem(student) {
 }
 
 function resetGrowthState(student) {
-  selectedGrowthStar = Number(student?.star ?? 0);
+  selectedGrowthStar = getBaseStar(student);
   selectedWeaponStar = 0;
+}
+
+function getBaseStar(student) {
+  const star = Number(student?.star ?? student?.baseStar ?? student?.raw?.StarGrade ?? 0);
+  return Number.isFinite(star) ? clampStarValue(star, 0, 5) : 0;
 }
 
 function clampStarValue(value, min, max) {
@@ -1164,6 +1754,16 @@ function clampStarValue(value, min, max) {
   }
 
   return Math.min(Math.max(numberValue, min), max);
+}
+
+function clampInteger(value, min, max) {
+  const numberValue = Number(value);
+
+  if (!Number.isFinite(numberValue)) {
+    return min;
+  }
+
+  return Math.min(max, Math.max(min, Math.trunc(numberValue)));
 }
 
 function renderWeapon(student) {

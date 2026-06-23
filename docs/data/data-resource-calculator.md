@@ -663,6 +663,45 @@ images/items/eleph/hifumi-eleph.png
 
 요구량 데이터는 성장 재화 연결 데이터와 분리한다.
 
+## 능력개방 재화 연결
+
+학생 상세 페이지의 능력개방 계산은 `utils/abilityUnlockCalculator.js`에서 처리한다.
+
+계산 함수:
+
+```js
+calculateAbilityUnlockMaterials({
+  student,
+  abilityUnlockState,
+  itemsById,
+  inventory
+})
+```
+
+`abilityUnlockState`는 보너스별 현재 단계와 목표 단계를 가진다.
+
+```js
+{
+  maxHpBonus: { currentLevel: 0, targetLevel: 0 },
+  attackBonus: { currentLevel: 0, targetLevel: 0 },
+  healBonus: { currentLevel: 0, targetLevel: 0 }
+}
+```
+
+보너스별 WB 재화 매핑:
+
+| 보너스 | 재화 |
+| --- | --- |
+| 최대체력 보너스 | 교양 체육 WB |
+| 공격력 보너스 | 교양 사격 WB |
+| 치유력 보너스 | 교양 위생 WB |
+
+WB itemId는 계산 함수에 전달된 `itemsById`에서 이름 또는 아이콘 이름으로 찾는다.
+확인 가능한 item을 찾지 못하면 임의 itemId를 만들지 않고 `needsReview: true`로 표시한다.
+
+능력개방 계산 함수는 `fetch`, DOM 조작, `localStorage` 읽기를 직접 수행하지 않는다.
+유저 보유 수량은 호출자가 `inventory`로 전달한다.
+
 스킬 강화 요구량:
 
 ```text

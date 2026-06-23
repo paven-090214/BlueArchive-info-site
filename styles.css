@@ -1796,6 +1796,7 @@ select {
 .required-material-panel,
 .exclusive-weapon-panel,
 .equipment-panel,
+.ability-unlock-panel,
 .favorite-item-panel,
 .memorial-panel {
   min-height: auto;
@@ -1847,6 +1848,14 @@ select {
   font-size: 24px;
   font-weight: 900;
   line-height: 1.2;
+}
+
+.required-material-count {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .skill-list {
@@ -1905,6 +1914,18 @@ select {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
   max-width: 560px;
+}
+
+.ability-unlock-list {
+  display: grid;
+  gap: 12px;
+}
+
+.ability-unlock-control-group {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-width: 420px;
 }
 
 .compact-field {
@@ -2269,6 +2290,11 @@ select {
 .star-button .star-icon {
   width: 20px;
   height: 20px;
+}
+
+.star-button:disabled {
+  cursor: default;
+  opacity: 1;
 }
 
 .student-star.is-active {
@@ -3409,6 +3435,11 @@ select {
   }
 
   .equipment-control-group {
+    grid-template-columns: 1fr;
+    max-width: none;
+  }
+
+  .ability-unlock-control-group {
     grid-template-columns: 1fr;
     max-width: none;
   }
