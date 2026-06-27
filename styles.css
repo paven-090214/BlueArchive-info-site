@@ -40,6 +40,18 @@ a {
   display: none !important;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .site-header {
   position: sticky;
   z-index: 20;
@@ -1634,10 +1646,22 @@ select {
 }
 
 .character-profile-title-row h1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin: 0;
   font-size: 30px;
   line-height: 1.25;
   transform: translateX(32px);
+}
+
+.character-profile-icon {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: #f4f8fc;
+  object-fit: contain;
 }
 
 .character-profile-tags {
@@ -1696,6 +1720,19 @@ select {
 
 .character-info-list dd {
   color: #27435d;
+}
+
+.base-star-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 22px;
+}
+
+.base-star-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }
 
 .terrain-aptitude-section {
@@ -1797,9 +1834,230 @@ select {
 .exclusive-weapon-panel,
 .equipment-panel,
 .ability-unlock-panel,
+.detail-view-control-panel,
+.student-stat-panel,
 .favorite-item-panel,
 .memorial-panel {
   min-height: auto;
+}
+
+.detail-view-control-panel .panel-heading {
+  align-items: center;
+  gap: 16px;
+}
+
+.detail-calculator-button {
+  flex: 0 0 auto;
+  min-height: 42px;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--blue);
+  color: #ffffff;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.detail-view-control-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.detail-control-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.detail-control-field input,
+.detail-control-field select {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+}
+
+.star-rank-control-field {
+  grid-column: span 2;
+}
+
+.detail-star-rank-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  align-items: center;
+  min-width: 0;
+}
+
+.detail-star-rank-button {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  min-width: 24px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.detail-star-rank-button.is-selected {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px rgba(45, 143, 227, 0.13);
+}
+
+.detail-star-rank-button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.detail-star-rank-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.detail-star-rank-value {
+  color: var(--blue-dark);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.detail-equipment-control-card {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.detail-equipment-visual {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f4f8fc;
+}
+
+.detail-equipment-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.detail-equipment-fallback {
+  color: var(--blue-dark);
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.detail-equipment-content {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.detail-equipment-content strong,
+.detail-equipment-content span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.detail-equipment-content strong {
+  color: var(--text);
+  font-size: 13px;
+}
+
+.detail-equipment-content span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.detail-equipment-content select {
+  width: 100%;
+  min-width: 0;
+  min-height: 34px;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+}
+
+.student-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.student-stat-grid div {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fbff;
+}
+
+.student-stat-grid dt {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.student-stat-grid dd {
+  margin: 0;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.skill-level-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(45, 143, 227, 0.12);
+  color: var(--blue-dark);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.skill-current-effect {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #f8fbff;
+  color: var(--text);
+  font-weight: 800;
+  white-space: pre-line;
+}
+
+.weapon-image-placeholder.is-disabled {
+  opacity: 0.58;
 }
 
 .required-material-details {
@@ -1901,6 +2159,15 @@ select {
   gap: 12px;
 }
 
+.detail-skill-card .skill-title-row {
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.detail-skill-card .skill-title-row h3 {
+  margin-right: auto;
+}
+
 .skill-level-control-group {
   display: flex;
   flex: 0 0 auto;
@@ -1926,6 +2193,19 @@ select {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
   max-width: 420px;
+}
+
+.report-usage-controls {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+  max-width: 560px;
+}
+
+.report-usage-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .compact-field {
@@ -1988,6 +2268,34 @@ select {
   font-size: 14px;
 }
 
+.favorite-item-tier-list {
+  display: grid;
+  gap: 10px;
+}
+
+.favorite-item-tier-card {
+  display: grid;
+  gap: 5px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.favorite-item-tier-card h4 {
+  margin: 0;
+  color: var(--blue-dark);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.favorite-item-tier-card p {
+  margin: 0;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 800;
+}
+
 .material-title-row {
   display: flex;
   align-items: center;
@@ -2010,6 +2318,26 @@ select {
   color: #76521a;
   font-size: 12px;
   font-weight: 900;
+}
+
+.material-source-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 4px 0 6px;
+}
+
+.material-source-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: rgba(45, 143, 227, 0.1);
+  color: var(--blue-dark);
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
 }
 
 .student-form-count-badge {
@@ -3258,6 +3586,199 @@ select {
   font-weight: 900;
 }
 
+.material-calculator-shell {
+  padding-top: 32px;
+}
+
+.material-calculator-panel {
+  min-height: auto;
+}
+
+.material-calculator-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.36fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  margin-top: 18px;
+}
+
+.material-search-panel,
+.material-card-panel {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.material-search-results,
+.material-student-card-list {
+  display: grid;
+  gap: 12px;
+}
+
+.material-search-result {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.material-search-result h3,
+.material-search-result p,
+.material-student-card h3,
+.material-student-card p {
+  margin: 0;
+}
+
+.material-search-result h3 {
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.material-search-result p,
+.material-search-form-name,
+.material-card-panel-heading p,
+.material-student-card-header p,
+.material-empty-message {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.material-add-button,
+.material-remove-button {
+  min-height: 38px;
+  padding: 8px 13px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--blue);
+  color: #ffffff;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.material-remove-button {
+  background: #ffffff;
+  color: #c44747;
+}
+
+.material-add-button:disabled {
+  background: #eef3f8;
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.material-card-panel-heading,
+.material-student-card-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.material-student-title-row {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 12px;
+}
+
+.material-student-image {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: #f4f8fc;
+  object-fit: contain;
+}
+
+.material-student-card {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 12px 26px rgba(29, 65, 99, 0.08);
+}
+
+.material-student-card-header h3 {
+  margin-bottom: 6px;
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.material-card-control-stack {
+  display: grid;
+  gap: 14px;
+}
+
+.material-control-section {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.material-control-section h3 {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 16px;
+}
+
+.material-control-grid {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.material-equipment-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.material-control-group {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fbff;
+}
+
+.material-control-group h4 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.material-compact-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.material-compact-field input,
+.material-compact-field select {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+}
+
 @media (max-width: 620px) {
   .site-header {
     grid-template-columns: minmax(0, 1fr);
@@ -3315,6 +3836,31 @@ select {
   .bond-gift-card-visual-slot {
     width: 56px;
     height: 56px;
+  }
+
+  .archive-grid,
+  .material-calculator-layout,
+  .detail-view-control-grid,
+  .student-stat-grid,
+  .material-control-section,
+  .material-control-grid,
+  .material-equipment-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .star-rank-control-field {
+    grid-column: auto;
+  }
+
+  .material-search-result,
+  .material-student-card-header {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .material-student-card-header,
+  .material-card-panel-heading,
+  .detail-view-control-panel .panel-heading {
+    flex-direction: column;
   }
 
   .bond-selected-student-card {
@@ -3442,6 +3988,10 @@ select {
   .ability-unlock-control-group {
     grid-template-columns: 1fr;
     max-width: none;
+  }
+
+  .report-usage-details {
+    grid-template-columns: 1fr;
   }
 
   .equipment-title-row {

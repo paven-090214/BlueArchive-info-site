@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>재화 계산기 | BlueArchive Info Site</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="logo" href="./index.html" aria-label="메인 페이지로 이동">
+        <span class="logo-mark">BA</span>
+        <span class="logo-text">BlueArchive Info Site</span>
+      </a>
+
+      <form class="site-search" id="site-search-form" role="search" aria-label="통합검색">
+        <label class="search-label" for="site-search-input">통합검색</label>
+        <input
+          id="site-search-input"
+          class="site-search-input"
+          type="search"
+          placeholder="통합검색"
+          autocomplete="off"
+        />
+        <button class="site-search-button" type="submit" aria-label="검색 실행">🔍</button>
+      </form>
+
+      <div class="header-actions">
+        <div class="site-language-toggle" aria-label="표시 언어">
+          <button class="site-language-button is-active" type="button" data-language-button="ko">한국어</button>
+          <button class="site-language-button" type="button" data-language-button="en">English</button>
+          <button class="site-language-button" type="button" data-language-button="jp">日本語</button>
+        </div>
+
+        <nav class="header-auth" aria-label="계정 메뉴">
+          <a href="#" class="header-auth-link">로그인</a>
+          <span aria-hidden="true">|</span>
+          <a href="#" class="header-auth-link">회원가입</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-shell material-calculator-shell">
+      <section class="panel material-calculator-panel" aria-label="재화 계산기">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">MATERIAL</p>
+            <h1>재화 계산기</h1>
+            <p>학생을 검색해 계산 목록에 추가하고 성장 목표를 카드별로 저장합니다.</p>
+          </div>
+        </div>
+
+        <div class="material-calculator-layout">
+          <aside class="material-search-panel" aria-label="학생 검색">
+            <label class="character-search-label" for="material-student-search">학생 이름 검색</label>
+            <input
+              id="material-student-search"
+              class="character-search-input"
+              type="search"
+              placeholder="학생 이름 또는 영문명 검색"
+              autocomplete="off"
+            />
+            <div class="material-search-results" data-material-search-results></div>
+          </aside>
+
+          <section class="material-card-panel" aria-label="추가한 학생 목록">
+            <div class="material-card-panel-heading">
+              <div>
+                <h2>계산 목록</h2>
+                <p data-material-card-count>추가된 학생 0명</p>
+              </div>
+            </div>
+            <div class="material-student-card-list" data-material-student-card-list></div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./pages/materialCalculatorPage.js"></script>
+  </body>
+</html>

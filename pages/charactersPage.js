@@ -6,6 +6,10 @@ import {
   setPreferredLanguage,
   syncLanguageButtons,
 } from "../utils/languagePreference.js";
+import {
+  applyStudentImageFallback,
+  resolveStudentImage,
+} from "../utils/studentImageResolver.js";
 
 const charactersList = document.querySelector("#characters-list");
 const filterForm = document.querySelector("#character-filter-form");
@@ -82,7 +86,12 @@ function createCharacterCard(group) {
 
   const portrait = document.createElement("div");
   portrait.className = "student-list-portrait";
-  portrait.textContent = group.name ?? student?.name ?? "학생";
+  const portraitImage = document.createElement("img");
+  portraitImage.src = resolveStudentImage(student, "portrait");
+  portraitImage.alt = `${group.name ?? student?.name ?? "학생"} 대표 이미지`;
+  portraitImage.loading = "lazy";
+  applyStudentImageFallback(portraitImage);
+  portrait.append(portraitImage);
 
   const content = document.createElement("div");
   content.className = "student-list-card-content";

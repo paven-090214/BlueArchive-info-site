@@ -1,35 +1,11 @@
 import {
-  getAllCurrencyByLocale,
   getAllEquipmentByLocale,
-  getAllItemsByLocale,
   getStudentByIdByLocale,
   getStudentBySlugByLocale,
   getStudentGroupByIdByLocale,
   getStudentGroupByStudentIdByLocale,
 } from "../data/schaledb/schaleDbStore.js";
-import { items as siteItems } from "../data/items.js";
-import { equipmentLevelCosts } from "../data/equipment-level-costs.js";
-import { skillMaterialRequirements } from "../data/skillMaterialRequirements.js";
 import { getSchaleLabel } from "../data/schaledb/schaleDbLabels.js";
-import { calculateCharacterLevelMaterials } from "../utils/characterLevelCalculator.js";
-import {
-  calculateEquipmentMaterials,
-  createEquipmentByCategory,
-  CURRENT_EQUIPMENT_STATES,
-  EQUIPMENT_TIER_RANGE,
-} from "../utils/equipmentCalculator.js";
-import { calculateExclusiveWeaponMaterials } from "../utils/exclusiveWeaponCalculator.js";
-import {
-  calculateSkillMaterials,
-  SKILL_LEVEL_RANGES,
-} from "../utils/skillMaterialCalculator.js";
-import {
-  ABILITY_UNLOCK_LEVEL_RANGE,
-  calculateAbilityUnlockMaterials,
-  DEFAULT_ABILITY_UNLOCK_STATE,
-  getAbilityUnlockBonusConfigs,
-  normalizeAbilityUnlockState,
-} from "../utils/abilityUnlockCalculator.js";
 import {
   getEffectiveTerrain,
   getExclusiveWeaponStar4Effect,
@@ -40,7 +16,12 @@ import {
   setPreferredLanguage,
   syncLanguageButtons,
 } from "../utils/languagePreference.js";
-import { getUserInventory } from "../utils/userInventoryStorage.js";
+import {
+  applyStudentImageFallback,
+  resolveStudentImage,
+} from "../utils/studentImageResolver.js";
+
+const PENDING_CALCULATOR_STORAGE_KEY = "ba-material-calculator-pending-student";
 
 const characterProfileName = document.querySelector("#character-profile-name");
 const characterProfileDescription = document.querySelector("#character-profile-description");
@@ -49,14 +30,9 @@ const characterDetailGrid = document.querySelector(".character-detail-grid");
 const skillList = document.querySelector(".skill-list");
 const terrainAptitudeList = document.querySelector(".terrain-aptitude-list");
 const roleImage = document.querySelector("[data-role-image]");
-const growthStarRow = document.querySelector("[data-growth-star-row]");
-const studentCurrentLevelInput = document.querySelector("#student-current-level-input");
-const studentLevelInput = document.querySelector("#student-level-input");
-const studentLevelRange = document.querySelector("#student-level-range");
-const equipmentList = document.querySelector("[data-equipment-list]");
-const abilityUnlockList = document.querySelector("[data-ability-unlock-list]");
-const materialList = document.querySelector(".material-list");
-const requiredMaterialCount = document.querySelector("[data-required-material-count]");
+const detailViewControls = document.querySelector("[data-detail-view-controls]");
+const studentStatGrid = document.querySelector("[data-student-stat-grid]");
+const addCurrentToCalculatorButton = document.querySelector("[data-add-current-to-calculator]");
 const favoriteItemPanel = document.querySelector(".favorite-item-panel");
 const favoriteItemCard = document.querySelector(".favorite-item-card");
 const exclusiveWeaponName = document.querySelector("[data-exclusive-weapon-name]");
@@ -71,19 +47,7 @@ const languageButtons = [...document.querySelectorAll("[data-language-button]")]
 
 const STAR_ICON_URL = "./images/icon/Icon_star.webp";
 const BLANK_STAR_ICON_URL = "./images/icon/Icon_blank_star.webp";
-
-let displayLanguage = getPreferredLanguage();
-let selectedGrowthStar = 0;
-let selectedWeaponStar = 0;
-let equipmentMaterialData = null;
-let equipmentStateStudentId = null;
-let equipmentState = {};
-let abilityUnlockStateStudentId = null;
-let abilityUnlockState = structuredClone(DEFAULT_ABILITY_UNLOCK_STATE);
-let growthStateStudentId = null;
-let studentLevelState = { currentLevel: 1, targetLevel: 90 };
-let skillLevelState = {};
-let activeStudentForMaterials = null;
+const BLUE_STAR_ICON_URL = "./images/icon/Icon_blue_star.webp";
 
 const TERRAIN_META = [
   ["street", "시가지", "./images/terrains/urban.webp"],
@@ -100,21 +64,12 @@ const TERRAIN_RANK_IMAGE_URLS = {
   D: "./images/terrain-ranks/rank-d.webp",
 };
 
-const EQUIPMENT_ICON_81PX_FILE_NAMES = new Set([
-  "Equipment_Icon_Badge_Tier1",
-  "Equipment_Icon_Bag_Tier5",
-  "Equipment_Icon_Gloves_Tier3",
-  "Equipment_Icon_Gloves_Tier4",
-  "Equipment_Icon_Gloves_Tier5",
-  "Equipment_Icon_Hairpin_Tier7",
-  "Equipment_Icon_Hat_Tier5",
-  "Equipment_Icon_Hat_Tier6",
-  "Equipment_Icon_Necklace_Tier6",
-  "Equipment_Icon_Shoes_Tier5",
-  "Equipment_Icon_Watch_Tier2",
-  "Equipment_Icon_Watch_Tier3",
-  "Equipment_Icon_Watch_Tier5",
-]);
+const ROLE_IMAGE_URLS = {
+  DamageDealer: "./images/role/attacker.webp",
+  Tanker: "./images/role/tank.webp",
+  Healer: "./images/role/healer.webp",
+  Supporter: "./images/role/support.webp",
+};
 
 const EQUIPMENT_CATEGORY_LABELS = {
   Hat: "모자",
@@ -128,30 +83,69 @@ const EQUIPMENT_CATEGORY_LABELS = {
   Watch: "손목시계",
 };
 
-const ROLE_IMAGE_URLS = {
-  DamageDealer: "./images/role/attacker.webp",
-  Tanker: "./images/role/tank.webp",
-  Healer: "./images/role/healer.webp",
-  Supporter: "./images/role/support.webp",
-};
-
 const SKILL_SLOT_CONFIG = [
-  { key: "ex", label: "EX 스킬", iconText: "EX", maxLevel: 5 },
+  { key: "ex", plusKey: null, label: "EX 스킬", iconText: "EX", maxLevel: 5 },
   { key: "normal", plusKey: "normalPlus", label: "기본 스킬", iconText: "1", maxLevel: 10 },
   { key: "passive", plusKey: "passivePlus", label: "강화 스킬", iconText: "2", maxLevel: 10 },
-  { key: "sub", label: "서브 스킬", iconText: "3", maxLevel: 10 },
+  { key: "sub", plusKey: null, label: "서브 스킬", iconText: "3", maxLevel: 10 },
 ];
 
-function createDefaultSkillLevelState() {
-  return Object.fromEntries(
-    SKILL_SLOT_CONFIG
-      .filter((slot) => SKILL_LEVEL_RANGES[slot.key])
-      .map((slot) => [slot.key, {
-        currentLevel: SKILL_LEVEL_RANGES[slot.key].min,
-        targetLevel: SKILL_LEVEL_RANGES[slot.key].max,
-      }]),
-  );
-}
+const UNIQUE_WEAPON_MAX_LEVEL_BY_STAR = {
+  0: 0,
+  1: 30,
+  2: 40,
+  3: 50,
+  4: 70,
+};
+
+const STAT_CONFIGS = [
+  { key: "attackPower", label: "공격력", raw1: "AttackPower1", raw100: "AttackPower100" },
+  { key: "defensePower", label: "방어력", raw1: "DefensePower1", raw100: "DefensePower100" },
+  { key: "maxHp", label: "체력", raw1: "MaxHP1", raw100: "MaxHP100" },
+  { key: "healPower", label: "치유력", raw1: "HealPower1", raw100: "HealPower100" },
+  { key: "accuracyPoint", label: "명중", raw: "AccuracyPoint" },
+  { key: "dodgePoint", label: "회피", raw: "DodgePoint" },
+  { key: "criticalPoint", label: "치명 수치", raw: "CriticalPoint" },
+  { key: "criticalDamageRate", label: "치명 대미지", raw: "CriticalDamageRate", percentBase: 10000 },
+  { key: "stabilityPoint", label: "안정성", raw: "StabilityPoint" },
+  { key: "range", label: "사거리", raw: "Range" },
+  { key: "ccPower", label: "CC 강화력", raw: "OppressionPower" },
+  { key: "ccResist", label: "CC 저항력", raw: "OppressionResist" },
+  { key: "attackSpeed", label: "공격 속도", raw: "AttackSpeed" },
+  { key: "moveSpeed", label: "이동 속도", raw: "MoveSpeed" },
+  { key: "regenCost", label: "코스트 회복력", raw: "RegenCost" },
+  { key: "ammoCount", label: "탄약", raw: "AmmoCount" },
+];
+
+const STAT_TYPE_TO_KEY = {
+  AttackPower: "attackPower",
+  AttackPower_Base: "attackPower",
+  AttackPower_Coefficient: "attackPower",
+  DefensePower: "defensePower",
+  DefensePower_Base: "defensePower",
+  MaxHP: "maxHp",
+  MaxHP_Base: "maxHp",
+  MaxHP_Coefficient: "maxHp",
+  HealPower: "healPower",
+  HealPower_Base: "healPower",
+  HealPower_Coefficient: "healPower",
+  AccuracyPoint: "accuracyPoint",
+  AccuracyPoint_Base: "accuracyPoint",
+  DodgePoint: "dodgePoint",
+  DodgePoint_Base: "dodgePoint",
+  CriticalPoint: "criticalPoint",
+  CriticalPoint_Base: "criticalPoint",
+  CriticalDamageRate: "criticalDamageRate",
+  CriticalDamageRate_Base: "criticalDamageRate",
+  StabilityPoint: "stabilityPoint",
+  StabilityPoint_Base: "stabilityPoint",
+};
+
+let displayLanguage = getPreferredLanguage();
+let activeContext = null;
+let activeStudent = null;
+let equipmentByCategory = new Map();
+let detailViewState = createDefaultDetailViewState();
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initializeCharacterDetailPage);
@@ -164,17 +158,7 @@ async function initializeCharacterDetailPage() {
   bindLanguageButtons();
 
   try {
-    const [detailContext] = await Promise.all([
-      loadSelectedStudentContext(),
-      loadEquipmentMaterialData(),
-    ]);
-
-    if (!detailContext?.activeForm?.student) {
-      renderErrorState("학생 정보를 찾을 수 없습니다.");
-      return;
-    }
-
-    renderStudentDetailContext(detailContext);
+    await loadAndRenderCurrentStudent();
   } catch (error) {
     console.error(error);
     renderErrorState("학생 정보를 불러오지 못했습니다.");
@@ -189,18 +173,7 @@ function bindLanguageButtons() {
       renderLoadingState();
 
       try {
-        equipmentMaterialData = null;
-        const [detailContext] = await Promise.all([
-          loadSelectedStudentContext(),
-          loadEquipmentMaterialData(),
-        ]);
-
-        if (!detailContext?.activeForm?.student) {
-          renderErrorState("학생 정보를 찾을 수 없습니다.");
-          return;
-        }
-
-        renderStudentDetailContext(detailContext);
+        await loadAndRenderCurrentStudent();
       } catch (error) {
         console.error(error);
         renderErrorState("학생 정보를 불러오지 못했습니다.");
@@ -210,13 +183,29 @@ function bindLanguageButtons() {
   updateLanguageButtons();
 }
 
-async function loadSelectedStudentContext() {
+async function loadAndRenderCurrentStudent() {
+  const locale = getSchaleLocale(displayLanguage);
+  const [detailContext, equipmentList] = await Promise.all([
+    loadSelectedStudentContext(locale),
+    getAllEquipmentByLocale(locale),
+  ]);
+
+  if (!detailContext?.activeForm?.student) {
+    renderErrorState("학생 정보를 찾을 수 없습니다.");
+    return;
+  }
+
+  equipmentByCategory = createEquipmentByCategory(equipmentList);
+  activeContext = detailContext;
+  renderStudentDetailContext(detailContext);
+}
+
+async function loadSelectedStudentContext(locale) {
   const params = new URLSearchParams(window.location.search);
   const groupId = params.get("groupId");
   const id = params.get("id");
   const slug = params.get("slug");
   const formId = params.get("formId");
-  const locale = getSchaleLocale(displayLanguage);
 
   if (groupId) {
     const group = await getStudentGroupByIdByLocale(groupId, locale);
@@ -235,38 +224,6 @@ async function loadSelectedStudentContext() {
 
   const student = await getStudentByIdByLocale(10000, locale);
   return createDetailContextFromStudent(student, locale);
-}
-
-async function loadEquipmentMaterialData() {
-  const locale = getSchaleLocale(displayLanguage);
-  const [equipment, items, currency] = await Promise.all([
-    getAllEquipmentByLocale(locale),
-    getAllItemsByLocale(locale),
-    getAllCurrencyByLocale(locale),
-  ]);
-
-  equipmentMaterialData = {
-    equipment,
-    equipmentById: new Map(equipment.map((item) => [item.id, item])),
-    equipmentByCategory: createEquipmentByCategory(equipment),
-    items,
-    itemsById: new Map(items.map((item) => [item.id, item])),
-    displayItemsById: createDisplayItemsById(items),
-    currency,
-    currencyById: new Map(currency.map((item) => [item.id, item])),
-    levelCostRows: equipmentLevelCosts,
-  };
-
-  return equipmentMaterialData;
-}
-
-function createDisplayItemsById(schaleItems = []) {
-  return new Map([
-    ...siteItems.map((item) => [String(item.id), item]),
-    ...schaleItems
-      .filter((item) => item?.id !== null && item?.id !== undefined)
-      .map((item) => [String(item.id), item]),
-  ]);
 }
 
 async function createDetailContextFromStudent(student, locale) {
@@ -310,23 +267,24 @@ function renderStudentDetailContext(detailContext) {
 }
 
 function renderStudentDetail(student, group = null, activeForm = null) {
-  activeStudentForMaterials = student;
+  activeStudent = student;
+  detailViewState = createDefaultDetailViewState(student);
   document.title = `${student.name ?? "학생 상세"} | BlueArchive Info Site`;
-  selectedGrowthStar = getBaseStar(student);
-  selectedWeaponStar = clampStarValue(selectedWeaponStar, 0, 4);
-  ensureGrowthStateForStudent(student);
+
   renderFormSwitcher(group, activeForm);
   renderProfile(student);
   renderBasicFields(student);
+  renderViewControls(student);
+  renderPreview(student);
+  bindCalculatorButton(student);
+}
+
+function renderPreview(student) {
   renderTerrainAdaptations(student);
-  renderUniqueItem(student);
+  renderStats(student);
   renderSkillCards(student);
-  renderStudentLevelControls(student);
-  renderGrowthStars(student);
-  renderEquipmentCards(student);
-  renderAbilityUnlockSection(student);
+  renderUniqueItem(student);
   renderWeapon(student);
-  updateRequiredMaterials(student);
   renderMemorialPlaceholder();
 }
 
@@ -364,12 +322,11 @@ function createFormSwitcherShell() {
   const title = document.createElement("h2");
   title.textContent = "폼 선택";
 
-  titleGroup.append(eyebrow, title);
-
   const buttonList = document.createElement("div");
   buttonList.className = "character-form-list";
   buttonList.dataset.characterFormList = "";
 
+  titleGroup.append(eyebrow, title);
   heading.append(titleGroup, buttonList);
   section.append(heading);
   return section;
@@ -391,7 +348,6 @@ function createFormButton(group, form, activeForm) {
 
   button.addEventListener("click", () => {
     updateFormUrl(group, form);
-    resetGrowthState(form.student);
     renderStudentDetail(form.student, group, form);
   });
 
@@ -409,7 +365,16 @@ function updateFormUrl(group, form) {
 
 function renderProfile(student) {
   const name = student.name ?? "학생명 확인 필요";
-  characterProfileName.textContent = name;
+  const profileIcon = document.createElement("img");
+  profileIcon.className = "character-profile-icon";
+  profileIcon.src = resolveStudentImage(student, "icon");
+  profileIcon.alt = `${name} 아이콘`;
+  profileIcon.loading = "lazy";
+  applyStudentImageFallback(profileIcon);
+
+  const nameText = document.createElement("span");
+  nameText.textContent = name;
+  characterProfileName.replaceChildren(profileIcon, nameText);
   characterProfileDescription.textContent = student.profile ?? "프로필 데이터 확인 필요";
 
   if (roleImage) {
@@ -418,19 +383,11 @@ function renderProfile(student) {
   }
 
   characterProfileVisual.replaceChildren();
-  const imageUrl = getStudentImageUrl(student);
-
-  if (!imageUrl) {
-    const fallback = document.createElement("span");
-    fallback.textContent = name;
-    characterProfileVisual.append(fallback);
-    return;
-  }
-
   const image = document.createElement("img");
-  image.src = imageUrl;
+  image.src = resolveStudentImage(student, "portrait");
   image.alt = name;
   image.className = "character-profile-image";
+  applyStudentImageFallback(image);
   characterProfileVisual.append(image);
 }
 
@@ -439,6 +396,7 @@ function renderBasicFields(student) {
     fullName: student.name ?? "확인 필요",
     birthday: student.birthday ?? "확인 필요",
     academyName: getAcademyDisplayName(student),
+    clubName: getDisplayLabel("club", student.club),
     attackType: getDisplayLabel("attackType", student.attackType),
     defenseType: getDisplayLabel("defenseType", student.defenseType),
     role: getDisplayLabel("role", student.role),
@@ -446,11 +404,11 @@ function renderBasicFields(student) {
     combatClass: getDisplayLabel("squadType", student.squadType),
     age: student.age ?? "확인 필요",
     weaponType: student.weaponType ?? "확인 필요",
+    equipmentSlots: getEquipmentSlotLabels(student).join(" / ") || "확인 필요",
     hobby: student.hobby ?? "확인 필요",
     designer: student.designer ?? "확인 필요",
     illustrator: student.illustrator ?? "확인 필요",
     voiceActor: student.voice ?? "확인 필요",
-    releaseDate: "확인 필요",
   };
 
   Object.entries(fieldValues).forEach(([field, value]) => {
@@ -460,10 +418,93 @@ function renderBasicFields(student) {
       target.textContent = value;
     }
   });
+
+  renderBaseStarField(student);
+}
+
+function renderBaseStarField(student) {
+  const target = document.querySelector('[data-student-field="baseStar"]');
+
+  if (!target) {
+    return;
+  }
+
+  const baseStar = getBaseStar(student);
+  const starList = document.createElement("span");
+  starList.className = "base-star-display";
+  starList.setAttribute("aria-label", `기본 ${baseStar}성`);
+
+  for (let index = 1; index <= baseStar; index += 1) {
+    const image = document.createElement("img");
+    image.className = "base-star-icon";
+    image.src = STAR_ICON_URL;
+    image.alt = "";
+    image.setAttribute("aria-hidden", "true");
+    starList.append(image);
+  }
+
+  target.replaceChildren(starList);
+}
+
+function renderViewControls(student) {
+  if (!detailViewControls) {
+    return;
+  }
+
+  const equipmentSlots = Array.isArray(student.equipmentSlots) ? student.equipmentSlots.slice(0, 3) : [];
+  const controls = [
+    createNumberField({
+      label: "학생 레벨",
+      value: detailViewState.studentLevel,
+      min: 1,
+      max: 90,
+      onChange: (value) => updateDetailViewState({ studentLevel: value }),
+    }),
+    createStarRankField({
+      label: "학생 성급",
+      baseStar: getBaseStar(student),
+      value: getCombinedStarRank(detailViewState),
+      onChange: (value) => updateDetailViewState(createStateFromCombinedStarRank(value)),
+    }),
+    createNumberField({
+      label: "전용무기 레벨",
+      value: detailViewState.uniqueWeaponLevel,
+      min: detailViewState.uniqueWeaponStar > 0 ? 1 : 0,
+      max: getUniqueWeaponMaxLevel(detailViewState.uniqueWeaponStar),
+      disabled: detailViewState.uniqueWeaponStar === 0,
+      onChange: (value) => updateDetailViewState({ uniqueWeaponLevel: value }),
+    }),
+  ];
+
+  equipmentSlots.forEach((slot, index) => {
+    const slotKey = `slot${index + 1}`;
+    controls.push(createEquipmentControlCard({
+      slot,
+      slotIndex: index + 1,
+      tier: detailViewState.equipment[slotKey] ?? 0,
+      onChange: (value) => updateDetailViewState({
+        equipment: {
+          ...detailViewState.equipment,
+          [slotKey]: Number(value),
+        },
+      }),
+    }));
+  });
+
+  detailViewControls.replaceChildren(...controls);
+}
+
+function updateDetailViewState(partialState) {
+  detailViewState = normalizeDetailViewState({
+    ...detailViewState,
+    ...partialState,
+  }, activeStudent);
+  renderViewControls(activeStudent);
+  renderPreview(activeStudent);
 }
 
 function renderTerrainAdaptations(student) {
-  const effectiveTerrain = getEffectiveTerrain(student, selectedWeaponStar);
+  const effectiveTerrain = getEffectiveTerrain(student, detailViewState.uniqueWeaponStar);
   const cards = TERRAIN_META.map(([key, label, imageUrl]) => {
     const terrainEntry = effectiveTerrain?.[key] ?? null;
     const rank = getTerrainRank(terrainEntry);
@@ -487,12 +528,6 @@ function renderTerrainAdaptations(student) {
       rankImage.alt = rank;
       body.append(rankImage);
 
-      if (terrainEntry?.boosted) {
-        const bonus = document.createElement("span");
-        bonus.className = "skill-review-note";
-        bonus.textContent = `전용무기 3성 +${terrainEntry.bonusValue}`;
-        body.append(bonus);
-      }
     } else {
       const empty = document.createElement("span");
       empty.textContent = "확인 필요";
@@ -506,90 +541,167 @@ function renderTerrainAdaptations(student) {
   terrainAptitudeList.replaceChildren(...cards);
 }
 
-function renderSkillCards(student) {
-  const skills = getDisplaySkillSlotEntries(student);
+function renderStats(student) {
+  const stats = calculateDisplayStats(student, detailViewState);
+  const items = STAT_CONFIGS.map((config) => {
+    const row = document.createElement("div");
+    const term = document.createElement("dt");
+    const description = document.createElement("dd");
 
-  if (skills.length === 0) {
+    term.textContent = config.label;
+    description.textContent = formatStatValue(stats[config.key], config);
+    row.append(term, description);
+    return row;
+  });
+
+  studentStatGrid.replaceChildren(...items);
+}
+
+function calculateDisplayStats(student, state) {
+  const raw = student?.raw ?? {};
+  const stats = {};
+
+  STAT_CONFIGS.forEach((config) => {
+    if (config.raw1 && config.raw100) {
+      stats[config.key] = interpolateLevelValue(raw[config.raw1], raw[config.raw100], state.studentLevel);
+      return;
+    }
+
+    stats[config.key] = toNullableNumber(raw[config.raw]);
+  });
+
+  applyEquipmentStats(stats, student, state);
+  applyUniqueItemStats(stats, student, state);
+  applyExclusiveWeaponStats(stats, student, state);
+  return stats;
+}
+
+function applyEquipmentStats(stats, student, state) {
+  const slots = Array.isArray(student?.equipmentSlots) ? student.equipmentSlots : [];
+
+  slots.forEach((category, index) => {
+    const slotKey = `slot${index + 1}`;
+    const tier = Number(state.equipment?.[slotKey] ?? 0);
+
+    if (tier <= 0) {
+      return;
+    }
+
+    const equipment = equipmentByCategory.get(category)?.get(tier);
+    applyStatTypeValues(stats, equipment?.statType, equipment?.statValue);
+  });
+}
+
+function applyUniqueItemStats(stats, student, state) {
+  if (Number(state.favoriteItemTier) <= 0) {
+    return;
+  }
+
+  const gear = student?.gear ?? student?.uniqueItem ?? null;
+  applyStatTypeValues(stats, gear?.statTypes ?? gear?.StatType, gear?.statValues ?? gear?.StatValue);
+}
+
+function applyExclusiveWeaponStats(stats, student, state) {
+  if (Number(state.uniqueWeaponStar) <= 0) {
+    return;
+  }
+
+  const weaponStats = student?.exclusiveWeapon?.stats ?? {};
+  addStat(stats, "attackPower", interpolateLevelValue(
+    weaponStats.attackPower?.level1,
+    weaponStats.attackPower?.level100,
+    state.uniqueWeaponLevel,
+  ));
+  addStat(stats, "maxHp", interpolateLevelValue(
+    weaponStats.maxHp?.level1,
+    weaponStats.maxHp?.level100,
+    state.uniqueWeaponLevel,
+  ));
+  addStat(stats, "healPower", interpolateLevelValue(
+    weaponStats.healPower?.level1,
+    weaponStats.healPower?.level100,
+    state.uniqueWeaponLevel,
+  ));
+}
+
+function applyStatTypeValues(stats, statTypes = [], statValues = []) {
+  if (!Array.isArray(statTypes) || !Array.isArray(statValues)) {
+    return;
+  }
+
+  statTypes.forEach((statType, index) => {
+    const key = STAT_TYPE_TO_KEY[statType];
+
+    if (!key) {
+      return;
+    }
+
+    const rawValue = statValues[index];
+    const value = Array.isArray(rawValue)
+      ? toNullableNumber(rawValue[rawValue.length - 1])
+      : toNullableNumber(rawValue);
+    addStat(stats, key, normalizeStatModifierValue(stats, key, statType, value));
+  });
+}
+
+function normalizeStatModifierValue(stats, key, statType, value) {
+  if (value === null) {
+    return null;
+  }
+
+  if (String(statType).includes("_Coefficient")) {
+    const baseValue = Number(stats[key]);
+    return Number.isFinite(baseValue) ? baseValue * (value / 10000) : null;
+  }
+
+  return value;
+}
+
+function addStat(stats, key, value) {
+  if (value === null || value === undefined || !Number.isFinite(Number(value))) {
+    return;
+  }
+
+  const current = Number(stats[key]);
+  stats[key] = Number.isFinite(current) ? current + Number(value) : Number(value);
+}
+
+function renderSkillCards(student) {
+  const entries = SKILL_SLOT_CONFIG.map((slot) => {
+    const skills = getDisplaySkillsForSlot(student.skills, slot);
+    return { slot, skills };
+  }).filter((entry) => entry.skills.length > 0);
+
+  if (entries.length === 0) {
     replaceWithNotice(skillList, "스킬 데이터 확인 필요");
     return;
   }
 
-  skillList.replaceChildren(...skills.map(createSkillSlotCard));
-}
-
-function getDisplaySkillSlotEntries(student) {
-  const skills = student.skills;
-
-  if (isNormalizedSkillGroups(skills)) {
-    return SKILL_SLOT_CONFIG.map((slot) => {
-      const slotSkills = getDisplaySkillsForSlot(skills, slot);
-
-      return {
-        slot,
-        skills: sortSkillsByOrder(slotSkills),
-      };
-    }).filter((entry) => entry.skills.length > 0);
-  }
-
-  const slotMap = new Map();
-  normalizeLegacySkills(skills).forEach((skill, index) => {
-    const slot = getFallbackSkillSlot(index);
-    const key = slot.key;
-    const entry = slotMap.get(key) ?? { slot, skills: [] };
-    entry.skills.push(skill);
-    slotMap.set(key, entry);
-  });
-
-  return [...slotMap.values()];
-}
-
-function isNormalizedSkillGroups(skills) {
-  return Boolean(
-    skills &&
-    typeof skills === "object" &&
-    !Array.isArray(skills) &&
-    SKILL_SLOT_CONFIG.some((slot) => Array.isArray(skills[slot.key])),
-  );
+  skillList.replaceChildren(...entries.map(createSkillSlotCard));
 }
 
 function getDisplaySkillsForSlot(skills, slot) {
+  if (!skills || typeof skills !== "object") {
+    return [];
+  }
+
   const baseSkills = Array.isArray(skills[slot.key]) ? skills[slot.key] : [];
   const plusSkills = slot.plusKey && Array.isArray(skills[slot.plusKey]) ? skills[slot.plusKey] : [];
 
-  if (slot.key === "passive" && shouldDisplayPassivePlus() && plusSkills.length > 0) {
-    return plusSkills;
+  if (slot.key === "normal" && detailViewState.favoriteItemTier >= 2 && plusSkills.length > 0) {
+    return sortSkillsByOrder(plusSkills);
   }
 
-  return baseSkills;
-}
-
-function shouldDisplayPassivePlus() {
-  return selectedWeaponStar >= 2;
-}
-
-function sortSkillsByOrder(skills) {
-  return [...skills].sort((left, right) => {
-    return Number(left?.order ?? 0) - Number(right?.order ?? 0);
-  });
-}
-
-function normalizeLegacySkills(skills) {
-  if (Array.isArray(skills)) {
-    return skills;
+  if (slot.key === "passive" && detailViewState.uniqueWeaponStar >= 2 && plusSkills.length > 0) {
+    return sortSkillsByOrder(plusSkills);
   }
 
-  if (skills && typeof skills === "object") {
-    return Object.entries(skills)
-      .filter(([key]) => key !== "rawSkills")
-      .flatMap(([, value]) => Array.isArray(value) ? value : [value]);
-  }
-
-  return [];
+  return sortSkillsByOrder(baseSkills);
 }
 
 function createSkillSlotCard({ skills, slot }) {
   const card = document.createElement("article");
-  card.className = "skill-card";
+  card.className = "skill-card detail-skill-card";
 
   const body = document.createElement("div");
   body.className = "skill-card-body";
@@ -607,32 +719,37 @@ function createSkillSlotCard({ skills, slot }) {
   const title = document.createElement("h3");
   title.textContent = slot.label;
 
-  const levelControls = createSkillLevelControlGroup(slot);
-  titleRow.append(title, levelControls);
+  const levelBadge = document.createElement("span");
+  levelBadge.className = "skill-level-badge";
+  levelBadge.textContent = `Lv. ${detailViewState.skills[slot.key] ?? 1}`;
 
-  const variantList = document.createElement("div");
-  variantList.className = "skill-variant-list";
-  variantList.append(...skills.map((skill) => createSkillInfoBlock(skill, slot)));
+  const levelSelect = createSkillLevelSelect(slot);
 
-  content.append(titleRow, variantList);
-
+  titleRow.append(title, levelBadge, levelSelect);
+  content.append(titleRow, ...skills.map((skill) => createSkillInfoBlock(skill, slot)));
   body.append(icon, content);
   card.append(body);
   return card;
 }
 
 function createSkillInfoBlock(skill, slot) {
+  const selectedLevel = detailViewState.skills[slot.key] ?? 1;
   const block = document.createElement("div");
   block.className = "skill-info-block";
 
-  const name = document.createElement("p");
+  const name = document.createElement("h4");
   name.className = "skill-name";
   name.textContent = getSkillName(skill, slot);
 
-  const description = document.createElement("p");
-  description.textContent = getSkillDescription(skill);
+  const meta = document.createElement("p");
+  meta.className = "skill-review-note";
+  meta.textContent = `${slot.label} · Lv. ${selectedLevel}`;
 
-  block.append(name, description);
+  const currentEffect = document.createElement("p");
+  currentEffect.className = "skill-current-effect";
+  currentEffect.textContent = formatSkillDescriptionForLevel(skill, selectedLevel);
+
+  block.append(name, meta, currentEffect);
 
   if (skill?.changeRule || skill?.trigger || skill?.needsReview) {
     block.append(createSkillMeta(skill));
@@ -641,83 +758,23 @@ function createSkillInfoBlock(skill, slot) {
   return block;
 }
 
-function createEnhancedSkillSection({ title, skills, emptyMessage }) {
-  const section = document.createElement("div");
-  section.className = "enhanced-skill-section";
+function formatSkillDescriptionForLevel(skill, level) {
+  return replaceSkillParameters(getSkillDescription(skill), getSkillParameters(skill), level);
+}
 
-  const heading = document.createElement("h4");
-  heading.textContent = title;
-  section.append(heading);
-
-  if (!skills || skills.length === 0) {
-    const empty = document.createElement("p");
-    empty.className = "skill-review-note";
-    empty.textContent = emptyMessage;
-    section.append(empty);
-    return section;
+function replaceSkillParameters(template, parameters, level) {
+  if (!template || parameters.length === 0) {
+    return template || "스킬 효과 확인 필요";
   }
 
-  const list = document.createElement("div");
-  list.className = "skill-variant-list";
-  list.append(...sortSkillsByOrder(skills).map((skill) => createSkillInfoBlock(skill, {
-    label: title,
-    iconText: "",
-  })));
-  section.append(list);
-  return section;
+  return String(template).replace(/<\?(\d+)>/g, (match, indexText) => {
+    const paramIndex = Number(indexText) - 1;
+    return parameters[paramIndex]?.[level - 1] ?? match;
+  });
 }
 
-function getEnhancedSkills(student, skillKey) {
-  const skills = student?.skills;
-
-  if (!skills || typeof skills !== "object" || !Array.isArray(skills[skillKey])) {
-    return [];
-  }
-
-  return skills[skillKey];
-}
-
-function getFallbackSkillSlot(index) {
-  return SKILL_SLOT_CONFIG[index] ?? {
-    key: "unknown",
-    label: "스킬",
-    iconText: "S",
-    maxLevel: 10,
-  };
-}
-
-function createSkillLevelControlGroup(slot) {
-  const group = document.createElement("div");
-  group.className = "skill-level-control-group";
-  group.append(
-    createSkillLevelSelect({
-      slot,
-      label: `${slot.label} 현재 레벨`,
-      value: skillLevelState[slot.key]?.currentLevel ?? SKILL_LEVEL_RANGES[slot.key]?.min ?? 1,
-      onChange: (value) => updateSkillLevelState(slot.key, { currentLevel: Number(value) }),
-    }),
-    createSkillLevelSelect({
-      slot,
-      label: `${slot.label} 목표 레벨`,
-      value: skillLevelState[slot.key]?.targetLevel ?? slot.maxLevel,
-      onChange: (value) => updateSkillLevelState(slot.key, { targetLevel: Number(value) }),
-    }),
-  );
-  return group;
-}
-
-function createSkillLevelSelect({ slot, label, value, onChange }) {
-  const select = document.createElement("select");
-  select.className = "skill-level-select";
-  select.setAttribute("aria-label", label);
-
-  for (let level = 1; level <= slot.maxLevel; level += 1) {
-    select.append(new Option(`Lv. ${level}`, String(level)));
-  }
-
-  select.value = String(value);
-  select.addEventListener("change", () => onChange(select.value));
-  return select;
+function getSkillParameters(skill) {
+  return Array.isArray(skill?.raw?.Parameters) ? skill.raw.Parameters : [];
 }
 
 function createSkillMeta(skill) {
@@ -738,947 +795,6 @@ function createSkillMeta(skill) {
   return meta;
 }
 
-function renderStudentLevelControls(student) {
-  ensureGrowthStateForStudent(student);
-
-  if (!studentCurrentLevelInput || !studentLevelInput || !studentLevelRange) {
-    return;
-  }
-
-  const maxLevel = getMaxStudentLevel();
-  studentCurrentLevelInput.max = String(maxLevel);
-  studentLevelInput.max = String(maxLevel);
-  studentLevelRange.max = String(maxLevel);
-  studentCurrentLevelInput.value = String(studentLevelState.currentLevel);
-  studentLevelInput.value = String(studentLevelState.targetLevel);
-  studentLevelRange.value = String(studentLevelState.targetLevel);
-
-  bindStudentLevelControls(student);
-}
-
-function bindStudentLevelControls(student) {
-  if (studentCurrentLevelInput.dataset.boundLevelControl === "true") {
-    return;
-  }
-
-  studentCurrentLevelInput.dataset.boundLevelControl = "true";
-  studentLevelInput.dataset.boundLevelControl = "true";
-  studentLevelRange.dataset.boundLevelControl = "true";
-
-  studentCurrentLevelInput.addEventListener("input", () => {
-    updateStudentLevelState({ currentLevel: Number(studentCurrentLevelInput.value) });
-  });
-  studentLevelInput.addEventListener("input", () => {
-    updateStudentLevelState({ targetLevel: Number(studentLevelInput.value) });
-  });
-  studentLevelRange.addEventListener("input", () => {
-    updateStudentLevelState({ targetLevel: Number(studentLevelRange.value) });
-  });
-}
-
-function renderGrowthStars(student) {
-  const baseStar = getBaseStar(student);
-  selectedGrowthStar = baseStar;
-  const controls = [];
-
-  for (let index = 1; index <= 5; index += 1) {
-    controls.push(createStarButton({
-      value: index,
-      isActive: index <= baseStar,
-      iconUrl: STAR_ICON_URL,
-      blankIconUrl: BLANK_STAR_ICON_URL,
-      label: `기본 ${index}성`,
-    }));
-  }
-
-  for (let index = 1; index <= 4; index += 1) {
-    controls.push(createStarButton({
-      value: index,
-      isActive: index <= selectedWeaponStar,
-      iconUrl: "./images/icon/Icon_blue_star.webp",
-      blankIconUrl: "./images/icon/Icon_blank_star.webp",
-      label: `전용무기 ${index}성`,
-      onClick: () => {
-        selectedGrowthStar = baseStar;
-        selectedWeaponStar = index;
-        renderGrowthStars(student);
-        renderSkillCards(student);
-        renderTerrainAdaptations(student);
-        renderWeapon(student);
-        updateRequiredMaterials(student);
-      },
-    }));
-  }
-
-  growthStarRow.replaceChildren(...controls);
-}
-
-function createStarButton({ value, isActive, iconUrl, blankIconUrl, label, onClick }) {
-  const button = document.createElement("button");
-  button.className = "star-button";
-  button.type = "button";
-  button.dataset.starValue = String(value);
-  button.setAttribute("aria-label", label);
-  button.setAttribute("aria-pressed", isActive ? "true" : "false");
-
-  const image = document.createElement("img");
-  image.className = "star-icon student-star-icon";
-  image.src = isActive ? iconUrl : blankIconUrl;
-  image.alt = "";
-  image.setAttribute("aria-hidden", "true");
-
-  button.append(image);
-  if (typeof onClick === "function") {
-    button.addEventListener("click", onClick);
-  } else {
-    button.disabled = true;
-  }
-  return button;
-}
-
-function renderEquipmentCards(student) {
-  const slots = Array.isArray(student.equipmentSlots) ? student.equipmentSlots : [];
-
-  if (slots.length === 0) {
-    replaceWithNotice(equipmentList, "장비 데이터 확인 필요");
-    return;
-  }
-
-  ensureEquipmentStateForStudent(student);
-  equipmentList.replaceChildren(...slots.map((slot, index) => createEquipmentCard(slot, index, student)));
-}
-
-function renderAbilityUnlockSection(student) {
-  ensureAbilityUnlockStateForStudent(student);
-
-  if (!abilityUnlockList) {
-    return;
-  }
-
-  abilityUnlockList.replaceChildren(
-    ...getAbilityUnlockBonusConfigs().map((bonus) => createAbilityUnlockCard(bonus, student)),
-  );
-}
-
-function createAbilityUnlockCard(bonus, student) {
-  const card = document.createElement("article");
-  card.className = "equipment-card ability-unlock-card";
-  const bonusState = abilityUnlockState[bonus.key] ?? { currentLevel: 0, targetLevel: 0 };
-
-  const content = document.createElement("div");
-  content.className = "equipment-content";
-
-  const titleRow = document.createElement("div");
-  titleRow.className = "equipment-title-row";
-
-  const title = document.createElement("h3");
-  title.textContent = bonus.displayName;
-  titleRow.append(title);
-
-  const controls = document.createElement("div");
-  controls.className = "ability-unlock-control-group";
-  controls.append(
-    createAbilityUnlockSelect({
-      label: `${bonus.displayName} 현재 단계`,
-      value: bonusState.currentLevel,
-      onChange: (value) => updateAbilityUnlockState(student, bonus.key, { currentLevel: Number(value) }),
-    }),
-    createAbilityUnlockSelect({
-      label: `${bonus.displayName} 목표 단계`,
-      value: bonusState.targetLevel,
-      minLevel: bonusState.currentLevel,
-      onChange: (value) => updateAbilityUnlockState(student, bonus.key, { targetLevel: Number(value) }),
-    }),
-  );
-
-  content.append(titleRow, controls);
-  card.append(content);
-  return card;
-}
-
-function createAbilityUnlockSelect({ label, value, minLevel = ABILITY_UNLOCK_LEVEL_RANGE.min, onChange }) {
-  const field = document.createElement("label");
-  field.className = "compact-field";
-  field.textContent = label;
-
-  const select = document.createElement("select");
-  select.className = "equipment-tier-select";
-  select.setAttribute("aria-label", label);
-
-  for (let level = minLevel; level <= ABILITY_UNLOCK_LEVEL_RANGE.max; level += 1) {
-    select.append(new Option(`${level}단계`, String(level)));
-  }
-
-  select.value = String(Math.max(minLevel, Number(value) || 0));
-  select.addEventListener("change", () => onChange(select.value));
-  field.append(select);
-  return field;
-}
-
-function createEquipmentCard(slot, index, student) {
-  const card = document.createElement("article");
-  card.className = "equipment-card";
-  const slotState = equipmentState[`slot${index + 1}`] ?? createDefaultEquipmentSlotState();
-
-  const content = document.createElement("div");
-  content.className = "equipment-content";
-
-  const titleRow = document.createElement("div");
-  titleRow.className = "equipment-title-row";
-
-  const title = document.createElement("h3");
-  title.textContent = `${index + 1}번 장비 / ${getEquipmentCategoryLabel(slot)}`;
-
-  const category = document.createElement("p");
-  category.className = "equipment-slot-note";
-  category.textContent = getEquipmentCategoryLabel(slot);
-
-  const visualRow = document.createElement("div");
-  visualRow.className = "equipment-visual-row";
-  visualRow.append(
-    createEquipmentVisual({
-      label: "현재 장비",
-      category: slot,
-      tier: Number(slotState.currentTier) === 0 ? EQUIPMENT_TIER_RANGE.min : slotState.currentTier,
-      isUnequipped: Number(slotState.currentTier) === 0,
-    }),
-    createEquipmentVisual({
-      label: "목표 장비",
-      category: slot,
-      tier: slotState.targetTier,
-      isUnequipped: false,
-    }),
-  );
-
-  const controls = document.createElement("div");
-  controls.className = "equipment-control-group";
-  controls.append(
-    createEquipmentSelect({
-      label: `${index + 1}번 장비 현재 티어`,
-      value: slotState.currentTier,
-      options: [
-        ["0", "미착용"],
-        ...createTierOptions({ maxTier: getMaxEquipmentTierByCategory(slot) }),
-      ],
-      onChange: (value) => updateEquipmentSlotState(student, index, { currentTier: Number(value) }),
-    }),
-    createEquipmentSelect({
-      label: `${index + 1}번 장비 현재 레벨 상태`,
-      value: slotState.currentState,
-      options: [
-        [CURRENT_EQUIPMENT_STATES.LV1, "Lv.1"],
-        [CURRENT_EQUIPMENT_STATES.MAX, "현재 티어 MAX"],
-      ],
-      disabled: Number(slotState.currentTier) === 0,
-      onChange: (value) => updateEquipmentSlotState(student, index, { currentState: value }),
-    }),
-    createEquipmentSelect({
-      label: `${index + 1}번 장비 목표 티어`,
-      value: slotState.targetTier,
-      options: createTierOptions({
-        minTier: Math.max(EQUIPMENT_TIER_RANGE.min, Number(slotState.currentTier) || 0),
-        maxTier: getMaxEquipmentTierByCategory(slot),
-      }),
-      onChange: (value) => updateEquipmentSlotState(student, index, { targetTier: Number(value) }),
-    }),
-  );
-
-  titleRow.append(title);
-  content.append(titleRow, category, visualRow, controls);
-  card.append(content);
-  return card;
-}
-
-function createEquipmentVisual({ label, category, tier, isUnequipped }) {
-  const visual = document.createElement("div");
-  visual.className = "equipment-visual";
-
-  if (isUnequipped) {
-    visual.classList.add("is-unequipped");
-  }
-
-  const imageUrl = getEquipmentImageUrl(category, tier);
-  const image = imageUrl ? document.createElement("img") : null;
-
-  if (image) {
-    image.className = "equipment-image";
-    image.src = imageUrl;
-    image.alt = `${getEquipmentCategoryLabel(category)} T${tier}`;
-    image.loading = "lazy";
-    image.addEventListener("error", () => {
-      const fallback = createEquipmentImagePlaceholder(category);
-      image.replaceWith(fallback);
-    }, { once: true });
-  }
-
-  const text = document.createElement("div");
-  text.className = "equipment-visual-copy";
-
-  const labelText = document.createElement("span");
-  labelText.textContent = label;
-
-  const tierText = document.createElement("strong");
-  tierText.textContent = isUnequipped ? "미착용" : `T${tier}`;
-
-  text.append(labelText, tierText);
-  visual.append(image ?? createEquipmentImagePlaceholder(category), text);
-  return visual;
-}
-
-function createEquipmentImagePlaceholder(category) {
-  const placeholder = document.createElement("div");
-  placeholder.className = "equipment-icon-placeholder";
-  placeholder.textContent = getEquipmentCategoryLabel(category).slice(0, 1);
-  return placeholder;
-}
-
-function createEquipmentSelect({ label, value, options, disabled = false, onChange }) {
-  const field = document.createElement("label");
-  field.className = "compact-field";
-  field.textContent = label;
-
-  const select = document.createElement("select");
-  select.className = "equipment-tier-select";
-  select.setAttribute("aria-label", label);
-  select.append(...options.map(([optionValue, optionLabel]) => new Option(optionLabel, optionValue)));
-  select.value = String(value);
-  select.disabled = disabled;
-  select.addEventListener("change", () => onChange(select.value));
-
-  field.append(select);
-  return field;
-}
-
-function createTierOptions({ minTier = EQUIPMENT_TIER_RANGE.min, maxTier = EQUIPMENT_TIER_RANGE.max } = {}) {
-  const options = [];
-
-  for (let tier = EQUIPMENT_TIER_RANGE.min; tier <= maxTier; tier += 1) {
-    if (tier >= minTier) {
-      options.push([String(tier), `T${tier}`]);
-    }
-  }
-
-  return options;
-}
-
-function getEquipmentImageUrl(category, tier) {
-  const equipment = getEquipmentByCategoryAndTier(category, tier);
-  const icon = equipment?.icon ?? equipment?.Icon ?? equipment?.raw?.Icon;
-
-  if (!icon) {
-    return "";
-  }
-
-  if (String(icon).startsWith("./") || String(icon).startsWith("http")) {
-    return icon;
-  }
-
-  const fileName = toEquipmentIconFileName(icon);
-  const filePrefix = EQUIPMENT_ICON_81PX_FILE_NAMES.has(fileName) ? "81px-" : "";
-  return `./images/items/Equipment_Icon/${filePrefix}${fileName}.png`;
-}
-
-function getEquipmentByCategoryAndTier(category, tier) {
-  const categoryRows = equipmentMaterialData?.equipmentByCategory?.get(category);
-
-  if (categoryRows instanceof Map) {
-    return categoryRows.get(Number(tier)) ?? categoryRows.get(String(tier));
-  }
-
-  return undefined;
-}
-
-function getMaxEquipmentTierByCategory(category) {
-  const categoryRows = equipmentMaterialData?.equipmentByCategory?.get(category);
-
-  if (categoryRows instanceof Map) {
-    const tiers = [...categoryRows.keys()]
-      .map((tier) => Number(tier))
-      .filter((tier) => Number.isFinite(tier) && tier >= EQUIPMENT_TIER_RANGE.min);
-
-    if (tiers.length > 0) {
-      return Math.max(...tiers);
-    }
-  }
-
-  return EQUIPMENT_TIER_RANGE.max;
-}
-
-function getEquipmentCategoryLabel(category) {
-  return EQUIPMENT_CATEGORY_LABELS[category] ?? category ?? "장비";
-}
-
-function toEquipmentIconFileName(icon) {
-  return String(icon)
-    .split("_")
-    .map((part) => part ? `${part.charAt(0).toUpperCase()}${part.slice(1)}` : part)
-    .join("_");
-}
-
-function calculateCurrentEquipmentMaterials(student) {
-  ensureEquipmentStateForStudent(student);
-
-  if (!equipmentMaterialData) {
-    return {
-      requiredMaterials: [],
-      slotResults: [],
-      hasData: false,
-      needsReview: true,
-    };
-  }
-
-  return calculateEquipmentMaterials({
-    student,
-    equipmentState,
-    equipmentById: equipmentMaterialData.equipmentById,
-    equipmentByCategory: equipmentMaterialData.equipmentByCategory,
-    itemsById: equipmentMaterialData.itemsById,
-    currencyById: equipmentMaterialData.currencyById,
-    inventory: getUserInventory(),
-    levelCostRows: equipmentMaterialData.levelCostRows,
-  });
-}
-
-function calculateCurrentAbilityUnlockMaterials(student) {
-  ensureAbilityUnlockStateForStudent(student);
-
-  return calculateAbilityUnlockMaterials({
-    student,
-    abilityUnlockState,
-    itemsById: equipmentMaterialData?.displayItemsById ?? equipmentMaterialData?.itemsById,
-    inventory: getUserInventory(),
-  });
-}
-
-function calculateCurrentCharacterLevelMaterials(student) {
-  ensureGrowthStateForStudent(student);
-  const result = calculateCharacterLevelMaterials({
-    currentLevel: studentLevelState.currentLevel,
-    targetLevel: studentLevelState.targetLevel,
-  });
-
-  const levelMaterialResult = normalizeMaterialResult({
-    materials: result.materials,
-    source: "level",
-    hasData: result.hasCompleteData,
-    needsReview: result.needsReview,
-    missingData: result.missingLevels?.map((level) => `MISSING_STUDENT_LEVEL_${level}`) ?? [],
-  });
-  console.log("[required materials] level result", levelMaterialResult);
-  return levelMaterialResult;
-}
-
-function calculateCurrentSkillMaterials(student) {
-  ensureGrowthStateForStudent(student);
-  const skillRequirementStudentId = getSkillRequirementStudentId(student);
-  const slotResults = SKILL_SLOT_CONFIG
-    .filter((slot) => SKILL_LEVEL_RANGES[slot.key])
-    .map((slot) => calculateSkillMaterials({
-      studentId: skillRequirementStudentId,
-      skillType: slot.key,
-      currentLevel: skillLevelState[slot.key]?.currentLevel,
-      targetLevel: skillLevelState[slot.key]?.targetLevel,
-      requirements: skillMaterialRequirements,
-    }));
-
-  const skillMaterialResult = normalizeMaterialResult({
-    materials: slotResults.flatMap((result) => result.materials),
-    source: "skill",
-    hasData: slotResults.every((result) => result.hasData && result.hasCompleteData),
-    needsReview: slotResults.some((result) => result.needsReview || !result.hasData),
-    missingData: slotResults.flatMap((result) => [
-      ...(!result.hasData ? [`MISSING_SKILL_DATA_${result.skillType}`] : []),
-      ...result.missingRows.map((row) => `MISSING_SKILL_${result.skillType}_${row.fromLevel}_${row.toLevel}`),
-    ]),
-  });
-  console.log("[required materials] skill result", {
-    activeStudent: student,
-    skillRequirementStudentId,
-    skillLevelState,
-    slotResults,
-    skillMaterialResult,
-  });
-  return skillMaterialResult;
-}
-
-function getSkillRequirementStudentId(student) {
-  const directId = Number(student?.id);
-
-  if (skillMaterialRequirements.some((row) => Number(row.studentId) === directId)) {
-    return directId;
-  }
-
-  const candidates = new Set([
-    student?.slug,
-    student?.pathName,
-    student?.name,
-    student?.devName,
-    student?.raw?.PathName,
-    student?.raw?.DevName,
-    student?.raw?.Name,
-    student?.raw?.NameEn,
-  ].filter(Boolean).map((value) => normalizeSearchText(value)));
-
-  const matchedRequirement = skillMaterialRequirements.find((row) => {
-    return candidates.has(normalizeSearchText(row.studentName));
-  });
-
-  return Number(matchedRequirement?.studentId ?? directId);
-}
-
-function calculateCurrentExclusiveWeaponMaterials(student) {
-  const result = calculateExclusiveWeaponMaterials({
-    weaponType: student?.weaponType,
-    targetWeaponStar: selectedWeaponStar,
-  });
-
-  return normalizeMaterialResult({
-    materials: result.materials,
-    source: "exclusive_weapon",
-    hasData: result.hasCompleteData,
-    needsReview: result.needsReview,
-    missingData: result.missingRows?.map((row) => `MISSING_WEAPON_LEVEL_${row.fromLevel}_${row.toLevel}`) ?? [],
-  });
-}
-
-function calculateCurrentRequiredMaterials(student) {
-  console.log("[required materials] active student", student);
-  const characterLevelResult = calculateCurrentCharacterLevelMaterials(student);
-  const skillResult = calculateCurrentSkillMaterials(student);
-  const starMaterialResult = {
-    requiredMaterials: [],
-    hasData: true,
-    needsReview: false,
-    skipped: true,
-    reason: "성급 상승 재화는 현재 필요한 재화 합산 대상에서 제외",
-  };
-  console.log("[required materials] star result", starMaterialResult);
-  const equipmentResult = calculateCurrentEquipmentMaterials(student);
-  const abilityUnlockResult = calculateCurrentAbilityUnlockMaterials(student);
-  const exclusiveWeaponResult = calculateCurrentExclusiveWeaponMaterials(student);
-  const mergedRequiredMaterials = mergeRequiredMaterials({
-    results: [
-      characterLevelResult,
-      skillResult,
-      equipmentResult,
-      abilityUnlockResult,
-      exclusiveWeaponResult,
-    ],
-    itemsById: equipmentMaterialData?.displayItemsById,
-    inventory: getUserInventory(),
-  });
-  console.log("[required materials] merged", mergedRequiredMaterials);
-  return mergedRequiredMaterials;
-}
-
-function ensureEquipmentStateForStudent(student) {
-  if (equipmentStateStudentId === Number(student?.id)) {
-    return;
-  }
-
-  const slots = Array.isArray(student?.equipmentSlots) ? student.equipmentSlots : [];
-  equipmentStateStudentId = Number(student?.id);
-  equipmentState = Object.fromEntries(
-    slots.map((category, index) => [`slot${index + 1}`, createDefaultEquipmentSlotState(category)]),
-  );
-}
-
-function ensureAbilityUnlockStateForStudent(student) {
-  if (abilityUnlockStateStudentId === Number(student?.id)) {
-    return;
-  }
-
-  abilityUnlockStateStudentId = Number(student?.id);
-  abilityUnlockState = structuredClone(DEFAULT_ABILITY_UNLOCK_STATE);
-}
-
-function ensureGrowthStateForStudent(student) {
-  if (growthStateStudentId === Number(student?.id)) {
-    return;
-  }
-
-  growthStateStudentId = Number(student?.id);
-  studentLevelState = {
-    currentLevel: 1,
-    targetLevel: getMaxStudentLevel(),
-  };
-  skillLevelState = createDefaultSkillLevelState();
-}
-
-function createDefaultEquipmentSlotState(category) {
-  return {
-    currentTier: 1,
-    currentState: CURRENT_EQUIPMENT_STATES.LV1,
-    targetTier: getMaxEquipmentTierByCategory(category),
-  };
-}
-
-function updateEquipmentSlotState(student, slotIndex, partialState) {
-  ensureEquipmentStateForStudent(student);
-  const slotKey = `slot${slotIndex + 1}`;
-  const category = student?.equipmentSlots?.[slotIndex];
-  equipmentState[slotKey] = {
-    ...createDefaultEquipmentSlotState(category),
-    ...(equipmentState[slotKey] ?? {}),
-    ...partialState,
-  };
-
-  if (equipmentState[slotKey].targetTier < equipmentState[slotKey].currentTier) {
-    equipmentState[slotKey].targetTier = equipmentState[slotKey].currentTier;
-  }
-
-  renderEquipmentCards(student);
-  updateRequiredMaterials(student);
-}
-
-function updateStudentLevelState(partialState) {
-  if (!activeStudentForMaterials) {
-    return;
-  }
-
-  ensureGrowthStateForStudent(activeStudentForMaterials);
-  studentLevelState = normalizeStudentLevelState({
-    ...studentLevelState,
-    ...partialState,
-  });
-  renderStudentLevelControls(activeStudentForMaterials);
-  updateRequiredMaterials(activeStudentForMaterials);
-}
-
-function updateSkillLevelState(skillType, partialState) {
-  if (!activeStudentForMaterials) {
-    return;
-  }
-
-  ensureGrowthStateForStudent(activeStudentForMaterials);
-  skillLevelState[skillType] = normalizeSkillSlotState(skillType, {
-    ...(skillLevelState[skillType] ?? {}),
-    ...partialState,
-  });
-  renderSkillCards(activeStudentForMaterials);
-  updateRequiredMaterials(activeStudentForMaterials);
-}
-
-function updateAbilityUnlockState(student, bonusKey, partialState) {
-  ensureAbilityUnlockStateForStudent(student);
-  abilityUnlockState[bonusKey] = {
-    ...(abilityUnlockState[bonusKey] ?? { currentLevel: 0, targetLevel: 0 }),
-    ...partialState,
-  };
-  abilityUnlockState = normalizeAbilityUnlockState(abilityUnlockState);
-
-  renderAbilityUnlockSection(student);
-  updateRequiredMaterials(student);
-}
-
-function updateRequiredMaterials(student) {
-  console.log("[required materials] update called", {
-    student,
-    container: materialList,
-  });
-  renderRequiredMaterialsSection(calculateCurrentRequiredMaterials(student));
-}
-
-function renderRequiredMaterialsSection(requiredMaterialResult) {
-  console.log("[required materials] container", materialList);
-  console.log("[required materials] render input", requiredMaterialResult);
-  if (!requiredMaterialResult) {
-    updateRequiredMaterialSummary(null);
-    replaceWithNotice(materialList, "재화 데이터를 불러오지 못했습니다.");
-    return;
-  }
-
-  if (requiredMaterialResult.requiredMaterials.length === 0) {
-    updateRequiredMaterialSummary(requiredMaterialResult);
-    replaceWithNotice(
-      materialList,
-      requiredMaterialResult.needsReview ? "재화 데이터 확인 필요" : "필요 재화 없음",
-    );
-    return;
-  }
-
-  const cards = requiredMaterialResult.requiredMaterials.map(createMaterialCard);
-  updateRequiredMaterialSummary(requiredMaterialResult);
-
-  if (requiredMaterialResult.needsReview) {
-    cards.push(createNotice("일부 재화 데이터는 검수 필요 상태입니다."));
-  }
-
-  materialList.replaceChildren(...cards);
-}
-
-function updateRequiredMaterialSummary(requiredMaterialResult) {
-  if (!requiredMaterialCount) {
-    return;
-  }
-
-  if (!requiredMaterialResult) {
-    requiredMaterialCount.textContent = "계산 실패";
-    return;
-  }
-
-  const materials = requiredMaterialResult.requiredMaterials ?? [];
-  const skillCount = materials.filter((material) => material.sources?.includes("skill")).length;
-
-  if (materials.length === 0) {
-    requiredMaterialCount.textContent = requiredMaterialResult.needsReview ? "검수 필요" : "필요 재화 없음";
-    return;
-  }
-
-  requiredMaterialCount.textContent = skillCount > 0
-    ? `총 ${materials.length}개 · 스킬 ${skillCount}개 포함`
-    : `총 ${materials.length}개`;
-}
-
-function normalizeMaterialResult({ materials = [], source, hasData = true, needsReview = false, missingData = [] } = {}) {
-  return {
-    requiredMaterials: materials.map((material) => ({
-      itemId: material.itemId ?? "",
-      name: material.name ?? material.itemName ?? null,
-      requiredQuantity: Number(material.requiredQuantity ?? material.quantity ?? 0),
-      icon: material.icon ?? "",
-      category: material.category ?? source,
-      sources: [source],
-      needsReview: Boolean(material.needsReview),
-    })),
-    hasData,
-    needsReview,
-    missingData,
-  };
-}
-
-function mergeRequiredMaterials({ results = [], itemsById, inventory } = {}) {
-  const materialMap = new Map();
-  const missingData = [];
-  const inventoryMap = createInventoryMap(inventory);
-
-  results.forEach((result) => {
-    if (!result) {
-      return;
-    }
-
-    if (Array.isArray(result.missingData)) {
-      missingData.push(...result.missingData);
-    }
-
-    (result.requiredMaterials ?? []).forEach((material) => {
-      const materialKey = material.itemId || material.category;
-
-      if (!materialKey) {
-        return;
-      }
-
-      const existing = materialMap.get(String(materialKey));
-      const item = getItemFromMapLike(itemsById, material.itemId);
-      const requiredQuantity = Number(material.requiredQuantity ?? 0);
-
-      if (existing) {
-        existing.requiredQuantity += requiredQuantity;
-        existing.sources = mergeSources(existing.sources, material.sources ?? material.category);
-        existing.ownedQuantity = getOwnedQuantity(inventoryMap, existing.itemId);
-        existing.missingQuantity = Math.max(0, existing.requiredQuantity - existing.ownedQuantity);
-        existing.needsReview = existing.needsReview || Boolean(material.needsReview);
-        return;
-      }
-
-      const itemId = material.itemId ? String(material.itemId) : "";
-      const ownedQuantity = getOwnedQuantity(inventoryMap, itemId);
-      materialMap.set(String(materialKey), {
-        ...material,
-        itemId,
-        name: item?.name ?? item?.Name ?? material.name ?? "재화 이름 확인 필요",
-        icon: resolveDisplayItemIcon(item) || material.icon || "",
-        requiredQuantity,
-        ownedQuantity,
-        missingQuantity: Math.max(0, requiredQuantity - ownedQuantity),
-        sources: mergeSources([], material.sources ?? material.category),
-        needsReview: Boolean(material.needsReview) || Boolean(item?.needsReview),
-      });
-    });
-  });
-
-  const requiredMaterials = [...materialMap.values()];
-  return {
-    requiredMaterials,
-    materials: requiredMaterials,
-    hasData: results.every((result) => result?.hasData),
-    needsReview: results.some((result) => result?.needsReview),
-    missingData,
-  };
-}
-
-function normalizeStudentLevelState(state) {
-  const maxLevel = getMaxStudentLevel();
-  const currentLevel = clampInteger(state.currentLevel, 1, maxLevel);
-  const targetLevel = clampInteger(state.targetLevel, 1, maxLevel);
-
-  return {
-    currentLevel,
-    targetLevel: Math.max(currentLevel, targetLevel),
-  };
-}
-
-function normalizeSkillSlotState(skillType, state) {
-  const range = SKILL_LEVEL_RANGES[skillType] ?? { min: 1, max: 10 };
-  const currentLevel = clampInteger(state.currentLevel, range.min, range.max);
-  const targetLevel = clampInteger(state.targetLevel, range.min, range.max);
-
-  return {
-    currentLevel,
-    targetLevel: Math.max(currentLevel, targetLevel),
-  };
-}
-
-function getMaxStudentLevel() {
-  const maxLevel = Number(studentLevelInput?.max ?? studentLevelRange?.max ?? 90);
-  return Number.isFinite(maxLevel) ? maxLevel : 90;
-}
-
-function getItemFromMapLike(source, itemId) {
-  if (itemId === null || itemId === undefined || itemId === "") {
-    return null;
-  }
-
-  if (source instanceof Map) {
-    return source.get(String(itemId)) ?? source.get(Number(itemId)) ?? null;
-  }
-
-  if (source && typeof source === "object") {
-    return source[itemId] ?? null;
-  }
-
-  return null;
-}
-
-function resolveDisplayItemIcon(item) {
-  const icon = item?.imageUrl ?? item?.icon ?? item?.Icon ?? "";
-
-  if (!icon) {
-    return "";
-  }
-
-  if (String(icon).startsWith("./") || String(icon).startsWith("http")) {
-    return icon;
-  }
-
-  return `./images/items/${icon}.png`;
-}
-
-function createInventoryMap(userInventory) {
-  if (userInventory instanceof Map) {
-    return new Map([...userInventory.entries()].map(([itemId, quantity]) => [
-      String(itemId),
-      Number(quantity) || 0,
-    ]));
-  }
-
-  if (Array.isArray(userInventory)) {
-    return new Map(userInventory
-      .filter((item) => item?.itemId)
-      .map((item) => [String(item.itemId), Number(item.quantity) || 0]));
-  }
-
-  if (userInventory && typeof userInventory === "object") {
-    return new Map(Object.entries(userInventory).map(([itemId, quantity]) => [
-      String(itemId),
-      Number(quantity) || 0,
-    ]));
-  }
-
-  return new Map();
-}
-
-function getOwnedQuantity(inventoryMap, itemId) {
-  if (!itemId) {
-    return 0;
-  }
-
-  return inventoryMap.get(String(itemId)) ?? 0;
-}
-
-function mergeSources(existingSources = [], source) {
-  const sources = Array.isArray(source) ? source : [source];
-  return [...new Set([
-    ...existingSources.filter(Boolean),
-    ...sources.filter(Boolean),
-  ])];
-}
-
-function normalizeSearchText(value) {
-  return String(value ?? "")
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, "")
-    .replace(/[()（）]/g, "");
-}
-
-function createMaterialCard(material) {
-  const card = document.createElement("article");
-  card.className = "material-card";
-
-  const image = createMaterialImage(material);
-  const content = document.createElement("div");
-
-  const titleRow = document.createElement("div");
-  titleRow.className = "material-title-row";
-
-  const title = document.createElement("h3");
-  title.textContent = material.name ?? "재화 이름 확인 필요";
-  titleRow.append(title);
-
-  if (material.needsReview) {
-    const badge = document.createElement("span");
-    badge.className = "material-review-badge";
-    badge.textContent = "검수 필요";
-    titleRow.append(badge);
-  }
-
-  const required = document.createElement("p");
-  const requiredLabel = document.createElement("strong");
-  requiredLabel.textContent = "필요";
-  required.append(requiredLabel, ` ${formatQuantity(material.requiredQuantity)}`);
-
-  const owned = document.createElement("p");
-  owned.className = "material-owned-quantity";
-  owned.textContent = `보유 ${formatQuantity(material.ownedQuantity)}`;
-
-  const missing = document.createElement("p");
-  missing.className = "material-shortage-quantity";
-  missing.textContent = `부족 ${formatQuantity(material.missingQuantity)}`;
-
-  content.append(titleRow, required, owned, missing);
-  card.append(image, content);
-  return card;
-}
-
-function createMaterialImage(material) {
-  const icon = material?.icon;
-
-  if (!icon) {
-    const fallback = document.createElement("div");
-    fallback.className = "material-image-placeholder";
-    fallback.textContent = "재";
-    return fallback;
-  }
-
-  const image = document.createElement("img");
-  image.className = "material-image";
-  image.src = icon;
-  image.alt = material.name ?? "재화";
-  image.loading = "lazy";
-  image.addEventListener("error", () => {
-    const fallback = document.createElement("div");
-    fallback.className = "material-image-placeholder";
-    fallback.textContent = "재";
-    image.replaceWith(fallback);
-  }, { once: true });
-  return image;
-}
-
-function formatQuantity(value) {
-  return Number(value ?? 0).toLocaleString("ko-KR");
-}
-
 function renderUniqueItem(student) {
   const gear = student.gear ?? student.uniqueItem ?? null;
 
@@ -1686,14 +802,12 @@ function renderUniqueItem(student) {
     return;
   }
 
+  favoriteItemPanel.hidden = false;
+
   if (!gear) {
-    favoriteItemPanel.hidden = true;
-    favoriteItemCard.replaceChildren();
+    favoriteItemCard.replaceChildren(createNotice("애장품 없음"));
     return;
   }
-
-  favoriteItemPanel.hidden = false;
-  const selectedTier = favoriteItemCard.querySelector(".equipment-tier-select")?.value ?? "none";
 
   const icon = document.createElement("div");
   icon.className = "equipment-icon-placeholder favorite-icon-placeholder";
@@ -1708,93 +822,536 @@ function renderUniqueItem(student) {
 
   const title = document.createElement("h3");
   title.textContent = gear.name || gear.Name || "애장품 이름 확인 필요";
+  const selected = document.createElement("span");
+  selected.className = "skill-level-badge";
+  selected.textContent = "보유 정보";
+  titleRow.append(title, selected);
 
-  const tierSelect = document.createElement("select");
-  tierSelect.className = "equipment-tier-select";
-  tierSelect.setAttribute("aria-label", "애장품 티어");
-  tierSelect.append(
-    new Option("미선택", "none"),
-    new Option("1티어", "tier1"),
-    new Option("2티어", "tier2"),
+  const desc = document.createElement("p");
+  desc.textContent = gear.desc || gear.Desc || "애장품 설명 확인 필요";
+
+  const tierList = document.createElement("div");
+  tierList.className = "favorite-item-tier-list";
+  tierList.append(
+    createFavoriteItemTierCard("T1 효과", formatUniqueItemStats(gear)),
+    createFavoriteItemTierCard("T2 효과", getUniqueItemTier2EffectText(student)),
   );
-  tierSelect.value = selectedTier;
-  tierSelect.addEventListener("change", () => renderUniqueItem(student));
 
-  const note = document.createElement("p");
-  note.textContent = gear.desc || gear.Desc || "애장품 효과 확인 필요";
+  content.append(titleRow, desc, tierList);
 
-  const enhancedSkillSection = createEnhancedSkillSection({
-    title: "애장품 2티어 강화 스킬",
-    skills: selectedTier === "tier2" ? getEnhancedSkills(student, "normalPlus") : [],
-    emptyMessage: selectedTier === "tier2"
-      ? "애장품 강화 스킬 데이터 확인 필요"
-      : "2티어 선택 시 강화 스킬 정보를 표시합니다.",
-  });
-
-  titleRow.append(title, tierSelect);
-  content.append(titleRow, note, enhancedSkillSection);
   favoriteItemCard.replaceChildren(icon, content);
-}
-
-function resetGrowthState(student) {
-  selectedGrowthStar = getBaseStar(student);
-  selectedWeaponStar = 0;
-}
-
-function getBaseStar(student) {
-  const star = Number(student?.star ?? student?.baseStar ?? student?.raw?.StarGrade ?? 0);
-  return Number.isFinite(star) ? clampStarValue(star, 0, 5) : 0;
-}
-
-function clampStarValue(value, min, max) {
-  const numberValue = Number(value);
-
-  if (!Number.isFinite(numberValue)) {
-    return min;
-  }
-
-  return Math.min(Math.max(numberValue, min), max);
-}
-
-function clampInteger(value, min, max) {
-  const numberValue = Number(value);
-
-  if (!Number.isFinite(numberValue)) {
-    return min;
-  }
-
-  return Math.min(max, Math.max(min, Math.trunc(numberValue)));
 }
 
 function renderWeapon(student) {
   const exclusiveWeapon = student.exclusiveWeapon ?? {};
   const weaponName = exclusiveWeapon.name || student.weapon?.Name || student.weapon?.name || "전용무기 확인 필요";
-  const star4Effect = getExclusiveWeaponStar4Effect(student, selectedWeaponStar);
+  const weaponStar = detailViewState.uniqueWeaponStar;
+  const star4Effect = getExclusiveWeaponStar4Effect(student, 4);
+
   exclusiveWeaponName.textContent = weaponName;
+  exclusiveWeaponDesc.textContent = [
+    `무기 타입: ${student.weaponType ?? "확인 필요"}`,
+    "1성: 전용무기 개방 및 기본 스탯 보정이 캐릭터 스탯에 반영됩니다.",
+    exclusiveWeapon.desc || student.weapon?.Desc || "전용무기 설명 확인 필요",
+  ].join("\n");
 
-  if (exclusiveWeaponDesc) {
-    exclusiveWeaponDesc.textContent = exclusiveWeapon.desc || student.weapon?.Desc || "전용무기 설명 확인 필요";
-  }
-
-  if (exclusiveWeaponRank3Effect) {
-    exclusiveWeaponRank3Effect.textContent = formatTerrainBonus(exclusiveWeapon.star3TerrainBonus);
-  }
-
-  exclusiveWeaponRank4Effect.textContent = star4Effect?.label ?? "전용무기 4성 이상 선택 시 효과를 표시합니다.";
-  exclusiveWeaponEnhancedSkill.textContent = selectedWeaponStar >= 2
-    ? "전용무기 2성 강화 스킬"
-    : "전용무기 2성 이상 선택 시 강화 스킬 정보를 표시합니다.";
-  exclusiveWeaponEnhancedStats.replaceChildren(createEnhancedSkillSection({
-    title: "강화 스킬+",
-    skills: selectedWeaponStar >= 2 ? getEnhancedSkills(student, "passivePlus") : [],
-    emptyMessage: selectedWeaponStar >= 2
-      ? "전용무기 강화 스킬 데이터 확인 필요"
-      : "전용무기 2성 이상 선택 시 표시됩니다.",
-  }));
+  exclusiveWeaponRank3Effect.textContent = `3성: ${formatTerrainBonus(exclusiveWeapon.star3TerrainBonus)}`;
+  exclusiveWeaponRank4Effect.textContent = `4성: ${star4Effect?.label ?? "전용무기 4성 효과 확인 필요"}`;
+  exclusiveWeaponEnhancedSkill.textContent = `2성: ${getWeaponRank2EffectText(student)}`;
+  exclusiveWeaponEnhancedStats.replaceChildren();
 
   exclusiveWeaponImageSlot.replaceChildren();
-  exclusiveWeaponImageSlot.textContent = "W";
-  exclusiveWeaponImageSlot.classList.remove("has-weapon-image");
+  exclusiveWeaponImageSlot.textContent = weaponStar > 0 ? `${weaponStar}성` : "미개방";
+  exclusiveWeaponImageSlot.classList.toggle("is-disabled", weaponStar <= 0);
+}
+
+function bindCalculatorButton(student) {
+  if (!addCurrentToCalculatorButton) {
+    return;
+  }
+
+  addCurrentToCalculatorButton.onclick = () => {
+    const pendingStudent = {
+      studentId: student.id,
+      slug: student.slug,
+      target: createCalculatorTargetState(detailViewState),
+    };
+
+    localStorage.setItem(PENDING_CALCULATOR_STORAGE_KEY, JSON.stringify(pendingStudent));
+    location.href = "material-calculator.html";
+  };
+}
+
+function createCalculatorTargetState(state) {
+  return {
+    studentLevel: state.studentLevel,
+    studentStar: state.studentStar,
+    uniqueWeaponStar: state.uniqueWeaponStar,
+    uniqueWeaponLevel: state.uniqueWeaponLevel,
+    equipment: { ...state.equipment },
+    skills: { ...state.skills },
+    favoriteItemTier: state.favoriteItemTier,
+  };
+}
+
+function createDefaultDetailViewState(student = {}) {
+  return normalizeDetailViewState({
+    studentLevel: 90,
+    studentStar: Math.max(getBaseStar(student), 5),
+    uniqueWeaponStar: 0,
+    uniqueWeaponLevel: 0,
+    equipment: createDefaultEquipmentState(student),
+    skills: {
+      ex: 5,
+      normal: 10,
+      passive: 10,
+      sub: 10,
+    },
+    favoriteItemTier: hasUniqueItem(student) ? 2 : 0,
+  }, student);
+}
+
+function normalizeDetailViewState(state, student = {}) {
+  const baseStar = getBaseStar(student);
+  const studentLevel = clampInteger(state.studentLevel, 1, 90, 90);
+  const studentStar = clampInteger(state.studentStar, baseStar, 5, Math.max(baseStar, 5));
+  const uniqueWeaponStar = clampInteger(state.uniqueWeaponStar, 0, 4, 0);
+  const maxWeaponLevel = getUniqueWeaponMaxLevel(uniqueWeaponStar);
+  const uniqueWeaponLevel = uniqueWeaponStar > 0
+    ? clampInteger(state.uniqueWeaponLevel, 1, maxWeaponLevel, maxWeaponLevel)
+    : 0;
+  const equipment = Object.fromEntries(
+    (student.equipmentSlots ?? []).map((slot, index) => {
+      const key = `slot${index + 1}`;
+      const maxTier = getMaxEquipmentTier(slot);
+      return [key, clampInteger(state.equipment?.[key], 0, maxTier, maxTier)];
+    }),
+  );
+
+  return {
+    studentLevel,
+    studentStar,
+    uniqueWeaponStar,
+    uniqueWeaponLevel,
+    equipment,
+    skills: {
+      ex: clampInteger(state.skills?.ex, 1, 5, 5),
+      normal: clampInteger(state.skills?.normal, 1, 10, 10),
+      passive: clampInteger(state.skills?.passive, 1, 10, 10),
+      sub: clampInteger(state.skills?.sub, 1, 10, 10),
+    },
+    favoriteItemTier: hasUniqueItem(student)
+      ? clampInteger(state.favoriteItemTier, 0, 2, 2)
+      : 0,
+  };
+}
+
+function createEquipmentByCategory(equipmentList = []) {
+  const result = new Map();
+
+  equipmentList.forEach((equipment) => {
+    if (!equipment?.category || !Number.isFinite(Number(equipment.tier))) {
+      return;
+    }
+
+    if (!result.has(equipment.category)) {
+      result.set(equipment.category, new Map());
+    }
+
+    result.get(equipment.category).set(Number(equipment.tier), equipment);
+  });
+
+  return result;
+}
+
+function createDefaultEquipmentState(student = {}) {
+  return Object.fromEntries(
+    (student.equipmentSlots ?? []).map((slot, index) => [`slot${index + 1}`, getMaxEquipmentTier(slot)]),
+  );
+}
+
+function getMaxEquipmentTier(category) {
+  const categoryRows = equipmentByCategory.get(category);
+
+  if (!categoryRows || categoryRows.size === 0) {
+    return 0;
+  }
+
+  return Math.max(...[...categoryRows.keys()].map((tier) => Number(tier)).filter(Number.isFinite));
+}
+
+function getEnhancedSkills(student, skillKey) {
+  const skills = student?.skills;
+
+  if (!skills || typeof skills !== "object" || !Array.isArray(skills[skillKey])) {
+    return [];
+  }
+
+  return sortSkillsByOrder(skills[skillKey]);
+}
+
+function sortSkillsByOrder(skills) {
+  return [...skills].sort((left, right) => {
+    return (Number(left.order) || 0) - (Number(right.order) || 0);
+  });
+}
+
+function getSkillName(skill, slot) {
+  return skill?.Name || skill?.name || slot.label;
+}
+
+function getSkillDescription(skill) {
+  return skill?.Desc || skill?.Description || skill?.desc || skill?.description || "스킬 효과 확인 필요";
+}
+
+function formatUniqueItemStats(gear) {
+  const types = gear?.statTypes ?? gear?.StatType ?? [];
+  const values = gear?.statValues ?? gear?.StatValue ?? [];
+
+  if (!Array.isArray(types) || types.length === 0) {
+    return "스탯 효과 확인 필요";
+  }
+
+  return types.map((type, index) => {
+    const label = getStatLabel(STAT_TYPE_TO_KEY[type]) ?? type;
+    const value = Array.isArray(values[index]) ? values[index].join(" / ") : values[index];
+    return `${label} ${value ?? "확인 필요"}`;
+  }).join(", ");
+}
+
+function getWeaponRank2EffectText(student) {
+  const passivePlus = getEnhancedSkills(student, "passivePlus");
+
+  if (passivePlus.length === 0) {
+    return "강화 스킬이 + 버전으로 변경됩니다. 강화 스킬+ 데이터 확인 필요";
+  }
+
+  return `강화 스킬이 ${passivePlus.map((skill) => getSkillName(skill, SKILL_SLOT_CONFIG[2])).join(", ")}로 변경됩니다.`;
+}
+
+function createFavoriteItemTierCard(titleText, bodyText) {
+  const card = document.createElement("article");
+  card.className = "favorite-item-tier-card";
+
+  const title = document.createElement("h4");
+  title.textContent = titleText;
+
+  const body = document.createElement("p");
+  body.textContent = bodyText;
+
+  card.append(title, body);
+  return card;
+}
+
+function getUniqueItemTier2EffectText(student) {
+  const normalPlus = getEnhancedSkills(student, "normalPlus");
+
+  if (normalPlus.length === 0) {
+    return "기본 스킬+ 데이터 확인 필요";
+  }
+
+  return `기본 스킬이 ${normalPlus.map((skill) => getSkillName(skill, SKILL_SLOT_CONFIG[1])).join(", ")}로 변경됩니다.`;
+}
+
+function getStatLabel(statKey) {
+  return STAT_CONFIGS.find((config) => config.key === statKey)?.label ?? null;
+}
+
+function getEquipmentSlotLabels(student) {
+  return (student.equipmentSlots ?? []).map(getEquipmentCategoryLabel);
+}
+
+function getEquipmentCategoryLabel(category) {
+  return EQUIPMENT_CATEGORY_LABELS[category] ?? category ?? "장비 확인 필요";
+}
+
+function resolveEquipmentIconUrl(equipment) {
+  const icon = equipment?.icon ?? equipment?.Icon ?? "";
+
+  if (!icon) {
+    return "";
+  }
+
+  if (String(icon).startsWith("./") || String(icon).startsWith("http")) {
+    return icon;
+  }
+
+  return `./images/items/Equipment_Icon/${toEquipmentIconFileName(icon)}.png`;
+}
+
+function toEquipmentIconFileName(icon) {
+  return String(icon)
+    .split("_")
+    .map((part) => part ? `${part.charAt(0).toUpperCase()}${part.slice(1)}` : part)
+    .join("_");
+}
+
+function createEquipmentFallback(label) {
+  const fallback = document.createElement("span");
+  fallback.className = "detail-equipment-fallback";
+  fallback.textContent = String(label ?? "장비").slice(0, 1);
+  return fallback;
+}
+
+function createNumberField({ label, value, min, max, disabled = false, onChange }) {
+  const field = document.createElement("label");
+  field.className = "detail-control-field";
+  field.append(document.createTextNode(label));
+
+  const input = document.createElement("input");
+  input.type = "number";
+  input.min = String(min);
+  input.max = String(max);
+  input.step = "1";
+  input.value = String(value);
+  input.disabled = disabled;
+  input.addEventListener("change", () => onChange(Number(input.value)));
+  field.append(input);
+  return field;
+}
+
+function createSelectField({ label, value, options, disabled = false, onChange }) {
+  const field = document.createElement("label");
+  field.className = "detail-control-field";
+  field.append(document.createTextNode(label));
+
+  const select = document.createElement("select");
+  select.disabled = disabled;
+  options.forEach(([optionValue, optionLabel]) => {
+    select.append(new Option(optionLabel, String(optionValue)));
+  });
+  select.value = String(value);
+  select.addEventListener("change", () => onChange(select.value));
+  field.append(select);
+  return field;
+}
+
+function createEquipmentControlCard({ slot, slotIndex, tier, onChange }) {
+  const categoryLabel = getEquipmentCategoryLabel(slot);
+  const selectedTier = Number(tier) || 0;
+  const equipment = selectedTier > 0 ? equipmentByCategory.get(slot)?.get(selectedTier) : null;
+  const card = document.createElement("article");
+  card.className = "detail-equipment-control-card";
+
+  const visual = document.createElement("div");
+  visual.className = "detail-equipment-visual";
+  const imageUrl = resolveEquipmentIconUrl(equipment);
+
+  if (imageUrl) {
+    const image = document.createElement("img");
+    image.className = "detail-equipment-image";
+    image.src = imageUrl;
+    image.alt = equipment?.name ?? categoryLabel;
+    image.addEventListener("error", () => {
+      if (!image.src.includes("/81px-")) {
+        image.src = image.src.replace("/Equipment_Icon/", "/Equipment_Icon/81px-");
+        return;
+      }
+
+      image.replaceWith(createEquipmentFallback(categoryLabel));
+    }, { once: false });
+    visual.append(image);
+  } else {
+    visual.append(createEquipmentFallback(categoryLabel));
+  }
+
+  const content = document.createElement("div");
+  content.className = "detail-equipment-content";
+
+  const title = document.createElement("strong");
+  title.textContent = `${slotIndex}번 장비`;
+
+  const name = document.createElement("span");
+  name.textContent = equipment?.name ?? categoryLabel;
+
+  const select = document.createElement("select");
+  select.setAttribute("aria-label", `${slotIndex}번 장비 티어`);
+  select.append(new Option("미착용", "0"));
+  createTierOptions(1, getMaxEquipmentTier(slot)).forEach(([optionValue, optionLabel]) => {
+    select.append(new Option(optionLabel, String(optionValue)));
+  });
+  select.value = String(selectedTier);
+  select.addEventListener("change", () => onChange(Number(select.value)));
+
+  content.append(title, name, select);
+  card.append(visual, content);
+  return card;
+}
+
+function createSkillLevelSelect(slot) {
+  const select = document.createElement("select");
+  select.className = "skill-level-select";
+  select.setAttribute("aria-label", `${slot.label} 레벨`);
+  createLevelOptions(1, slot.maxLevel).forEach(([value, label]) => {
+    select.append(new Option(label, String(value)));
+  });
+  select.value = String(detailViewState.skills[slot.key] ?? 1);
+  select.addEventListener("change", () => updateDetailViewState({
+    skills: {
+      ...detailViewState.skills,
+      [slot.key]: Number(select.value),
+    },
+  }));
+  return select;
+}
+
+function createStarRankField({ label, baseStar, value, onChange }) {
+  const field = document.createElement("div");
+  field.className = "detail-control-field star-rank-control-field";
+
+  const title = document.createElement("span");
+  title.textContent = label;
+
+  const row = document.createElement("div");
+  row.className = "detail-star-rank-row";
+  row.setAttribute("role", "radiogroup");
+  row.setAttribute("aria-label", label);
+
+  for (let rank = 1; rank <= 9; rank += 1) {
+    const button = document.createElement("button");
+    button.className = "detail-star-rank-button";
+    button.type = "button";
+    button.disabled = rank < baseStar;
+    button.setAttribute("role", "radio");
+    button.setAttribute("aria-checked", rank === value ? "true" : "false");
+    button.setAttribute("aria-label", formatCombinedStarRankLabel(rank));
+    button.title = formatCombinedStarRankLabel(rank);
+
+    if (rank === value) {
+      button.classList.add("is-selected");
+    }
+
+    if (rank <= value) {
+      button.classList.add("is-active");
+    }
+
+    const image = document.createElement("img");
+    image.className = "detail-star-rank-icon";
+    image.src = rank <= value ? getStarRankIconUrl(rank) : BLANK_STAR_ICON_URL;
+    image.alt = "";
+    image.setAttribute("aria-hidden", "true");
+    button.append(image);
+
+    button.addEventListener("click", () => onChange(rank));
+    row.append(button);
+  }
+
+  const valueLabel = document.createElement("span");
+  valueLabel.className = "detail-star-rank-value";
+  valueLabel.textContent = formatCombinedStarRankLabel(value);
+
+  field.append(title, row, valueLabel);
+  return field;
+}
+
+function createLevelOptions(min, max) {
+  const options = [];
+
+  for (let level = min; level <= max; level += 1) {
+    options.push([level, `Lv. ${level}`]);
+  }
+
+  return options;
+}
+
+function createTierOptions(min, max) {
+  const options = [];
+
+  for (let tier = min; tier <= max; tier += 1) {
+    options.push([tier, `T${tier}`]);
+  }
+
+  return options;
+}
+
+function getCombinedStarRank(state) {
+  const weaponStar = Number(state.uniqueWeaponStar);
+  return weaponStar > 0 ? 5 + weaponStar : Number(state.studentStar);
+}
+
+function createStateFromCombinedStarRank(rank) {
+  const normalizedRank = clampInteger(rank, 1, 9, 5);
+
+  if (normalizedRank > 5) {
+    return {
+      studentStar: 5,
+      uniqueWeaponStar: normalizedRank - 5,
+    };
+  }
+
+  return {
+    studentStar: normalizedRank,
+    uniqueWeaponStar: 0,
+  };
+}
+
+function formatCombinedStarRankLabel(rank) {
+  return rank <= 5 ? `${rank}성` : `전용무기 ${rank - 5}성`;
+}
+
+function getStarRankIconUrl(rank) {
+  return rank <= 5 ? STAR_ICON_URL : BLUE_STAR_ICON_URL;
+}
+
+function interpolateLevelValue(level1, level100, level) {
+  const start = toNullableNumber(level1);
+  const end = toNullableNumber(level100);
+
+  if (start === null || end === null) {
+    return null;
+  }
+
+  const normalizedLevel = clampInteger(level, 1, 100, 1);
+  return Math.round(start + ((end - start) * (normalizedLevel - 1)) / 99);
+}
+
+function getUniqueWeaponMaxLevel(weaponStar) {
+  return UNIQUE_WEAPON_MAX_LEVEL_BY_STAR[Number(weaponStar)] ?? 0;
+}
+
+function formatStatValue(value, config) {
+  if (value === null || value === undefined || !Number.isFinite(Number(value))) {
+    return "확인 필요";
+  }
+
+  if (config.percentBase) {
+    return `${Math.round((Number(value) / config.percentBase) * 100)}%`;
+  }
+
+  return formatQuantity(value);
+}
+
+function formatQuantity(value) {
+  if (value === null || value === undefined || !Number.isFinite(Number(value))) {
+    return "확인 필요";
+  }
+
+  return Math.round(Number(value)).toLocaleString("ko-KR");
+}
+
+function toNullableNumber(value) {
+  const numberValue = Number(value);
+  return Number.isFinite(numberValue) ? numberValue : null;
+}
+
+function getBaseStar(student) {
+  const star = Number(student?.star ?? student?.baseStar ?? student?.raw?.StarGrade ?? 1);
+  return Number.isFinite(star) ? Math.min(5, Math.max(1, Math.trunc(star))) : 1;
+}
+
+function clampInteger(value, min, max, fallback) {
+  const numberValue = Number(value);
+
+  if (!Number.isFinite(numberValue)) {
+    return fallback;
+  }
+
+  return Math.min(max, Math.max(min, Math.trunc(numberValue)));
+}
+
+function hasUniqueItem(student) {
+  const gear = student?.gear ?? student?.uniqueItem ?? null;
+  return Boolean(gear?.name || gear?.Name);
 }
 
 function renderMemorialPlaceholder() {
@@ -1816,11 +1373,6 @@ function renderErrorState(message) {
   characterProfileName.textContent = message;
   characterProfileDescription.textContent = "잠시 후 다시 시도해주세요.";
   replaceWithNotice(skillList, message);
-  replaceWithNotice(materialList, message);
-}
-
-function getStudentImageUrl(student) {
-  return student.raw?.PortraitImageUrl ?? student.raw?.portraitImageUrl ?? null;
 }
 
 function getAcademyDisplayName(student) {
@@ -1855,14 +1407,6 @@ function getDisplayLabel(type, value) {
 
 function updateLanguageButtons() {
   syncLanguageButtons(displayLanguage, languageButtons);
-}
-
-function getSkillName(skill, slot) {
-  return skill?.Name || skill?.name || slot.label;
-}
-
-function getSkillDescription(skill) {
-  return skill?.Desc || skill?.Description || skill?.desc || skill?.description || "스킬 효과 확인 필요";
 }
 
 function replaceWithNotice(target, message) {

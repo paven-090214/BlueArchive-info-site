@@ -8,6 +8,10 @@ import {
   setPreferredLanguage,
   syncLanguageButtons,
 } from "../utils/languagePreference.js";
+import {
+  applyStudentImageFallback,
+  resolveStudentImage,
+} from "../utils/studentImageResolver.js";
 
 const academyName = document.querySelector("#academy-name");
 const academyDescription = document.querySelector("#academy-description");
@@ -144,18 +148,12 @@ function createClubStudentLink(student) {
   link.href = `character-detail.html?id=${student.id}`;
   link.className = "club-character-item";
 
-  const imageUrl = getStudentIconImageUrl(student);
-  const visual = imageUrl ? document.createElement("img") : document.createElement("span");
+  const visual = document.createElement("img");
   visual.className = "student-image-placeholder";
-
-  if (imageUrl) {
-    visual.src = imageUrl;
-    visual.alt = `${student.name} 아이콘`;
-    visual.loading = "lazy";
-  } else {
-    visual.setAttribute("aria-hidden", "true");
-    visual.textContent = (student.name ?? "학").slice(0, 1);
-  }
+  visual.src = resolveStudentImage(student, "icon");
+  visual.alt = `${student.name ?? "학생"} 아이콘`;
+  visual.loading = "lazy";
+  applyStudentImageFallback(visual);
 
   const name = document.createElement("span");
   name.textContent = student.name;
@@ -178,10 +176,6 @@ function getStudentsForClub(club) {
       (!clubCode || student.club === clubCode)
     );
   });
-}
-
-function getStudentIconImageUrl(student) {
-  return student.raw?.IconImageUrl ?? student.raw?.iconImageUrl ?? student.iconImageUrl ?? null;
 }
 
 function renderAcademyClubs() {
