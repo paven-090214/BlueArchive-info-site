@@ -1,0 +1,1060 @@
+{
+  "characterId": 13010,
+  "personId": 13010,
+  "slug": "yuuka",
+  "baseSlug": "yuuka",
+  "variant": "normal",
+  "hasForms": false,
+  "names": {
+    "ko": "하야세 유우카",
+    "en": "Hayase Yuuka",
+    "ja": "早瀬ユウカ",
+    "displayKo": "유우카"
+  },
+  "baseInfo": {
+    "squadType": "STRIKER",
+    "combatRole": {
+      "gameRole": "Tank",
+      "siteRoleCategory": "tank",
+      "ko": "탱커"
+    },
+    "position": {
+      "raw": "FRONT",
+      "ko": "전열"
+    },
+    "baseStar": 2,
+    "school": {
+      "en": "Millennium Science School",
+      "ko": "밀레니엄 사이언스 스쿨"
+    },
+    "club": {
+      "en": "Seminar",
+      "ko": "세미나"
+    },
+    "age": 16,
+    "birthday": {
+      "month": 3,
+      "day": 14,
+      "textKo": "3월 14일",
+      "textEn": "March 14th"
+    },
+    "hobby": {
+      "ko": "계산",
+      "en": "Calculation"
+    },
+    "designer": "Hwansang",
+    "illustrator": "Hwansang",
+    "voiceActors": {
+      "ko": "Shin Nari / 신나리",
+      "ja": "Haruka Ran / 春花らん",
+      "cn": "Xiao Gan / 小敢"
+    }
+  },
+  "combatInfo": {
+    "weaponType": {
+      "code": "SMG",
+      "ko": "기관단총",
+      "en": "Sub-Machine Gun"
+    },
+    "attackType": {
+      "code": "explosion",
+      "ko": "폭발",
+      "en": "Explosion"
+    },
+    "armorType": {
+      "code": "heavy",
+      "ko": "중장갑",
+      "en": "Heavy Armor"
+    },
+    "terrain": {
+      "urban": {
+        "ko": "시가지",
+        "sourceLabel": "City",
+        "gradeLabel": "Neutral",
+        "rank": "B",
+        "uniqueWeapon3Rank": "A",
+        "uniqueWeapon3GradeLabel": "Good"
+      },
+      "outdoor": {
+        "ko": "야전",
+        "sourceLabel": "Desert",
+        "gradeLabel": "Neutral",
+        "rank": "B"
+      },
+      "indoor": {
+        "ko": "실내",
+        "sourceLabel": "Indoor",
+        "gradeLabel": "Good",
+        "rank": "A"
+      }
+    },
+    "equipmentSlots": [
+      {
+        "slot": 1,
+        "code": "shoes",
+        "ko": "신발",
+        "defaultTier": 1,
+        "recommendedInitialTargetTier": "max"
+      },
+      {
+        "slot": 2,
+        "code": "badge",
+        "ko": "배지",
+        "defaultTier": 1,
+        "recommendedInitialTargetTier": "max"
+      },
+      {
+        "slot": 3,
+        "code": "charm",
+        "ko": "부적",
+        "defaultTier": 1,
+        "recommendedInitialTargetTier": "max"
+      }
+    ]
+  },
+  "profile": {
+    "summaryKo": "밀레니엄 사이언스 스쿨 2학년이자 학생회 세미나의 회계 담당. 돈 문제에 엄격하고 예산 관리를 총괄하며, 뛰어난 계산 능력과 책임감으로 밀레니엄의 여러 일을 처리하는 학생이다.",
+    "summaryEn": "A second-year Millennium student and the treasurer of Seminar. She is strict about money, supervises Millennium's budget, and is known for her mathematical talent and responsible personality."
+  },
+  "stats": {
+    "sourceBasis": "Uploaded Yuuka JSON and Fandom stat table. Site display stats should be calculated separately from level, star, equipment, unique weapon, bond, and unique item.",
+    "mainStatSets": {
+      "level1BaseStar": {
+        "level": 1,
+        "star": 2,
+        "hp": 3147,
+        "attack": 119,
+        "defense": 29,
+        "healing": 1505
+      },
+      "level100BaseStar": {
+        "level": 100,
+        "star": 2,
+        "hp": 52605,
+        "attack": 1193,
+        "defense": 179,
+        "healing": 4518
+      },
+      "level100Star3": {
+        "level": 100,
+        "star": 3,
+        "hp": 56113,
+        "attack": 1323,
+        "defense": 179,
+        "healing": 4938
+      },
+      "level100Star4": {
+        "level": 100,
+        "star": 4,
+        "hp": 60621,
+        "attack": 1475,
+        "defense": 179,
+        "healing": 5442
+      },
+      "level100Star5": {
+        "level": 100,
+        "star": 5,
+        "hp": 67635,
+        "attack": 1659,
+        "defense": 179,
+        "healing": 6072
+      }
+    },
+    "defaultCombatStats": {
+      "accuracy": 100,
+      "evasion": 1440,
+      "criticalRate": 200,
+      "criticalDamage": "200%",
+      "stability": 1396,
+      "range": 350,
+      "ccPower": 100,
+      "ccResist": 100,
+      "costRecovery": 700,
+      "ammo": null,
+      "attackSpeed": null,
+      "moveSpeed": null
+    },
+    "needsReview": [
+      "ammo",
+      "attackSpeed",
+      "moveSpeed"
+    ]
+  },
+  "skills": [
+    {
+      "slot": "ex",
+      "typeKo": "EX 스킬",
+      "name": {
+        "ko": "Q.E.D.",
+        "en": "Q.E.D."
+      },
+      "cost": 3,
+      "shape": "self",
+      "templateKo": "자신에게 치유력의 {shieldHealPercent}%만큼 보호막 생성 / {durationSec}초간 지속",
+      "templateEn": "Cast {shieldHealPercent}% of HEAL as a barrier on self / lasts {durationSec} sec.",
+      "levels": [
+        {
+          "level": 1,
+          "values": {
+            "shieldHealPercent": 190,
+            "durationSec": 15
+          }
+        },
+        {
+          "level": 2,
+          "values": {
+            "shieldHealPercent": 219,
+            "durationSec": 15
+          }
+        },
+        {
+          "level": 3,
+          "values": {
+            "shieldHealPercent": 220,
+            "durationSec": 20
+          }
+        },
+        {
+          "level": 4,
+          "values": {
+            "shieldHealPercent": 245,
+            "durationSec": 20
+          }
+        },
+        {
+          "level": 5,
+          "values": {
+            "shieldHealPercent": 248,
+            "durationSec": 25
+          }
+        }
+      ]
+    },
+    {
+      "slot": "normal",
+      "typeKo": "기본 스킬",
+      "name": {
+        "ko": "I.F.F.",
+        "en": "I.F.F."
+      },
+      "cooldownSec": 15,
+      "templateKo": "15초마다 적 1인에게 공격력 {atkPercent}% 대미지",
+      "templateEn": "Deals {atkPercent}% of ATK as damage to 1 enemy every 15 sec.",
+      "levels": [
+        {
+          "level": 1,
+          "values": {
+            "atkPercent": 301
+          }
+        },
+        {
+          "level": 2,
+          "values": {
+            "atkPercent": 317
+          }
+        },
+        {
+          "level": 3,
+          "values": {
+            "atkPercent": 332
+          }
+        },
+        {
+          "level": 4,
+          "values": {
+            "atkPercent": 392
+          }
+        },
+        {
+          "level": 5,
+          "values": {
+            "atkPercent": 407
+          }
+        },
+        {
+          "level": 6,
+          "values": {
+            "atkPercent": 422
+          }
+        },
+        {
+          "level": 7,
+          "values": {
+            "atkPercent": 483
+          }
+        },
+        {
+          "level": 8,
+          "values": {
+            "atkPercent": 498
+          }
+        },
+        {
+          "level": 9,
+          "values": {
+            "atkPercent": 513
+          }
+        },
+        {
+          "level": 10,
+          "values": {
+            "atkPercent": 573
+          }
+        }
+      ]
+    },
+    {
+      "slot": "passive",
+      "typeKo": "강화 스킬",
+      "name": {
+        "ko": "최적해",
+        "en": "Optimal Solutions"
+      },
+      "templateKo": "방어력 {defenseUpPercent}% 증가",
+      "templateEn": "Increases DEF by {defenseUpPercent}%.",
+      "levels": [
+        {
+          "level": 1,
+          "values": {
+            "defenseUpPercent": 14.0
+          }
+        },
+        {
+          "level": 2,
+          "values": {
+            "defenseUpPercent": 14.7
+          }
+        },
+        {
+          "level": 3,
+          "values": {
+            "defenseUpPercent": 15.4
+          }
+        },
+        {
+          "level": 4,
+          "values": {
+            "defenseUpPercent": 18.2
+          }
+        },
+        {
+          "level": 5,
+          "values": {
+            "defenseUpPercent": 18.9
+          }
+        },
+        {
+          "level": 6,
+          "values": {
+            "defenseUpPercent": 19.6
+          }
+        },
+        {
+          "level": 7,
+          "values": {
+            "defenseUpPercent": 22.4
+          }
+        },
+        {
+          "level": 8,
+          "values": {
+            "defenseUpPercent": 23.1
+          }
+        },
+        {
+          "level": 9,
+          "values": {
+            "defenseUpPercent": 23.8
+          }
+        },
+        {
+          "level": 10,
+          "values": {
+            "defenseUpPercent": 26.6
+          }
+        }
+      ]
+    },
+    {
+      "slot": "sub",
+      "typeKo": "서브 스킬",
+      "name": {
+        "ko": "계산적인 마음",
+        "en": "Calculative Mind"
+      },
+      "templateKo": "엄폐 시 치유력의 {healPercent}%만큼 체력 회복 / 재사용 대기시간 {cooldownSec}초",
+      "templateEn": "Recovers {healPercent}% of HEAL as HP when taking cover (CD: {cooldownSec} sec).",
+      "levels": [
+        {
+          "level": 1,
+          "values": {
+            "healPercent": 75,
+            "cooldownSec": 10
+          }
+        },
+        {
+          "level": 2,
+          "values": {
+            "healPercent": 78.7,
+            "cooldownSec": 10
+          }
+        },
+        {
+          "level": 3,
+          "values": {
+            "healPercent": 82.5,
+            "cooldownSec": 10
+          }
+        },
+        {
+          "level": 4,
+          "values": {
+            "healPercent": 97.5,
+            "cooldownSec": 10
+          }
+        },
+        {
+          "level": 5,
+          "values": {
+            "healPercent": 101,
+            "cooldownSec": 10
+          }
+        },
+        {
+          "level": 6,
+          "values": {
+            "healPercent": 105,
+            "cooldownSec": 10
+          }
+        },
+        {
+          "level": 7,
+          "values": {
+            "healPercent": 120,
+            "cooldownSec": 10
+          }
+        },
+        {
+          "level": 8,
+          "values": {
+            "healPercent": 123,
+            "cooldownSec": 10
+          }
+        },
+        {
+          "level": 9,
+          "values": {
+            "healPercent": 127,
+            "cooldownSec": 10
+          }
+        },
+        {
+          "level": 10,
+          "values": {
+            "healPercent": 142,
+            "cooldownSec": 10
+          }
+        }
+      ]
+    }
+  ],
+  "enhancedSkills": [
+    {
+      "source": "uniqueItemT2",
+      "replacesSlot": "normal",
+      "typeKo": "기본 스킬+",
+      "name": {
+        "ko": "I.F.F.+",
+        "en": "I.F.F+"
+      },
+      "cooldownSec": 15,
+      "templateKo": "15초마다 적 1인에게 공격력 {atkPercent}% 대미지 / 자신의 회피 수치 {evasionUpPercent}% 증가 ({durationSec}초)",
+      "templateEn": "Deals {atkPercent}% of ATK as damage to 1 enemy every 15 sec. Increases EVA by {evasionUpPercent}% ({durationSec} sec).",
+      "levels": [
+        {
+          "level": 1,
+          "values": {
+            "atkPercent": 329,
+            "evasionUpPercent": 26,
+            "durationSec": 10
+          }
+        },
+        {
+          "level": 2,
+          "values": {
+            "atkPercent": 345,
+            "evasionUpPercent": 26,
+            "durationSec": 10
+          }
+        },
+        {
+          "level": 3,
+          "values": {
+            "atkPercent": 362,
+            "evasionUpPercent": 26,
+            "durationSec": 10
+          }
+        },
+        {
+          "level": 4,
+          "values": {
+            "atkPercent": 428,
+            "evasionUpPercent": 28.6,
+            "durationSec": 10
+          }
+        },
+        {
+          "level": 5,
+          "values": {
+            "atkPercent": 444,
+            "evasionUpPercent": 28.6,
+            "durationSec": 10
+          }
+        },
+        {
+          "level": 6,
+          "values": {
+            "atkPercent": 461,
+            "evasionUpPercent": 28.6,
+            "durationSec": 10
+          }
+        },
+        {
+          "level": 7,
+          "values": {
+            "atkPercent": 527,
+            "evasionUpPercent": 31.2,
+            "durationSec": 10
+          }
+        },
+        {
+          "level": 8,
+          "values": {
+            "atkPercent": 543,
+            "evasionUpPercent": 31.2,
+            "durationSec": 10
+          }
+        },
+        {
+          "level": 9,
+          "values": {
+            "atkPercent": 560,
+            "evasionUpPercent": 31.2,
+            "durationSec": 10
+          }
+        },
+        {
+          "level": 10,
+          "values": {
+            "atkPercent": 625,
+            "evasionUpPercent": 33.8,
+            "durationSec": 10
+          }
+        }
+      ]
+    },
+    {
+      "source": "uniqueWeapon2",
+      "replacesSlot": "passive",
+      "typeKo": "강화 스킬+",
+      "name": {
+        "ko": "최적해+",
+        "en": "Optimal Solutions+"
+      },
+      "templateKo": "엄폐 성공 수치 {blockFlat} 증가 / 추가로 방어력 {defenseUpPercent}% 증가",
+      "templateEn": "Increases BLOCK by {blockFlat}. Also increases DEF by {defenseUpPercent}%.",
+      "levels": [
+        {
+          "level": 1,
+          "values": {
+            "blockFlat": 1000,
+            "defenseUpPercent": 14.0
+          }
+        },
+        {
+          "level": 2,
+          "values": {
+            "blockFlat": 1050,
+            "defenseUpPercent": 14.7
+          }
+        },
+        {
+          "level": 3,
+          "values": {
+            "blockFlat": 1100,
+            "defenseUpPercent": 15.4
+          }
+        },
+        {
+          "level": 4,
+          "values": {
+            "blockFlat": 1300,
+            "defenseUpPercent": 18.2
+          }
+        },
+        {
+          "level": 5,
+          "values": {
+            "blockFlat": 1350,
+            "defenseUpPercent": 18.9
+          }
+        },
+        {
+          "level": 6,
+          "values": {
+            "blockFlat": 1400,
+            "defenseUpPercent": 19.6
+          }
+        },
+        {
+          "level": 7,
+          "values": {
+            "blockFlat": 1600,
+            "defenseUpPercent": 22.4
+          }
+        },
+        {
+          "level": 8,
+          "values": {
+            "blockFlat": 1650,
+            "defenseUpPercent": 23.1
+          }
+        },
+        {
+          "level": 9,
+          "values": {
+            "blockFlat": 1700,
+            "defenseUpPercent": 23.8
+          }
+        },
+        {
+          "level": 10,
+          "values": {
+            "blockFlat": 1900,
+            "defenseUpPercent": 26.6
+          }
+        }
+      ]
+    }
+  ],
+  "preferredGifts": {
+    "sourceBasis": "Fandom gift table plus Blue Archive Wiki / Blue Utils gift list. Fandom explicitly labels A=Amazing and G=Great.",
+    "inventoryMapping": {
+      "matchPriority": [
+        "code",
+        "name.ko",
+        "name.en",
+        "aliases"
+      ],
+      "userStateCollectionKey": "ownedGifts",
+      "studentGiftPreferenceKey": "studentGiftPreferences.13010"
+    },
+    "gifts": [
+      {
+        "code": "gift_i_book_rare",
+        "name": {
+          "ko": "에이~북 레어",
+          "en": "I-book Rare"
+        },
+        "aliases": [
+          "A-Book Rare",
+          "I-book Rare",
+          "에이~북 레어"
+        ],
+        "rarity": 3,
+        "affinity": "amazing",
+        "affinityKo": "최고 선호",
+        "fandomAffinityCode": "A",
+        "sourceNotes": [
+          "bluearchive.wiki uses the item name I-book Rare.",
+          "Fandom output shows the same gift as A-Book Rare."
+        ]
+      },
+      {
+        "code": "gift_vitamin_jelly",
+        "name": {
+          "ko": "영양가득 종합 비타민 젤리",
+          "en": "Vitamin Jelly"
+        },
+        "aliases": [
+          "Vitamin Jelly",
+          "영양가득 종합 비타민 젤리"
+        ],
+        "rarity": null,
+        "affinity": "amazing",
+        "affinityKo": "최고 선호",
+        "fandomAffinityCode": "A"
+      },
+      {
+        "code": "gift_brain_teaser_puzzle_cube",
+        "name": {
+          "ko": "두뇌개발용 퍼즐 큐브",
+          "en": "Brain Teaser Puzzle Cube"
+        },
+        "aliases": [
+          "Cube Puzzle",
+          "Brain Teaser Puzzle Cube",
+          "두뇌개발용 퍼즐 큐브"
+        ],
+        "rarity": 2,
+        "affinity": "great",
+        "affinityKo": "선호",
+        "fandomAffinityCode": "G"
+      }
+    ],
+    "notFound": []
+  },
+  "uniqueItem": {
+    "enabled": true,
+    "itemType": "uniqueItem",
+    "equipmentSlot": 4,
+    "id": "unique_item_13010",
+    "code": "unique_item_yuuka_scientific_calculator",
+    "owner": {
+      "characterId": 13010,
+      "personId": 13010,
+      "slug": "yuuka",
+      "baseSlug": "yuuka",
+      "displayKo": "유우카",
+      "nameKo": "하야세 유우카",
+      "nameEn": "Hayase Yuuka"
+    },
+    "name": {
+      "ko": "유우카의 함수 계산기",
+      "en": "Yuuka's Scientific Calculator"
+    },
+    "aliases": [
+      "유우카의 함수 계산기",
+      "유우카의 공학용 계산기",
+      "Yuuka's Scientific Calculator",
+      "Yuuka UI"
+    ],
+    "descriptionKo": "유우카가 늘 몸에서 떼놓지 않는 함수 계산기. 뛰어난 암산 실력을 보유하고 있음에도 불구하고, 유우카는 언제나 완벽을 추구하기 위해 검산용으로 계산기를 사용하고 있다.",
+    "descriptionEn": "A scientific calculator that Yuuka carries with her at all times. Despite possessing excellent mental arithmetic skills, Yuuka always uses the calculator for calculations in her pursuit of perfection.",
+    "mapping": {
+      "canonicalKey": "uniqueItem:13010",
+      "studentScopedKey": "student:13010:uniqueItem",
+      "itemCode": "unique_item_yuuka_scientific_calculator",
+      "ownerCharacterId": 13010,
+      "ownerPersonId": 13010,
+      "ownerSlug": "yuuka",
+      "inventoryMatchPriority": [
+        "ownerCharacterId",
+        "canonicalKey",
+        "itemCode",
+        "name.ko",
+        "name.en",
+        "aliases"
+      ],
+      "userStateKeys": {
+        "owned": "ownedUniqueItems.13010",
+        "tier": "uniqueItemTiers.13010",
+        "isUnlocked": "studentProgress.13010.uniqueItem.unlocked",
+        "currentTier": "studentProgress.13010.uniqueItem.tier"
+      }
+    },
+    "asset": {
+      "iconPath": "./images/items/uniqueItems/13010.webp",
+      "sourceImageLabel": "Yuuka UI",
+      "needsLocalAssetCheck": true
+    },
+    "unlock": {
+      "tier": "T1",
+      "bondRank": 15
+    },
+    "tiers": {
+      "T1": {
+        "tier": 1,
+        "unlock": {
+          "bondRank": 15
+        },
+        "effects": [
+          {
+            "type": "statBonus",
+            "stat": "defense",
+            "statKo": "방어력",
+            "value": 500
+          }
+        ],
+        "materials": []
+      },
+      "T2": {
+        "tier": 2,
+        "unlock": {
+          "bondRank": 20
+        },
+        "effects": [
+          {
+            "type": "skillUpgrade",
+            "targetSlot": "normal",
+            "targetSkill": {
+              "fromKo": "I.F.F.",
+              "fromEn": "I.F.F.",
+              "toKo": "I.F.F.+",
+              "toEn": "I.F.F+"
+            }
+          }
+        ],
+        "materials": [
+          {
+            "type": "gift",
+            "code": "gift_brain_teaser_puzzle_cube",
+            "name": {
+              "ko": "두뇌개발용 퍼즐 큐브",
+              "en": "Brain Teaser Puzzle Cube"
+            },
+            "quantity": 4
+          },
+          {
+            "type": "artifact",
+            "series": "antikythera",
+            "tier": 0,
+            "code": "artifact_antikythera_t0",
+            "name": {
+              "ko": "안티키테라 장치 조각",
+              "en": "Antikythera 0"
+            },
+            "quantity": 80
+          },
+          {
+            "type": "artifact",
+            "series": "antikythera",
+            "tier": 1,
+            "code": "artifact_antikythera_t1",
+            "name": {
+              "ko": "파손된 안티키테라 장치",
+              "en": "Antikythera 1"
+            },
+            "quantity": 25
+          },
+          {
+            "type": "currency",
+            "code": "credit",
+            "name": {
+              "ko": "크레딧",
+              "en": "Gold"
+            },
+            "quantity": 500000
+          }
+        ]
+      },
+      "T3": {
+        "tier": 3,
+        "needsReview": true,
+        "effects": [
+          {
+            "type": "tba",
+            "ko": "추후 공개",
+            "en": "TBA"
+          }
+        ],
+        "materials": null,
+        "notFoundReasonKo": "확인한 출처에서 T3 요구 재료와 효과 수치를 찾지 못했다."
+      },
+      "T4": {
+        "tier": 4,
+        "needsReview": true,
+        "effects": [
+          {
+            "type": "tba",
+            "ko": "추후 공개",
+            "en": "TBA"
+          }
+        ],
+        "materials": null,
+        "notFoundReasonKo": "확인한 출처에서 T4 요구 재료와 효과 수치를 찾지 못했다."
+      }
+    },
+    "effects": {
+      "T1": [
+        {
+          "type": "statBonus",
+          "stat": "defense",
+          "ko": "방어력",
+          "value": 500
+        }
+      ],
+      "T2": [
+        {
+          "type": "skillUpgrade",
+          "targetSlot": "normal",
+          "from": "I.F.F.",
+          "to": "I.F.F.+"
+        }
+      ],
+      "T3": [
+        {
+          "type": "tba",
+          "ko": "추후 공개",
+          "en": "TBA"
+        }
+      ],
+      "T4": [
+        {
+          "type": "tba",
+          "ko": "추후 공개",
+          "en": "TBA"
+        }
+      ]
+    },
+    "source": {
+      "fandomUrl": "https://bluearchive.fandom.com/wiki/Hayase_Yuuka",
+      "wikiUrl": "https://bluearchive.wiki/wiki/Yuuka",
+      "blueUtilsKrUrl": "https://blue-utils.me/student-detail/yuuka%26lang%3DKr"
+    }
+  },
+  "uniqueWeapon": {
+    "name": {
+      "ko": "Logic & Reason",
+      "en": "Logic & Reason",
+      "ja": null
+    },
+    "weaponType": "SMG",
+    "descriptionKo": "유우카가 사용하는 두 정의 기관단총. 유우카가 합리적이고 이성적인 판단을 내릴 때 도움을 준다.",
+    "descriptionEn": "A pair of submachine guns used by Yuuka. They help Yuuka to make rational and intelligent decisions at critical times and when appropriate action is needed.",
+    "limitBreakEffects": {
+      "star1": [
+        {
+          "type": "unlock",
+          "ko": "전용무기 개방"
+        },
+        {
+          "type": "statBonusEnabled",
+          "ko": "전용무기 기본 스탯 보정 반영"
+        }
+      ],
+      "star2": [
+        {
+          "type": "skillUpgrade",
+          "targetSlot": "passive",
+          "from": "최적해",
+          "to": "최적해+"
+        }
+      ],
+      "star3": [
+        {
+          "type": "terrainUpgrade",
+          "terrain": "urban",
+          "fromRank": "B",
+          "toRank": "A",
+          "ko": "시가지 적성 +1"
+        }
+      ],
+      "star4": [
+        {
+          "type": "effectivenessBonus",
+          "attackType": "explosion",
+          "valuePercent": 10,
+          "ko": "폭발 특효 가산 +10%"
+        }
+      ]
+    },
+    "unknownLimitBreakEffects": {
+      "star5": null,
+      "notFoundReasonKo": "확인한 출처에서 전용무기 5성 효과 문구를 찾지 못했고, 아루 JSON 구조도 star1~star4까지만 사용하므로 효과를 추측하지 않았다."
+    },
+    "statsByLevel": [
+      {
+        "level": 1,
+        "attack": 43,
+        "hp": 1278,
+        "healing": 148
+      },
+      {
+        "level": 30,
+        "attack": 156,
+        "hp": 4646,
+        "healing": 539
+      },
+      {
+        "level": 40,
+        "attack": 195,
+        "hp": 5807,
+        "healing": 673
+      },
+      {
+        "level": 50,
+        "attack": 234,
+        "hp": 6969,
+        "healing": 808
+      },
+      {
+        "level": 60,
+        "attack": 273,
+        "hp": 8131,
+        "healing": 943
+      },
+      {
+        "level": 70,
+        "attack": 312,
+        "hp": 9293,
+        "healing": 1078
+      }
+    ]
+  },
+  "memorial": {
+    "type": "live2d",
+    "name": {
+      "ko": "메모리얼 로비",
+      "en": "Memorial Lobby"
+    },
+    "unlock": {
+      "bondRank": 1,
+      "needsReview": false
+    },
+    "asset": {
+      "localPath": null,
+      "fileType": null,
+      "candidates": [
+        "live2d",
+        "image",
+        "gif",
+        "mp4"
+      ],
+      "noteKo": "메모리얼 로비와 Live2D 존재는 확인했지만, 실제 로컬 파일 경로와 확장자는 프로젝트 보유 에셋 기준으로 별도 매핑해야 한다."
+    }
+  },
+  "sourceHints": {
+    "primaryPages": [
+      "https://bluearchive.wiki/wiki/Yuuka",
+      "https://bluearchive.fandom.com/wiki/Hayase_Yuuka"
+    ],
+    "supportingPages": [
+      "https://blue-utils.me/student-detail/yuuka%26lang%3DKr"
+    ],
+    "sourcePolicyNoteKo": "수치와 구조는 자체 JSON으로 변환하고, 이미지/Live2D/음성 등 에셋은 각 사이트와 게임 에셋 사용 조건을 확인한 뒤 로컬 경로로 매핑한다.",
+    "checkedFields": {
+      "releaseDates": true,
+      "preferredGifts": true,
+      "uniqueItemMapping": true,
+      "unknownValuesSetToNull": true
+    },
+    "notFound": [
+      "전용무기 5성 효과",
+      "애장품 T3/T4 요구 재료와 구체 효과",
+      "ammo",
+      "attackSpeed",
+      "moveSpeed",
+      "메모리얼 로비 로컬 파일 경로와 파일 확장자"
+    ],
+    "lastRebuildNoteKo": "Aru JSON 구조에 맞춰 name/basicInfo/source/skills object 구조를 names/baseInfo/sourceHints/skills array/enhancedSkills 구조로 정리했다."
+  },
+  "releaseDates": {
+    "jp": {
+      "server": "JP",
+      "sourceLabel": "Release Date JP",
+      "raw": "2021/02/04",
+      "date": "2021-02-04",
+      "sourceUrl": "https://bluearchive.wiki/wiki/Yuuka"
+    },
+    "gl": {
+      "server": "GL",
+      "sourceLabel": "Release Date GL",
+      "raw": "2021/09/11",
+      "date": "2021-09-11",
+      "sourceUrl": "https://bluearchive.wiki/wiki/Yuuka",
+      "needsReview": true,
+      "reviewNoteKo": "bluearchive.wiki의 Release Date GL 원문값은 2021/09/11이다. JSON date 필드는 원문을 YYYY-MM-DD로 변환했지만, 글로벌 서버 런칭일 기준과 충돌 가능성이 있어 raw 값을 함께 유지한다."
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "characterId": 13010,
+  "personId": 13010,
+  "slug": "yuuka",
+  "baseStar": 2,
+  "statKeys": [
+    "attack",
+    "defense",
+    "hp",
+    "healing",
+    "accuracy",
+    "evasion",
+    "criticalRate",
+    "criticalDamage",
+    "stability",
+    "range",
+    "ccPower",
+    "ccResist"
+  ],
+  "baseStats": {
+    "attack": {
+      "min": 108,
+      "max": 1084
+    },
+    "defense": {
+      "min": 29,
+      "max": 179
+    },
+    "hp": {
+      "min": 2997,
+      "max": 50100
+    },
+    "healing": {
+      "min": 1400,
+      "max": 4202
+    }
+  },
+  "fixedStats": {
+    "accuracy": 100,
+    "evasion": 1440,
+    "criticalRate": 200,
+    "criticalDamage": 200,
+    "stability": 1396,
+    "range": 350,
+    "ccPower": 100,
+    "ccResist": 100
+  },
+  "uniqueWeaponStats": {
+    "growthType": "standard",
+    "stats": {
+      "attack": {
+        "min": 43,
+        "max": 429
+      },
+      "hp": {
+        "min": 1278,
+        "max": 12777
+      },
+      "healing": {
+        "min": 148,
+        "max": 1482
+      }
+    }
+  },
+  "uniqueItemStats": {
+    "tier1": {
+      "defense": 500
+    },
+    "tier2": {}
+  },
+  "source": {
+    "primary": "https://raw.githubusercontent.com/SchaleDB/SchaleDB/main/data/en/students.json",
+    "schaleDbId": 13010,
+    "notes": [
+      "criticalDamage is converted from CriticalDamageRate = 20000 to display percent value 200.",
+      "ccPower and ccResist are set to the common CharacterStatTable default value 100 for the current 12-field UI."
+    ]
+  }
+}

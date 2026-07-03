@@ -1,0 +1,161 @@
+{
+  "characterId": 13010,
+  "personId": 13010,
+  "slug": "yuuka",
+  "materialSource": {
+    "verifiedWith": "SchaleDB students.json",
+    "fandomPage": "https://bluearchive.fandom.com/wiki/Hayase_Yuuka",
+    "schaleDbId": 13010
+  },
+  "skills": {
+    "ex": [
+      {
+        "fromLevel": 1,
+        "toLevel": 2,
+        "items": [
+          { "itemId": "millennium-ex-disc-0", "schaleItemId": 3050, "nameKo": "밀레니엄 전술교육 BD 초급", "nameEn": "Millennium EX-Skill Disc 0", "amount": 12 },
+          { "itemId": "nimrud-0", "schaleItemId": 130, "nameKo": "님루드 렌즈 조각", "nameEn": "Nimrud 0", "amount": 12 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 80000 }
+        ]
+      },
+      {
+        "fromLevel": 2,
+        "toLevel": 3,
+        "items": [
+          { "itemId": "millennium-ex-disc-1", "schaleItemId": 3051, "nameKo": "밀레니엄 전술교육 BD 일반", "nameEn": "Millennium EX-Skill Disc 1", "amount": 12 },
+          { "itemId": "millennium-ex-disc-0", "schaleItemId": 3050, "nameKo": "밀레니엄 전술교육 BD 초급", "nameEn": "Millennium EX-Skill Disc 0", "amount": 18 },
+          { "itemId": "nimrud-1", "schaleItemId": 131, "nameKo": "파손된 님루드 렌즈", "nameEn": "Nimrud 1", "amount": 11 },
+          { "itemId": "antikythera-0", "schaleItemId": 170, "nameKo": "안티키테라 장치 조각", "nameEn": "Antikythera 0", "amount": 33 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 500000 }
+        ]
+      },
+      {
+        "fromLevel": 3,
+        "toLevel": 4,
+        "items": [
+          { "itemId": "millennium-ex-disc-2", "schaleItemId": 3052, "nameKo": "밀레니엄 전술교육 BD 상급", "nameEn": "Millennium EX-Skill Disc 2", "amount": 12 },
+          { "itemId": "millennium-ex-disc-1", "schaleItemId": 3051, "nameKo": "밀레니엄 전술교육 BD 일반", "nameEn": "Millennium EX-Skill Disc 1", "amount": 18 },
+          { "itemId": "nimrud-2", "schaleItemId": 132, "nameKo": "마모된 님루드 렌즈", "nameEn": "Nimrud 2", "amount": 10 },
+          { "itemId": "antikythera-1", "schaleItemId": 171, "nameKo": "파손된 안티키테라 장치", "nameEn": "Antikythera 1", "amount": 27 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 3000000 }
+        ]
+      },
+      {
+        "fromLevel": 4,
+        "toLevel": 5,
+        "items": [
+          { "itemId": "millennium-ex-disc-3", "schaleItemId": 3053, "nameKo": "밀레니엄 전술교육 BD 최상급", "nameEn": "Millennium EX-Skill Disc 3", "amount": 8 },
+          { "itemId": "millennium-ex-disc-2", "schaleItemId": 3052, "nameKo": "밀레니엄 전술교육 BD 상급", "nameEn": "Millennium EX-Skill Disc 2", "amount": 18 },
+          { "itemId": "nimrud-3", "schaleItemId": 133, "nameKo": "온전한 님루드 렌즈", "nameEn": "Nimrud 3", "amount": 9 },
+          { "itemId": "antikythera-2", "schaleItemId": 172, "nameKo": "마모된 안티키테라 장치", "nameEn": "Antikythera 2", "amount": 20 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 10000000 }
+        ]
+      }
+    ],
+    "other": [
+      {
+        "fromLevel": 1,
+        "toLevel": 2,
+        "items": [
+          { "itemId": "millennium-skill-book-0", "schaleItemId": 4050, "nameKo": "밀레니엄 기술 노트 초급", "nameEn": "Millennium Skill Book 0", "amount": 5 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 5000 }
+        ]
+      },
+      {
+        "fromLevel": 2,
+        "toLevel": 3,
+        "items": [
+          { "itemId": "millennium-skill-book-0", "schaleItemId": 4050, "nameKo": "밀레니엄 기술 노트 초급", "nameEn": "Millennium Skill Book 0", "amount": 8 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 7500 }
+        ]
+      },
+      {
+        "fromLevel": 3,
+        "toLevel": 4,
+        "items": [
+          { "itemId": "millennium-skill-book-1", "schaleItemId": 4051, "nameKo": "밀레니엄 기술 노트 일반", "nameEn": "Millennium Skill Book 1", "amount": 5 },
+          { "itemId": "millennium-skill-book-0", "schaleItemId": 4050, "nameKo": "밀레니엄 기술 노트 초급", "nameEn": "Millennium Skill Book 0", "amount": 12 },
+          { "itemId": "nimrud-0", "schaleItemId": 130, "nameKo": "님루드 렌즈 조각", "nameEn": "Nimrud 0", "amount": 4 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 60000 }
+        ]
+      },
+      {
+        "fromLevel": 4,
+        "toLevel": 5,
+        "items": [
+          { "itemId": "millennium-skill-book-1", "schaleItemId": 4051, "nameKo": "밀레니엄 기술 노트 일반", "nameEn": "Millennium Skill Book 1", "amount": 8 },
+          { "itemId": "nimrud-1", "schaleItemId": 131, "nameKo": "파손된 님루드 렌즈", "nameEn": "Nimrud 1", "amount": 5 },
+          { "itemId": "antikythera-0", "schaleItemId": 170, "nameKo": "안티키테라 장치 조각", "nameEn": "Antikythera 0", "amount": 10 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 90000 }
+        ]
+      },
+      {
+        "fromLevel": 5,
+        "toLevel": 6,
+        "items": [
+          { "itemId": "millennium-skill-book-2", "schaleItemId": 4052, "nameKo": "밀레니엄 기술 노트 상급", "nameEn": "Millennium Skill Book 2", "amount": 5 },
+          { "itemId": "millennium-skill-book-1", "schaleItemId": 4051, "nameKo": "밀레니엄 기술 노트 일반", "nameEn": "Millennium Skill Book 1", "amount": 12 },
+          { "itemId": "nimrud-1", "schaleItemId": 131, "nameKo": "파손된 님루드 렌즈", "nameEn": "Nimrud 1", "amount": 11 },
+          { "itemId": "antikythera-0", "schaleItemId": 170, "nameKo": "안티키테라 장치 조각", "nameEn": "Antikythera 0", "amount": 20 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 300000 }
+        ]
+      },
+      {
+        "fromLevel": 6,
+        "toLevel": 7,
+        "items": [
+          { "itemId": "millennium-skill-book-2", "schaleItemId": 4052, "nameKo": "밀레니엄 기술 노트 상급", "nameEn": "Millennium Skill Book 2", "amount": 8 },
+          { "itemId": "nimrud-2", "schaleItemId": 132, "nameKo": "마모된 님루드 렌즈", "nameEn": "Nimrud 2", "amount": 2 },
+          { "itemId": "antikythera-1", "schaleItemId": 171, "nameKo": "파손된 안티키테라 장치", "nameEn": "Antikythera 1", "amount": 15 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 450000 }
+        ]
+      },
+      {
+        "fromLevel": 7,
+        "toLevel": 8,
+        "items": [
+          { "itemId": "millennium-skill-book-3", "schaleItemId": 4053, "nameKo": "밀레니엄 기술 노트 최상급", "nameEn": "Millennium Skill Book 3", "amount": 8 },
+          { "itemId": "millennium-skill-book-2", "schaleItemId": 4052, "nameKo": "밀레니엄 기술 노트 상급", "nameEn": "Millennium Skill Book 2", "amount": 12 },
+          { "itemId": "nimrud-3", "schaleItemId": 133, "nameKo": "온전한 님루드 렌즈", "nameEn": "Nimrud 3", "amount": 4 },
+          { "itemId": "antikythera-2", "schaleItemId": 172, "nameKo": "마모된 안티키테라 장치", "nameEn": "Antikythera 2", "amount": 7 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 1500000 }
+        ]
+      },
+      {
+        "fromLevel": 8,
+        "toLevel": 9,
+        "items": [
+          { "itemId": "millennium-skill-book-3", "schaleItemId": 4053, "nameKo": "밀레니엄 기술 노트 최상급", "nameEn": "Millennium Skill Book 3", "amount": 12 },
+          { "itemId": "nimrud-3", "schaleItemId": 133, "nameKo": "온전한 님루드 렌즈", "nameEn": "Nimrud 3", "amount": 7 },
+          { "itemId": "antikythera-2", "schaleItemId": 172, "nameKo": "마모된 안티키테라 장치", "nameEn": "Antikythera 2", "amount": 13 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 2400000 }
+        ]
+      },
+      {
+        "fromLevel": 9,
+        "toLevel": 10,
+        "items": [
+          { "itemId": "ultimate-skill-book", "nameKo": "비의서", "nameEn": "Ultimate Skill Book", "amount": 1 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 4000000 }
+        ]
+      }
+    ]
+  },
+  "uniqueItem": {
+    "tierRequirements": {
+      "T1": {
+        "bondRank": 15,
+        "items": []
+      },
+      "T2": {
+        "bondRank": 20,
+        "items": [
+          { "itemId": "cube-puzzle", "schaleItemId": 5025, "nameKo": "큐브 퍼즐", "nameEn": "Cube Puzzle", "amount": 4 },
+          { "itemId": "antikythera-0", "schaleItemId": 170, "nameKo": "안티키테라 장치 조각", "nameEn": "Antikythera 0", "amount": 80 },
+          { "itemId": "antikythera-1", "schaleItemId": 171, "nameKo": "파손된 안티키테라 장치", "nameEn": "Antikythera 1", "amount": 25 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 500000 }
+        ]
+      }
+    }
+  }
+}

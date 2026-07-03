@@ -1,25 +1,163 @@
 import {
-  STUDENT_IMAGE_FALLBACK,
-  STUDENT_IMAGE_MAP,
+  DEFAULT_STUDENT_CARD_IMAGE_FIT,
+  FALLBACK_STUDENT_IMAGE,
+  FALLBACK_STUDENT_WEAPON_IMAGE,
+  STUDENT_IMAGE_FALLBACK_TYPES,
+  STUDENT_CARD_IMAGE_FIT_OVERRIDES,
+  STUDENT_IMAGE_OVERRIDES,
+  STUDENT_IMAGE_TYPE_FOLDER_MAP,
 } from "../data/studentImages.js";
 
-const IMAGE_TYPE_FALLBACKS = {
-  icon: ["icon", "portrait", "full"],
-  portrait: ["portrait", "full", "icon"],
-  full: ["full", "portrait", "icon"],
-  collection: ["collection", "portrait", "full", "icon"],
-  lobby: ["lobby", "collection", "portrait", "full", "icon"],
-};
+export function getStudentImageUrl(student, type = "icon") {
+  const id = getStudentImageId(student);
 
-export function resolveStudentImage(student, type = "icon") {
-  const normalizedType = normalizeImageType(type);
-  const mappedImage = resolveMappedStudentImage(student, normalizedType);
-
-  if (mappedImage) {
-    return mappedImage;
+  if (id === null) {
+    return FALLBACK_STUDENT_IMAGE;
   }
 
-  return resolveStudentFieldImage(student, normalizedType) ?? STUDENT_IMAGE_FALLBACK;
+  const normalizedType = getPrimaryImageType(type);
+  const override = STUDENT_IMAGE_OVERRIDES[id]?.[normalizedType];
+
+  if (override) {
+    return override;
+  }
+
+  const folder = STUDENT_IMAGE_TYPE_FOLDER_MAP[normalizedType] ?? STUDENT_IMAGE_TYPE_FOLDER_MAP.icon;
+  return `./images/students/${folder}/${id}.webp`;
+}
+
+export function getStudentFullBodyCardImageUrl(student) {
+  return getStudentImageUrl(student, "card");
+}
+
+export function getStudentDetailFullBodyImageUrl(student) {
+  return getStudentImageUrl(student, "detail");
+}
+
+export function getStudentCollectionImageUrl(student) {
+  return getStudentImageUrl(student, "collection");
+}
+
+export function getStudentIconImageUrl(student) {
+  return getStudentImageUrl(student, "icon");
+}
+
+export function getStudentWeaponImageUrl(student) {
+  const id = getStudentImageId(student);
+
+  if (id === null) {
+    return FALLBACK_STUDENT_WEAPON_IMAGE;
+  }
+
+  return `./images/students/weapons/${id}.webp`;
+}
+
+export function applyStudentImage(image, student, type = "icon") {
+  if (!image) {
+    return;
+  }
+
+  const urls = getStudentImageFallbackUrls(student, type);
+  const debug = shouldDebugStudentImages();
+  let index = 0;
+
+  const setImageSource = () => {
+    image.src = urls[index];
+    image.dataset.studentImageType = getImageTypeFromUrl(urls[index]);
+  };
+
+  image.onload = () => {
+    if (debug) {
+      logStudentImageResolution(student, type, urls, index);
+    }
+  };
+
+  image.onerror = () => {
+    index += 1;
+
+    if (index >= urls.length) {
+      image.onerror = null;
+      image.src = FALLBACK_STUDENT_IMAGE;
+      image.dataset.studentImageType = "placeholder";
+      if (debug) {
+        logStudentImageResolution(student, type, urls, index);
+      }
+      return;
+    }
+
+    setImageSource();
+  };
+  setImageSource();
+}
+
+export function applyStudentFullBodyCardImage(image, student) {
+  applyStudentImage(image, student, "fullBodyCard");
+}
+
+export function applyStudentDetailFullBodyImage(image, student) {
+  applyStudentImage(image, student, "detailFullBody");
+}
+
+export function applyStudentCollectionImage(image, student) {
+  applyStudentImage(image, student, "collection");
+}
+
+export function applyStudentIconImage(image, student) {
+  applyStudentImage(image, student, "icon");
+}
+
+export function applyStudentWeaponImage(image, student) {
+  if (!image) {
+    return;
+  }
+
+  image.onerror = () => {
+    image.onerror = null;
+    image.src = FALLBACK_STUDENT_WEAPON_IMAGE;
+    image.dataset.studentImageType = "weapon-placeholder";
+  };
+  image.src = getStudentWeaponImageUrl(student);
+  image.dataset.studentImageType = "weapon";
+}
+
+export function applyStudentCardImageFit(image, student) {
+  if (!image) {
+    return;
+  }
+
+  const id = getStudentImageId(student);
+  const fit = {
+    ...DEFAULT_STUDENT_CARD_IMAGE_FIT,
+    ...(STUDENT_CARD_IMAGE_FIT_OVERRIDES[id] ?? {}),
+  };
+
+  image.style.setProperty("--student-image-scale", fit.scale);
+  image.style.setProperty("--student-image-x", fit.x);
+  image.style.setProperty("--student-image-y", fit.y);
+}
+
+export function resolveStudentImage(student, type = "icon") {
+  return getStudentImageUrl(student, type);
+}
+
+export function getStudentImageFallbackUrls(student, type = "icon") {
+  const id = getStudentImageId(student);
+
+  if (id === null) {
+    return [FALLBACK_STUDENT_IMAGE];
+  }
+
+  const types = getFallbackTypes(type);
+  const urls = types.map((imageType) => getStudentImageUrlById(id, imageType));
+
+  return [...new Set([...urls, FALLBACK_STUDENT_IMAGE])];
+}
+
+export function getStudentImageFallbackTrace(student, type = "icon") {
+  return getStudentImageFallbackUrls(student, type).map((url) => ({
+    type: getImageTypeFromUrl(url),
+    url,
+  }));
 }
 
 export function applyStudentImageFallback(image) {
@@ -27,133 +165,84 @@ export function applyStudentImageFallback(image) {
     return;
   }
 
-  image.addEventListener("error", () => {
-    if (image.src.endsWith(STUDENT_IMAGE_FALLBACK.replace("./", ""))) {
-      return;
-    }
-
-    image.src = STUDENT_IMAGE_FALLBACK;
-  }, { once: false });
+  image.onerror = () => {
+    image.onerror = null;
+    image.src = FALLBACK_STUDENT_IMAGE;
+  };
 }
 
-function resolveMappedStudentImage(student, type) {
-  const keys = getStudentImageKeys(student);
-  const typeCandidates = IMAGE_TYPE_FALLBACKS[type] ?? IMAGE_TYPE_FALLBACKS.icon;
-
-  for (const key of keys) {
-    const mapped = STUDENT_IMAGE_MAP[key];
-
-    if (!mapped) {
-      continue;
-    }
-
-    for (const candidateType of typeCandidates) {
-      if (mapped[candidateType]) {
-        return mapped[candidateType];
-      }
-    }
-  }
-
-  return null;
+export function getStudentImageId(student = {}) {
+  const id = Number(student?.Id ?? student?.id ?? student?.characterId ?? student?.raw?.Id);
+  return Number.isFinite(id) && id > 0 ? Math.trunc(id) : null;
 }
 
-function getStudentImageKeys(student = {}) {
-  return [
-    student.id,
-    student.studentId,
-    student.slug,
-    student.raw?.Id,
-    student.raw?.PathName,
-    student.devName,
-    student.raw?.DevName,
-  ]
-    .filter((value) => value !== null && value !== undefined && value !== "")
-    .flatMap((value) => {
-      const text = String(value);
-      return [text, text.toLowerCase()];
-    });
+function getStudentImageUrlById(id, type) {
+  const normalizedType = getPrimaryImageType(type);
+  const override = STUDENT_IMAGE_OVERRIDES[id]?.[normalizedType];
+
+  if (override) {
+    return override;
+  }
+
+  const folder = STUDENT_IMAGE_TYPE_FOLDER_MAP[normalizedType] ?? STUDENT_IMAGE_TYPE_FOLDER_MAP.icon;
+  return `./images/students/${folder}/${id}.webp`;
 }
 
-function resolveStudentFieldImage(student = {}, type) {
-  const raw = student.raw ?? {};
-  const fieldCandidates = getFieldCandidates(type);
-
-  for (const key of fieldCandidates) {
-    const value = student[key] ?? raw[key] ?? raw[toPascalCase(key)];
-
-    if (isUsableImagePath(value)) {
-      return value;
-    }
-  }
-
-  if (isUsableImagePath(raw.Icon)) {
-    return raw.Icon;
-  }
-
-  return null;
+function getFallbackTypes(type) {
+  const normalizedType = normalizeImageUsage(type);
+  return STUDENT_IMAGE_FALLBACK_TYPES[normalizedType] ?? STUDENT_IMAGE_FALLBACK_TYPES.icon;
 }
 
-function getFieldCandidates(type) {
-  const common = [
-    "imageUrl",
-    "image",
-    "profileImageUrl",
-  ];
-
-  if (type === "icon") {
-    return [
-      "iconImageUrl",
-      "iconUrl",
-      "icon",
-      ...common,
-    ];
+function getImageTypeFromUrl(url) {
+  if (url === FALLBACK_STUDENT_IMAGE) {
+    return "placeholder";
   }
 
-  if (type === "full") {
-    return [
-      "fullImageUrl",
-      "fullUrl",
-      "portraitImageUrl",
-      "portraitUrl",
-      ...common,
-    ];
-  }
-
-  if (type === "collection" || type === "lobby") {
-    return [
-      "collectionImageUrl",
-      "collectionUrl",
-      "lobbyImageUrl",
-      "lobbyUrl",
-      "portraitImageUrl",
-      "portraitUrl",
-      ...common,
-    ];
-  }
-
-  return [
-    "portraitImageUrl",
-    "portraitUrl",
-    "portrait",
-    ...common,
-  ];
+  return Object.entries(STUDENT_IMAGE_TYPE_FOLDER_MAP)
+    .find(([, folder]) => url.includes(`/students/${folder}/`))?.[0] ?? "unknown";
 }
 
-function normalizeImageType(type) {
-  return IMAGE_TYPE_FALLBACKS[type] ? type : "icon";
-}
-
-function isUsableImagePath(value) {
-  if (!value || typeof value !== "string") {
+function shouldDebugStudentImages() {
+  try {
+    return (
+      window?.BA_DEBUG_STUDENT_IMAGES === true ||
+      window?.localStorage?.getItem("baDebugStudentImages") === "1" ||
+      new URLSearchParams(window.location.search).has("debugStudentImages")
+    );
+  } catch (_) {
     return false;
   }
-
-  return value.startsWith("./") ||
-    value.startsWith("/") ||
-    value.startsWith("http://") ||
-    value.startsWith("https://");
 }
 
-function toPascalCase(value) {
-  return String(value).replace(/(^|_|\b)([a-z])/g, (match) => match.toUpperCase()).replace(/_/g, "");
+function logStudentImageResolution(student, requestedType, urls, selectedIndex) {
+  const id = getStudentImageId(student);
+  const label = student?.name ?? student?.Name ?? student?.devName ?? "unknown student";
+  const safeSelectedIndex = Math.min(selectedIndex, urls.length - 1);
+  const parts = urls.slice(0, safeSelectedIndex + 1).map((url, index) => {
+    const imageType = getImageTypeFromUrl(url);
+    return index < safeSelectedIndex ? `${imageType} 없음` : `${imageType} 사용`;
+  });
+  const selectedUrl = urls[safeSelectedIndex] ?? FALLBACK_STUDENT_IMAGE;
+
+  console.info(
+    `[student image] ${label} ${id ?? "no-id"} (${requestedType}) -> ${parts.join(" -> ")}: ${selectedUrl}`,
+  );
+}
+
+function getPrimaryImageType(type) {
+  const fallbackTypes = STUDENT_IMAGE_FALLBACK_TYPES[type];
+
+  if (fallbackTypes?.[0]) {
+    return fallbackTypes[0];
+  }
+
+  return STUDENT_IMAGE_TYPE_FOLDER_MAP[type] ? type : "icon";
+}
+
+function normalizeImageUsage(type) {
+  return STUDENT_IMAGE_FALLBACK_TYPES[type]
+    ? type
+    : STUDENT_IMAGE_TYPE_FOLDER_MAP[type]
+      ? type
+      : "icon";
 }

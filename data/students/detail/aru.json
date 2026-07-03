@@ -1,0 +1,1064 @@
+{
+  "characterId": 10000,
+  "personId": 10000,
+  "slug": "aru",
+  "baseSlug": "aru",
+  "variant": "normal",
+  "hasForms": false,
+  "name": {
+    "ko": "리쿠하치마 아루",
+    "en": "Rikuhachima Aru",
+    "ja": "陸八魔アル",
+    "displayKo": "아루"
+  },
+  "baseInfo": {
+    "squadType": "STRIKER",
+    "combatRole": {
+      "gameRole": "Attacker",
+      "siteRoleCategory": "dealer",
+      "ko": "딜러"
+    },
+    "position": {
+      "raw": "BACK",
+      "ko": "후열"
+    },
+    "baseStar": 3,
+    "school": {
+      "en": "Gehenna Academy",
+      "ko": "게헨나 학원"
+    },
+    "club": {
+      "en": [
+        "Handyman 68",
+        "Problem Solver 68"
+      ],
+      "ko": "흥신소 68"
+    },
+    "age": 16,
+    "birthday": {
+      "month": 3,
+      "day": 12,
+      "textKo": "3월 12일",
+      "textEn": "March 12th"
+    },
+    "hobby": {
+      "ko": "경영 공부",
+      "en": "Studying management"
+    },
+    "designer": "DoReMi",
+    "illustrator": "DoReMi",
+    "voiceActors": {
+      "ko": "권지애",
+      "ja": "Kondou Reina / 近藤玲奈",
+      "cn": "Xie Ying / 谢莹"
+    }
+  },
+  "combatInfo": {
+    "weaponType": {
+      "code": "SR",
+      "ko": "저격총",
+      "en": "Sniper Rifle"
+    },
+    "attackType": {
+      "code": "explosion",
+      "ko": "폭발",
+      "en": "Explosion"
+    },
+    "armorType": {
+      "code": "light",
+      "ko": "경장갑",
+      "en": "Light Armor"
+    },
+    "terrain": {
+      "urban": {
+        "ko": "시가지",
+        "sourceLabel": "City",
+        "gradeLabel": "Excellent",
+        "rank": "S",
+        "uniqueWeapon3Rank": "SS",
+        "uniqueWeapon3GradeLabel": "Outstanding"
+      },
+      "outdoor": {
+        "ko": "야전",
+        "sourceLabel": "Desert",
+        "gradeLabel": "Neutral",
+        "rank": "B"
+      },
+      "indoor": {
+        "ko": "실내",
+        "sourceLabel": "Indoor",
+        "gradeLabel": "Terrible",
+        "rank": "D"
+      }
+    },
+    "equipmentSlots": [
+      {
+        "slot": 1,
+        "code": "hat",
+        "ko": "모자",
+        "defaultTier": 1,
+        "recommendedInitialTargetTier": "max"
+      },
+      {
+        "slot": 2,
+        "code": "hairpin",
+        "ko": "헤어핀",
+        "defaultTier": 1,
+        "recommendedInitialTargetTier": "max"
+      },
+      {
+        "slot": 3,
+        "code": "watch",
+        "ko": "시계",
+        "defaultTier": 1,
+        "recommendedInitialTargetTier": "max"
+      }
+    ]
+  },
+  "profile": {
+    "summaryKo": "게헨나 학원 2학년이자 흥신소 68의 자칭 사장. 불법에 가까운 의뢰라도 멋진 악당처럼 해결하려 하지만, 놀림을 받거나 압박을 받으면 허술하고 다정한 본성이 드러나는 학생이다.",
+    "summaryEn": "A second-year Gehenna student and self-proclaimed boss of Problem Solver 68. She tries to act like a cool villain while often revealing a caring and meticulous side."
+  },
+  "stats": {
+    "sourceBasis": "Fandom page raw stat table. Site display stats should be calculated separately from level, star, equipment, unique weapon, bond, and unique item.",
+    "mainStatSets": {
+      "level1BaseStar": {
+        "level": 1,
+        "star": 3,
+        "hp": 2505,
+        "attack": 451,
+        "defense": 19,
+        "healing": 1655
+      },
+      "level100BaseStar": {
+        "level": 100,
+        "star": 3,
+        "hp": 21717,
+        "attack": 4502,
+        "defense": 119,
+        "healing": 4965
+      },
+      "level100Star4": {
+        "level": 100,
+        "star": 4,
+        "hp": 23462,
+        "attack": 5019,
+        "defense": 119,
+        "healing": 5472
+      },
+      "level100Star5": {
+        "level": 100,
+        "star": 5,
+        "hp": 26177,
+        "attack": 5646,
+        "defense": 119,
+        "healing": 6106
+      }
+    },
+    "defaultCombatStats": {
+      "accuracy": 905,
+      "evasion": 201,
+      "criticalRate": 201,
+      "criticalDamage": "200%",
+      "stability": 1988,
+      "range": 750,
+      "ccPower": 100,
+      "ccResist": 100,
+      "costRecovery": 700,
+      "ammo": 5,
+      "attackSpeed": null,
+      "moveSpeed": null
+    },
+    "needsReview": [
+      "attackSpeed",
+      "moveSpeed",
+      "whether costRecovery/ammo are common defaults or source-specific values"
+    ]
+  },
+  "skills": [
+    {
+      "slot": "ex",
+      "typeKo": "EX 스킬",
+      "name": {
+        "ko": "하드보일드 샷",
+        "en": "Hardboiled Shot"
+      },
+      "cost": 4,
+      "shape": "circle",
+      "templateKo": "적 1인에게 공격력 {singleAtkPercent}% 대미지 / 원형범위 내 적에게 공격력 {areaAtkPercent}% 대미지",
+      "levels": [
+        {
+          "level": 1,
+          "values": {
+            "singleAtkPercent": 274,
+            "areaAtkPercent": 292
+          }
+        },
+        {
+          "level": 2,
+          "values": {
+            "singleAtkPercent": 315,
+            "areaAtkPercent": 335
+          }
+        },
+        {
+          "level": 3,
+          "values": {
+            "singleAtkPercent": 397,
+            "areaAtkPercent": 423
+          }
+        },
+        {
+          "level": 4,
+          "values": {
+            "singleAtkPercent": 438,
+            "areaAtkPercent": 467
+          }
+        },
+        {
+          "level": 5,
+          "values": {
+            "singleAtkPercent": 521,
+            "areaAtkPercent": 554
+          }
+        }
+      ]
+    },
+    {
+      "slot": "normal",
+      "typeKo": "기본 스킬",
+      "name": {
+        "ko": "느와르 어택",
+        "en": "Noir Attack"
+      },
+      "cooldownSec": 25,
+      "templateKo": "25초마다 적 1인에게 공격력 {singleAtkPercent}% 대미지 / 50% 확률로 원형범위 내 적에게 공격력 {areaAtkPercent}% 대미지",
+      "levels": [
+        {
+          "level": 1,
+          "values": {
+            "singleAtkPercent": 152,
+            "areaAtkPercent": 251
+          }
+        },
+        {
+          "level": 2,
+          "values": {
+            "singleAtkPercent": 160,
+            "areaAtkPercent": 263
+          }
+        },
+        {
+          "level": 3,
+          "values": {
+            "singleAtkPercent": 168,
+            "areaAtkPercent": 276
+          }
+        },
+        {
+          "level": 4,
+          "values": {
+            "singleAtkPercent": 198,
+            "areaAtkPercent": 326
+          }
+        },
+        {
+          "level": 5,
+          "values": {
+            "singleAtkPercent": 206,
+            "areaAtkPercent": 338
+          }
+        },
+        {
+          "level": 6,
+          "values": {
+            "singleAtkPercent": 213,
+            "areaAtkPercent": 351
+          }
+        },
+        {
+          "level": 7,
+          "values": {
+            "singleAtkPercent": 244,
+            "areaAtkPercent": 401
+          }
+        },
+        {
+          "level": 8,
+          "values": {
+            "singleAtkPercent": 251,
+            "areaAtkPercent": 414
+          }
+        },
+        {
+          "level": 9,
+          "values": {
+            "singleAtkPercent": 259,
+            "areaAtkPercent": 426
+          }
+        },
+        {
+          "level": 10,
+          "values": {
+            "singleAtkPercent": 290,
+            "areaAtkPercent": 476
+          }
+        }
+      ]
+    },
+    {
+      "slot": "passive",
+      "typeKo": "강화 스킬",
+      "name": {
+        "ko": "사장님의 위엄",
+        "en": "The Gravity of a Boss"
+      },
+      "templateKo": "치명 대미지 {criticalDamageUpPercent}% 증가",
+      "levels": [
+        {
+          "level": 1,
+          "values": {
+            "criticalDamageUpPercent": 14.0
+          }
+        },
+        {
+          "level": 2,
+          "values": {
+            "criticalDamageUpPercent": 14.7
+          }
+        },
+        {
+          "level": 3,
+          "values": {
+            "criticalDamageUpPercent": 15.4
+          }
+        },
+        {
+          "level": 4,
+          "values": {
+            "criticalDamageUpPercent": 18.2
+          }
+        },
+        {
+          "level": 5,
+          "values": {
+            "criticalDamageUpPercent": 18.9
+          }
+        },
+        {
+          "level": 6,
+          "values": {
+            "criticalDamageUpPercent": 19.6
+          }
+        },
+        {
+          "level": 7,
+          "values": {
+            "criticalDamageUpPercent": 22.4
+          }
+        },
+        {
+          "level": 8,
+          "values": {
+            "criticalDamageUpPercent": 23.1
+          }
+        },
+        {
+          "level": 9,
+          "values": {
+            "criticalDamageUpPercent": 23.8
+          }
+        },
+        {
+          "level": 10,
+          "values": {
+            "criticalDamageUpPercent": 26.6
+          }
+        }
+      ]
+    },
+    {
+      "slot": "sub",
+      "typeKo": "서브 스킬",
+      "name": {
+        "ko": "무법자의 길",
+        "en": "Way of The Outlaw"
+      },
+      "templateKo": "EX 스킬 사용 중 치명 수치 {criticalRateUpPercent}% 증가",
+      "levels": [
+        {
+          "level": 1,
+          "values": {
+            "criticalRateUpPercent": 20.1
+          }
+        },
+        {
+          "level": 2,
+          "values": {
+            "criticalRateUpPercent": 21.1
+          }
+        },
+        {
+          "level": 3,
+          "values": {
+            "criticalRateUpPercent": 22.1
+          }
+        },
+        {
+          "level": 4,
+          "values": {
+            "criticalRateUpPercent": 26.2
+          }
+        },
+        {
+          "level": 5,
+          "values": {
+            "criticalRateUpPercent": 27.2
+          }
+        },
+        {
+          "level": 6,
+          "values": {
+            "criticalRateUpPercent": 28.2
+          }
+        },
+        {
+          "level": 7,
+          "values": {
+            "criticalRateUpPercent": 32.2
+          }
+        },
+        {
+          "level": 8,
+          "values": {
+            "criticalRateUpPercent": 33.2
+          }
+        },
+        {
+          "level": 9,
+          "values": {
+            "criticalRateUpPercent": 34.2
+          }
+        },
+        {
+          "level": 10,
+          "values": {
+            "criticalRateUpPercent": 38.3
+          }
+        }
+      ]
+    }
+  ],
+  "enhancedSkills": [
+    {
+      "source": "uniqueItemT2",
+      "replacesSlot": "normal",
+      "typeKo": "기본 스킬+",
+      "name": {
+        "ko": "느와르 어택+",
+        "en": "Noir Attack+"
+      },
+      "cooldownSec": 25,
+      "templateKo": "25초마다 적 1인에게 공격력 {singleAtkPercent}% 대미지 / 원형범위 내 적에게 공격력 {areaAtkPercent}% 대미지",
+      "levels": [
+        {
+          "level": 1,
+          "values": {
+            "singleAtkPercent": 156,
+            "areaAtkPercent": 256
+          }
+        },
+        {
+          "level": 2,
+          "values": {
+            "singleAtkPercent": 163,
+            "areaAtkPercent": 269
+          }
+        },
+        {
+          "level": 3,
+          "values": {
+            "singleAtkPercent": 171,
+            "areaAtkPercent": 282
+          }
+        },
+        {
+          "level": 4,
+          "values": {
+            "singleAtkPercent": 203,
+            "areaAtkPercent": 333
+          }
+        },
+        {
+          "level": 5,
+          "values": {
+            "singleAtkPercent": 210,
+            "areaAtkPercent": 346
+          }
+        },
+        {
+          "level": 6,
+          "values": {
+            "singleAtkPercent": 218,
+            "areaAtkPercent": 359
+          }
+        },
+        {
+          "level": 7,
+          "values": {
+            "singleAtkPercent": 249,
+            "areaAtkPercent": 410
+          }
+        },
+        {
+          "level": 8,
+          "values": {
+            "singleAtkPercent": 257,
+            "areaAtkPercent": 423
+          }
+        },
+        {
+          "level": 9,
+          "values": {
+            "singleAtkPercent": 265,
+            "areaAtkPercent": 436
+          }
+        },
+        {
+          "level": 10,
+          "values": {
+            "singleAtkPercent": 296,
+            "areaAtkPercent": 487
+          }
+        }
+      ]
+    },
+    {
+      "source": "uniqueWeapon2",
+      "replacesSlot": "passive",
+      "typeKo": "강화 스킬+",
+      "name": {
+        "ko": "사장님의 위엄+",
+        "en": "The Gravity of a Boss+"
+      },
+      "templateKo": "치명 대미지 {criticalDamageFlat} 증가 / 추가로 치명 대미지 {criticalDamageUpPercent}% 증가",
+      "levels": [
+        {
+          "level": 1,
+          "values": {
+            "criticalDamageFlat": 2000,
+            "criticalDamageUpPercent": 14.0
+          }
+        },
+        {
+          "level": 2,
+          "values": {
+            "criticalDamageFlat": 2100,
+            "criticalDamageUpPercent": 14.7
+          }
+        },
+        {
+          "level": 3,
+          "values": {
+            "criticalDamageFlat": 2200,
+            "criticalDamageUpPercent": 15.4
+          }
+        },
+        {
+          "level": 4,
+          "values": {
+            "criticalDamageFlat": 2600,
+            "criticalDamageUpPercent": 18.2
+          }
+        },
+        {
+          "level": 5,
+          "values": {
+            "criticalDamageFlat": 2700,
+            "criticalDamageUpPercent": 18.9
+          }
+        },
+        {
+          "level": 6,
+          "values": {
+            "criticalDamageFlat": 2800,
+            "criticalDamageUpPercent": 19.6
+          }
+        },
+        {
+          "level": 7,
+          "values": {
+            "criticalDamageFlat": 3200,
+            "criticalDamageUpPercent": 22.4
+          }
+        },
+        {
+          "level": 8,
+          "values": {
+            "criticalDamageFlat": 3300,
+            "criticalDamageUpPercent": 23.1
+          }
+        },
+        {
+          "level": 9,
+          "values": {
+            "criticalDamageFlat": 3400,
+            "criticalDamageUpPercent": 23.8
+          }
+        },
+        {
+          "level": 10,
+          "values": {
+            "criticalDamageFlat": 3800,
+            "criticalDamageUpPercent": 26.6
+          }
+        }
+      ]
+    }
+  ],
+  "preferredGifts": {
+    "sourceBasis": "Fandom gift table plus Blue Archive Wiki / Blue Utils gift list. Fandom explicitly labels G=Great and N=Normal; no A=Amazing gift was confirmed for Aru.",
+    "inventoryMapping": {
+      "matchPriority": [
+        "code",
+        "name.ko",
+        "name.en",
+        "aliases"
+      ],
+      "userStateCollectionKey": "ownedGifts",
+      "studentGiftPreferenceKey": "studentGiftPreferences.10000"
+    },
+    "gifts": [
+      {
+        "code": "gift_retro_jewelled_egg",
+        "name": {
+          "ko": "고풍스러운 달걀 공예품",
+          "en": "Retro Jewelled Egg"
+        },
+        "aliases": [
+          "Retro Egg Craft",
+          "Retro Jewelled Egg",
+          "Antique Egg Handicraft",
+          "고풍스러운 달걀 공예품"
+        ],
+        "rarity": 3,
+        "affinity": "great",
+        "affinityKo": "선호",
+        "fandomAffinityCode": "G",
+        "sourceNotes": [
+          "Fandom gift table labels this as G under the image name Retro Egg Craft.",
+          "Blue Archive Wiki uses the item name Retro Jewelled Egg.",
+          "Blue Archive Utils EN uses the item name Antique Egg Handicraft."
+        ]
+      },
+      {
+        "code": "gift_buried_treasure_map",
+        "name": {
+          "ko": "매장금의 지도",
+          "en": "Buried Treasure Map"
+        },
+        "aliases": [
+          "Buried Treasure Map",
+          "매장금의 지도"
+        ],
+        "rarity": 2,
+        "affinity": "great",
+        "affinityKo": "선호",
+        "fandomAffinityCode": "G"
+      }
+    ],
+    "notPreferredGifts": [
+      {
+        "code": "gift_worlds_most_useless_gadget",
+        "name": {
+          "ko": "세상에서 가장 쓸데없는 기계",
+          "en": "World's Most Useless Gadget"
+        },
+        "aliases": [
+          "Entanglement Box",
+          "World's Most Useless Gadget",
+          "세상에서 가장 쓸데없는 기계"
+        ],
+        "affinity": "normal",
+        "affinityKo": "일반",
+        "fandomAffinityCode": "N",
+        "notIncludedReasonKo": "Fandom에서 N=Normal로 확인되어 preferredGifts.gifts에는 포함하지 않았다."
+      },
+      {
+        "code": "gift_extravagant_gilded_jar_of_greed",
+        "name": {
+          "ko": "비싸보이는 금박 욕망의 항아리",
+          "en": "Extravagant Gilded Jar of Greed"
+        },
+        "aliases": [
+          "Pot of Desire",
+          "Extravagant Gilded Jar of Greed",
+          "비싸보이는 금박 욕망의 항아리"
+        ],
+        "affinity": "normal",
+        "affinityKo": "일반",
+        "fandomAffinityCode": "N",
+        "notIncludedReasonKo": "Fandom에서 N=Normal로 확인되어 preferredGifts.gifts에는 포함하지 않았다."
+      },
+      {
+        "code": "gift_wind_up_music_box",
+        "name": {
+          "ko": "태엽장치 오르골",
+          "en": "Wind-Up Music Box"
+        },
+        "aliases": [
+          "Music Box",
+          "Wind-Up Music Box",
+          "태엽장치 오르골"
+        ],
+        "affinity": "normal",
+        "affinityKo": "일반",
+        "fandomAffinityCode": "N",
+        "notIncludedReasonKo": "Fandom에서 N=Normal로 확인되어 preferredGifts.gifts에는 포함하지 않았다."
+      }
+    ],
+    "notFound": []
+  },
+  "uniqueItem": {
+    "enabled": true,
+    "itemType": "uniqueItem",
+    "equipmentSlot": 4,
+    "id": "unique_item_10000",
+    "code": "unique_item_aru_wallet",
+    "owner": {
+      "characterId": 10000,
+      "personId": 10000,
+      "slug": "aru",
+      "baseSlug": "aru",
+      "displayKo": "아루",
+      "nameKo": "리쿠하치마 아루",
+      "nameEn": "Rikuhachima Aru"
+    },
+    "name": {
+      "ko": "아루의 엄청 귀중한 지갑",
+      "en": "Aru's very valuable wallet"
+    },
+    "aliases": [
+      "아루의 엄청 귀중한 지갑",
+      "Aru's very valuable wallet",
+      "Aru's treasured wallet",
+      "Aru UI"
+    ],
+    "descriptionKo": "아루가 아끼는 고급 지갑. 고급 소재로 만들어졌지만 오래 사용해 색이 바래고 여기저기 흠집이 있다. 흥신소를 처음 세운 뒤 하루카, 카요코, 무츠키가 함께 선물한 물건이라 아루에게는 무엇과도 바꿀 수 없는 보물이다.",
+    "descriptionEn": "Aru's favorite luxury wallet. It is a luxury item made of high quality materials, but the color has faded and there are scratches here and there due to long use. It was given to her by Haruka, Kayoko, and Mutsuki after she first set up her own handyman business, and is an irreplaceable treasure for Aru.",
+    "mapping": {
+      "canonicalKey": "uniqueItem:10000",
+      "studentScopedKey": "student:10000:uniqueItem",
+      "itemCode": "unique_item_aru_wallet",
+      "ownerCharacterId": 10000,
+      "ownerPersonId": 10000,
+      "ownerSlug": "aru",
+      "inventoryMatchPriority": [
+        "ownerCharacterId",
+        "canonicalKey",
+        "itemCode",
+        "name.ko",
+        "name.en",
+        "aliases"
+      ],
+      "userStateKeys": {
+        "owned": "ownedUniqueItems.10000",
+        "tier": "uniqueItemTiers.10000",
+        "isUnlocked": "studentProgress.10000.uniqueItem.unlocked",
+        "currentTier": "studentProgress.10000.uniqueItem.tier"
+      }
+    },
+    "asset": {
+      "iconPath": "./images/items/uniqueItems/10000.webp",
+      "sourceImageLabel": "Aru UI",
+      "needsLocalAssetCheck": true
+    },
+    "unlock": {
+      "tier": "T1",
+      "bondRank": 15
+    },
+    "tiers": {
+      "T1": {
+        "tier": 1,
+        "unlock": {
+          "bondRank": 15
+        },
+        "effects": [
+          {
+            "type": "statBonus",
+            "stat": "accuracy",
+            "statKo": "명중",
+            "value": 150
+          }
+        ],
+        "materials": []
+      },
+      "T2": {
+        "tier": 2,
+        "unlock": {
+          "bondRank": 20
+        },
+        "effects": [
+          {
+            "type": "skillUpgrade",
+            "targetSlot": "normal",
+            "targetSkill": {
+              "fromKo": "느와르 어택",
+              "fromEn": "Noir Attack",
+              "toKo": "느와르 어택+",
+              "toEn": "Noir Attack+"
+            }
+          }
+        ],
+        "materials": [
+          {
+            "type": "gift",
+            "code": "gift_buried_treasure_map",
+            "name": {
+              "ko": "매장금의 지도",
+              "en": "Buried Treasure Map"
+            },
+            "quantity": 4,
+            "needsKoNameReview": true
+          },
+          {
+            "type": "artifact",
+            "series": "rohonc",
+            "tier": 0,
+            "code": "artifact_rohonc_t0",
+            "name": {
+              "ko": "로혼치 사본 조각",
+              "en": "Rohonc 0"
+            },
+            "quantity": 80,
+            "needsKoNameReview": true
+          },
+          {
+            "type": "artifact",
+            "series": "rohonc",
+            "tier": 1,
+            "code": "artifact_rohonc_t1",
+            "name": {
+              "ko": "훼손된 로혼치 사본",
+              "en": "Rohonc 1"
+            },
+            "quantity": 25,
+            "needsKoNameReview": true
+          },
+          {
+            "type": "currency",
+            "code": "credit",
+            "name": {
+              "ko": "크레딧",
+              "en": "Gold"
+            },
+            "quantity": 500000
+          }
+        ]
+      },
+      "T3": {
+        "tier": 3,
+        "needsReview": true,
+        "effects": [
+          {
+            "type": "tba",
+            "ko": "확인 필요"
+          }
+        ],
+        "materials": []
+      },
+      "T4": {
+        "tier": 4,
+        "needsReview": true,
+        "effects": [
+          {
+            "type": "tba",
+            "ko": "확인 필요"
+          }
+        ],
+        "materials": []
+      }
+    },
+    "effects": {
+      "T1": [
+        {
+          "type": "statBonus",
+          "stat": "accuracy",
+          "ko": "명중",
+          "value": 150
+        }
+      ],
+      "T2": [
+        {
+          "type": "skillUpgrade",
+          "targetSlot": "normal",
+          "from": "느와르 어택",
+          "to": "느와르 어택+"
+        }
+      ],
+      "T3": [
+        {
+          "type": "tba",
+          "ko": "확인 필요"
+        }
+      ],
+      "T4": [
+        {
+          "type": "tba",
+          "ko": "확인 필요"
+        }
+      ]
+    },
+    "source": {
+      "fandomUrl": "https://bluearchive.fandom.com/wiki/Rikuhachima_Aru",
+      "wikiUrl": "https://bluearchive.wiki/wiki/Aru"
+    }
+  },
+  "uniqueWeapon": {
+    "name": {
+      "ko": "와인레드・어드마이어",
+      "en": "Wine Red • Admire",
+      "ja": "ワインレッド・アドマイアー"
+    },
+    "weaponType": "SR",
+    "descriptionKo": "아루가 소중히 여기는 고풍스러운 디자인의 반자동 저격소총. 들고 있기만 해도 하드보일드한 느낌이 든다.",
+    "limitBreakEffects": {
+      "star1": [
+        {
+          "type": "unlock",
+          "ko": "전용무기 개방"
+        },
+        {
+          "type": "statBonusEnabled",
+          "ko": "전용무기 기본 스탯 보정 반영"
+        }
+      ],
+      "star2": [
+        {
+          "type": "skillUpgrade",
+          "targetSlot": "passive",
+          "from": "사장님의 위엄",
+          "to": "사장님의 위엄+"
+        }
+      ],
+      "star3": [
+        {
+          "type": "terrainUpgrade",
+          "terrain": "urban",
+          "fromRank": "S",
+          "toRank": "SS",
+          "ko": "시가지 적성 +1"
+        }
+      ],
+      "star4": [
+        {
+          "type": "effectivenessBonus",
+          "attackType": "explosion",
+          "valuePercent": 10,
+          "ko": "폭발 특효 가산 +10%"
+        }
+      ]
+    },
+    "statsByLevel": [
+      {
+        "level": 1,
+        "attack": 162,
+        "hp": 561
+      },
+      {
+        "level": 30,
+        "attack": 589,
+        "hp": 2039
+      },
+      {
+        "level": 40,
+        "attack": 737,
+        "hp": 2549
+      },
+      {
+        "level": 50,
+        "attack": 884,
+        "hp": 3058
+      },
+      {
+        "level": 60,
+        "attack": 1032,
+        "hp": 3568
+      },
+      {
+        "level": 70,
+        "attack": 1179,
+        "hp": 4078
+      }
+    ]
+  },
+  "memorial": {
+    "type": "live2d",
+    "name": {
+      "ko": "메모리얼 로비",
+      "en": "Memorial Lobby"
+    },
+    "unlock": {
+      "bondRank": 6,
+      "needsReview": true
+    },
+    "asset": {
+      "localPath": null,
+      "fileType": null,
+      "candidates": [
+        "live2d",
+        "image",
+        "gif",
+        "mp4"
+      ],
+      "noteKo": "Fandom 페이지에서는 Live2D와 아이콘 항목이 확인되지만, 실제 로컬 파일 경로와 확장자는 프로젝트 보유 에셋 기준으로 별도 매핑해야 한다."
+    }
+  },
+  "sourceHints": {
+    "primaryPages": [
+      "https://bluearchive.wiki/wiki/Aru",
+      "https://bluearchive.fandom.com/wiki/Rikuhachima_Aru"
+    ],
+    "sourcePolicyNoteKo": "수치와 구조는 자체 JSON으로 변환하고, 이미지/Live2D/음성 등 에셋은 각 사이트와 게임 에셋 사용 조건을 확인한 뒤 로컬 경로로 매핑한다.",
+    "checkedFields": [
+      {
+        "field": "uniqueItem",
+        "sourceUrl": "https://bluearchive.fandom.com/wiki/Rikuhachima_Aru"
+      },
+      {
+        "field": "releaseDates.gl",
+        "sourceUrl": "https://bluearchive.wiki/wiki/Aru",
+        "rawValue": "2021/09/11"
+      },
+      {
+        "field": "preferredGifts",
+        "sourceUrls": [
+          "https://bluearchive.fandom.com/wiki/Rikuhachima_Aru",
+          "https://blue-utils.me/student-detail/aru%26lang%3DKr",
+          "https://bluearchive.wiki/wiki/Aru"
+        ],
+        "noteKo": "유우카 preferredGifts 구조와 같은 방식으로 보유 선물 매핑용 code/name/aliases/affinity를 추가했다."
+      }
+    ],
+    "lastRebuildNoteKo": "애장품은 학생 ID/아이템 코드/이름 fallback 매핑이 가능하도록 재구성했고, Release Date GL 원문값을 releaseDates.gl에 추가했다.",
+    "lastGiftMappingNoteKo": "유우카 JSON의 preferredGifts 스키마를 기준으로 아루의 선호 선물 매핑을 추가했다. Fandom에서 G로 확인되는 선물만 gifts에 넣고, N으로 확인되는 일반 반응 선물은 notPreferredGifts에 분리했다."
+  },
+  "releaseDates": {
+    "jp": {
+      "server": "JP",
+      "sourceLabel": "Release Date JP",
+      "raw": "2021/02/04",
+      "date": "2021-02-04",
+      "sourceUrl": "https://bluearchive.wiki/wiki/Aru"
+    },
+    "gl": {
+      "server": "GL",
+      "sourceLabel": "Release Date GL",
+      "raw": "2021/09/11",
+      "date": "2021-09-11",
+      "sourceUrl": "https://bluearchive.wiki/wiki/Aru",
+      "needsReview": true,
+      "reviewNoteKo": "bluearchive.wiki의 Release Date GL 원문값은 2021/09/11이다. JSON date 필드는 원문을 YYYY-MM-DD로 변환했지만, 글로벌 서버 런칭일과 비교 시 검토가 필요할 수 있어 raw 값을 반드시 함께 사용한다."
+    }
+  }
+}

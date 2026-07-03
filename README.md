@@ -24,7 +24,7 @@
 - 학생 이름 검색
 - 학원, 공격 타입, 방어 타입 등 학생 정보 표시
 - 학생 카드 클릭 시 상세 페이지 이동
-
+    
 ### 학생 상세 페이지
 
 - 학생 기본 프로필 표시
@@ -111,9 +111,7 @@ BlueArchive-info-site/
 │
 ├─ pages/
 │  ├─ mainPage.js
-│  ├─ charactersPage.js
 │  ├─ characterDetailPage.js
-│  ├─ academyDetailPage.js
 │  └─ pickupHistoryPage.js
 │
 ├─ utils/
@@ -160,7 +158,7 @@ components
 → 반복되는 UI 생성 함수 또는 재사용 가능한 화면 단위
 
 utils
-→ formatting, languagePreference 등 범용 유틸
+→ formatting 등 범용 유틸
 ```
 
 ---

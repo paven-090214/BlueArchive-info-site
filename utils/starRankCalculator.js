@@ -1,4 +1,4 @@
-import { starRankRequirements } from "../data/starRankRequirements.js";
+import { starRankRequirements } from "../data/growth/starRankRequirements.js";
 
 const RANK_ORDER = [
   "base-1",

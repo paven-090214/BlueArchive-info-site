@@ -1,0 +1,78 @@
+{
+  "characterId": 10000,
+  "personId": 10000,
+  "slug": "aru",
+  "baseStar": 3,
+  "statKeys": [
+    "attack",
+    "defense",
+    "hp",
+    "healing",
+    "accuracy",
+    "evasion",
+    "criticalRate",
+    "criticalDamage",
+    "stability",
+    "range",
+    "ccPower",
+    "ccResist"
+  ],
+  "baseStats": {
+    "attack": {
+      "min": 369,
+      "max": 3690
+    },
+    "defense": {
+      "min": 19,
+      "max": 119
+    },
+    "hp": {
+      "min": 2236,
+      "max": 19390
+    },
+    "healing": {
+      "min": 1408,
+      "max": 4225
+    }
+  },
+  "fixedStats": {
+    "accuracy": 905,
+    "evasion": 201,
+    "criticalRate": 201,
+    "criticalDamage": 200,
+    "stability": 1988,
+    "range": 750,
+    "ccPower": 100,
+    "ccResist": 100
+  },
+  "uniqueWeaponStats": {
+    "growthType": "standard",
+    "stats": {
+      "attack": {
+        "min": 162,
+        "max": 1621
+      },
+      "hp": {
+        "min": 561,
+        "max": 5607
+      },
+      "healing": {
+        "min": 0,
+        "max": 0
+      }
+    }
+  },
+  "uniqueItemStats": {
+    "tier1": {
+      "accuracy": 150
+    },
+    "tier2": {}
+  },
+  "source": {
+    "primary": "https://bluearchive.wiki/wiki/Aru?action=raw",
+    "rawTemplate": "CharacterStatTable",
+    "notes": [
+      "criticalDamage is stored as display percent value. SchaleDB raw uses CriticalDamageRate = 20000 for 200%."
+    ]
+  }
+}

@@ -224,18 +224,15 @@ a {
 }
 
 .student-image-placeholder {
-  display: grid;
-  place-items: center;
   flex: 0 0 auto;
   width: 42px;
   height: 42px;
   border-radius: 8px;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.34) 0 38%, transparent 39%),
-    linear-gradient(150deg, #2d8fe3 0%, #f37ca5 100%);
+  background: #eef7ff;
   color: #ffffff;
   font-weight: 900;
   object-fit: contain;
+  object-position: center;
 }
 
 .header-actions {
@@ -585,33 +582,6 @@ p {
   min-width: 0;
 }
 
-.site-language-toggle {
-  display: inline-grid;
-  grid-template-columns: repeat(3, minmax(0, auto));
-  gap: 8px;
-  min-width: 0;
-}
-
-.site-language-button {
-  min-width: 0;
-  min-height: 38px;
-  padding: 8px 10px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #ffffff;
-  color: var(--muted);
-  font: inherit;
-  font-weight: 800;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.site-language-button.is-active {
-  border-color: var(--blue);
-  background: rgba(45, 143, 227, 0.1);
-  color: var(--blue-dark);
-}
-
 .character-filter-panel :where(input, select) {
   display: block;
   inline-size: 100%;
@@ -858,22 +828,31 @@ p {
   outline: none;
 }
 
-.student-list-portrait {
-  display: grid;
-  place-items: end center;
+.student-list-portrait,
+.student-card-image-wrap {
   width: 160px;
-  min-height: 176px;
-  padding: 14px;
+  min-width: 160px;
+  height: 250px;
+  position: relative;
+  overflow: hidden;
+  background: #eef7ff;
   color: #ffffff;
   font-size: 20px;
   font-weight: 900;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
 }
 
-.student-list-portrait img {
-  width: 100%;
+.student-card-image {
+  display: block;
   height: 100%;
+  width: auto;
+  max-width: none;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
   object-fit: contain;
+  transform: translateX(-50%) scale(var(--student-image-scale, 1));
+  transform-origin: center bottom;
 }
 
 .student-list-card-content {
@@ -1461,6 +1440,25 @@ select {
   font-weight: 800;
 }
 
+.club-character-icon {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #eef7ff;
+  object-fit: contain;
+}
+
+.academy-empty-message {
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+  color: var(--muted);
+  font-weight: 800;
+}
+
 .academy-map-frame {
   position: relative;
   overflow: hidden;
@@ -1615,7 +1613,8 @@ select {
   display: flex;
   align-items: end;
   justify-content: center;
-  min-height: 460px;
+  position: relative;
+  min-height: 700px;
   overflow: hidden;
   padding: 0;
   border-radius: 8px;
@@ -1629,12 +1628,26 @@ select {
   text-shadow: 0 3px 14px rgba(0, 0, 0, 0.28);
 }
 
+.character-large-placeholder.student-card-image-wrap {
+  width: 100%;
+  min-width: 0;
+  height: 700px;
+  min-height: 700px;
+}
+
 .character-profile-image {
   display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 460px;
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: calc(100% - 28px);
+  min-height: 0;
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
   object-fit: contain;
+  transform: translateX(-50%) scale(var(--student-image-scale, 1));
+  transform-origin: center bottom;
 }
 
 .character-profile-title-row {
@@ -1652,16 +1665,6 @@ select {
   margin: 0;
   font-size: 30px;
   line-height: 1.25;
-  transform: translateX(32px);
-}
-
-.character-profile-icon {
-  flex: 0 0 auto;
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  background: #f4f8fc;
-  object-fit: contain;
 }
 
 .character-profile-tags {
@@ -1674,11 +1677,61 @@ select {
 }
 
 .character-profile-tags .type-badge,
+.character-profile-tags .type-pill,
 .profile-role-badge,
 .position-badge {
   min-height: 32px;
   padding: 6px 12px;
   font-size: 14px;
+}
+
+.type-pill {
+  --type-bg: #60778c;
+  --type-strong: #60778c;
+  --type-text: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 68px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--type-bg);
+  color: #ffffff;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.type-pill__icon,
+.type-pill::before,
+.type-pill::after {
+  display: none;
+  content: none;
+}
+
+.type-pill__label {
+  color: #ffffff;
+}
+
+.type-pill--explosion,
+.type-pill--light {
+  background: #d84040;
+}
+
+.type-pill--penetration,
+.type-pill--heavy {
+  background: #c98322;
+}
+
+.type-pill--mystic,
+.type-pill--special {
+  background: #247fc7;
+}
+
+.type-pill--sonic,
+.type-pill--elastic {
+  background: #9c4dcc;
 }
 
 .profile-role-badge,
@@ -1720,6 +1773,33 @@ select {
 
 .character-info-list dd {
   color: #27435d;
+}
+
+.voice-actor-list {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.voice-actor-list li {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  min-width: 0;
+}
+
+.voice-actor-list strong {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.voice-actor-list span {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .base-star-display {
@@ -1775,9 +1855,16 @@ select {
   object-fit: contain;
 }
 
+.terrain-rank-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
 .terrain-rank-image {
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
 }
 
@@ -1808,6 +1895,12 @@ select {
     linear-gradient(90deg, rgba(255, 255, 255, 0.28) 1px, transparent 1px),
     linear-gradient(150deg, #26344f 0%, #76aee8 100%);
   background-size: 20px 20px, auto;
+}
+
+.terrain-image-placeholder.has-image {
+  align-items: center;
+  padding: 4px;
+  background: #ffffff;
 }
 
 .terrain-aptitude-card strong,
@@ -1888,6 +1981,12 @@ select {
   font-size: 14px;
 }
 
+.detail-control-field input:disabled {
+  background: #edf2f7;
+  color: #7a8da0;
+  cursor: not-allowed;
+}
+
 .star-rank-control-field {
   grid-column: span 2;
 }
@@ -1913,6 +2012,10 @@ select {
   cursor: pointer;
 }
 
+.detail-star-rank-button.is-active {
+  background: #fff9df;
+}
+
 .detail-star-rank-button.is-selected {
   border-color: var(--blue);
   box-shadow: 0 0 0 2px rgba(45, 143, 227, 0.13);
@@ -1932,6 +2035,58 @@ select {
 .detail-star-rank-value {
   color: var(--blue-dark);
   font-size: 12px;
+  font-weight: 900;
+}
+
+.ability-unlock-control {
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.ability-unlock-control.is-disabled {
+  background: #f3f6f9;
+  color: #7a8da0;
+}
+
+.ability-unlock-stepper {
+  display: grid;
+  grid-template-columns: 34px minmax(42px, 1fr) 34px;
+  gap: 6px;
+  align-items: center;
+}
+
+.ability-unlock-button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--blue-dark);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.ability-unlock-button:disabled {
+  background: #edf2f7;
+  color: #9aa9b7;
+  cursor: not-allowed;
+}
+
+.ability-unlock-value {
+  display: grid;
+  place-items: center;
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fbff;
+  color: var(--text);
+  font-size: 15px;
   font-weight: 900;
 }
 
@@ -2054,10 +2209,6 @@ select {
   color: var(--text);
   font-weight: 800;
   white-space: pre-line;
-}
-
-.weapon-image-placeholder.is-disabled {
-  opacity: 0.58;
 }
 
 .required-material-details {
@@ -2296,6 +2447,93 @@ select {
   font-weight: 800;
 }
 
+.profile-preferred-gift-panel {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.preferred-gift-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.preferred-gift-card {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.preferred-gift-visual-slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.preferred-gift-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.preferred-gift-rank-image {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.preferred-gift-placeholder {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 6px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.preferred-gift-content {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.preferred-gift-content h3 {
+  margin: 0;
+  color: #17324d;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.preferred-gift-content p,
+.preferred-gift-empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
 .material-title-row {
   display: flex;
   align-items: center;
@@ -2398,11 +2636,69 @@ select {
   font-weight: 900;
 }
 
+.skill-icon {
+  --type-bg: #60778c;
+  --type-strong: #60778c;
+  --type-text: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border: 0;
+  border-radius: 10px;
+  background: var(--type-bg);
+  box-shadow: none;
+}
+
+.skill-icon--explosion {
+  background: #d84040;
+}
+
+.skill-icon--penetration {
+  background: #c98322;
+}
+
+.skill-icon--mystic {
+  background: #2f86c7;
+}
+
+.skill-icon--sonic {
+  background: #9c4dcc;
+}
+
+.skill-icon::before,
+.skill-icon::after,
+.skill-icon__dot,
+.skill-icon__badge {
+  display: none;
+  content: none;
+}
+
 .skill-icon-placeholder,
 .material-image-placeholder,
 .equipment-icon-placeholder {
   width: 58px;
   height: 58px;
+}
+
+.skill-icon-placeholder.has-image:not(.skill-icon),
+.equipment-icon-placeholder.has-image {
+  background: #ffffff;
+}
+
+.skill-icon-image {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+}
+
+.equipment-icon-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .equipment-image {
@@ -2646,13 +2942,6 @@ select {
   background: transparent;
 }
 
-.weapon-locked-message {
-  margin: 0;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 800;
-}
-
 .equipment-list,
 .weapon-effect-card-list {
   display: grid;
@@ -2830,19 +3119,26 @@ select {
 
 .weapon-image-placeholder {
   width: 100%;
-  min-height: 150px;
+  min-height: 220px;
   aspect-ratio: 16 / 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #eef7ff;
   font-size: 34px;
 }
 
 .weapon-image-placeholder.has-weapon-image {
-  background: #ffffff;
+  background: #eef7ff;
   color: inherit;
 }
 
 .weapon-image {
-  width: 100%;
-  height: 100%;
+  display: block;
+  max-width: 90%;
+  max-height: 200px;
   object-fit: contain;
 }
 
@@ -3923,13 +4219,21 @@ select {
   }
 
   .character-large-placeholder {
-    min-height: 320px;
+    min-height: 520px;
     font-size: 34px;
   }
 
+  .character-large-placeholder.student-card-image-wrap {
+    height: 520px;
+    min-height: 520px;
+  }
+
   .character-profile-image {
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: calc(100% - 24px);
+    min-height: 0;
     object-fit: contain;
     display: block;
   }
@@ -4049,11 +4353,16 @@ select {
 
   .student-list-card {
     grid-template-columns: 112px minmax(0, 1fr);
+    background:
+      linear-gradient(90deg, rgba(45, 143, 227, 0.08) 0 112px, transparent 113px),
+      #ffffff;
   }
 
-  .student-list-portrait {
+  .student-list-portrait,
+  .student-card-image-wrap {
     width: 112px;
-    min-height: 172px;
+    min-width: 112px;
+    height: 200px;
     font-size: 17px;
   }
 

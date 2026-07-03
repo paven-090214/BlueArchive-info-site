@@ -1,0 +1,161 @@
+{
+  "characterId": 10000,
+  "personId": 10000,
+  "slug": "aru",
+  "materialSource": {
+    "verifiedWith": "SchaleDB students.json",
+    "fandomPage": "https://bluearchive.fandom.com/wiki/Rikuhachima_Aru",
+    "schaleDbId": 10000
+  },
+  "skills": {
+    "ex": [
+      {
+        "fromLevel": 1,
+        "toLevel": 2,
+        "items": [
+          { "itemId": "gehenna-ex-disc-0", "schaleItemId": 3030, "nameKo": "게헨나 전술교육 BD 초급", "nameEn": "Gehenna EX-Skill Disc 0", "amount": 12 },
+          { "itemId": "rohonc-0", "schaleItemId": 150, "nameKo": "로혼치 사본 조각", "nameEn": "Rohonc 0", "amount": 17 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 80000 }
+        ]
+      },
+      {
+        "fromLevel": 2,
+        "toLevel": 3,
+        "items": [
+          { "itemId": "gehenna-ex-disc-1", "schaleItemId": 3031, "nameKo": "게헨나 전술교육 BD 일반", "nameEn": "Gehenna EX-Skill Disc 1", "amount": 12 },
+          { "itemId": "gehenna-ex-disc-0", "schaleItemId": 3030, "nameKo": "게헨나 전술교육 BD 초급", "nameEn": "Gehenna EX-Skill Disc 0", "amount": 18 },
+          { "itemId": "rohonc-1", "schaleItemId": 151, "nameKo": "파손된 로혼치 사본", "nameEn": "Rohonc 1", "amount": 14 },
+          { "itemId": "rohonc-0", "schaleItemId": 150, "nameKo": "로혼치 사본 조각", "nameEn": "Rohonc 0", "amount": 28 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 500000 }
+        ]
+      },
+      {
+        "fromLevel": 3,
+        "toLevel": 4,
+        "items": [
+          { "itemId": "gehenna-ex-disc-2", "schaleItemId": 3032, "nameKo": "게헨나 전술교육 BD 상급", "nameEn": "Gehenna EX-Skill Disc 2", "amount": 12 },
+          { "itemId": "gehenna-ex-disc-1", "schaleItemId": 3031, "nameKo": "게헨나 전술교육 BD 일반", "nameEn": "Gehenna EX-Skill Disc 1", "amount": 18 },
+          { "itemId": "rohonc-2", "schaleItemId": 152, "nameKo": "편집된 로혼치 사본", "nameEn": "Rohonc 2", "amount": 12 },
+          { "itemId": "rohonc-1", "schaleItemId": 151, "nameKo": "파손된 로혼치 사본", "nameEn": "Rohonc 1", "amount": 24 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 3000000 }
+        ]
+      },
+      {
+        "fromLevel": 4,
+        "toLevel": 5,
+        "items": [
+          { "itemId": "gehenna-ex-disc-3", "schaleItemId": 3033, "nameKo": "게헨나 전술교육 BD 최상급", "nameEn": "Gehenna EX-Skill Disc 3", "amount": 8 },
+          { "itemId": "gehenna-ex-disc-2", "schaleItemId": 3032, "nameKo": "게헨나 전술교육 BD 상급", "nameEn": "Gehenna EX-Skill Disc 2", "amount": 18 },
+          { "itemId": "rohonc-3", "schaleItemId": 153, "nameKo": "온전한 로혼치 사본", "nameEn": "Rohonc 3", "amount": 9 },
+          { "itemId": "rohonc-2", "schaleItemId": 152, "nameKo": "편집된 로혼치 사본", "nameEn": "Rohonc 2", "amount": 18 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 10000000 }
+        ]
+      }
+    ],
+    "other": [
+      {
+        "fromLevel": 1,
+        "toLevel": 2,
+        "items": [
+          { "itemId": "gehenna-skill-book-0", "schaleItemId": 4030, "nameKo": "게헨나 기술 노트 초급", "nameEn": "Gehenna Skill Book 0", "amount": 5 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 5000 }
+        ]
+      },
+      {
+        "fromLevel": 2,
+        "toLevel": 3,
+        "items": [
+          { "itemId": "gehenna-skill-book-0", "schaleItemId": 4030, "nameKo": "게헨나 기술 노트 초급", "nameEn": "Gehenna Skill Book 0", "amount": 8 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 7500 }
+        ]
+      },
+      {
+        "fromLevel": 3,
+        "toLevel": 4,
+        "items": [
+          { "itemId": "gehenna-skill-book-1", "schaleItemId": 4031, "nameKo": "게헨나 기술 노트 일반", "nameEn": "Gehenna Skill Book 1", "amount": 5 },
+          { "itemId": "gehenna-skill-book-0", "schaleItemId": 4030, "nameKo": "게헨나 기술 노트 초급", "nameEn": "Gehenna Skill Book 0", "amount": 12 },
+          { "itemId": "rohonc-0", "schaleItemId": 150, "nameKo": "로혼치 사본 조각", "nameEn": "Rohonc 0", "amount": 6 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 60000 }
+        ]
+      },
+      {
+        "fromLevel": 4,
+        "toLevel": 5,
+        "items": [
+          { "itemId": "gehenna-skill-book-1", "schaleItemId": 4031, "nameKo": "게헨나 기술 노트 일반", "nameEn": "Gehenna Skill Book 1", "amount": 8 },
+          { "itemId": "rohonc-1", "schaleItemId": 151, "nameKo": "파손된 로혼치 사본", "nameEn": "Rohonc 1", "amount": 4 },
+          { "itemId": "rohonc-0", "schaleItemId": 150, "nameKo": "로혼치 사본 조각", "nameEn": "Rohonc 0", "amount": 14 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 90000 }
+        ]
+      },
+      {
+        "fromLevel": 5,
+        "toLevel": 6,
+        "items": [
+          { "itemId": "gehenna-skill-book-2", "schaleItemId": 4032, "nameKo": "게헨나 기술 노트 상급", "nameEn": "Gehenna Skill Book 2", "amount": 5 },
+          { "itemId": "gehenna-skill-book-1", "schaleItemId": 4031, "nameKo": "게헨나 기술 노트 일반", "nameEn": "Gehenna Skill Book 1", "amount": 12 },
+          { "itemId": "rohonc-1", "schaleItemId": 151, "nameKo": "파손된 로혼치 사본", "nameEn": "Rohonc 1", "amount": 10 },
+          { "itemId": "rohonc-0", "schaleItemId": 150, "nameKo": "로혼치 사본 조각", "nameEn": "Rohonc 0", "amount": 16 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 300000 }
+        ]
+      },
+      {
+        "fromLevel": 6,
+        "toLevel": 7,
+        "items": [
+          { "itemId": "gehenna-skill-book-2", "schaleItemId": 4032, "nameKo": "게헨나 기술 노트 상급", "nameEn": "Gehenna Skill Book 2", "amount": 8 },
+          { "itemId": "rohonc-2", "schaleItemId": 152, "nameKo": "편집된 로혼치 사본", "nameEn": "Rohonc 2", "amount": 4 },
+          { "itemId": "rohonc-1", "schaleItemId": 151, "nameKo": "파손된 로혼치 사본", "nameEn": "Rohonc 1", "amount": 18 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 450000 }
+        ]
+      },
+      {
+        "fromLevel": 7,
+        "toLevel": 8,
+        "items": [
+          { "itemId": "gehenna-skill-book-3", "schaleItemId": 4033, "nameKo": "게헨나 기술 노트 최상급", "nameEn": "Gehenna Skill Book 3", "amount": 8 },
+          { "itemId": "gehenna-skill-book-2", "schaleItemId": 4032, "nameKo": "게헨나 기술 노트 상급", "nameEn": "Gehenna Skill Book 2", "amount": 12 },
+          { "itemId": "rohonc-3", "schaleItemId": 153, "nameKo": "온전한 로혼치 사본", "nameEn": "Rohonc 3", "amount": 4 },
+          { "itemId": "rohonc-2", "schaleItemId": 152, "nameKo": "편집된 로혼치 사본", "nameEn": "Rohonc 2", "amount": 7 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 1500000 }
+        ]
+      },
+      {
+        "fromLevel": 8,
+        "toLevel": 9,
+        "items": [
+          { "itemId": "gehenna-skill-book-3", "schaleItemId": 4033, "nameKo": "게헨나 기술 노트 최상급", "nameEn": "Gehenna Skill Book 3", "amount": 12 },
+          { "itemId": "rohonc-3", "schaleItemId": 153, "nameKo": "온전한 로혼치 사본", "nameEn": "Rohonc 3", "amount": 9 },
+          { "itemId": "rohonc-2", "schaleItemId": 152, "nameKo": "편집된 로혼치 사본", "nameEn": "Rohonc 2", "amount": 16 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 2400000 }
+        ]
+      },
+      {
+        "fromLevel": 9,
+        "toLevel": 10,
+        "items": [
+          { "itemId": "ultimate-skill-book", "nameKo": "비의서", "nameEn": "Ultimate Skill Book", "amount": 1 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 4000000 }
+        ]
+      }
+    ]
+  },
+  "uniqueItem": {
+    "tierRequirements": {
+      "T1": {
+        "bondRank": 15,
+        "items": []
+      },
+      "T2": {
+        "bondRank": 20,
+        "items": [
+          { "itemId": "buried-treasure-map", "schaleItemId": 5017, "nameKo": "매장금의 지도", "nameEn": "Buried Treasure Map", "amount": 4 },
+          { "itemId": "rohonc-0", "schaleItemId": 150, "nameKo": "로혼치 사본 조각", "nameEn": "Rohonc 0", "amount": 80 },
+          { "itemId": "rohonc-1", "schaleItemId": 151, "nameKo": "파손된 로혼치 사본", "nameEn": "Rohonc 1", "amount": 25 },
+          { "itemId": "credit", "nameKo": "크레딧", "nameEn": "Credit", "amount": 500000 }
+        ]
+      }
+    }
+  }
+}

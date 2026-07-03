@@ -26,12 +26,6 @@
       </form>
 
       <div class="header-actions">
-        <div class="site-language-toggle" aria-label="표시 언어">
-          <button class="site-language-button is-active" type="button" data-language-button="ko">한국어</button>
-          <button class="site-language-button" type="button" data-language-button="en">English</button>
-          <button class="site-language-button" type="button" data-language-button="jp">日本語</button>
-        </div>
-
         <nav class="header-auth" aria-label="계정 메뉴">
           <a href="#" class="header-auth-link">로그인</a>
           <span aria-hidden="true">|</span>
@@ -113,14 +107,14 @@
               <dd data-student-field="voiceActor">콘도 레이나</dd>
             </div>
             <div>
-              <dt>일러스트레이터</dt>
-              <dd data-student-field="illustrator">DoReMi</dd>
-            </div>
-            <div>
               <dt class="visually-hidden">기본 성급</dt>
               <dd data-student-field="baseStar">
                 <span class="base-star-display" aria-label="기본 성급 확인 필요"></span>
               </dd>
+            </div>
+            <div>
+              <dt>일러스트레이터</dt>
+              <dd data-student-field="illustrator">DoReMi</dd>
             </div>
             <div>
               <dt>취미</dt>
@@ -152,6 +146,17 @@
                   <span>표정 placeholder</span>
                 </div>
               </article>
+            </div>
+          </div>
+
+          <div class="profile-preferred-gift-panel">
+            <div class="panel-heading">
+              <p class="eyebrow">GIFT</p>
+              <h2>선호 선물</h2>
+            </div>
+
+            <div class="preferred-gift-list" data-preferred-gift-list>
+              <p class="preferred-gift-empty">선호 선물 정보를 준비 중입니다.</p>
             </div>
           </div>
         </article>
@@ -260,7 +265,6 @@
             <div class="exclusive-weapon-copy">
               <p class="eyebrow">WEAPON</p>
               <h2 data-exclusive-weapon-name>전용무기 이름</h2>
-              <p class="weapon-locked-message" data-weapon-display-locked-message hidden>미개방</p>
               <p data-exclusive-weapon-desc>전용무기 효과 설명 placeholder입니다. 실제 효과와 수치는 추후 데이터로 연결합니다.</p>
             </div>
             <div class="weapon-image-placeholder" data-exclusive-weapon-image-slot aria-hidden="true">W</div>
@@ -319,6 +323,6 @@
       </section>
     </main>
 
-    <script type="module" src="./pages/characterDetailPage.js"></script>
+    <script type="module" src="./pages/characterDetailPage.js?v=gift-preferences-1"></script>
   </body>
 </html>
